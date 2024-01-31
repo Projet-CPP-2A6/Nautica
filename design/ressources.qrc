@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/newimages">
+        <file>img/bg-login.jpg</file>
+        <file>img/bg.jpg</file>
+        <file>img/bgg.jpg</file>
+        <file>img/bg_accueil.jpg</file>
+        <file>img/brandon-mcdonald-_oU62drqdho-unsplash(1).jpg</file>
+        <file>img/skn_bg.jpg</file>
+        <file>img/aviron_bg.jpg</file>
+        <file>img/pddl.jpg</file>
+        <file>img/plg_bg.jpg</file>
+        <file>img/wing_bg.jpg</file>
+    </qresource>
+    <qresource prefix="/new/icons">
+        <file>icones/icons8-event-100.png</file>
+        <file>icones/home_icon.png</file>
+        <file>icones/maison.png</file>
+        <file>icones/caoe-50.png</file>
+        <file>icones/evenement.png</file>
+        <file>icones/equipment.png</file>
+        <file>icones/logo(2).png</file>
+    </qresource>
+</RCC>
