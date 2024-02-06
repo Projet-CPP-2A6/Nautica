@@ -22,11 +22,10 @@ jobs:
               uses: jurplel/install-qt-action@v3
               with:
                   aqtversion: "==3.1.*"
-                  version: "5.15.2"
-                  host: windows
-                  target: desktop
-                  arch: win64_mingw81
-                  modules: "debug_info qtcharts qtdatavis3d qtlottie qtnetworkauth qtpurchasing qtquick3d qtquicktimeline qtscript qtvirtualkeyboard qtwebglplugin"
+                  version: "5.9.9"
+                  host: "windows"
+                  target: "desktop"
+                  arch: "win32_mingw53"
 
             - name: Setup Qt environment
               shell: cmd
