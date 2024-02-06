@@ -37,6 +37,6 @@ jobs:
 
             - name: Build Project
               run: |
-                  qmake -prject
+                  # qmake -prject
                   qmake Nautica.pro
                   make
