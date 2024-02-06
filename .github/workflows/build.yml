@@ -12,7 +12,7 @@ jobs:
         name: Build on Windows
         runs-on: windows-latest
         env:
-            ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+            Qt5Dir: ${{ env.Qt5Dir }}
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v4
@@ -25,14 +25,6 @@ jobs:
                   host: "windows"
                   target: "desktop"
                   arch: "win32_mingw53"
-
-            - name: Setup Qt environment
-              shell: cmd
-              run: |
-                  echo ::add-path::${{ env.Qt5Dir }}\bin
-                  echo ::add-path::${{ env.Qt5Dir }}\lib
-                  echo ::add-path::${{ env.Qt5Dir }}\qml
-                  echo ::add-path::${{ env.Qt5Dir }}\plugins
 
             - name: Build Project
               run: |
