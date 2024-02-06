@@ -25,7 +25,8 @@ jobs:
                   arch: "win32_mingw53"
 
             - name: Build Project
+              shell: cmd
               run: |
                   qmake Nautica.pro
-                  "${{ env.Qt5_Dir }}/bin/mingw32-make"
-                  "${{ env.Qt5_Dir }}/bin/mingw32-make clean"
+                  "%Qt5_Dir%/bin/mingw32-make"
+                  "%Qt5_Dir%/bin/mingw32-make clean"
