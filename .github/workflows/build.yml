@@ -11,9 +11,6 @@ jobs:
     build:
         name: Build on Windows
         runs-on: windows-latest
-        env:
-            ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-            QtInstallDir: ${{ github.workspace }}\Qt\5.9.9\mingw53_32
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v4
@@ -30,13 +27,13 @@ jobs:
             - name: Setup Qt environment
               shell: cmd
               run: |
-                  echo ::add-path::${{ env.QtInstallDir }}\bin
-                  echo ::add-path::${{ env.QtInstallDir }}\lib
-                  echo ::add-path::${{ env.QtInstallDir }}\qml
-                  echo ::add-path::${{ env.QtInstallDir }}\plugins
+                  echo ::add-path::${{ env.Qt5Dir }}\bin
+                  echo ::add-path::${{ env.Qt5Dir }}\lib
+                  echo ::add-path::${{ env.Qt5Dir }}\qml
+                  echo ::add-path::${{ env.Qt5Dir }}\plugins
 
             - name: Build Project
               run: |
                   qmake Nautica.pro
-                  ${{ env.QtInstallDir }}\bin\mingw32-make
-                  ${{ env.QtInstallDir }}\bin\mingw32-make clean
+                  ${{ env.Qt5Dir }}\bin\mingw32-make
+                  ${{ env.Qt5Dir }}\bin\mingw32-make clean
