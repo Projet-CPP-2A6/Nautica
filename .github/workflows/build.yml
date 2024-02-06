@@ -38,4 +38,5 @@ jobs:
             - name: Build Project
               run: |
                   qmake Nautica.pro
-                  make
+                  mingw32-make
+                  mingw32-make clean
