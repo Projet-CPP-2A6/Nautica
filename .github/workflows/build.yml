@@ -1,0 +1,43 @@
+name: Qt Project Build Workflow
+
+on:
+    push:
+        branches: "**"
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    build:
+        name: Build on Windows
+        runs-on: windows-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+
+            - name: Install Qt
+              uses: jurplel/install-qt-action@v3
+              with:
+                  aqtversion: "==3.1.*"
+                  version: "5.15.2"
+                  host: windows
+                  target: desktop
+                  arch: win64_mingw81
+                  modules: "debug_info qtcharts qtdatavis3d qtlottie qtnetworkauth qtpurchasing qtquick3d qtquicktimeline qtscript qtvirtualkeyboard qtwebglplugin"
+
+            - name: Setup Qt environment
+              shell: cmd
+              run: |
+                  echo ::add-path::${{ env.QtInstallDir }}/bin
+                  echo ::add-path::${{ env.QtInstallDir }}/lib
+                  echo ::add-path::${{ env.QtInstallDir }}/qml
+                  echo ::add-path::${{ env.QtInstallDir }}/plugins
+
+            - name: Build Project
+              run: |
+                  qmake -prject
+                  qmake Nautica.pro
+                  make
+
+        env:
+            QtInstallDir: ${{ runner.workspace }}/qt
