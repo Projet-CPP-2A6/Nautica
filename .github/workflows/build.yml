@@ -11,8 +11,6 @@ jobs:
     build:
         name: Build on Windows
         runs-on: windows-latest
-        env:
-            Qt5Dir: ${{ env.Qt5Dir }}
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v4
@@ -27,6 +25,8 @@ jobs:
                   arch: "win32_mingw53"
 
             - name: Build Project
+              env:
+                  Qt5Dir: ${{ env.Qt5Dir }}
               run: |
                   qmake Nautica.pro
                   ${{ env.Qt5Dir }}\bin\mingw32-make
