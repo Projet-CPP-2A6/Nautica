@@ -26,7 +26,7 @@ jobs:
 
             - name: Build Project
               env:
-                  Qt5Dir: ${{ env.Qt5Dir }}
+                  Qt5Dir: ${{ env.Qt_5Dir }}
               run: |
                   qmake Nautica.pro
                   ${{ env.Qt5Dir }}\bin\mingw32-make
