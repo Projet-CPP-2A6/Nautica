@@ -40,4 +40,4 @@ jobs:
                   make
 
         env:
-            QtInstallDir: ${{ runner.workspace }}/qt
+            QtInstallDir: ${{ github.workspace }}/qt
