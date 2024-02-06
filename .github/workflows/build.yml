@@ -29,5 +29,5 @@ jobs:
                   Qt5Dir: ${{ env.Qt_5Dir }}
               run: |
                   qmake Nautica.pro
-                  "${{ env.Qt5Dir }}\bin\mingw32-make"
-                  "${{ env.Qt5Dir }}\bin\mingw32-make clean"
+                  $Qt5Dir\bin\mingw32-make
+                  $Qt5Dir\bin\mingw32-make clean
