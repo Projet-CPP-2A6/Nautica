@@ -41,5 +41,5 @@ jobs:
               shell: pwsh
               run: |
                   qmake Nautica.pro
-                  %Qt5_Dir%/bin/mingw32-make
-                  %Qt5_Dir%/bin/mingw32-make clean
+                  mingw32-make
+                  mingw32-make clean
