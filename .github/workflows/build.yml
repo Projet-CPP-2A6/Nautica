@@ -23,9 +23,22 @@ jobs:
                   host: "windows"
                   target: "desktop"
                   arch: "win32_mingw53"
+                  tools: "tools_mingw,qt.tools.win32_mingw530"
+
+            - name: Qt 5 environment configuration
+              shell: pwsh
+              run: |
+                  Write-Output "${{ env.Qt5_DIR }}/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+                  Write-Output "${{ env.Qt5_DIR }}/../../Tools/mingw530_32/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+            - name: where is qmake & where is mingw32-make
+              shell: pwsh
+              run: |
+                  Get-Command -Name 'qmake' | Format-List
+                  Get-Command -Name 'mingw32-make' | Format-List
 
             - name: Build Project
-              shell: cmd
+              shell: pwsh
               run: |
                   qmake Nautica.pro
                   %Qt5_Dir%/bin/mingw32-make
