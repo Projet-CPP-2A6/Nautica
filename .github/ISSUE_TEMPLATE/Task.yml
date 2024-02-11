@@ -1,0 +1,16 @@
+name: Task
+description: Plan Your Task
+title: "[Task]: "
+body:
+- type: checkboxes
+  attributes:
+    label: Functionalities
+    options:
+      - label: Functionality 1
+      - label: Functionality 2
+- type: checkboxes
+  attributes:
+    label: UI
+    options:
+      - label: UI Page 1
+      - label: UI Page 1
