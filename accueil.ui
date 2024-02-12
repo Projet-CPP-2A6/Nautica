@@ -13,19 +13,25 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QFrame" name="NavFrame">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>81</width>
-     <height>421</height>
+     <width>61</width>
+     <height>424</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">QFrame#NavFrame {
     alignment: AlignCenter;
     background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #007bff, stop:1 #4d94ff);
+	width: 1000px;
+height: 100%;
+padding: 0;
 }
 </string>
    </property>
@@ -39,15 +45,17 @@
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>59</x>
      <y>0</y>
-     <width>671</width>
-     <height>421</height>
+     <width>691</width>
+     <height>424</height>
     </rect>
    </property>
    <widget class="QWidget" name="page"/>
    <widget class="QWidget" name="page_2"/>
   </widget>
+  <zorder>stackedWidget</zorder>
+  <zorder>NavFrame</zorder>
  </widget>
  <resources/>
  <connections/>
