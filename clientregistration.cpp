@@ -2,7 +2,7 @@
 #include "ui_clientregistration.h"
 
 clientRegistration::clientRegistration(QWidget *parent) :
-    QDialog(parent),
+    QWidget(parent),
     ui(new Ui::clientRegistration)
 {
     ui->setupUi(this);

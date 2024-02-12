@@ -1,13 +1,14 @@
 #ifndef CLIENTREGISTRATION_H
 #define CLIENTREGISTRATION_H
 
-#include <QDialog>
+#include <QWidget>
 
-namespace Ui {
-class clientRegistration;
+namespace Ui
+{
+    class clientRegistration;
 }
 
-class clientRegistration : public QDialog
+class clientRegistration : public QWidget
 {
     Q_OBJECT
 
