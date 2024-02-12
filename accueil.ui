@@ -6,443 +6,61 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1254</width>
-    <height>710</height>
+    <width>750</width>
+    <height>424</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QFrame" name="frame_5">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>10</y>
-     <width>1131</width>
-     <height>601</height>
-    </rect>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <layout class="QGridLayout" name="gridLayout" columnminimumwidth="50,0">
+   <property name="leftMargin">
+    <number>0</number>
    </property>
-   <property name="font">
-    <font>
-     <family>MS Shell Dlg 2</family>
-    </font>
+   <property name="topMargin">
+    <number>0</number>
    </property>
-   <property name="styleSheet">
-    <string notr="true">
-background-image: url(:/newimages/img/bg_accueil.jpg);
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item row="0" column="1">
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="styleSheet">
+      <string notr="true">height: 100%;</string>
+     </property>
+     <widget class="QWidget" name="page"/>
+     <widget class="QWidget" name="page_2"/>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QFrame" name="NavFrame">
+     <property name="styleSheet">
+      <string notr="true">QFrame#NavFrame {
+    alignment: AlignCenter;
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #007bff, stop:1 #4d94ff);
+height: 100%;
+padding: 0;
+}
 </string>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>10</y>
-      <width>91</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI Black</family>
-      <pointsize>14</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Accueil</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>80</y>
-      <width>211</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI Semibold</family>
-      <pointsize>14</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background:url(:/newimages/img/brandon-mcdonald-_oU62drqdho-unsplash(1).jpg)</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>80</y>
-      <width>211</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI Semibold</family>
-      <pointsize>14</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background:url(:/newimages/img/skn_bg.jpg)</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>210</y>
-      <width>211</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">
-background: rgba(0, 0, 0, 0.5) url(:/newimages/img/aviron_bg.jpg) no-repeat center center;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>210</y>
-      <width>211</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background:url(:/newimages/img/pddl.jpg)</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>340</y>
-      <width>211</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background:url(:/newimages/img/plg_bg.jpg);
-
-
-</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>340</y>
-      <width>211</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background:url(:/newimages/img/wing_bg.jpg)</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_5">
-    <property name="geometry">
-     <rect>
-      <x>950</x>
-      <y>0</y>
-      <width>171</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background:url(:/new/icons/icones/logo(2).png)</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QFrame" name="frame_6">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>71</width>
-     <height>601</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:rgb(0, 6, 89);</string>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QPushButton" name="pushButton_6">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>170</y>
-      <width>51</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="sizeIncrement">
-     <size>
-      <width>30</width>
-      <height>21</height>
-     </size>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">
-QPushButton {
-    background-color:  none /* Set the background color */
-    color: white; /* Set the text color */
-    border: 2px solid ; /* Set the border */
-    padding: 10px 20px; /* Set padding inside the button */
-    text-align: center; /* Center the text */
-    text-decoration: none; /* Remove underline from the text */
-    display: inline-block;
-    cursor: pointer; /* Add a pointer cursor on hover */
-    border-radius: 5px; /* Optional: Add rounded corners */
-}
-
-QPushButton:hover {
-    background-color: #4093ff; /* Change the background color on hover */
-    border-color: #4093ff; /* Change the border color on hover */
-}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="ressources.qrc">
-      <normaloff>:/new/icons/icones/icons8-event-100.png</normaloff>:/new/icons/icones/icons8-event-100.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>40</width>
-      <height>40</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>51</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-image: url(:/new/icons/icones/home_icon.png);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>260</y>
-      <width>51</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-image: url(:/new/icons/icones/caoe-50.png);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_8">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>480</y>
-      <width>51</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="sizeIncrement">
-     <size>
-      <width>30</width>
-      <height>21</height>
-     </size>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">
-QPushButton {
-    background-color:  url(:/new/icons/icones/caoe-50.png) /* Set the background color */
-    color: white; /* Set the text color */
-    border: 2px solid ; /* Set the border */
-    padding: 10px 20px; /* Set padding inside the button */
-    text-align: center; /* Center the text */
-    text-decoration: none; /* Remove underline from the text */
-    display: inline-block;
-    cursor: pointer; /* Add a pointer cursor on hover */
-    border-radius: 5px; /* Optional: Add rounded corners */
-}
-
-QPushButton:hover {
-    background-color: #4093ff; /* Change the background color on hover */
-    border-color: #4093ff; /* Change the border color on hover */
-}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="ressources.qrc">
-      <normaloff>:/new/icons/icones/icons8-event-100.png</normaloff>:/new/icons/icones/icons8-event-100.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>40</width>
-      <height>40</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>340</y>
-      <width>51</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background:url(:/new/icons/icones/evenement.png)</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_9">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>530</y>
-      <width>51</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="sizeIncrement">
-     <size>
-      <width>30</width>
-      <height>21</height>
-     </size>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">
-QPushButton {
-    background-color:  none /* Set the background color */
-    color: white; /* Set the text color */
-    border: 2px solid ; /* Set the border */
-    padding: 10px 20px; /* Set padding inside the button */
-    text-align: center; /* Center the text */
-    text-decoration: none; /* Remove underline from the text */
-    display: inline-block;
-    cursor: pointer; /* Add a pointer cursor on hover */
-    border-radius: 5px; /* Optional: Add rounded corners */
-}
-
-QPushButton:hover {
-    background-color: #4093ff; /* Change the background color on hover */
-    border-color: #4093ff; /* Change the border color on hover */
-}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="ressources.qrc">
-      <normaloff>:/new/icons/icones/icons8-event-100.png</normaloff>:/new/icons/icones/icons8-event-100.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>40</width>
-      <height>40</height>
-     </size>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_4">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>410</y>
-      <width>51</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background:url(:/new/icons/icones/equipment.png)</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="flat">
-     <bool>true</bool>
-    </property>
-   </widget>
-  </widget>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
+  <zorder>stackedWidget</zorder>
+  <zorder>NavFrame</zorder>
  </widget>
- <resources>
-  <include location="ressources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
