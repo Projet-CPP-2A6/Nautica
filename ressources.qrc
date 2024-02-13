@@ -10,6 +10,8 @@
         <file>img/pddl.jpg</file>
         <file>img/plg_bg.jpg</file>
         <file>img/wing_bg.jpg</file>
+        <file>img/logo.png</file>
+        <file>img/img_login.jpg</file>
     </qresource>
     <qresource prefix="/new/icons">
         <file>icones/icons8-event-100.png</file>
@@ -19,5 +21,12 @@
         <file>icones/evenement.png</file>
         <file>icones/equipment.png</file>
         <file>icones/logo(2).png</file>
+        <file>icones/icons8-setting-50.png</file>
+        <file>icones/kytesurf.png</file>
+        <file>icones/glisslac.png</file>
+        <file>icones/Canoeing.png</file>
+        <file>icones/plongeons.jpg</file>
+        <file>icones/voile.jpg</file>
+        <file>icones/l-aviron-l.jpg</file>
     </qresource>
 </RCC>
