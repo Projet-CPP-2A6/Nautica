@@ -1,3 +1,13 @@
+#include <QTableView>
+#include <QString>
+#include <QSqlQuery>
+#include <QSqlQueryModel>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QDebug>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QtDebug>
 #include "client.h"
 
 Client::Client(int CIN, int tel, QDate date_naissance, QString nom, QString prenom, int genre, QString email)
