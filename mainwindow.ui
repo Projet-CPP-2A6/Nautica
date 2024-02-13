@@ -1758,7 +1758,7 @@ QLineEdit:focus {
        <widget class="QPushButton" name="pushButton_13">
         <property name="geometry">
          <rect>
-          <x>290</x>
+          <x>240</x>
           <y>50</y>
           <width>141</width>
           <height>23</height>
@@ -1781,7 +1781,7 @@ QLineEdit:focus {
        <widget class="QLineEdit" name="lineEdit_8">
         <property name="geometry">
          <rect>
-          <x>80</x>
+          <x>20</x>
           <y>50</y>
           <width>201</width>
           <height>20</height>
@@ -1801,6 +1801,16 @@ QLineEdit:focus {
     background-color: rgba(248, 248, 248, 1); 
 }
 </string>
+        </property>
+       </widget>
+       <widget class="QTableView" name="tableView">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>140</y>
+          <width>611</width>
+          <height>281</height>
+         </rect>
         </property>
        </widget>
       </widget>
