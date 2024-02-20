@@ -145,7 +145,7 @@ bool Employes::modifier()
     query.bindValue(":CIN", CIN);
     query.bindValue(":NOM", nom);
     query.bindValue(":PRENOM", prenom);
-    query.bindValue(":GENDER", genre);
+    query.bindValue(":GENRE", genre);
     query.bindValue(":TELEPHONE", tel);
     query.bindValue(":EMAIL", email);
     query.bindValue(":ADRESSE", adresse);
@@ -166,6 +166,39 @@ QSqlQueryModel* Employes::afficher()
 {
   QSqlQueryModel* model=new QSqlQueryModel();
     model->setQuery("SELECT CIN,NOM,PRENOM,GENRE,TELEPHONE,EMAIL,ADRESSE,FONCTION,SALAIRE FROM EMPLOYES");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("GENRE"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("TELEPHONE"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("EMAIL"));
+    model->setHeaderData(6, Qt::Horizontal, QObject::tr("ADRESSE"));
+    model->setHeaderData(7, Qt::Horizontal, QObject::tr("FONCTION"));
+    model->setHeaderData(8, Qt::Horizontal, QObject::tr("SALAIRE"));
+    return  model;
+};
+
+QSqlQueryModel* Employes::triCin()
+{
+    QSqlQueryModel* model= new QSqlQueryModel();
+    model->setQuery("SELECT * FROM EMPLOYES order by CIN");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("GENRE"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("TELEPHONE"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("EMAIL"));
+    model->setHeaderData(6, Qt::Horizontal, QObject::tr("ADRESSE"));
+    model->setHeaderData(7, Qt::Horizontal, QObject::tr("FONCTION"));
+    model->setHeaderData(8, Qt::Horizontal, QObject::tr("SALAIRE"));
+    return  model;
+
+};
+
+QSqlQueryModel* Employes::triNom()
+{
+    QSqlQueryModel* model= new QSqlQueryModel();
+    model->setQuery("SELECT * FROM EMPLOYES order by NOM");
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
     model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
     model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));

@@ -24,6 +24,26 @@ private slots:
 
     void on_deletePushButton_clicked();
 
+    void on_updatePushButton_clicked();
+
+    void on_triCinPushButton_clicked();
+
+    void on_triNomPushButton_clicked();
+
+    void on_loginPushButton_clicked();
+
+    void on_employesPushButton_clicked();
+
+    void on_clientPushButton_clicked();
+
+    void on_equipementsPushButton_clicked();
+
+    void on_evenementsPushButton_clicked();
+
+    void on_abonnementPushButton_clicked();
+
+    void on_showHidepushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

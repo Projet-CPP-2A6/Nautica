@@ -54,6 +54,8 @@ bool ajouter();
 bool modifier();
 bool supprimer(int);
 QSqlQueryModel* afficher();
+QSqlQueryModel* triCin();
+QSqlQueryModel* triNom();
 
 
 
