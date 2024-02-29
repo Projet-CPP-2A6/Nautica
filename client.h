@@ -24,7 +24,25 @@ private:
     QString email;
 
 public:
+    Client();
     Client(int CIN, int tel, QDate date_naissance, QString nom, QString prenom, int genre, QString email);
+    // Getters
+    int getCIN();
+    int getTel();
+    QDate getNaissance();
+    QString getNom();
+    QString getPrenom();
+    int getGenre();
+    QString getEmail();
+    
+    // setters
+    void setCIN(int cin);
+    void setTel(int tel);
+    void setNaissance(QDate Naissance);
+    void setNom(QString nom);
+    void setPrenom(QString prenom);
+    void setGenre(int genre);
+    void setEmail(QString email);
 
     // CRUD
     bool Ajouter();

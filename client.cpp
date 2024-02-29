@@ -12,27 +12,28 @@
 
 Client::Client(int CIN, int tel, QDate date_naissance, QString nom, QString prenom, int genre, QString email)
 {
-
-    this->CIN = CIN;
-    this->tel = tel;
-    this->date_naissance = date_naissance;
-    this->nom = nom;
-    this->prenom = prenom;
-    this->genre = genre;
-    this->email = email;
+    // Setters
+    setCIN(CIN);
+    setTel(tel);
+    setDateNaissance(date_naissance);
+    setNom(nom);
+    setPrenom(prenom);
+    setGenre(genre);
+    setEmail(email);
 }
-Client::Ajouter()
+
+bool Client::Ajouter()
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO CLIENTS"
-                  "VALUES (:CIN,:NOM,:PRENOM,:DATE_NAISSANCE,:GENRE,:TELEPHONE,:EMAIL)");
-    query.bindValue(":CIN", CIN);
-    query.bindValue(":NOM", nom);
-    query.bindValue(":PRENOM", prenom);
-    query.bindValue(":DATE_NAISSANCE", date_naissance);
-    query.bindValue(":GENRE", genre);
-    query.bindValue(":TELEPHONE", tel);
-    query.bindValue(":EMAIL", email);
+    query.prepare("INSERT INTO CLIENT (CIN, NOM, PRENOM, DATE_NAISSANCE, GENRE, TELEPHONE, EMAIL) VALUES (:CIN,:NOM,:PRENOM,:DATE_NAISSANCE,:GENRE,:TELEPHONE,:EMAIL)");
+    query.bindValue(":CIN", getCIN());
+    query.bindValue(":NOM", getNom());
+    query.bindValue(":PRENOM", getPrenom());
+    query.bindValue(":DATE_NAISSANCE", getDateNaissance());
+    query.bindValue(":GENRE", getGenre());
+    query.bindValue(":TELEPHONE", getTel());
+    query.bindValue(":EMAIL", getEmail());
+}
     if (!query.exec())
     {
         qDebug() << "Failed to execute query:" << query.lastError().text();
@@ -42,17 +43,17 @@ Client::Ajouter()
 
     return true;
 }
-Client::Modifier()
+bool Client::Modifier()
 {
     QSqlQuery query;
-    query.prepare("UPDATE EMPLOYES SET CIN=:CIN, NOM=:NOM, PRENOM=:PRENOM,DATE_NAISSANCE=:DATE_NAISSANCE, GENRE=:GENRE, TELEPHONE=:TELEPHONE, EMAIL=:EMAIL WHERE CIN = :CIN ");
-    query.bindValue(":CIN", CIN);
-    query.bindValue(":NOM", nom);
-    query.bindValue(":PRENOM", prenom);
-    query.bindValue(":DATE_NAISSANCE", date_naissance);
-    query.bindValue(":GENRE", genre);
-    query.bindValue(":TELEPHONE", tel);
-    query.bindValue(":EMAIL", email);
+    query.prepare("UPDATE CLIENT SET CIN=:CIN, NOM=:NOM, PRENOM=:PRENOM, DATE_NAISSANCE=:DATE_NAISSANCE, GENRE=:GENRE, TELEPHONE=:TELEPHONE, EMAIL=:EMAIL WHERE CIN = :CIN ");
+    query.bindValue(":CIN", getCIN());
+    query.bindValue(":NOM", getNom());
+    query.bindValue(":PRENOM", getPrenom());
+    query.bindValue(":DATE_NAISSANCE", getDateNaissance());
+    query.bindValue(":GENRE", getGenre());
+    query.bindValue(":TELEPHONE", getTel());
+    query.bindValue(":EMAIL", getEmail());
     if (!query.exec())
     {
         qDebug() << "Failed to execute query:" << query.lastError().text();
@@ -62,11 +63,19 @@ Client::Modifier()
 
     return true;
 }
-bool Client::Supprimer(int)
+bool Client::Supprimer()
 {
     QSqlQuery query;
     query.prepare("DELETE FROM CLIENT WHERE CIN=:CIN");
-    query.bindValue(0, CIN);
+    query.bindValue(":CIN", getCIN());
+    if (!query.exec())
+    {
+        qDebug() << "Failed to execute query:" << query.lastError().text();
+        qDebug() << "Oracle Error:" << query.lastError().databaseText();
+        return false;
+    }
+
+    return true;
 }
 QSqlQueryModel *Client::Afficher()
 {
@@ -88,3 +97,69 @@ QSqlQueryModel *Client::Afficher()
     model->setHeaderData(6, Qt::Horizontal, QObject::tr("EMAIL"));
     return model;
 };
+
+// Getters
+int getCIN()
+{
+    return CIN;
+}
+int getTel()
+{
+    return tel;
+}
+QDate getNaissance()
+{
+    return date_naissance;
+}
+QString getNom()
+{
+    return nom;
+}
+QString getPrenom()
+{
+    return prenom;
+}
+int getGenre()
+{
+    return genre;
+}
+QString getEmail()
+{
+    return email;
+}
+
+// Setters
+void Client::setCIN(int CIN)
+{
+    this->CIN = CIN;
+}
+
+void Client::setTel(int tel)
+{
+    this->tel = tel;
+}
+
+void Client::setNaissance(QDate date_naissance)
+{
+    this->date_naissance = date_naissance;
+}
+
+void Client::setNom(QString nom)
+{
+    this->nom = nom;
+}
+
+void Client::setPrenom(QString prenom)
+{
+    this->prenom = prenom;
+}
+
+void Client::setGenre(int genre)
+{
+    this->genre = genre;
+}
+
+void Client::setEmail(QString email)
+{
+    this->email = email;
+}
