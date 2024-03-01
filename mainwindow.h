@@ -2,8 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QtCharts/QChartView>
+#include <QtCharts/QPieSeries>
+#include <QtCharts/QPieSlice>
 #include <employes.h>
-
+QT_CHARTS_USE_NAMESPACE
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -43,6 +46,22 @@ private slots:
     void on_abonnementPushButton_clicked();
 
     void on_showHidepushButton_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_lineEdit_textChanged(const QString &arg1);
+
+    void on_PDFpushButton_clicked();
+
+
+
+    void on_statGenderPushButton_clicked();
+
+
+
+    void on_statSalaryPushButton_clicked();
+
+    void on_statFonctionPushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
