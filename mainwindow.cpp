@@ -49,10 +49,14 @@ void MainWindow::on_pushButton_3_clicked()
     bool test=e.ajouter();
     if(test)
     {
-
+      QMessageBox::information(this, "Succès", "L'employé a été ajouté avec succès.");
       ui->listEmployetableView->setModel(e.afficher());
 
     }
+    else
+        {
+            QMessageBox::critical(this, "Erreur", "employé existant. Veuillez réessayer.");
+        }
 
 }
 

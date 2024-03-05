@@ -50,6 +50,7 @@ void setFonction(QString fonction);
 void setSalaire(float salaire);
 
 //partie crud
+bool rechercheAvantAjout(int CIN);
 bool ajouter();
 bool modifier();
 bool supprimer(int);

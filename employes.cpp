@@ -112,9 +112,34 @@ void Employes::setSalaire(float salaire)
 };
 
 //-----------partie crud--------------------
+bool Employes::rechercheAvantAjout(int CIN)
+{
+    QSqlQuery query;
+        query.prepare("SELECT COUNT(*) FROM EMPLOYES WHERE CIN = ?");
+        query.addBindValue(CIN);
+
+        if (query.exec() && query.next()) {
+            int count = query.value(0).toInt();
+            if (count > 0) {
+                qDebug() << "L'employé avec le CIN" << CIN << "existe déjà.";
+                return false;
+            } else {
+                qDebug() << "L'employé avec le CIN" << CIN << "n'existe pas.";
+                return true;
+            }
+        } else {
+            qDebug() << "Failed to execute query:" << query.lastError().text();
+            qDebug() << "Oracle Error:" << query.lastError().databaseText();
+            return false;
+        }
+};
 
 bool Employes::ajouter()
 {
+    if (!rechercheAvantAjout(CIN))
+       {
+           return false;
+       }
     QSqlQuery query;
     query.prepare("INSERT INTO EMPLOYES(CIN,NOM,PRENOM,GENRE,TELEPHONE,EMAIL,ADRESSE,FONCTION,SALAIRE)"
                   "VALUES (:CIN,:NOM,:PRENOM,:GENRE,:TELEPHONE,:EMAIL,:ADRESSE,:FONCTION,:SALAIRE)");
