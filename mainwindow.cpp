@@ -93,6 +93,15 @@ void MainWindow::on_updatePushButton_clicked()
     if(test)
     {
         ui->listEmployetableView->setModel(e.afficher());
+        ui->updateCin_LE->clear();
+               ui->updateNom_LE->clear();
+               ui->updatePrenom_LE->clear();
+               ui->updateAdresse_LE->clear();
+               ui->updateGenre_LE->clear();
+               ui->updateEmail_LE->clear();
+               ui->updateFonction_LE->clear();
+               ui->updateTelephone_LE->clear();
+               ui->updateSalaire_LE->clear();
     }
 }
 
@@ -267,22 +276,22 @@ void MainWindow::on_lineEdit_textChanged(const QString &arg1)
 
 void MainWindow::on_PDFpushButton_clicked()
 {
-    // Créez un objet QPrinter et configurez-le pour générer un fichier PDF
+    // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
     QPrinter printer;
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName("C:/Users/chihe/Desktop/deuxieme annee esprit/s2/projet nautique/listeEmployes.pdf");
 
-    // Créez un objet QPainter associé à l'objet QPrinter
+    // Créatoin d'un objet QPainter pour l'objet QPrinter
     QPainter painter;
     if (!painter.begin(&printer)) {
         qWarning("failed to open file, is it writable?");
         return;
     }
 
-    // Obtenez le modèle de la table à partir de la QTableView
+    // Obtenir le modèle de la table à partir de la QTableView
     QAbstractItemModel *model = ui->listEmployetableView->model();
 
-    // Obtenez les dimensions de la table
+    // Obtenir les dimensions de la table
     int rows = model->rowCount();
     int columns = model->columnCount();
 
@@ -291,53 +300,51 @@ void MainWindow::on_PDFpushButton_clicked()
     int cellWidth = 100;
     int cellHeight = 30;
 
-    // Dessinez les noms des colonnes
+    // Inserer les noms des colonnes
       for (int col = 0; col < columns; ++col) {
           QString headerData = model->headerData(col, Qt::Horizontal).toString();
           painter.drawText(col * cellWidth, 0, cellWidth, cellHeight, Qt::AlignCenter, headerData);
       }
-    // Dessinez les données de la table sur le périphérique de sortie PDF
+    // Inserer les données de la table sur le périphérique de sortie PDF
     for (int row = 1; row < rows; ++row) {
         for (int col = 0; col < columns; ++col) {
-            // Obtenez les données de la cellule
+            // Obtenir les données de la cellule
             QModelIndex index = model->index(row, col);
             QString data = model->data(index).toString();
 
-            // Dessinez les données de la cellule
+            // insertion des données de la cellule
             painter.drawText(col * cellWidth, row * cellHeight, cellWidth, cellHeight, Qt::AlignLeft, data);
         }
     }
 
-    // Terminez le dessin avec QPainter
+    // Terminez avec QPainter
     painter.end();
 
 
 }
 
 
-
 void MainWindow::on_statGenderPushButton_clicked()
 {
     QChartView *chartView ;
-       QSqlQuery q1,q2,q3,q4;
-       qreal tot=0,c1=0,c2=0/*,c3=0*/;
+       QSqlQuery q1,q2,q3;
+       qreal tot=0,c1=0,c2=0;
        q1.prepare("SELECT * FROM EMPLOYES");
        q1.exec();
        q2.prepare("SELECT * FROM EMPLOYES WHERE GENRE='homme'");
        q2.exec();
        q3.prepare("SELECT * FROM EMPLOYES WHERE GENRE='femme'");
        q3.exec();
-       /*q4.prepare("SELECT * FROM EMPLOYES WHERE GENRE='Autre'");
-       q4.exec();*/
+
        while (q1.next()){tot++;}
        while (q2.next()){c1++;}
        while (q3.next()){c2++;}
-       /*while (q4.next()){c3++;}*/
-       c1=c1/tot; c2=c2/tot; /*c3=c3/tot*/;
-       QPieSeries *series = new QPieSeries();
+
+       c1=c1/tot; c2=c2/tot;
+       QPieSeries *series = new QPieSeries();//morceau mta camembere
        series->append("homme",c1);
        series->append("femme",c2);
-       /*series->append("Autre",c3)*/;
+
        QChart *chart = new QChart();
        chart->addSeries(series);
        chart->legend()->show();
@@ -407,7 +414,7 @@ void MainWindow::on_statFonctionPushButton_clicked()
     while (q6.next()){c5++;}
     c1=c1/tot; c2=c2/tot; c3=c3/tot; c4=c4/tot; c5=c5/tot;
 
-    // Définissez les couleurs que vous souhaitez utiliser
+    // meilleure choix des couleurs
     QStringList colors;
     colors << "#ff0000" << "#00ff00" << "#ffff00" << "#ff00ff" << "#0000ff"; // Rouge, Vert, Jaune, Violet, Bleu
 
