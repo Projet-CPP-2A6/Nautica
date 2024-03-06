@@ -35,7 +35,7 @@ Employes::Employes()
      this->salaire=salaire;
  };
 
-//getters
+//getters---
 int  Employes::getcin()
 {
     return CIN;
