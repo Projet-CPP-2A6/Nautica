@@ -11,7 +11,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QtDebug>
-
+#include <QDate>
 class Client
 {
 private:
@@ -26,19 +26,21 @@ private:
 public:
     Client();
     Client(int CIN, int tel, QDate date_naissance, QString nom, QString prenom, int genre, QString email);
+    
+    // Note: You can avoid getters and setters by using the this pointer directly (this->CIN)
     // Getters
     int getCIN();
     int getTel();
-    QDate getNaissance();
+    QDate getDateNaissance();
     QString getNom();
     QString getPrenom();
     int getGenre();
     QString getEmail();
     
-    // setters
+    // Setters
     void setCIN(int cin);
     void setTel(int tel);
-    void setNaissance(QDate Naissance);
+    void setDateNaissance(QDate date_naissance);
     void setNom(QString nom);
     void setPrenom(QString prenom);
     void setGenre(int genre);
@@ -47,8 +49,9 @@ public:
     // CRUD
     bool Ajouter();
     bool Modifier();
-    bool Supprimer(int);
+    bool Supprimer();
     QSqlQueryModel *Afficher();
+    QSqlQueryModel *TriPar(QString critere);
 };
 
 #endif // CLIENT_H
