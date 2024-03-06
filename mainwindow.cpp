@@ -45,7 +45,7 @@ void MainWindow::on_pushButton_3_clicked()
     qDebug() << "Type of variable 'teelephone': " << typeid(telephone).name();
 
     Employes e(CIN,nom,prenom,genre,telephone,email,adresse,fonction,salaire);
-    e.ajouter();
+   // e.ajouter();
     bool test=e.ajouter();
     if(test)
     {
