@@ -24,7 +24,7 @@ jobs:
           target: "desktop"
           arch: "win32_mingw53"
           tools: "tools_mingw,qt.tools.win32_mingw530"
-          modules: "qtcharts, qtprintsupport"
+          modules: "qtcharts"
       - name: Qt 5 environment configuration
         shell: pwsh
         run: |
