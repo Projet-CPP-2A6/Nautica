@@ -182,7 +182,24 @@ vector<int> Client::Statistics() {
   }
   double averageAge = (totalAge / totalCount);
   return {totalCount, mCount, fCount, statistic_cast<int>(averageAge)};
-}
+};
+
+Client Client::RechercheClient(int CIN) {
+  QSqlQuery query;
+  query.prepare("SELECT * FROM CLIENTS WHERE CIN=:CIN");
+  query.bindValue(":CIN", CIN);
+  if (query.exec() && query.next()) {
+    Client client(query.value(0).toInt(), query.value(1).toInt(),
+                  query.value(2).toInt(), query.value(3).toString(),
+                  query.value(4).toString(), query.value(5).toInt(),
+                  query.value(6).toString());
+    return client;
+  } else {
+    qDebug() << "Failed to execute query:" << query.lastError().text();
+    qDebug() << "Database Error:" << query.lastError().databaseText();
+    return Client();
+  }
+};
 // Getters
 int Client::getCIN() { return CIN; };
 
