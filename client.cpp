@@ -23,34 +23,38 @@ Client::Client() {
 Client::Client(int CIN, int tel, QDate date_naissance, QString nom,
                QString prenom, int genre, QString email) {
   // Setters
-  setCIN(CIN);
-  setTel(tel);
-  setDateNaissance(date_naissance);
-  setNom(nom);
-  setPrenom(prenom);
-  setGenre(genre);
-  setEmail(email);
+  if (setCIN(CIN) && setTel(tel) && setEmail(email)) {
+    setDateNaissance(date_naissance);
+    setNom(nom);
+    setPrenom(prenom);
+    setGenre(genre);
+  } else {
+    qDebug() << "Invalid client data";
+  }
 }
 
 bool Client::Ajouter() {
-  QSqlQuery query;
-  query.prepare("INSERT INTO CLIENTS (CIN, NOM, PRENOM, DATE_NAISSANCE, GENRE, "
-                "TELEPHONE, EMAIL) VALUES "
-                "(:CIN,:NOM,:PRENOM,:DATE_NAISSANCE,:GENRE,:TELEPHONE,:EMAIL)");
-  query.bindValue(":CIN", getCIN());
-  query.bindValue(":NOM", getNom());
-  query.bindValue(":PRENOM", getPrenom());
-  query.bindValue(":DATE_NAISSANCE", getDateNaissance());
-  query.bindValue(":GENRE", getGenre());
-  query.bindValue(":TELEPHONE", getTel());
-  query.bindValue(":EMAIL", getEmail());
-  if (!query.exec()) {
-    qDebug() << "Failed to execute query:" << query.lastError().text();
-    qDebug() << "Oracle Error:" << query.lastError().databaseText();
-    return false;
+  if (Recherche(getCIN()) == 0 && Recherche(getCIN()) != 404) {
+    QSqlQuery query;
+    query.prepare(
+        "INSERT INTO CLIENTS (CIN, NOM, PRENOM, DATE_NAISSANCE, GENRE, "
+        "TELEPHONE, EMAIL) VALUES "
+        "(:CIN,:NOM,:PRENOM,:DATE_NAISSANCE,:GENRE,:TELEPHONE,:EMAIL)");
+    query.bindValue(":CIN", getCIN());
+    query.bindValue(":NOM", getNom());
+    query.bindValue(":PRENOM", getPrenom());
+    query.bindValue(":DATE_NAISSANCE", getDateNaissance());
+    query.bindValue(":GENRE", getGenre());
+    query.bindValue(":TELEPHONE", getTel());
+    query.bindValue(":EMAIL", getEmail());
+    if (!query.exec()) {
+      qDebug() << "Failed to execute query:" << query.lastError().text();
+      qDebug() << "Oracle Error:" << query.lastError().databaseText();
+      return false;
+    }
+    return true;
   }
-
-  return true;
+  return false;
 }
 bool Client::Modifier() {
   QSqlQuery query;
@@ -128,6 +132,23 @@ QSqlQueryModel *Client::TriPar(QString critere) {
   return model;
 };
 
+int Client::Recherche(int CIN) {
+  QSqlQuery query;
+  query.prepare("SELECT COUNT(*) FROM CLIENTS WHERE CIN=:CIN");
+  query.bindValue(":CIN", CIN);
+  if (query.exec() && query.next()) {
+    int count = query.value(0).toInt();
+    if (count > 0) {
+      return 1;
+    } else {
+      return 0;
+    }
+  } else {
+    qDebug() << "Failed to execute query:" << query.lastError().text();
+    qDebug() << "Database Error:" << query.lastError().databaseText();
+    return 404;
+  }
+}
 // Getters
 int Client::getCIN() { return CIN; };
 
@@ -148,9 +169,8 @@ bool Client::setCIN(int CIN) {
   if ((num >= 10000000 && num <= 99999999)) {
     this->CIN = CIN;
     return true;
-  } else {
-    return false;
   }
+  return false;
 };
 
 bool Client::setTel(int tel) {
