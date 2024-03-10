@@ -469,7 +469,7 @@ background:rgb(255,255,255);
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="gestion_employes">
        <attribute name="title">
@@ -1026,9 +1026,10 @@ QLineEdit:focus {
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: #ffffff;
-border: 2px solid blue; /* Bordure bleue */
-border-radius: 10px; /* Coins arrondis */
+          <string notr="true">
+    background-color: #ffffff;
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
     font-size: 16px; /* Taille de la police */
