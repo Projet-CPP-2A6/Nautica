@@ -29,7 +29,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QFrame" name="frame_2">
@@ -1053,8 +1053,7 @@ border-radius: 10px; /* Coins arrondis */
     border-radius: 10px; /* Coins arrondis */
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
-    font-size: 16px; /* Taille de la police */
-    </string>
+    font-size: 16px; /* Taille de la police */</string>
          </property>
          <property name="text">
           <string>delete</string>
