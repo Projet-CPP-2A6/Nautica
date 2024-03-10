@@ -8,6 +8,7 @@
 #include <QString>
 #include <QTableView>
 #include <QtDebug>
+#include <Vector>
 #include <regex>
 using namespace std;
 Client::Client() {
@@ -148,6 +149,39 @@ int Client::Recherche(int CIN) {
     qDebug() << "Database Error:" << query.lastError().databaseText();
     return 404;
   }
+};
+
+vector<int> Client::Statistics() {
+  QSqlQuery query;
+  query.prepare("SELECT COUNT(*), GENRE, DATE_NAISSANCE FROM CLIENTS");
+  if (!query.exec()) {
+    qDebug() << "Error executing query:" << query.lastError().text();
+    return {};
+  }
+  int mCount = 0;
+  int fCount = 0;
+  int totalAge = 0;
+  int totalCount = query.value(0).toInt();
+  while (query.next() && totalCount > 0) {
+    int gender = query.value(1).toInt();
+    QDate birthdate = query.value(2).toDate();
+    int age = QDate::currentDate().year() - birthdate.year();
+    if (QDate::currentDate().month() < birthdate.month() ||
+        (QDate::currentDate().month() == birthdate.month() &&
+         QDate::currentDate().day() < birthdate.day())) {
+      age--;
+    }
+    // Verify gender which is 1 and which is 0 later
+    if (gender == 0) {
+      mCount++;
+      totalAge += age;
+    } else if (gender == 1) {
+      fCount++;
+      totalAge += age;
+    }
+  }
+  double averageAge = (totalAge / totalCount);
+  return {totalCount, mCount, fCount, statistic_cast<int>(averageAge)};
 }
 // Getters
 int Client::getCIN() { return CIN; };
