@@ -8,8 +8,9 @@
 #include <QString>
 #include <QTableView>
 #include <QtDebug>
-#include <Vector>
+#include <iostream>
 #include <regex>
+#include <vector>
 using namespace std;
 Client::Client() {
   this->CIN = 0;
@@ -21,8 +22,8 @@ Client::Client() {
   this->email = "";
 }
 
-Client::Client(int CIN, int tel, QDate date_naissance, QString nom,
-               QString prenom, int genre, QString email) {
+Client::Client(int CIN, QString nom, QString prenom, QDate date_naissance,
+               int genre, int tel, QString email) {
   // Setters
   if (setCIN(CIN) && setTel(tel) && setEmail(email)) {
     setDateNaissance(date_naissance);
@@ -181,7 +182,7 @@ vector<int> Client::Statistics() {
     }
   }
   double averageAge = (totalAge / totalCount);
-  return {totalCount, mCount, fCount, statistic_cast<int>(averageAge)};
+  return {totalCount, mCount, fCount, static_cast<int>(averageAge)};
 };
 
 Client Client::RechercheClient(int CIN) {
@@ -189,9 +190,9 @@ Client Client::RechercheClient(int CIN) {
   query.prepare("SELECT * FROM CLIENTS WHERE CIN=:CIN");
   query.bindValue(":CIN", CIN);
   if (query.exec() && query.next()) {
-    Client client(query.value(0).toInt(), query.value(1).toInt(),
-                  query.value(2).toInt(), query.value(3).toString(),
-                  query.value(4).toString(), query.value(5).toInt(),
+    Client client(query.value(0).toInt(), query.value(1).toString(),
+                  query.value(2).toString(), query.value(3).toDate(),
+                  query.value(4).toInt(), query.value(5).toInt(),
                   query.value(6).toString());
     return client;
   } else {
@@ -217,7 +218,7 @@ QString Client::getEmail() { return email; };
 
 // Setters
 bool Client::setCIN(int CIN) {
-  if ((num >= 10000000 && num <= 99999999)) {
+  if ((CIN >= 10000000 && CIN <= 99999999)) {
     this->CIN = CIN;
     return true;
   }
@@ -225,12 +226,11 @@ bool Client::setCIN(int CIN) {
 };
 
 bool Client::setTel(int tel) {
-  if ((num >= 10000000 && num <= 99999999)) {
+  if ((tel >= 10000000 && tel <= 99999999)) {
     this->tel = tel;
     return true;
-  } else {
-    return false;
   }
+  return false;
 };
 
 void Client::setDateNaissance(QDate date_naissance) {
@@ -245,9 +245,9 @@ void Client::setGenre(int genre) { this->genre = genre; };
 
 bool Client::setEmail(QString email) {
   regex pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
-  if (regex_match(email, pattern)) {
+  if (regex_match(email.toLocal8Bit().constData(), pattern)) {
     this->email = email;
-  } else {
-    return false;
+    return true;
   }
+  return false;
 };

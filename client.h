@@ -9,6 +9,8 @@
 #include <QString>
 #include <QTableView>
 #include <QtDebug>
+#include <vector>
+using namespace std;
 class Client {
 private:
   int CIN;
@@ -21,9 +23,8 @@ private:
 
 public:
   Client();
-  Client(int CIN, int tel, QDate date_naissance, QString nom, QString prenom,
-         int genre, QString email);
-
+  Client(int CIN, QString nom, QString prenom, QDate date_naissance, int genre,
+         int tel, QString email);
   // Note: You can avoid getters and setters by using the this pointer directly
   // (this->CIN) Getters
   int getCIN();
@@ -49,6 +50,9 @@ public:
   bool Supprimer();
   QSqlQueryModel *Afficher();
   QSqlQueryModel *TriPar(QString critere);
+  int Recherche(int CIN);
+  Client RechercheClient(int CIN);
+  vector<int> Statistics();
 };
 
 #endif // CLIENT_H
