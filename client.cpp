@@ -206,9 +206,7 @@ int Client::getCIN() { return CIN; };
 
 int Client::getTel() { return tel; };
 
-QString Client::getDateNaissance() {
-  return date_naissance.toString("dd-MMM-yyyy");
-};
+QDate Client::getDateNaissance() { return date_naissance; };
 
 QString Client::getNom() { return nom; };
 

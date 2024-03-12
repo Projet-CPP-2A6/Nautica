@@ -29,7 +29,7 @@ public:
   // (this->CIN) Getters
   int getCIN();
   int getTel();
-  QString getDateNaissance();
+  QDate getDateNaissance();
   QString getNom();
   QString getPrenom();
   int getGenre();
