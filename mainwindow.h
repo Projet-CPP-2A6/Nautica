@@ -63,6 +63,12 @@ private slots:
 
     void on_statFonctionPushButton_clicked();
 
+    void on_AjouterButton_clicked();
+
+    void on_ShowAllClients_clicked();
+
+    void on_DeleteClientBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

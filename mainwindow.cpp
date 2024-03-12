@@ -440,3 +440,43 @@ void MainWindow::on_statFonctionPushButton_clicked() {
   chartView->setMinimumSize(570, 570);
   chartView->show();
 }
+
+void MainWindow::on_AjouterButton_clicked() {
+  int CIN = ui->ACIN->text().toInt();
+  QString nom = ui->ANom->text();
+  QString prenom = ui->APrenom->text();
+  QDate date_naissance = ui->AdateEdit->date();
+  qDebug() << date_naissance;
+  int genre = ui->FradioButton->isChecked()
+                  ? 1
+                  : (ui->MradioButton->isChecked() ? 0 : -1);
+  int tel = ui->ATel->text().toInt();
+  QString email = ui->AEmail->text();
+  //(int CIN, QString nom, QString prenom, QDate date_naissance,
+  // int genre, int tel, QString email)
+  Client NC(CIN, nom, prenom, date_naissance, genre, tel, email);
+  if (NC.Ajouter()) {
+    // ui->listClientsView->setModel(NC.afficher());
+    ui->ACIN->clear();
+    ui->ANom->clear();
+    ui->APrenom->clear();
+    ui->AdateEdit->clear();
+    ui->FradioButton->setChecked(false);
+    ui->MradioButton->setChecked(false);
+    ui->ATel->clear();
+    ui->AEmail->clear();
+    qDebug() << "Ajout reussi";
+    // Write message to label
+  }
+}
+
+void MainWindow::on_DeleteClientBtn_clicked() {
+  int CIN = ui->CINtoDelete->text().toInt();
+  Client C;
+  C.setCIN(CIN);
+  C.Supprimer();
+  ui->CINtoDelete->clear();
+  C.Afficher();
+}
+
+void MainWindow::on_ShowAllClients_clicked() {}
