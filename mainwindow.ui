@@ -2023,7 +2023,7 @@ QPushButton:hover {
        <string notr="true">background-color: white;</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -2075,6 +2075,9 @@ QLineEdit:focus {
     background-color: rgba(248, 248, 248, 1); 
 }
 </string>
+           </property>
+           <property name="maxLength">
+            <number>8</number>
            </property>
           </widget>
          </item>
@@ -2192,6 +2195,9 @@ QLineEdit:focus {
 }
 </string>
            </property>
+           <property name="maxLength">
+            <number>8</number>
+           </property>
           </widget>
          </item>
          <item row="3" column="2">
@@ -2278,6 +2284,9 @@ QLineEdit:focus {
     background-color: rgba(248, 248, 248, 1); 
 }
 </string>
+           </property>
+           <property name="maxLength">
+            <number>8</number>
            </property>
           </widget>
          </item>
@@ -2370,6 +2379,9 @@ QLineEdit:focus {
     background-color: rgba(248, 248, 248, 1); 
 }
 </string>
+           </property>
+           <property name="maxLength">
+            <number>8</number>
            </property>
           </widget>
          </item>
@@ -2487,6 +2499,9 @@ QLineEdit:focus {
 }
 </string>
            </property>
+           <property name="maxLength">
+            <number>8</number>
+           </property>
           </widget>
          </item>
          <item row="3" column="2">
@@ -2573,6 +2588,9 @@ QLineEdit:focus {
     background-color: rgba(248, 248, 248, 1); 
 }
 </string>
+           </property>
+           <property name="maxLength">
+            <number>8</number>
            </property>
           </widget>
          </item>
