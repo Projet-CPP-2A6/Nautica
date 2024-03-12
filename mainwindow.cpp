@@ -476,7 +476,80 @@ void MainWindow::on_DeleteClientBtn_clicked() {
   C.setCIN(CIN);
   C.Supprimer();
   ui->CINtoDelete->clear();
-  C.Afficher();
+  ui->AllClientsModel->setModel(C.Afficher());
 }
 
-void MainWindow::on_ShowAllClients_clicked() {}
+void MainWindow::on_ShowAllClients_clicked() {
+  Client C;
+  ui->AllClientsModel->setModel(C.Afficher());
+}
+
+void MainWindow::on_SearchClientBtn_clicked() {
+  Client C;
+  int CIN = ui->SearchCIN->text().toInt();
+  QAbstractItemModel *ClientModel = C.RechercherEtAfficher(CIN);
+  if (ClientModel == nullptr) {
+    qDebug() << "nullptr" << endl;
+  }
+  ui->OneClientModel->setModel(ClientModel);
+}
+
+void MainWindow::on_UpdateClientBtn_clicked() {
+  int CIN = ui->UCIN->text().toInt();
+  QString nom = ui->UNom->text();
+  QString prenom = ui->UPrenom->text();
+  QDate date_naissance = ui->UDateEdit->date();
+  qDebug() << date_naissance;
+  int genre = ui->UFradioButton->isChecked()
+                  ? 1
+                  : (ui->UMradioButton->isChecked() ? 0 : -1);
+  int tel = ui->UTel->text().toInt();
+  QString email = ui->UEmail->text();
+  //(int CIN, QString nom, QString prenom, QDate date_naissance,
+  // int genre, int tel, QString email)
+  Client NC(CIN, nom, prenom, date_naissance, genre, tel, email);
+  if (NC.Modifier()) {
+    // ui->listClientsView->setModel(NC.afficher());
+    ui->UCIN->clear();
+    ui->UNom->clear();
+    ui->UPrenom->clear();
+    ui->UDateEdit->clear();
+    ui->UFradioButton->setChecked(false);
+    ui->UMradioButton->setChecked(false);
+    ui->UTel->clear();
+    ui->UEmail->clear();
+    qDebug() << "Ajout reussi";
+    // Write message to label
+  }
+}
+
+void MainWindow::on_SearchClientUpdateBtn_clicked() {
+  int CIN = ui->UCIN->text().toInt();
+  Client NC;
+  Client CTU = NC.RechercheClient(CIN);
+  ui->UCIN->setText(QString::number(CTU.getCIN(), 'f', 0));
+  ui->UNom->setText(CTU.getNom());
+  ui->UPrenom->setText(CTU.getPrenom());
+
+  QDate birthDate = CTU.getDateNaissance();
+  ui->UDateEdit->setDate(birthDate);
+
+  if (CTU.getGenre() == 1) {
+    ui->UFradioButton->setChecked(true);
+  } else if (CTU.getGenre() == 0) {
+    ui->UMradioButton->setChecked(true);
+  }
+
+  ui->UTel->setText(QString::number(CTU.getTel(), 'f', 0));
+  ui->UEmail->setText(CTU.getEmail());
+}
+
+void MainWindow::on_TrierParButton_clicked() {
+  Client C;
+  QString critere = ui->crietereTri->text();
+  QAbstractItemModel *sortedModel = C.TriPar(critere);
+  if (sortedModel == nullptr) {
+    qDebug() << "nullptr" << endl;
+  }
+  ui->AllClientsModel->setModel(sortedModel);
+}
