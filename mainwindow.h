@@ -69,6 +69,12 @@ private slots:
 
     void on_DeleteClientBtn_clicked();
 
+    void on_AjouterButton_2_clicked();
+
+    void on_AjouterButton_3_clicked();
+
+    void on_AjouterButton_4_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

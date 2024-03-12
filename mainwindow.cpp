@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "client.h"
 #include "employes.h"
+#include "equipement.h"
 #include "ui_mainwindow.h"
 #include <QAbstractItemModel>
 #include <QDebug>
@@ -480,3 +481,40 @@ void MainWindow::on_DeleteClientBtn_clicked() {
 }
 
 void MainWindow::on_ShowAllClients_clicked() {}
+
+void MainWindow::on_AjouterButton_2_clicked()
+{
+    QString reference=ui->reference->text();
+    int prix=ui->prix->text().toInt();
+    int nombre=ui->nombre->text().toInt();
+    QString fonctionalite=ui->fonctionalite->text();
+    QString type=ui->type_2->text();
+    QString etat=ui->etat->text();
+    Equipements E(reference,prix,nombre,fonctionalite,type,etat);
+
+    if (E.ajouter()) {
+        qDebug()<< "Ajout reussi";
+    }
+}
+
+
+void MainWindow::on_AjouterButton_3_clicked()
+{
+    QString reference=ui->REFtoDelete->text();
+    Equipements E;
+    E.setReference(reference);
+    E.supprimer();
+    ui->REFtoDelete->clear();
+    E.afficher();
+}
+
+void MainWindow::on_AjouterButton_4_clicked()
+{
+    Equipements E;
+    QAbstractItemModel *EquipementtModel = E.afficher();
+    qDebug() << EquipementtModel;
+      if (EquipementtModel == nullptr) {
+        qDebug() << "nullptr" << endl;
+      }
+      ui->tableView_3->setModel(EquipementtModel);
+}
