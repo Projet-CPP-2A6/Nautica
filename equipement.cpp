@@ -128,7 +128,7 @@ bool Equipements::supprimer()
 QSqlQueryModel* Equipements::afficher()
 {
   QSqlQueryModel* model=new QSqlQueryModel();
-    model->setQuery("SELECT REFERENCE,PRIX,NOMBRE,FONCTIONALITE,TYPE,ETAT FROM EQUIPEMENTS");
+    model->setQuery("SELECT REFERENCE,PRIX,NOMBRE,FONCTIONALITE,TYPE,ETAT FROM EQUIPEMENT");
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("REFERENCE"));
     model->setHeaderData(1, Qt::Horizontal, QObject::tr("PRIX"));
     model->setHeaderData(2, Qt::Horizontal, QObject::tr("NOMBRE"));

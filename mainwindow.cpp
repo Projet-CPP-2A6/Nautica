@@ -511,10 +511,11 @@ void MainWindow::on_AjouterButton_3_clicked()
 void MainWindow::on_AjouterButton_4_clicked()
 {
     Equipements E;
-    QAbstractItemModel *EquipementtModel = E.afficher();
-    qDebug() << EquipementtModel;
-      if (EquipementtModel == nullptr) {
+    QSqlQueryModel *EquipementModel = E.afficher();
+    qDebug() << EquipementModel;
+    if (EquipementModel == nullptr) {
         qDebug() << "nullptr" << endl;
-      }
-      ui->tableView_3->setModel(EquipementtModel);
+    }
+    ui->tableView_3->setModel(EquipementModel);
 }
+
