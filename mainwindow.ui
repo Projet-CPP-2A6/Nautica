@@ -1184,7 +1184,7 @@ QPushButton:hover {
     border-radius: 10px; /* Coins arrondis */
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
-    font-size: 16px; /* Taille de la police */</string>
+    font-size: 16px; /* Taille de la police */
     font-size: 16px; /* Taille de la police */
 }
 
@@ -3699,4 +3699,4 @@ QPushButton:hover {
   <include location="ressources.qrc"/>
  </resources>
  <connections/>
-</ui>
+ </ui>
