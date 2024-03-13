@@ -6,6 +6,8 @@
 #include <QtCharts/QPieSeries>
 #include <QtCharts/QPieSlice>
 #include <employes.h>
+#include <abonement.h>
+
 QT_CHARTS_USE_NAMESPACE
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -75,7 +77,20 @@ private slots:
 
     void on_AjouterButton_4_clicked();
 
+    void on_delete_abonnement_button_2_clicked();
+
+    void on_aupdate_abnt_clicked();
+
+    void on_refreshTableV_3_clicked();
+
+    void on_add_abonnement_push_clicked();
+
+    void on_checkBoxsearchabnt_stateChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
+    Abonement supp ;
+     Abonement display ;
+
 };
 #endif // MAINWINDOW_H

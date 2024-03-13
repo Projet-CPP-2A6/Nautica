@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
   Employes e(0, "", "", "", 0, "", "", "", 0);
   Client c;
   ui->listEmployetableView->setModel(e.afficher());
+  ui->table_abonnement_3->setModel(display.afficher_abonnement());
+     ui->table_abonnement_2->setModel(display.afficher_abonnement());
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -519,3 +521,130 @@ void MainWindow::on_AjouterButton_4_clicked()
     ui->tableView_3->setModel(EquipementModel);
 }
 
+
+void MainWindow::on_delete_abonnement_button_2_clicked()
+{
+    QString id = ui->delete_abonnement->text();
+       Abonement Abonement;
+                  bool test=supp.supprimer_abonnement(id);
+                   if(test)
+                   {
+                        QMessageBox::information(nullptr, QObject::tr("Supprimer ABONEMENT"),
+                                                QObject::tr("Le ABONEMENT HAS BEEN DELETED SUCCESSFULLY.\n"
+                                                            "CLICK OK TO EXIST."), QMessageBox::Ok);
+                         }
+                             else
+                       {
+                       QMessageBox::information(nullptr, QObject::tr("DELETE ABONEMENTs"),
+                                             QObject::tr("Le ABONEMENT HASN'T BEEN DELETED.\n"
+                                                       "CLICK OK TO EXIST."), QMessageBox::Ok);
+                       }
+              ui->table_abonnement_3->setModel(Abonement.afficher_abonnement());
+              ui->table_abonnement_2->setModel(Abonement.afficher_abonnement());
+
+}
+
+void MainWindow::on_aupdate_abnt_clicked()
+{
+    QString id_abnt = ui->ref_update_abnt->text();
+       QString activity =ui->activity_update_abnt->currentText();
+       QString membre = ui->number_update_abnt->text();
+       QString cin = ui->idclient_update_abnt->text();
+       QString price = ui->price_update_abnt->text();
+       QString duration = ui->comboBox_3->currentText();
+       Abonement Abonement(id_abnt, activity, membre, cin,price,duration);
+           bool test = Abonement.modifier(id_abnt);
+                   if (test)
+                  {
+                      QMessageBox::information(this, "Modification réussie", "Les informations du Abonement ont été modifiées avec succès.");
+                      ui->table_abonnement_3->setModel(Abonement.afficher_abonnement());
+                      ui->table_abonnement_2 ->setModel(Abonement.afficher_abonnement());
+
+                  }
+                  else
+                  {
+                      QMessageBox::critical(this, "Erreur de modification", "Une erreur est survenue lors de la modification du Abonement.");
+                  }
+
+}
+
+void MainWindow::on_refreshTableV_3_clicked()
+{
+    ui->table_abonnement_3->setModel(display.afficher_abonnement());
+       ui->table_abonnement_2 ->setModel(display.afficher_abonnement());
+
+}
+bool valid_id(QString id)
+{
+    for (int i = 0;i < id.length(); i++)
+    {
+       if((id[i] >= '0' && id[i] <= '9'))
+       {
+
+       }
+           else
+       {
+       return false ;
+       }
+    }
+    return true ;
+}
+
+void MainWindow::on_add_abonnement_push_clicked()
+{
+    QString id_abnt = ui->ref_abonnement->text();
+        QString activity = ui->activity_abonnement->currentText();
+        QString membre = ui->number_abonnement->text();
+        QString cin = ui->cin_abonnement->text();
+        QString price = ui->price_abonnement->text();
+        QString duration = ui->duration_abonnement->currentText();
+        Abonement abonnement(id_abnt, activity, membre, cin, price, duration);
+
+        if (!price.isEmpty() && !cin.isEmpty())
+        {
+            if (cin.size() == 8 && valid_id(cin) && id_abnt.size() == 8 && valid_id(id_abnt))
+            {
+                if ( valid_id(membre) &&  valid_id(price))
+                {
+                bool ajoutReussi = abonnement.ajouter();
+                if (ajoutReussi)
+                {
+                    QMessageBox::information(this, "Ajout réussi", "Le Abonement a été ajouté avec succès.");
+                    ui->table_abonnement_3->setModel(abonnement.afficher_abonnement());
+                    ui->table_abonnement_2->setModel(abonnement.afficher_abonnement());
+                }
+                else
+                {
+                    QMessageBox::critical(this, "Erreur d'ajout", "Une erreur est survenue lors de l'ajout du Abonement.");
+                }
+                }
+                else
+                {
+                    QMessageBox::warning(this, "price or number invalide", "Le price et number doit contenir exactement des caractères numériques.");
+                }
+            }
+            else
+            {
+                QMessageBox::warning(this, "CIN or id_abnt invalide", "Le CIN et id_abnt doit contenir exactement 8 caractères numériques.");
+            }
+        }
+        else
+        {
+            QMessageBox::warning(this, "Données manquantes", "Veuillez entrer le prix et le CIN.");
+        }
+
+}
+
+
+void MainWindow::on_checkBoxsearchabnt_stateChanged(int arg1)
+{
+    Abonement s ;
+    if (ui->checkBoxsearchabnt->isChecked())
+       {
+       QString id = ui->cin_abonnement_2->text();
+       ui->table_abonnement_3->setModel(s.researchid(id));
+       }
+       else {
+        ui->table_abonnement_3->setModel(s.afficher_abonnement());
+    }
+}
