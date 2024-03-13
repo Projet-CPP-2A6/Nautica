@@ -89,7 +89,7 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true"> 
+        <string notr="true">
 color: rgb(140,140,140);</string>
        </property>
        <property name="text">
@@ -679,7 +679,7 @@ QPushButton:hover {
           </property>
           <property name="styleSheet">
            <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -687,8 +687,8 @@ QPushButton:hover {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
           </property>
@@ -732,8 +732,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
           </property>
@@ -778,7 +778,7 @@ QLineEdit:focus {
 
 QLineEdit:focus {
     border-color: black;
-    background-color: rgba(248, 248, 248, 1); 
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
           </property>
@@ -814,7 +814,7 @@ QLineEdit:focus {
           </property>
           <property name="styleSheet">
            <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -822,7 +822,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -847,7 +847,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -912,7 +912,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -958,7 +958,7 @@ QLineEdit:focus {
 
 QLineEdit:focus {
     border-color: black;
-    background-color: rgba(248, 248, 248, 1); 
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
           </property>
@@ -1002,7 +1002,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -1025,12 +1025,8 @@ QLineEdit:focus {
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
     font-size: 16px; /* Taille de la police */
-}
 
-QPushButton:hover {
-    background-color: blue; /* Nouvelle couleur de fond au survol */
-    color: white; /* Nouvelle couleur de texte au survol */
-}</string>
+   </string>
           </property>
           <property name="text">
            <string>Add</string>
@@ -1067,7 +1063,7 @@ QPushButton:hover {
           </property>
           <property name="styleSheet">
            <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -1075,8 +1071,8 @@ QPushButton:hover {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
           </property>
@@ -1154,8 +1150,8 @@ QLineEdit:focus {
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton {
-    background-color: #ffffff; /* Fond blanc */
+          <string notr="true">
+    background-color: #ffffff;
     border: 2px solid blue; /* Bordure bleue */
     border-radius: 10px; /* Coins arrondis */
     padding: 1px 2px; /* Espacement intérieur */
@@ -1188,6 +1184,7 @@ QPushButton:hover {
     border-radius: 10px; /* Coins arrondis */
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */</string>
     font-size: 16px; /* Taille de la police */
 }
 
@@ -1418,7 +1415,7 @@ QPushButton:hover {
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius:5px ;
     padding: 3px;
     border-color: blue;
@@ -1467,7 +1464,7 @@ QPushButton:hover {
 
 QLineEdit:focus {
     border-color: black;
-    background-color: rgba(248, 248, 248, 1); 
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -1531,7 +1528,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -1576,7 +1573,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -1593,7 +1590,7 @@ QLineEdit:focus {
          </property>
          <property name="styleSheet">
           <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -1601,8 +1598,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -1678,7 +1675,7 @@ QLineEdit:focus {
          </property>
          <property name="styleSheet">
           <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -1686,7 +1683,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -1711,7 +1708,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -1736,8 +1733,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -1802,7 +1799,7 @@ QLineEdit:focus {
 
 QLineEdit:focus {
     border-color: black;
-    background-color: rgba(248, 248, 248, 1); 
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -2671,7 +2668,841 @@ QLineEdit:focus {
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="M4"/>
+    <widget class="QWidget" name="M4">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>1161</width>
+        <height>591</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(255, 255, 255);</string>
+      </property>
+      <property name="currentIndex">
+       <number>2</number>
+      </property>
+      <widget class="QWidget" name="gestion_employes">
+       <attribute name="title">
+        <string>Tab 1</string>
+       </attribute>
+       <widget class="QFrame" name="frame_7">
+        <property name="geometry">
+         <rect>
+          <x>-1</x>
+          <y>-1</y>
+          <width>1121</width>
+          <height>571</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QFrame" name="frame_8">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>1121</width>
+           <height>571</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <widget class="QLabel" name="label_7">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>20</y>
+            <width>191</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>ADD eqipments</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_8">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>110</y>
+            <width>291</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Myanmar Text</family>
+            <pointsize>11</pointsize>
+            <underline>true</underline>
+           </font>
+          </property>
+          <property name="text">
+           <string>Reference</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="CIN_LE">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>150</y>
+            <width>411</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
+       border: 2px solid black;
+       border-radius: 15px;
+       padding: 5px;
+       background-color: rgba(255, 255, 255);
+       color: black;
+   }
+
+   QLineEdit:focus {
+       border-color: black;
+       background-color: rgba(248, 248, 248, 1);
+   }
+   </string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_11">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>190</y>
+            <width>291</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Myanmar Text</family>
+            <pointsize>11</pointsize>
+            <underline>true</underline>
+           </font>
+          </property>
+          <property name="text">
+           <string>Fonctionality</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_19">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>270</y>
+            <width>291</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Myanmar Text</family>
+            <pointsize>11</pointsize>
+            <underline>true</underline>
+           </font>
+          </property>
+          <property name="text">
+           <string>Price</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="prenom_LE">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>310</y>
+            <width>411</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
+       border: 2px solid black;
+       border-radius: 15px;
+       padding: 5px;
+       background-color: rgba(255, 255, 255);
+       color: black;
+   }
+
+   QLineEdit:focus {
+       border-color: black;
+       background-color: rgba(248, 248, 248, 1);
+   }
+   </string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_21">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>350</y>
+            <width>291</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Myanmar Text</family>
+            <pointsize>11</pointsize>
+            <underline>true</underline>
+           </font>
+          </property>
+          <property name="text">
+           <string>Type</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="adresse_LE">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>390</y>
+            <width>411</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
+       border: 2px solid black;
+       border-radius: 15px;
+       padding: 5px;
+       background-color: rgba(255, 255, 255);
+       color: black;
+   }
+
+   QLineEdit:focus {
+       border-color: black;
+       background-color: rgba(248, 248, 248, 1);
+   }
+   </string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_30">
+          <property name="geometry">
+           <rect>
+            <x>570</x>
+            <y>110</y>
+            <width>291</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Myanmar Text</family>
+            <pointsize>11</pointsize>
+            <underline>true</underline>
+           </font>
+          </property>
+          <property name="text">
+           <string>Number</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="email_LE">
+          <property name="geometry">
+           <rect>
+            <x>570</x>
+            <y>150</y>
+            <width>411</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
+       border: 2px solid black;
+       border-radius: 15px;
+       padding: 5px;
+       background-color: rgba(255, 255, 255);
+       color: black;
+   }
+
+   QLineEdit:focus {
+       border-color: black;
+       background-color: rgba(248, 248, 248, 1);
+   }
+   </string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_31">
+          <property name="geometry">
+           <rect>
+            <x>570</x>
+            <y>190</y>
+            <width>291</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Myanmar Text</family>
+            <pointsize>11</pointsize>
+            <underline>true</underline>
+           </font>
+          </property>
+          <property name="text">
+           <string>State</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="fonction_LE">
+          <property name="geometry">
+           <rect>
+            <x>570</x>
+            <y>230</y>
+            <width>411</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
+       border: 2px solid black;
+       border-radius: 15px;
+       padding: 5px;
+       background-color: rgba(255, 255, 255);
+       color: black;
+   }
+
+   QLineEdit:focus {
+       border-color: black;
+       background-color: rgba(248, 248, 248, 1);
+   }
+   </string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="geometry">
+           <rect>
+            <x>880</x>
+            <y>50</y>
+            <width>91</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: #ffffff; /* Fond blanc */
+       border: 2px solid blue; /* Bordure bleue */
+       border-radius: 10px; /* Coins arrondis */
+       padding: 1px 2px; /* Espacement intérieur */
+       color: black; /* Couleur du texte */
+       font-size: 16px; /* Taille de la police */
+
+      </string>
+          </property>
+          <property name="text">
+           <string>Add</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_32">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>440</y>
+            <width>291</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Myanmar Text</family>
+            <pointsize>11</pointsize>
+            <underline>true</underline>
+           </font>
+          </property>
+          <property name="text">
+           <string>Genre</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="genre_LE">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>480</y>
+            <width>411</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
+       border: 2px solid black;
+       border-radius: 15px;
+       padding: 5px;
+       background-color: rgba(255, 255, 255);
+       color: black;
+   }
+
+   QLineEdit:focus {
+       border-color: black;
+       background-color: rgba(248, 248, 248, 1);
+   }
+   </string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="labConnecte">
+          <property name="geometry">
+           <rect>
+            <x>610</x>
+            <y>470</y>
+            <width>361</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="CIN_LE_2">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>230</y>
+            <width>411</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
+       border: 2px solid black;
+       border-radius: 15px;
+       padding: 5px;
+       background-color: rgba(255, 255, 255);
+       color: black;
+   }
+
+   QLineEdit:focus {
+       border-color: black;
+       background-color: rgba(248, 248, 248, 1);
+   }
+   </string>
+          </property>
+         </widget>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Tab 2</string>
+       </attribute>
+       <widget class="QFrame" name="frame_9">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>1141</width>
+          <height>571</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QLabel" name="label_20">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>40</y>
+           <width>251</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>List of equipments</string>
+         </property>
+        </widget>
+        <widget class="QTableView" name="listEmployetableView">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>110</y>
+           <width>1081</width>
+           <height>361</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="refreshTableV">
+         <property name="geometry">
+          <rect>
+           <x>810</x>
+           <y>70</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #ffffff;
+   border: 2px solid blue; /* Bordure bleue */
+   border-radius: 10px; /* Coins arrondis */
+       padding: 1px 2px; /* Espacement intérieur */
+       color: black; /* Couleur du texte */
+       font-size: 16px; /* Taille de la police */
+       </string>
+         </property>
+         <property name="text">
+          <string>refresh</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="deletePushButton">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>480</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #ffffff; /* Fond blanc */
+       border: 2px solid blue; /* Bordure bleue */
+       border-radius: 10px; /* Coins arrondis */
+       padding: 1px 2px; /* Espacement intérieur */
+       color: black; /* Couleur du texte */
+       font-size: 16px; /* Taille de la police */
+       </string>
+         </property>
+         <property name="text">
+          <string>delete</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="cinDlineEdit">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>480</y>
+           <width>113</width>
+           <height>28</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_3">
+       <attribute name="title">
+        <string>Page</string>
+       </attribute>
+       <widget class="QFrame" name="frame_10">
+        <property name="geometry">
+         <rect>
+          <x>-1</x>
+          <y>-1</y>
+          <width>1141</width>
+          <height>571</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QLabel" name="label_5">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>40</y>
+           <width>211</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>UPDATE equipments</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="updateCin_LE">
+         <property name="geometry">
+          <rect>
+           <x>220</x>
+           <y>100</y>
+           <width>141</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">
+       border: 2px solid black;
+       border-radius:5px ;
+       padding: 3px;
+       border-color: blue;
+
+
+   </string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_9">
+         <property name="geometry">
+          <rect>
+           <x>120</x>
+           <y>100</y>
+           <width>91</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Myanmar Text</family>
+           <pointsize>12</pointsize>
+           <underline>true</underline>
+          </font>
+         </property>
+         <property name="text">
+          <string>Reference</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_23">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>340</y>
+           <width>71</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Myanmar Text</family>
+           <pointsize>11</pointsize>
+           <underline>true</underline>
+          </font>
+         </property>
+         <property name="text">
+          <string>Type</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_22">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>260</y>
+           <width>291</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Myanmar Text</family>
+           <pointsize>11</pointsize>
+           <underline>true</underline>
+          </font>
+         </property>
+         <property name="text">
+          <string>Price</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_13">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>180</y>
+           <width>291</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Myanmar Text</family>
+           <pointsize>11</pointsize>
+           <underline>true</underline>
+          </font>
+         </property>
+         <property name="text">
+          <string>Fonctionality</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="updateGenre_LE">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>470</y>
+           <width>411</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {
+       border: 2px solid black;
+       border-radius: 15px;
+       padding: 5px;
+       background-color: rgba(255, 255, 255);
+       color: black;
+   }
+
+   QLineEdit:focus {
+       border-color: black;
+       background-color: rgba(248, 248, 248, 1);
+   }
+   </string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_36">
+         <property name="geometry">
+          <rect>
+           <x>590</x>
+           <y>170</y>
+           <width>291</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Myanmar Text</family>
+           <pointsize>11</pointsize>
+           <underline>true</underline>
+          </font>
+         </property>
+         <property name="text">
+          <string>State</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="updateAdresse_LE">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>380</y>
+           <width>411</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {
+       border: 2px solid black;
+       border-radius: 15px;
+       padding: 5px;
+       background-color: rgba(255, 255, 255);
+       color: black;
+   }
+
+   QLineEdit:focus {
+       border-color: black;
+       background-color: rgba(248, 248, 248, 1);
+   }
+   </string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="updateNom_LE">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>220</y>
+           <width>411</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {
+       border: 2px solid black;
+       border-radius: 15px;
+       padding: 10px;
+       background-color: rgba(255, 255, 255);
+       color: black;
+   }
+
+   QLineEdit:focus {
+       border-color: black;
+       background-color: rgba(248, 248, 248, 1);
+   }
+   </string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_35">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>430</y>
+           <width>61</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Myanmar Text</family>
+           <pointsize>11</pointsize>
+           <underline>true</underline>
+          </font>
+         </property>
+         <property name="text">
+          <string>Number</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="updatePrenom_LE">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>300</y>
+           <width>411</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {
+       border: 2px solid black;
+       border-radius: 15px;
+       padding: 5px;
+       background-color: rgba(255, 255, 255);
+       color: black;
+   }
+
+   QLineEdit:focus {
+       border-color: black;
+       background-color: rgba(248, 248, 248, 1);
+   }
+   </string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="updateNom_LE_2">
+         <property name="geometry">
+          <rect>
+           <x>580</x>
+           <y>220</y>
+           <width>411</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {
+       border: 2px solid black;
+       border-radius: 15px;
+       padding: 10px;
+       background-color: rgba(255, 255, 255);
+       color: black;
+   }
+
+   QLineEdit:focus {
+       border-color: black;
+       background-color: rgba(248, 248, 248, 1);
+   }
+   </string>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+     </widget>
+    </widget>
     <widget class="QWidget" name="M5"/>
     <widget class="QWidget" name="M6"/>
    </widget>
@@ -2706,10 +3537,10 @@ QLineEdit:focus {
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-	background: none;
+        background: none;
 }
 QPushButton:hover{
-	background-color: rgb(83, 158, 255);
+        background-color: rgb(83, 158, 255);
 }</string>
      </property>
      <property name="text">
