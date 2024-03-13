@@ -54,6 +54,7 @@ public:
   int Recherche(int CIN);
   Client RechercheClient(int CIN);
   vector<int> Statistics();
+  bool saveLog(QDate current_date, int CIN);
 };
 
 #endif // CLIENT_H
