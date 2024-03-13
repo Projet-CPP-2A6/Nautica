@@ -5,6 +5,8 @@
 #include <QtCharts/QChartView>
 #include <QtCharts/QPieSeries>
 #include <QtCharts/QPieSlice>
+#include <QLineSeries>
+#include <QtCharts>
 #include <employes.h>
 QT_CHARTS_USE_NAMESPACE
 QT_BEGIN_NAMESPACE
@@ -76,6 +78,10 @@ private slots:
     void on_SearchClientUpdateBtn_clicked();
 
     void on_TrierParButton_clicked();
+
+    void on_CRefStat_clicked();
+
+    void on_CPDFExport_clicked();
 
 private:
     Ui::MainWindow *ui;
