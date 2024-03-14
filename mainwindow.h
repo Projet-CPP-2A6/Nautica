@@ -75,6 +75,8 @@ private slots:
 
     void on_AjouterButton_4_clicked();
 
+    void on_AjouterButton_5_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

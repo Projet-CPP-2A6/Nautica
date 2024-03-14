@@ -592,7 +592,7 @@ QPushButton:hover {
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="gestion_employes">
        <attribute name="title">
@@ -2633,7 +2633,7 @@ QLineEdit:focus {
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="add_equipments">
        <attribute name="title">
@@ -3015,7 +3015,7 @@ QLineEdit:focus {
          <rect>
           <x>20</x>
           <y>180</y>
-          <width>581</width>
+          <width>781</width>
           <height>321</height>
          </rect>
         </property>
@@ -3040,13 +3040,13 @@ QLineEdit:focus {
    </string>
         </property>
         <property name="text">
-         <string>Afficher</string>
+         <string>Refresh</string>
         </property>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_8">
        <attribute name="title">
-        <string>modifyequipments</string>
+        <string>modify equipments</string>
        </attribute>
        <widget class="QLabel" name="label_42">
         <property name="geometry">
@@ -3278,34 +3278,6 @@ QLineEdit:focus {
          <number>8</number>
         </property>
        </widget>
-       <widget class="QLineEdit" name="reference_10">
-        <property name="geometry">
-         <rect>
-          <x>80</x>
-          <y>110</y>
-          <width>351</width>
-          <height>32</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QLineEdit {
-    border: 2px solid black; 
-    border-radius: 15px;
-    padding: 5px;
-    background-color: rgba(255, 255, 255);
-    color: black;
-}
-
-QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
-}
-</string>
-        </property>
-        <property name="maxLength">
-         <number>8</number>
-        </property>
-       </widget>
        <widget class="QLabel" name="functionality_2">
         <property name="geometry">
          <rect>
@@ -3345,6 +3317,34 @@ QLineEdit:focus {
         </property>
         <property name="text">
          <string>Modifier</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="updateCin_LE_2">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>110</y>
+          <width>351</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLineEdit {
+    border: 2px solid black; 
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QLineEdit:focus {
+    border-color: black; 
+    background-color: rgba(248, 248, 248, 1); 
+}
+</string>
+        </property>
+        <property name="maxLength">
+         <number>8</number>
         </property>
        </widget>
       </widget>

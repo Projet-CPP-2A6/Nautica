@@ -103,17 +103,16 @@ bool Equipements::ajouter()
     return true;
 }
 
-
 bool Equipements::modifier()
 {
   QSqlQuery query;
-    query.prepare("UPDATE EQUIPEMENTS SET REFERENCE=:REFERENCE, PRIX=:PRIX, NOMBRE=:NOMBRE, FONCTIONALITE=:FONCTIONALITE, TYPE=:TYPE WHERE REFERENCE = :REFERENCE ");
-    query.bindValue(":REFERENCE", reference);
-    query.bindValue(":PRIX", prix);
-    query.bindValue(":NOMBRE", nombre);
-    query.bindValue(":FONCTIONALITE", fonctionalite);
-    query.bindValue(":TYPE", type);
-    query.bindValue(":ETAT", etat);
+    query.prepare("UPDATE Equipement SET REFERENCE=:REFERENCE, FONCTIONALITE=:FONCTIONALITE, PRIX=:PRIX, TYPE=:TYPE, NOMBRE=:NOMBRE, ETAT=:ETAT WHERE REFERENCE = :REFERENCE ");
+    query.bindValue(":REFERENCE", getReference());
+    query.bindValue(":FONCTIONALITE", getFonctionalite());
+    query.bindValue(":PRIX", getPrix());
+    query.bindValue(":TYPE", getType());
+    query.bindValue(":NOMBRE", getNombre());
+    query.bindValue(":ETAT", getEtat());
     return query.exec();
 };
 

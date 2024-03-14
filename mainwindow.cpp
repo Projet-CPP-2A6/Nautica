@@ -519,3 +519,25 @@ void MainWindow::on_AjouterButton_4_clicked()
     ui->tableView_3->setModel(EquipementModel);
 }
 
+
+void MainWindow::on_AjouterButton_5_clicked()
+{
+    QString reference = ui->updateCin_LE_2->text();
+    QString fonctionalite = ui->reference_7->text();
+    int prix = ui->reference_9->text().toInt();
+    QString type = ui->reference_4->text();
+    int nombre = ui->reference_8->text().toInt();
+    QString etat = ui->reference_2->text();
+    Equipements E(reference, prix, nombre, fonctionalite, type, etat);
+    E.modifier();
+    bool test = E.modifier();
+    if (test) {
+      ui->tableView_3->setModel(E.afficher());
+      ui->updateCin_LE_2->clear();
+      ui->reference_7->clear();
+      ui->reference_9->clear();
+      ui->reference_4->clear();
+      ui->reference_8->clear();
+      ui->reference_2->clear();
+    }
+}
