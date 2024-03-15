@@ -136,3 +136,73 @@ QSqlQueryModel* Equipements::afficher()
     model->setHeaderData(5, Qt::Horizontal, QObject::tr("ETAT"));
     return  model;
 };
+
+bool Equipements::rechercher(int reference)
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM Equipement WHERE REFERENCE = ?");
+    query.addBindValue(reference);
+
+    if (query.exec() && query.next())
+    {
+        prix = query.value(1).toInt();
+        nombre = query.value(2).toInt();
+        fonctionalite = query.value(3).toString();
+        type = query.value(4).toString();
+        etat = query.value(5).toString();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void Equipements::chercherEquipRef(QTableView *table, QString l)
+{
+    QSqlQueryModel *model=new QSqlQueryModel();
+        QSqlQuery *query =new QSqlQuery;
+        query->prepare("select * from EQUIPEMENT where regexp_like(REFERENCE,:REFERENCE)");
+        query->bindValue(":REFERENCE",l);
+        if(l==0)
+        {
+            query->prepare("select * from EQUIPEMENT");
+        }
+        query->exec();
+        model->setQuery(*query);
+        table->setModel(model);
+        table->show();
+
+};
+void Equipements::chercherEquipType(QTableView *table, QString l)
+{
+    QSqlQueryModel *model=new QSqlQueryModel();
+    QSqlQuery *query =new QSqlQuery;
+    query->prepare("select * from EQUIPEMENT where regexp_like(TYPE,:TYPE)");
+    query->bindValue(":TYPE",l);
+    if(l==0)
+      {
+          query->prepare("select * from EQUIPEMENT;");
+      }
+    query->exec();
+    model->setQuery(*query);
+    table->setModel(model);
+    table->show();
+
+};
+void Equipements::chercherEquipEtat(QTableView *table, QString l)
+{
+    QSqlQueryModel *model=new QSqlQueryModel();
+    QSqlQuery *query =new QSqlQuery;
+    query->prepare("select * from EQUIPEMENT where regexp_like(ETAT,:ETAT)");
+    query->bindValue(":ETAT",l);
+    if(l==0)
+      {
+          query->prepare("select * from EQUIPEMENT;");
+      }
+    query->exec();
+    model->setQuery(*query);
+    table->setModel(model);
+    table->show();
+
+};

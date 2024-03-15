@@ -77,6 +77,10 @@ private slots:
 
     void on_AjouterButton_5_clicked();
 
+    void on_lineEdit_2_cursorPositionChanged(int arg1, int arg2);
+
+    void on_lineEdit_2_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
 };

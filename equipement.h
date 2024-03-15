@@ -42,6 +42,10 @@ void setEtat(QString etat);
 bool ajouter();
 bool modifier();
 bool supprimer();
+bool rechercher(int reference);
+void chercherEquipRef(QTableView *table, QString l);
+void chercherEquipType(QTableView *table, QString l);
+void chercherEquipEtat(QTableView *table, QString l);
 QSqlQueryModel* afficher();
 
 

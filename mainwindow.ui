@@ -29,7 +29,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QFrame" name="frame_2">
@@ -89,7 +89,7 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true"> 
+        <string notr="true">
 color: rgb(140,140,140);</string>
        </property>
        <property name="text">
@@ -383,19 +383,19 @@ background:rgb(255,255,255);
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton {
-    background-color: rgb(0, 0, 127); 
-    color: white; 
+    background-color: rgb(0, 0, 127);
+    color: white;
     padding: 1px 20px;
     border: 3px; /* Corrected the value to '3px' */
     border-radius: 15px;
 }
 
 QPushButton:hover {
-    background-color: rgb(88, 191, 255); 
-	color: rgb(62, 199, 214);
-    color: black; 
+    background-color: rgb(88, 191, 255);
+        color: rgb(62, 199, 214);
+    color: black;
     border: 3px; /* Corrected the value to '3px' */
-    border-radius: 15px; 
+    border-radius: 15px;
     border-color: blue;
 }
 </string>
@@ -421,19 +421,19 @@ QPushButton:hover {
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton {
-    background-color: rgb(0, 0, 127); 
-    color: white; 
+    background-color: rgb(0, 0, 127);
+    color: white;
     padding: 1px 20px;
     border: 3px; /* Corrected the value to '3px' */
     border-radius: 15px;
 }
 
 QPushButton:hover {
-    background-color: rgb(88, 191, 255); 
-	color: rgb(62, 199, 214);
-    color: black; 
+    background-color: rgb(88, 191, 255);
+        color: rgb(62, 199, 214);
+    color: black;
     border: 3px; /* Corrected the value to '3px' */
-    border-radius: 15px; 
+    border-radius: 15px;
     border-color: blue;
 }
 </string>
@@ -459,19 +459,19 @@ QPushButton:hover {
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton {
-    background-color: rgb(0, 0, 127); 
-    color: white; 
+    background-color: rgb(0, 0, 127);
+    color: white;
     padding: 1px 20px;
     border: 3px; /* Corrected the value to '3px' */
     border-radius: 15px;
 }
 
 QPushButton:hover {
-    background-color: rgb(88, 191, 255); 
-	color: rgb(62, 199, 214);
-    color: black; 
+    background-color: rgb(88, 191, 255);
+        color: rgb(62, 199, 214);
+    color: black;
     border: 3px; /* Corrected the value to '3px' */
-    border-radius: 15px; 
+    border-radius: 15px;
     border-color: blue;
 }
 </string>
@@ -499,19 +499,19 @@ QPushButton:hover {
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton {
-    background-color: rgb(0, 0, 127); 
-    color: white; 
+    background-color: rgb(0, 0, 127);
+    color: white;
     padding: 1px 20px;
     border: 3px; /* Corrected the value to '3px' */
     border-radius: 15px;
 }
 
 QPushButton:hover {
-    background-color: rgb(88, 191, 255); 
-	color: rgb(62, 199, 214);
-    color: black; 
+    background-color: rgb(88, 191, 255);
+        color: rgb(62, 199, 214);
+    color: black;
     border: 3px; /* Corrected the value to '3px' */
-    border-radius: 15px; 
+    border-radius: 15px;
     border-color: blue;
 }
 </string>
@@ -537,19 +537,19 @@ QPushButton:hover {
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton {
-    background-color: rgb(0, 0, 127); 
-    color: white; 
+    background-color: rgb(0, 0, 127);
+    color: white;
     padding: 1px 20px;
     border: 3px; /* Corrected the value to '3px' */
     border-radius: 15px;
 }
 
 QPushButton:hover {
-    background-color: rgb(88, 191, 255); 
-	color: rgb(62, 199, 214);
-    color: black; 
+    background-color: rgb(88, 191, 255);
+        color: rgb(62, 199, 214);
+    color: black;
     border: 3px; /* Corrected the value to '3px' */
-    border-radius: 15px; 
+    border-radius: 15px;
     border-color: blue;
 }
 </string>
@@ -592,7 +592,7 @@ QPushButton:hover {
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="gestion_employes">
        <attribute name="title">
@@ -679,7 +679,7 @@ QPushButton:hover {
           </property>
           <property name="styleSheet">
            <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -687,8 +687,8 @@ QPushButton:hover {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
           </property>
@@ -732,8 +732,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
           </property>
@@ -778,7 +778,7 @@ QLineEdit:focus {
 
 QLineEdit:focus {
     border-color: black;
-    background-color: rgba(248, 248, 248, 1); 
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
           </property>
@@ -814,7 +814,7 @@ QLineEdit:focus {
           </property>
           <property name="styleSheet">
            <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -822,7 +822,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -847,7 +847,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -912,7 +912,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -958,7 +958,7 @@ QLineEdit:focus {
 
 QLineEdit:focus {
     border-color: black;
-    background-color: rgba(248, 248, 248, 1); 
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
           </property>
@@ -1002,7 +1002,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -1067,7 +1067,7 @@ QPushButton:hover {
           </property>
           <property name="styleSheet">
            <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -1075,8 +1075,8 @@ QPushButton:hover {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
           </property>
@@ -1147,7 +1147,7 @@ QLineEdit:focus {
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius:5px ;
     padding: 3px;
     border-color: blue;
@@ -1196,7 +1196,7 @@ QLineEdit:focus {
 
 QLineEdit:focus {
     border-color: black;
-    background-color: rgba(248, 248, 248, 1); 
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -1260,7 +1260,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -1305,7 +1305,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -1322,7 +1322,7 @@ QLineEdit:focus {
          </property>
          <property name="styleSheet">
           <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -1330,8 +1330,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -1407,7 +1407,7 @@ QLineEdit:focus {
          </property>
          <property name="styleSheet">
           <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -1415,7 +1415,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -1440,7 +1440,7 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
+    border-color: black;
     background-color: rgba(248, 248, 248, 1);
 }
 </string>
@@ -1465,8 +1465,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -1531,7 +1531,7 @@ QLineEdit:focus {
 
 QLineEdit:focus {
     border-color: black;
-    background-color: rgba(248, 248, 248, 1); 
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -2023,7 +2023,7 @@ QPushButton:hover {
        <string notr="true">background-color: white;</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -2063,7 +2063,7 @@ QPushButton:hover {
           <widget class="QLineEdit" name="ATel">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2071,8 +2071,8 @@ QPushButton:hover {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2085,7 +2085,7 @@ QLineEdit:focus {
           <widget class="QLineEdit" name="ANom">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2093,8 +2093,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2144,7 +2144,7 @@ QLineEdit:focus {
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
     font-size: 16px; /* Taille de la police */
-   
+
    </string>
            </property>
            <property name="text">
@@ -2156,7 +2156,7 @@ QLineEdit:focus {
           <widget class="QLineEdit" name="APrenom">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2164,8 +2164,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2182,7 +2182,7 @@ QLineEdit:focus {
           <widget class="QLineEdit" name="ACIN">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2190,8 +2190,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2204,7 +2204,7 @@ QLineEdit:focus {
           <widget class="QDateEdit" name="AdateEdit">
            <property name="styleSheet">
             <string notr="true">QDateEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2212,8 +2212,8 @@ QLineEdit:focus {
 }
 
 QDateEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2223,7 +2223,7 @@ QDateEdit:focus {
           <widget class="QLineEdit" name="AEmail">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2231,8 +2231,8 @@ QDateEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2272,7 +2272,7 @@ QLineEdit:focus {
           <widget class="QLineEdit" name="CINtoDelete">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2280,8 +2280,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2315,7 +2315,7 @@ QLineEdit:focus {
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
     font-size: 16px; /* Taille de la police */
-   
+
    </string>
            </property>
            <property name="text">
@@ -2367,7 +2367,7 @@ QLineEdit:focus {
           <widget class="QLineEdit" name="UTel">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2375,8 +2375,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2389,7 +2389,7 @@ QLineEdit:focus {
           <widget class="QLineEdit" name="UNom">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2397,8 +2397,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2448,7 +2448,7 @@ QLineEdit:focus {
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
     font-size: 16px; /* Taille de la police */
-   
+
    </string>
            </property>
            <property name="text">
@@ -2460,7 +2460,7 @@ QLineEdit:focus {
           <widget class="QLineEdit" name="UPrenom">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2468,8 +2468,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2486,7 +2486,7 @@ QLineEdit:focus {
           <widget class="QLineEdit" name="UCIN">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2494,8 +2494,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2508,7 +2508,7 @@ QLineEdit:focus {
           <widget class="QDateEdit" name="UDateEdit">
            <property name="styleSheet">
             <string notr="true">QDateEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2516,8 +2516,8 @@ QLineEdit:focus {
 }
 
 QDateEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2527,7 +2527,7 @@ QDateEdit:focus {
           <widget class="QLineEdit" name="UEmail">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2535,8 +2535,8 @@ QDateEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2576,7 +2576,7 @@ QLineEdit:focus {
           <widget class="QLineEdit" name="SearchCIN">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2584,8 +2584,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
            </property>
@@ -2603,7 +2603,7 @@ QLineEdit:focus {
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
     font-size: 16px; /* Taille de la police */
-   
+
    </string>
            </property>
            <property name="text">
@@ -2633,7 +2633,7 @@ QLineEdit:focus {
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="add_equipments">
        <attribute name="title">
@@ -2683,7 +2683,7 @@ QLineEdit:focus {
          </property>
          <property name="styleSheet">
           <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2691,8 +2691,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -2801,7 +2801,7 @@ QLineEdit:focus {
          </property>
          <property name="styleSheet">
           <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2809,8 +2809,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -2829,7 +2829,7 @@ QLineEdit:focus {
          </property>
          <property name="styleSheet">
           <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2837,8 +2837,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -2857,7 +2857,7 @@ QLineEdit:focus {
          </property>
          <property name="styleSheet">
           <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2865,8 +2865,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -2885,7 +2885,7 @@ QLineEdit:focus {
          </property>
          <property name="styleSheet">
           <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2893,8 +2893,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -2913,7 +2913,7 @@ QLineEdit:focus {
          </property>
          <property name="styleSheet">
           <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2921,8 +2921,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
          </property>
@@ -2946,7 +2946,7 @@ QLineEdit:focus {
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
     font-size: 16px; /* Taille de la police */
-   
+
    </string>
          </property>
          <property name="text">
@@ -2970,7 +2970,7 @@ QLineEdit:focus {
         </property>
         <property name="styleSheet">
          <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -2978,8 +2978,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
         </property>
@@ -3003,7 +3003,7 @@ QLineEdit:focus {
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
     font-size: 16px; /* Taille de la police */
-   
+
    </string>
         </property>
         <property name="text">
@@ -3036,11 +3036,93 @@ QLineEdit:focus {
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
     font-size: 16px; /* Taille de la police */
-   
+
    </string>
         </property>
         <property name="text">
          <string>Refresh</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="nomRadioButton_2">
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>220</y>
+          <width>101</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Reference</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_47">
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>180</y>
+          <width>151</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Recherche par :</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="nomRadioButton_3">
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>250</y>
+          <width>101</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Type</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="nomRadioButton_4">
+        <property name="geometry">
+         <rect>
+          <x>830</x>
+          <y>280</y>
+          <width>101</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Etat</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_2">
+        <property name="geometry">
+         <rect>
+          <x>1000</x>
+          <y>170</y>
+          <width>141</width>
+          <height>31</height>
+         </rect>
         </property>
        </widget>
       </widget>
@@ -3149,7 +3231,7 @@ QLineEdit:focus {
         </property>
         <property name="styleSheet">
          <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -3157,8 +3239,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
         </property>
@@ -3177,7 +3259,7 @@ QLineEdit:focus {
         </property>
         <property name="styleSheet">
          <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -3185,8 +3267,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
         </property>
@@ -3205,7 +3287,7 @@ QLineEdit:focus {
         </property>
         <property name="styleSheet">
          <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -3213,8 +3295,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
         </property>
@@ -3233,7 +3315,7 @@ QLineEdit:focus {
         </property>
         <property name="styleSheet">
          <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -3241,8 +3323,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
         </property>
@@ -3261,7 +3343,7 @@ QLineEdit:focus {
         </property>
         <property name="styleSheet">
          <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -3269,8 +3351,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
         </property>
@@ -3312,7 +3394,7 @@ QLineEdit:focus {
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
     font-size: 16px; /* Taille de la police */
-   
+
    </string>
         </property>
         <property name="text">
@@ -3330,7 +3412,7 @@ QLineEdit:focus {
         </property>
         <property name="styleSheet">
          <string notr="true">QLineEdit {
-    border: 2px solid black; 
+    border: 2px solid black;
     border-radius: 15px;
     padding: 5px;
     background-color: rgba(255, 255, 255);
@@ -3338,8 +3420,8 @@ QLineEdit:focus {
 }
 
 QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
 }
 </string>
         </property>
@@ -3384,10 +3466,10 @@ QLineEdit:focus {
      <property name="styleSheet">
       <string notr="true">QPushButton
 {
-	background: none;
+        background: none;
 }
 QPushButton:hover{
-	background-color: rgb(83, 158, 255);
+        background-color: rgb(83, 158, 255);
 }</string>
      </property>
      <property name="text">

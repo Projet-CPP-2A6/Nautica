@@ -541,3 +541,17 @@ void MainWindow::on_AjouterButton_5_clicked()
       ui->reference_2->clear();
     }
 }
+
+void MainWindow::on_lineEdit_2_textChanged(const QString &arg1)
+{
+    Equipements E;
+     if (ui->nomRadioButton_2->isChecked() == true) {
+       E.chercherEquipRef(ui->tableView_3, arg1);
+     }
+     if (ui->nomRadioButton_3->isChecked() == true) {
+       E.chercherEquipType(ui->tableView_3, arg1);
+     }
+     if (ui->nomRadioButton_4->isChecked() == true) {
+       E.chercherEquipEtat(ui->tableView_3, arg1);
+     }
+}
