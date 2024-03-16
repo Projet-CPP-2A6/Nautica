@@ -518,6 +518,7 @@ void MainWindow::on_AjouterButton_4_clicked()
       }
       ui->tableView_3->setModel(EquipementtModel);
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 <<<<<<< HEAD
 
@@ -558,6 +559,9 @@ void MainWindow::on_lineEdit_2_textChanged(const QString &arg1)
      }
 }
 =======
+>>>>>>> parent of 711596a (commit)
+=======
+}
 >>>>>>> parent of 711596a (commit)
 =======
 }
