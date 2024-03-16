@@ -511,13 +511,14 @@ void MainWindow::on_AjouterButton_3_clicked()
 void MainWindow::on_AjouterButton_4_clicked()
 {
     Equipements E;
-    QSqlQueryModel *EquipementModel = E.afficher();
-    qDebug() << EquipementModel;
-    if (EquipementModel == nullptr) {
+    QAbstractItemModel *EquipementtModel = E.afficher();
+    qDebug() << EquipementtModel;
+      if (EquipementtModel == nullptr) {
         qDebug() << "nullptr" << endl;
-    }
-    ui->tableView_3->setModel(EquipementModel);
+      }
+      ui->tableView_3->setModel(EquipementtModel);
 }
+<<<<<<< HEAD
 
 
 void MainWindow::on_AjouterButton_5_clicked()
@@ -555,3 +556,5 @@ void MainWindow::on_lineEdit_2_textChanged(const QString &arg1)
        E.chercherEquipEtat(ui->tableView_3, arg1);
      }
 }
+=======
+>>>>>>> parent of 711596a (commit)
