@@ -1,5 +1,7 @@
 #ifndef EQUIPEMENTS_H
 #define EQUIPEMENTS_H
+#ifndef EQUIPEMENT_H
+#define EQUIPEMENT_H
 
 #include <QTableView>
 #include <QString>
@@ -49,3 +51,20 @@ QSqlQueryModel* afficher();
 };
 
 #endif // EQUIPEMENTS_H
+
+class Equipement
+{
+    QString reference;
+    QString fonctionalite;
+    float prix;
+    QString nom;
+    QString prenom;
+    QString genre;
+    QString email;
+    QString adresse;
+    QString fonction;
+public:
+    Equipement();
+};
+
+#endif // EQUIPEMENT_H

@@ -5,6 +5,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QSqlRecord>
 #include <QString>
 #include <QTableView>
 #include <QtDebug>
@@ -32,6 +33,7 @@ Client::Client(int CIN, QString nom, QString prenom, QDate date_naissance,
     setGenre(genre);
   } else {
     qDebug() << "Invalid client data";
+    qDebug() << CIN << nom << prenom << date_naissance << genre << tel << email;
   }
 }
 
@@ -93,14 +95,33 @@ bool Client::Supprimer() {
 
 QSqlQueryModel *Client::Afficher() {
   QSqlQueryModel *model = new QSqlQueryModel();
-  model->setQuery("SELECT CIN,NOM,PRENOM,DATE_NAISSANCE,GENRE,TELEPHONE,EMAIL "
-                  "FROM CLIENTS");
+  model->setQuery("SELECT * FROM CLIENTS");
   if (model->lastError().isValid()) {
     qDebug() << "Failed to execute query:" << model->lastError().text();
     qDebug() << "Database Error:" << model->lastError().databaseText();
     delete model;
     return nullptr;
   }
+
+  for (int row = 0; row < model->rowCount(); ++row) {
+    QString cin = model->record(row).value("CIN").toString();
+    QString telephone = model->record(row).value("TELEPHONE").toString();
+    cin = QString::number(cin.toLongLong());
+    telephone = QString::number(telephone.toLongLong());
+    model->setData(model->index(row, model->record(row).indexOf("CIN")), cin);
+    model->setData(model->index(row, model->record(row).indexOf("TELEPHONE")),
+                   telephone);
+  }
+
+  for (int row = 0; row < model->rowCount(); ++row) {
+    QDateTime dateNaissance =
+        model->record(row).value("DATE_NAISSANCE").toDateTime();
+    QString formattedDate = dateNaissance.toString("dd-MM-yyyy");
+    model->setData(
+        model->index(row, model->record(row).indexOf("DATE_NAISSANCE")),
+        formattedDate);
+  }
+
   model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
   model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
   model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
@@ -108,15 +129,49 @@ QSqlQueryModel *Client::Afficher() {
   model->setHeaderData(4, Qt::Horizontal, QObject::tr("GENRE"));
   model->setHeaderData(5, Qt::Horizontal, QObject::tr("TELEPHONE"));
   model->setHeaderData(6, Qt::Horizontal, QObject::tr("EMAIL"));
+
   return model;
-};
+}
 
 QSqlQueryModel *Client::TriPar(QString critere) {
   QSqlQueryModel *model = new QSqlQueryModel();
   QSqlQuery query;
-  query.prepare("SELECT CIN,NOM,PRENOM,DATE_NAISSANCE,GENRE,TELEPHONE,EMAIL "
-                "FROM CLIENTS ORDER BY :CRITERE");
-  query.bindValue(":CRITERE", critere);
+  QString queryString =
+      "SELECT CIN,NOM,PRENOM,DATE_NAISSANCE,GENRE,TELEPHONE,EMAIL "
+      "FROM CLIENTS ORDER BY ";
+
+  QStringList allowedCriteria = {
+      "CIN", "NOM", "PRENOM", "DATE_NAISSANCE", "GENRE", "TELEPHONE", "EMAIL"};
+  if (!allowedCriteria.contains(critere)) {
+    delete model;
+    return nullptr;
+  }
+
+  queryString += critere;
+  query.prepare(queryString);
+
+  if (!query.exec()) {
+    delete model;
+    return nullptr;
+  }
+
+  model->setQuery(query);
+  model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
+  model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
+  model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
+  model->setHeaderData(3, Qt::Horizontal, QObject::tr("DATE_NAISSANCE"));
+  model->setHeaderData(4, Qt::Horizontal, QObject::tr("GENRE"));
+  model->setHeaderData(5, Qt::Horizontal, QObject::tr("TELEPHONE"));
+  model->setHeaderData(6, Qt::Horizontal, QObject::tr("EMAIL"));
+
+  return model;
+}
+
+QSqlQueryModel *Client::RechercherEtAfficher(int CIN) {
+  QSqlQueryModel *model = new QSqlQueryModel();
+  QSqlQuery query;
+  query.prepare("SELECT * FROM CLIENTS WHERE CIN=:CIN");
+  query.bindValue(":CIN", CIN);
   if (!query.exec()) {
     qDebug() << "Failed to execute query:" << query.lastError().text();
     qDebug() << "Database Error:" << query.lastError().databaseText();
@@ -124,7 +179,7 @@ QSqlQueryModel *Client::TriPar(QString critere) {
     return nullptr;
   }
   model->setQuery(query);
-  model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
+  model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN").toInt(), Qt::DisplayRole);
   model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
   model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
   model->setHeaderData(3, Qt::Horizontal, QObject::tr("DATE_NAISSANCE"));

@@ -74,6 +74,13 @@ private slots:
     void on_AjouterButton_3_clicked();
 
     void on_AjouterButton_4_clicked();
+    void on_SearchClientBtn_clicked();
+
+    void on_UpdateClientBtn_clicked();
+
+    void on_SearchClientUpdateBtn_clicked();
+
+    void on_TrierParButton_clicked();
 
 private:
     Ui::MainWindow *ui;

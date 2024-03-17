@@ -137,3 +137,10 @@ QSqlQueryModel* Equipements::afficher()
     model->setHeaderData(5, Qt::Horizontal, QObject::tr("ETAT"));
     return  model;
 };
+#include "equipement.h"
+
+
+Equipement::Equipement()
+{
+
+}

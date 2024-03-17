@@ -6,8 +6,12 @@
 #include <QDebug>
 class Connection
 {
+    QSqlDatabase db;
+
 public:
     Connection();
-    bool createconnect();
+    bool createconnection();
+    void closeConnection();
 };
-#endif // CONNEXION_H
+
+#endif //CONNECTION_H
