@@ -8,6 +8,7 @@
 #include <QLineSeries>
 #include <QtCharts>
 #include <employes.h>
+#include "abonement.h"
 QT_CHARTS_USE_NAMESPACE
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -71,6 +72,11 @@ private slots:
 
     void on_DeleteClientBtn_clicked();
 
+    void on_AjouterButton_2_clicked();
+
+    void on_AjouterButton_3_clicked();
+
+    void on_AjouterButton_4_clicked();
     void on_SearchClientBtn_clicked();
 
     void on_UpdateClientBtn_clicked();
@@ -83,7 +89,16 @@ private slots:
 
     void on_CPDFExport_clicked();
 
+    void on_add_abonnement_push_clicked();
+
+    void on_delete_abonnement_button_clicked();
+
+    void on_aupdate_abnt_clicked();
+
+    void on_refreshTableV_3_clicked();
 private:
     Ui::MainWindow *ui;
+    Abonement supp ;
+    Abonement display ;
 };
 #endif // MAINWINDOW_H

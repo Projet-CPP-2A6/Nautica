@@ -20,6 +20,7 @@ SOURCES += \
     connection.cpp \
     employes.cpp \
     equipement.cpp \
+    abonement.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -28,6 +29,7 @@ HEADERS += \
     connection.h \
     employes.h \
     equipement.h \
+    abonement.h \
     mainwindow.h
 
 FORMS += \
