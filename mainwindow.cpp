@@ -689,6 +689,7 @@ void MainWindow::on_CPDFExport_clicked() {
     table->setFormat(tableFormat);
 
     doc.print(&printer);
+}
 bool valid_id(QString id)
 {
     for (int i = 0;i < id.length(); i++)
