@@ -21,7 +21,7 @@ Client::Client() {
   this->prenom = "";
   this->genre = 0;
   this->email = "";
-}
+};
 
 Client::Client(int CIN, QString nom, QString prenom, QDate date_naissance,
                int genre, int tel, QString email) {
@@ -35,7 +35,7 @@ Client::Client(int CIN, QString nom, QString prenom, QDate date_naissance,
     qDebug() << "Invalid client data";
     qDebug() << CIN << nom << prenom << date_naissance << genre << tel << email;
   }
-}
+};
 
 bool Client::Ajouter() {
   if (Recherche(getCIN()) == 0 && Recherche(getCIN()) != 404) {
@@ -59,7 +59,7 @@ bool Client::Ajouter() {
     return true;
   }
   return false;
-}
+};
 bool Client::Modifier() {
   QSqlQuery query;
   query.prepare("UPDATE CLIENTS SET CIN=:CIN, NOM=:NOM, PRENOM=:PRENOM, "
@@ -91,11 +91,13 @@ bool Client::Supprimer() {
   }
 
   return true;
-}
+};
 
 QSqlQueryModel *Client::Afficher() {
   QSqlQueryModel *model = new QSqlQueryModel();
-  model->setQuery("SELECT * FROM CLIENTS");
+  model->setQuery(
+      "SELECT TO_CHAR(CIN), NOM, PRENOM, TO_CHAR(DATE_NAISSANCE, 'DD-MM-YYYY'),  CASE WHEN GENRE = 0 THEN 'M' "
+      "ELSE 'F' END AS GENRE, TO_CHAR(TELEPHONE), EMAIL  FROM CLIENTS");
   if (model->lastError().isValid()) {
     qDebug() << "Failed to execute query:" << model->lastError().text();
     qDebug() << "Database Error:" << model->lastError().databaseText();
@@ -131,14 +133,15 @@ QSqlQueryModel *Client::Afficher() {
   model->setHeaderData(6, Qt::Horizontal, QObject::tr("EMAIL"));
 
   return model;
-}
+};
 
 QSqlQueryModel *Client::TriPar(QString critere) {
   QSqlQueryModel *model = new QSqlQueryModel();
   QSqlQuery query;
-  QString queryString =
-      "SELECT CIN,NOM,PRENOM,DATE_NAISSANCE,GENRE,TELEPHONE,EMAIL "
-      "FROM CLIENTS ORDER BY ";
+  QString queryString = "SELECT TO_CHAR(CIN), NOM, PRENOM, TO_CHAR(DATE_NAISSANCE, 'DD-MM-YYYY'), "
+                        "CASE WHEN GENRE = 0 THEN 'M' ELSE 'F' END AS GENRE, "
+                        "TO_CHAR(TELEPHONE), EMAIL "
+                        "FROM CLIENTS ORDER BY ";
 
   QStringList allowedCriteria = {
       "CIN", "NOM", "PRENOM", "DATE_NAISSANCE", "GENRE", "TELEPHONE", "EMAIL"};
@@ -165,12 +168,15 @@ QSqlQueryModel *Client::TriPar(QString critere) {
   model->setHeaderData(6, Qt::Horizontal, QObject::tr("EMAIL"));
 
   return model;
-}
+};
 
 QSqlQueryModel *Client::RechercherEtAfficher(int CIN) {
   QSqlQueryModel *model = new QSqlQueryModel();
   QSqlQuery query;
-  query.prepare("SELECT * FROM CLIENTS WHERE CIN=:CIN");
+  query.prepare("SELECT TO_CHAR(CIN), NOM, PRENOM, TO_CHAR(DATE_NAISSANCE, 'DD-MM-YYYY'), "
+                "CASE WHEN GENRE = 0 THEN 'M' ELSE 'F' END AS GENRE, "
+                "TO_CHAR(TELEPHONE), EMAIL "
+                "FROM CLIENTS WHERE CIN=:CIN");
   query.bindValue(":CIN", CIN);
   if (!query.exec()) {
     qDebug() << "Failed to execute query:" << query.lastError().text();
@@ -179,7 +185,7 @@ QSqlQueryModel *Client::RechercherEtAfficher(int CIN) {
     return nullptr;
   }
   model->setQuery(query);
-  model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN").toInt(), Qt::DisplayRole);
+  model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
   model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
   model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
   model->setHeaderData(3, Qt::Horizontal, QObject::tr("DATE_NAISSANCE"));
@@ -209,25 +215,25 @@ int Client::Recherche(int CIN) {
 
 vector<int> Client::Statistics() {
   QSqlQuery query;
-  query.prepare("SELECT COUNT(*), GENRE, DATE_NAISSANCE FROM CLIENTS");
+  query.prepare("SELECT GENRE, DATE_NAISSANCE FROM CLIENTS");
   if (!query.exec()) {
     qDebug() << "Error executing query:" << query.lastError().text();
     return {};
   }
+  int totalCount = 0;
   int mCount = 0;
   int fCount = 0;
   int totalAge = 0;
-  int totalCount = query.value(0).toInt();
-  while (query.next() && totalCount > 0) {
-    int gender = query.value(1).toInt();
-    QDate birthdate = query.value(2).toDate();
+  while (query.next()) {
+    totalCount++;
+    int gender = query.value(0).toInt();
+    QDate birthdate = query.value(1).toDate();
     int age = QDate::currentDate().year() - birthdate.year();
     if (QDate::currentDate().month() < birthdate.month() ||
         (QDate::currentDate().month() == birthdate.month() &&
          QDate::currentDate().day() < birthdate.day())) {
       age--;
     }
-    // Verify gender which is 1 and which is 0 later
     if (gender == 0) {
       mCount++;
       totalAge += age;
@@ -236,7 +242,8 @@ vector<int> Client::Statistics() {
       totalAge += age;
     }
   }
-  double averageAge = (totalAge / totalCount);
+  double averageAge =
+      (totalCount > 0) ? (static_cast<double>(totalAge) / totalCount) : 0.0;
   return {totalCount, mCount, fCount, static_cast<int>(averageAge)};
 };
 
@@ -255,6 +262,19 @@ Client Client::RechercheClient(int CIN) {
     qDebug() << "Database Error:" << query.lastError().databaseText();
     return Client();
   }
+};
+
+bool Client::saveLog(QDate current_date, int Client_CIN) {
+  QSqlQuery query;
+  query.prepare("INSERT INTO LOGS (DATE, CIN) VALUES (:DATE, :CLIENT_CIN)");
+  query.bindValue(":DATE", current_date);
+  query.bindValue(":CLIENT_CIN", Client_CIN);
+  if (!query.exec()) {
+    qDebug() << "Failed to execute query:" << query.lastError().text();
+    qDebug() << "Database Error:" << query.lastError().databaseText();
+    return false;
+  }
+  return true;
 };
 // Getters
 int Client::getCIN() { return CIN; };

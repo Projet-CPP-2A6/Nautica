@@ -5,6 +5,8 @@
 #include <QtCharts/QChartView>
 #include <QtCharts/QPieSeries>
 #include <QtCharts/QPieSlice>
+#include <QLineSeries>
+#include <QtCharts>
 #include <employes.h>
 #include "abonement.h"
 QT_CHARTS_USE_NAMESPACE
@@ -82,6 +84,10 @@ private slots:
     void on_SearchClientUpdateBtn_clicked();
 
     void on_TrierParButton_clicked();
+
+    void on_CRefStat_clicked();
+
+    void on_CPDFExport_clicked();
 
     void on_add_abonnement_push_clicked();
 

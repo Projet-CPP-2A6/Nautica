@@ -595,6 +595,100 @@ void MainWindow::on_TrierParButton_clicked() {
   }
   ui->AllClientsModel->setModel(sortedModel);
 }
+
+
+void MainWindow::on_CRefStat_clicked()
+{
+    Client C;
+    vector<int> Stat = C.Statistics();
+    qDebug() << Stat;
+    int numClients = Stat[0];
+    int numMales = Stat[1];
+    int numFemales = Stat[2];
+    int avgAge = Stat[3];
+
+    const int barSpacing = 40;
+
+    QGraphicsScene* scene = new QGraphicsScene(this);
+
+    QGraphicsRectItem* clientsBar = scene->addRect(0, 0, numClients * 5, 20);
+    QGraphicsRectItem* malesBar = scene->addRect(0, barSpacing, numMales * 5, 20);
+    QGraphicsRectItem* femalesBar = scene->addRect(0, 2 * barSpacing, numFemales * 5, 20);
+    QGraphicsRectItem* avgAgeBar = scene->addRect(0, 3 * barSpacing, avgAge * 2, 20);
+
+    clientsBar->setBrush(Qt::blue);
+    malesBar->setBrush(Qt::green);
+    femalesBar->setBrush(Qt::red);
+    avgAgeBar->setBrush(Qt::yellow);
+
+    QGraphicsTextItem* clientsLabel = scene->addText(QString("Number of Clients: %1").arg(numClients));
+    clientsLabel->setPos(numClients * 5 + 10, 0);
+
+    QGraphicsTextItem* malesLabel = scene->addText(QString("Number of Males: %1").arg(numMales));
+    malesLabel->setPos(numMales * 5 + 10, barSpacing);
+
+    QGraphicsTextItem* femalesLabel = scene->addText(QString("Number of Females: %1").arg(numFemales));
+    femalesLabel->setPos(numFemales * 5 + 10, 2 * barSpacing);
+
+    QGraphicsTextItem* avgAgeLabel = scene->addText(QString("Average Age: %1").arg(avgAge));
+    avgAgeLabel->setPos(avgAge * 2 + 10, 3 * barSpacing);
+
+    QGraphicsView* view = new QGraphicsView(scene);
+
+    QVBoxLayout* layout = new QVBoxLayout(ui->CStatFrame);
+    layout->addWidget(view);
+}
+
+void MainWindow::on_CPDFExport_clicked() {
+    Client C;
+    QSqlQueryModel *ClientModel = C.Afficher();
+
+    QString defaultFileName = "ClientsList.pdf";
+    QString fileName = QFileDialog::getSaveFileName(this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
+
+    if (fileName.isEmpty() || !ClientModel)
+        return;
+
+    QPrinter printer;
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName(fileName);
+
+    QTextDocument doc;
+    QTextCursor cursor(&doc);
+
+    int rowCount = ClientModel->rowCount();
+    int colCount = ClientModel->columnCount();
+
+    QTextTable *table = cursor.insertTable(rowCount + 1, colCount);
+
+    for (int col = 0; col < colCount; ++col) {
+        QString columnName = ClientModel->headerData(col, Qt::Horizontal).toString();
+        QTextTableCell cell = table->cellAt(0, col);
+        QTextCursor cellCursor = cell.firstCursorPosition();
+        cellCursor.insertText(columnName);
+    }
+
+    for (int row = 0; row < rowCount; ++row) {
+        for (int col = 0; col < colCount; ++col) {
+            QModelIndex index = ClientModel->index(row, col);
+            QString data;
+            if (col == 4) {
+                int genderValue = ClientModel->data(index).toInt();
+                data = (genderValue == 0) ? "M" : "F";
+            } else {
+                data = ClientModel->data(index).toString();
+            }
+            QTextTableCell cell = table->cellAt(row + 1, col);
+            QTextCursor cellCursor = cell.firstCursorPosition();
+            cellCursor.insertText(data);
+        }
+    }
+
+    QTextTableFormat tableFormat = table->format();
+    tableFormat.setBorder(1);
+    table->setFormat(tableFormat);
+
+    doc.print(&printer);
 bool valid_id(QString id)
 {
     for (int i = 0;i < id.length(); i++)
