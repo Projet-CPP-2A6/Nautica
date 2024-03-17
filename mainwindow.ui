@@ -29,7 +29,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QFrame" name="frame_2">
@@ -1174,7 +1174,7 @@ QLineEdit:focus {
            <pointsize>12</pointsize>
            <underline>true</underline>
           </font>
-          </property>
+         </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
     background-color: #ffffff; /* Fond blanc */
@@ -2269,7 +2269,7 @@ QPushButton:hover {
        <string notr="true">background-color: white;</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -2893,7 +2893,7 @@ QLineEdit:focus {
           </widget>
          </item>
          <item row="1" column="0" colspan="2">
-          <widget class="QTableView" name="tableView"/>
+          <widget class="QTableView" name="OneClientModel"/>
          </item>
         </layout>
        </widget>
@@ -2914,7 +2914,7 @@ QLineEdit:focus {
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="add_equipments">
        <attribute name="title">
@@ -3428,7 +3428,6 @@ QLineEdit:focus {
           <height>32</height>
          </rect>
         </property>
-         
         <layout class="QGridLayout" name="gridLayout_4">
          <item row="9" column="0" colspan="3">
           <widget class="QPushButton" name="UpdateClientBtn">
@@ -3476,63 +3475,7 @@ QLineEdit:focus {
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QLineEdit" name="UCIN">
-           <property name="styleSheet">
-            <string notr="true">QLineEdit {
-    border: 2px solid black; 
-    border-radius: 15px;
-    padding: 5px;
-    background-color: rgba(255, 255, 255);
-    color: black;
-}
-
-QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
-}
-</string>
-        </property>
-        <property name="maxLength">
-         <number>8</number>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="reference_8">
-        <property name="geometry">
-         <rect>
-          <x>80</x>
-          <y>290</y>
-          <width>351</width>
-          <height>32</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QLineEdit {
-    border: 2px solid black; 
-    border-radius: 15px;
-    padding: 5px;
-    background-color: rgba(255, 255, 255);
-    color: black;
-}
-
-QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
-}
-</string>
-        </property>
-        <property name="maxLength">
-         <number>8</number>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="reference_7">
-        <property name="geometry">
-         <rect>
-          <x>510</x>
-          <y>200</y>
-          <width>351</width>
-          <height>32</height>
-         </rect>
-        </property>
+          <widget class="QLineEdit" name="reference_7">
            <property name="maxLength">
             <number>8</number>
            </property>
@@ -3553,70 +3496,16 @@ QLineEdit:focus {
           </widget>
          </item>
          <item row="2" column="2">
-          <widget class="QLineEdit" name="UPrenom">
+          <widget class="QLineEdit" name="reference_4">
            <property name="styleSheet">
-            <string notr="true">QLineEdit {
-    border: 2px solid black; 
-    border-radius: 15px;
-    padding: 5px;
-    background-color: rgba(255, 255, 255);
-    color: black;
-}
-
-QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
-}
-</string>
-        </property>
-        <property name="maxLength">
-         <number>8</number>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="reference_4">
-        <property name="geometry">
-         <rect>
-          <x>510</x>
-          <y>290</y>
-          <width>351</width>
-          <height>32</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
+            <string/>
            </property>
           </widget>
          </item>
          <item row="7" column="2">
-          <widget class="QLineEdit" name="UEmail">
+          <widget class="QLineEdit" name="reference_2">
            <property name="styleSheet">
-            <string notr="true">QLineEdit {
-    border: 2px solid black; 
-    border-radius: 15px;
-    padding: 5px;
-    background-color: rgba(255, 255, 255);
-    color: black;
-}
-
-QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
-}
-</string>
-        </property>
-        <property name="maxLength">
-         <number>8</number>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="reference_2">
-        <property name="geometry">
-         <rect>
-          <x>510</x>
-          <y>110</y>
-          <width>351</width>
-          <height>32</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
+            <string/>
            </property>
           </widget>
          </item>
@@ -3647,36 +3536,7 @@ QLineEdit:focus {
           </widget>
          </item>
          <item row="3" column="2">
-          <widget class="QDateEdit" name="UDateEdit">
-           <property name="styleSheet">
-            <string notr="true">QDateEdit {
-    border: 2px solid black; 
-    border-radius: 15px;
-    padding: 5px;
-    background-color: rgba(255, 255, 255);
-    color: black;
-}
-
-QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
-}
-</string>
-        </property>
-        <property name="maxLength">
-         <number>8</number>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="reference_10">
-        <property name="geometry">
-         <rect>
-          <x>80</x>
-          <y>110</y>
-          <width>351</width>
-          <height>32</height>
-         </rect>
-        </property>
-          </widget>
+          <widget class="QLineEdit" name="reference_10"/>
          </item>
          <item row="6" column="0">
           <widget class="QLabel" name="label_24">
@@ -3693,28 +3553,8 @@ QLineEdit:focus {
           </widget>
          </item>
          <item row="6" column="2">
-          <widget class="QLineEdit" name="UTel">
-           <property name="styleSheet">
-            <string notr="true">QLineEdit {
-    border: 2px solid black; 
-    border-radius: 15px;
-    padding: 5px;
-    background-color: rgba(255, 255, 255);
-    color: black;
-}
-
-QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
-}
-</string>
-        </property>
-        <property name="maxLength">
-         <number>8</number>
-        </property>
-       </widget>
-       <widget class="QLabel" name="functionality_2">
-           <property name="maxLength">
+          <widget class="QLabel" name="functionality_2">
+           <property name="maxLength" stdset="0">
             <number>8</number>
            </property>
           </widget>
@@ -3757,7 +3597,7 @@ QLineEdit:focus {
           <pointsize>12</pointsize>
          </font>
         </property>
-        <property name="text">
+        <property name="text" stdset="0">
          <string>Fonctionalite</string>
         </property>
        </widget>
@@ -3787,7 +3627,7 @@ QLineEdit:focus {
       </widget>
      </widget>
     </widget>
-       <widget class="QWidget" name="M5">
+    <widget class="QWidget" name="M5">
      <widget class="QTabWidget" name="tabWidget_3">
       <property name="geometry">
        <rect>
@@ -3798,7 +3638,7 @@ QLineEdit:focus {
        </rect>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_5">
        <attribute name="title">
@@ -4920,7 +4760,7 @@ QPushButton:hover {
      <x>0</x>
      <y>0</y>
      <width>1269</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

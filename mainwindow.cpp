@@ -3,6 +3,7 @@
 #include "employes.h"
 #include "equipement.h"
 #include "ui_mainwindow.h"
+#include "abonement.h"
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QDesktopServices>
@@ -21,8 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
   Employes e(0, "", "", "", 0, "", "", "", 0);
   Client c;
   ui->listEmployetableView->setModel(e.afficher());
-  ui->table_abonnement->setModel(display.afficher_abonnement());
-    ui->table_abonnement_2->setModel(display.afficher_
+    ui->table_abonnement->setModel(display.afficher_abonnement());
+    ui->table_abonnement_2->setModel(display.afficher_abonnement());
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -482,7 +483,6 @@ void MainWindow::on_DeleteClientBtn_clicked() {
   ui->AllClientsModel->setModel(C.Afficher());
 }
 
-void MainWindow::on_ShowAllClients_clicked() {}
 
 void MainWindow::on_AjouterButton_2_clicked()
 {
