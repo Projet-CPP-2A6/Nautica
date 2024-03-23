@@ -16,6 +16,8 @@
 #include <QString>
 #include <QTableView>
 #include <QUrl>
+#include <QImage>
+#include <QPageSize>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
@@ -800,4 +802,313 @@ void MainWindow::on_refreshTableV_3_clicked()
 {
     ui->table_abonnement->setModel(display.afficher_abonnement());
     ui->table_abonnement_2 ->setModel(display.afficher_abonnement());
+}
+
+void MainWindow::on_AjouterButton_5_clicked()
+{
+    QString reference = ui->updateCin_LE_2->text();
+    QString fonctionalite = ui->reference_7->text();
+    int prix = ui->reference_9->text().toInt();
+    QString type = ui->reference_4->text();
+    int nombre = ui->reference_8->text().toInt();
+    QString etat = ui->reference_2->text();
+    Equipements E(reference, prix, nombre, fonctionalite, type, etat);
+    E.modifier();
+    bool test = E.modifier();
+    if (test) {
+      ui->tableView_3->setModel(E.afficher());
+      ui->updateCin_LE_2->clear();
+      ui->reference_7->clear();
+      ui->reference_9->clear();
+      ui->reference_4->clear();
+      ui->reference_8->clear();
+      ui->reference_2->clear();
+    }
+}
+
+void MainWindow::on_lineEdit_2_textChanged(const QString &arg1)
+{
+    Equipements E;
+     if (ui->nomRadioButton_2->isChecked() == true) {
+       E.chercherEquipRef(ui->tableView_3, arg1);
+     }
+     if (ui->nomRadioButton_3->isChecked() == true) {
+       E.chercherEquipType(ui->tableView_3, arg1);
+     }
+     if (ui->nomRadioButton_4->isChecked() == true) {
+       E.chercherEquipEtat(ui->tableView_3, arg1);
+     }
+}
+
+void MainWindow::on_triCinPushButton_2_clicked()
+{
+    Equipements E;
+      ui->tableView_3->setModel(E.triRef());
+}
+
+void MainWindow::on_triCinPushButton_3_clicked()
+{
+    Equipements E;
+      ui->tableView_3->setModel(E.triType());
+}
+
+void MainWindow::on_triCinPushButton_4_clicked()
+{
+    Equipements E;
+      ui->tableView_3->setModel(E.triEtat());
+}
+
+void MainWindow::on_PDFpushButton_2_clicked()
+{
+    // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
+    QPrinter printer;
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName("C:/youssef/listeEquipement.pdf");
+
+    // Création d'un objet QPainter pour l'objet QPrinter
+    QPainter painter;
+    if (!painter.begin(&printer)) {
+        qWarning("failed to open file, is it writable?");
+        return;
+    }
+
+    // Obtenir le modèle de la table à partir de la QTableView
+    QAbstractItemModel *model = ui->tableView_3->model();
+
+    // Obtenir les dimensions de la table
+    int rows = model->rowCount();
+    int columns = model->columnCount();
+
+    // Définir la taille de la cellule pour le dessin
+    int cellWidth = 100;
+    int cellHeight = 30;
+
+    // Calculer les dimensions de la page
+    int pageWidth = printer.pageRect().width();
+    int pageHeight = printer.pageRect().height();
+
+    // Dessiner les lignes de la table
+    painter.drawRect(0, 0, columns * cellWidth, (rows + 1) * cellHeight);
+    for (int row = 1; row < rows + 1; ++row) {
+        painter.drawLine(0, row * cellHeight, columns * cellWidth, row * cellHeight);
+    }
+    for (int col = 1; col < columns; ++col) {
+        painter.drawLine(col * cellWidth, 0, col * cellWidth, (rows + 1) * cellHeight);
+    }
+
+    // Dessiner les en-têtes de colonnes
+    QFont font = painter.font();
+    font.setBold(true);
+    painter.setFont(font);
+    for (int col = 0; col < columns; ++col) {
+        QModelIndex index = model->index(0, col);
+        QString headerData = model->headerData(col, Qt::Horizontal).toString();
+        painter.drawText(col * cellWidth, 0, cellWidth, cellHeight,
+                         Qt::AlignCenter, headerData);
+    }
+
+    // Dessiner les données de la table sur le périphérique de sortie PDF
+    for (int row = 0; row < rows; ++row) {
+        for (int col = 0; col < columns; ++col) {
+            // Obtenir les données de la cellule
+            QModelIndex index = model->index(row, col);
+            QString data = model->data(index).toString();
+
+            // Dessiner les données de la cellule
+            painter.drawText(col * cellWidth, (row + 1) * cellHeight, cellWidth, cellHeight,
+                             Qt::AlignLeft | Qt::AlignVCenter, data);
+        }
+    }
+
+    // Dessiner l'image au centre de la page
+    QImage image("C:/youssef/NauticaLogo.png");
+    if (!image.isNull()) {
+        int imageWidth = image.width();
+        int imageHeight = image.height();
+        int x = (pageWidth - imageWidth) / 2;
+        int y = (pageHeight - imageHeight) / 2;
+        painter.drawImage(x, y, image);
+    } else {
+        qWarning("Failed to load image");
+    }
+
+    // Terminer avec QPainter
+    painter.end();
+}
+
+void MainWindow::on_statTypePushButton_2_clicked()
+{
+    QChartView *chartView = new QChartView(ui->Equipement_label_Stats); // Chart view created with parent
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setMinimumSize(570, 570);
+
+    QSqlQuery q1, q2, q3;
+    qreal tot = 0, c1 = 0, c2 = 0;
+
+    // Execute queries
+    q1.exec("SELECT COUNT(*) FROM EQUIPEMENT");
+    q2.exec("SELECT COUNT(*) FROM EQUIPEMENT WHERE TYPE='sport'");
+    q3.exec("SELECT COUNT(*) FROM EQUIPEMENT WHERE TYPE='help'");
+
+    // Fetch total count
+    if (q1.next())
+        tot = q1.value(0).toInt();
+
+    // Fetch counts for each type
+    if (q2.next())
+        c1 = q2.value(0).toInt();
+
+    if (q3.next())
+        c2 = q3.value(0).toInt();
+
+    // Calculate proportions
+    if (tot != 0) {
+        c1 = c1 / tot;
+        c2 = c2 / tot;
+    }
+
+    // Create pie series
+    QPieSeries *series = new QPieSeries();
+    QPieSlice *slice1 = series->append("sport", c1);
+    QPieSlice *slice2 = series->append("help", c2);
+    series->setHoleSize(0.5); // Set hole size for doughnut chart (0.5 means half size of the chart)
+
+    // Set labels as slice name and percentage
+    slice1->setLabel(QString("%1: %2%").arg(slice1->label()).arg(c1 * 100));
+    slice2->setLabel(QString("%1: %2%").arg(slice2->label()).arg(c2 * 100));
+
+    // Set colors for slices
+    slice1->setBrush(QColor("#7D3C98")); // Red color
+    slice2->setBrush(QColor("#239B56")); // Blue color
+
+    // Create chart
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->legend()->show();
+    chart->setAnimationOptions(QChart::AllAnimations);
+    chart->setTheme(QChart::ChartThemeLight); // Disable the theme
+
+    // Set chart for chart view
+    chartView->setChart(chart);
+    chartView->show();
+}
+
+void MainWindow::on_StatEtatPushButton_clicked()
+{
+    QChartView *chartView = new QChartView(ui->Equipement_label_Stats); // Chart view created with parent
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setMinimumSize(570, 570);
+
+    QSqlQuery q1, q2, q3;
+    qreal tot = 0, c1 = 0, c2 = 0;
+
+    // Execute queries
+    q1.exec("SELECT COUNT(*) FROM EQUIPEMENT");
+    q2.exec("SELECT COUNT(*) FROM EQUIPEMENT WHERE ETAT='bien'");
+    q3.exec("SELECT COUNT(*) FROM EQUIPEMENT WHERE ETAT='mauvais'");
+
+    // Fetch total count
+    if (q1.next())
+        tot = q1.value(0).toInt();
+
+    // Fetch counts for each type
+    if (q2.next())
+        c1 = q2.value(0).toInt();
+
+    if (q3.next())
+        c2 = q3.value(0).toInt();
+
+    // Calculate proportions
+    if (tot != 0) {
+        c1 = c1 / tot;
+        c2 = c2 / tot;
+    }
+
+    // Create pie series
+    QPieSeries *series = new QPieSeries();
+    QPieSlice *slice1 = series->append("bien", c1);
+    QPieSlice *slice2 = series->append("mauvais", c2);
+    series->setHoleSize(0.5); // Set hole size for doughnut chart (0.5 means half size of the chart)
+
+    // Set labels as slice name and percentage
+    slice1->setLabel(QString("%1: %2%").arg(slice1->label()).arg(c1 * 100));
+    slice2->setLabel(QString("%1: %2%").arg(slice2->label()).arg(c2 * 100));
+
+    // Set colors for slices
+    slice1->setBrush(QColor("#F44336")); // Red color
+    slice2->setBrush(QColor("#2196F3")); // Blue color
+
+    // Create chart
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->legend()->show();
+    chart->setAnimationOptions(QChart::AllAnimations);
+    chart->setTheme(QChart::ChartThemeLight); // Disable the theme
+
+    // Set chart for chart view
+    chartView->setChart(chart);
+    chartView->show();
+}
+
+void MainWindow::on_statPrixPushButton_clicked()
+{
+    QChartView *chartView = new QChartView(ui->Equipement_label_Stats); // Chart view created with parent
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setMinimumSize(570, 570);
+
+    QSqlQuery q1, q2, q3;
+    qreal tot = 0, c1 = 0, c2 = 0, c3 = 0;
+
+    // Execute queries
+    q1.exec("SELECT COUNT(*) FROM EQUIPEMENT");
+    q2.exec("SELECT COUNT(*) FROM EQUIPEMENT WHERE PRIX < 200");
+    q3.exec("SELECT COUNT(*) FROM EQUIPEMENT WHERE PRIX BETWEEN 200 AND 500");
+
+    // Fetch total count
+    if (q1.next())
+        tot = q1.value(0).toInt();
+
+    // Fetch counts for each category
+    if (q2.next())
+        c1 = q2.value(0).toInt();
+
+    if (q3.next())
+        c2 = q3.value(0).toInt();
+
+    c3 = tot - c1 - c2; // Calculate count for "Over 500" slice
+
+    // Calculate proportions
+    if (tot != 0) {
+        c1 = c1 / tot;
+        c2 = c2 / tot;
+        c3 = c3 / tot;
+    }
+
+    // Create pie series
+    QPieSeries *series = new QPieSeries();
+    QPieSlice *slice1 = series->append("Under 200", c1);
+    QPieSlice *slice2 = series->append("Between 200 and 500", c2);
+    QPieSlice *slice3 = series->append("Over 500", c3);
+    series->setHoleSize(0.5); // Set hole size for doughnut chart (0.5 means half size of the chart)
+
+    // Set labels as slice name and percentage
+    slice1->setLabel(QString("%1: %2%").arg(slice1->label()).arg(c1 * 100));
+    slice2->setLabel(QString("%1: %2%").arg(slice2->label()).arg(c2 * 100));
+    slice3->setLabel(QString("%1: %2%").arg(slice3->label()).arg(c3 * 100));
+
+    // Set colors for slices
+    slice1->setBrush(QColor("#F44336")); // Red color
+    slice2->setBrush(QColor("#2196F3")); // Blue color
+    slice3->setBrush(QColor("#4CAF50")); // Green color
+
+    // Create chart
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->legend()->show();
+    chart->setAnimationOptions(QChart::AllAnimations);
+    chart->setTheme(QChart::ChartThemeLight); // Disable the theme
+
+    // Set chart for chart view
+    chartView->setChart(chart);
+    chartView->show();
 }

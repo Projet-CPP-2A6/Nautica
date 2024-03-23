@@ -137,6 +137,116 @@ QSqlQueryModel* Equipements::afficher()
     model->setHeaderData(5, Qt::Horizontal, QObject::tr("ETAT"));
     return  model;
 };
+
+bool Equipements::rechercher(int reference)
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM Equipement WHERE REFERENCE = ?");
+    query.addBindValue(reference);
+
+    if (query.exec() && query.next())
+    {
+        prix = query.value(1).toInt();
+        nombre = query.value(2).toInt();
+        fonctionalite = query.value(3).toString();
+        type = query.value(4).toString();
+        etat = query.value(5).toString();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void Equipements::chercherEquipRef(QTableView *table, QString l)
+{
+    QSqlQueryModel *model=new QSqlQueryModel();
+        QSqlQuery *query =new QSqlQuery;
+        query->prepare("select * from EQUIPEMENT where regexp_like(REFERENCE,:REFERENCE)");
+        query->bindValue(":REFERENCE",l);
+        if(l==0)
+        {
+            query->prepare("select * from EQUIPEMENT");
+        }
+        query->exec();
+        model->setQuery(*query);
+        table->setModel(model);
+        table->show();
+
+};
+void Equipements::chercherEquipType(QTableView *table, QString l)
+{
+    QSqlQueryModel *model=new QSqlQueryModel();
+    QSqlQuery *query =new QSqlQuery;
+    query->prepare("select * from EQUIPEMENT where regexp_like(TYPE,:TYPE)");
+    query->bindValue(":TYPE",l);
+    if(l==0)
+      {
+          query->prepare("select * from EQUIPEMENT;");
+      }
+    query->exec();
+    model->setQuery(*query);
+    table->setModel(model);
+    table->show();
+
+};
+void Equipements::chercherEquipEtat(QTableView *table, QString l)
+{
+    QSqlQueryModel *model=new QSqlQueryModel();
+    QSqlQuery *query =new QSqlQuery;
+    query->prepare("select * from EQUIPEMENT where regexp_like(ETAT,:ETAT)");
+    query->bindValue(":ETAT",l);
+    if(l==0)
+      {
+          query->prepare("select * from EQUIPEMENT;");
+      }
+    query->exec();
+    model->setQuery(*query);
+    table->setModel(model);
+    table->show();
+
+};
+
+QSqlQueryModel* Equipements::triRef()
+{
+    QSqlQueryModel* model= new QSqlQueryModel();
+    model->setQuery("SELECT * FROM EQUIPEMENT order by REFERENCE");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("REFERENCE"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("FONCTIONALITE"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRIX"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("TYPE"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("NOMBRE"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("ETAT"));
+    return  model;
+
+};
+QSqlQueryModel* Equipements::triType()
+{
+    QSqlQueryModel* model= new QSqlQueryModel();
+    model->setQuery("SELECT * FROM EQUIPEMENT order by TYPE");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("REFERENCE"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("FONCTIONALITE"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRIX"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("TYPE"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("NOMBRE"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("ETAT"));
+    return  model;
+
+};
+QSqlQueryModel* Equipements::triEtat()
+{
+    QSqlQueryModel* model= new QSqlQueryModel();
+    model->setQuery("SELECT * FROM EQUIPEMENT order by ETAT");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("REFERENCE"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("FONCTIONALITE"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRIX"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("TYPE"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("NOMBRE"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("ETAT"));
+    return  model;
+
+};
 #include "equipement.h"
 
 
