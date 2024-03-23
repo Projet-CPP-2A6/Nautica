@@ -96,6 +96,23 @@ private slots:
     void on_SearchCIN_textChanged(const QString &searchedText);
 
     void on_SearchClientUpdateButton_clicked();
+    void on_AjouterButton_5_clicked();
+
+    void on_lineEdit_2_textChanged(const QString &arg1);
+
+    void on_triCinPushButton_2_clicked();
+
+    void on_triCinPushButton_3_clicked();
+
+    void on_triCinPushButton_4_clicked();
+
+    void on_PDFpushButton_2_clicked();
+
+    void on_statTypePushButton_2_clicked();
+
+    void on_StatEtatPushButton_clicked();
+
+    void on_statPrixPushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
