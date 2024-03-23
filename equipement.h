@@ -45,7 +45,13 @@ bool ajouter();
 bool modifier();
 bool supprimer();
 QSqlQueryModel* afficher();
-
+bool rechercher(int reference);
+void chercherEquipRef(QTableView *table, QString l);
+void chercherEquipType(QTableView *table, QString l);
+void chercherEquipEtat(QTableView *table, QString l);
+QSqlQueryModel* triRef();
+QSqlQueryModel* triType();
+QSqlQueryModel* triEtat();
 
 
 };
