@@ -90,6 +90,16 @@ private slots:
 
     void on_Abonnement_pushButton_clicked();
 
+    void on_menu_pushButton_clicked();
+
+    void on_login_pushButton_6_clicked();
+
+    void on_triSalaryPushButton_clicked();
+
+
+
+    void on_importCSV_clicked();
+
 private:
     Ui::MainWindow *ui;
     Abonement supp ;

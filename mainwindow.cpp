@@ -11,6 +11,7 @@
 #include <QAbstractItemModel>
 #include <QMessageBox>
 #include <QUrl>
+#include <QFileDialog>
 #include <QDesktopServices>
 #include "employes.h"
 #include "client.h"
@@ -137,6 +138,12 @@ void MainWindow::on_triNomPushButton_clicked()
 {
     Employes e;
     ui->listEmployetableView->setModel(e.triNom());
+}
+
+void MainWindow::on_triSalaryPushButton_clicked()
+{
+    Employes e;
+    ui->listEmployetableView->setModel(e.triSalary());
 }
 
 void MainWindow::on_loginPushButton_clicked()
@@ -305,19 +312,32 @@ void MainWindow::on_lineEdit_textChanged(const QString &arg1)
    {
        e.chercherEmpNom(ui->listEmployetableView,arg1);
    }
+   if (ui->PhoneradioButton->isChecked()==true)
+   {
+       e.chercherEmpTel(ui->listEmployetableView,arg1);
+   }
+
 }
 
 void MainWindow::on_PDFpushButton_clicked()
 {
+    // Demander à l'utilisateur de choisir l'emplacement et le nom du fichier PDF
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Enregistrer le PDF"), "", tr("Fichiers PDF (*.pdf)"));
+
+    // Si l'utilisateur annule la sélection, quitter la fonction
+    if (filePath.isEmpty()) {
+        return;
+    }
+
     // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
     QPrinter printer;
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName("C:/Users/chihe/Desktop/deuxieme annee esprit/s2/projet nautique/listeEmployes.pdf");
+    printer.setOutputFileName(filePath);
 
     // Créatoin d'un objet QPainter pour l'objet QPrinter
     QPainter painter;
     if (!painter.begin(&printer)) {
-        qWarning("failed to open file, is it writable?");
+        qWarning("Failed to open file, is it writable?");
         return;
     }
 
@@ -328,105 +348,168 @@ void MainWindow::on_PDFpushButton_clicked()
     int rows = model->rowCount();
     int columns = model->columnCount();
 
-
     // Définissez la taille de la cellule pour le dessin
     int cellWidth = 100;
     int cellHeight = 30;
 
-    // Inserer les noms des colonnes
-      for (int col = 0; col < columns; ++col) {
-          QString headerData = model->headerData(col, Qt::Horizontal).toString();
-          painter.drawText(col * cellWidth, 0, cellWidth, cellHeight, Qt::AlignCenter, headerData);
-      }
-    // Inserer les données de la table sur le périphérique de sortie PDF
+    // Insérer les noms des colonnes
+    for (int col = 0; col < columns; ++col) {
+        QString headerData = model->headerData(col, Qt::Horizontal).toString();
+        painter.drawText(col * cellWidth, 0, cellWidth, cellHeight, Qt::AlignCenter, headerData);
+    }
+
+    // Insérer les données de la table sur le périphérique de sortie PDF
     for (int row = 1; row < rows; ++row) {
         for (int col = 0; col < columns; ++col) {
             // Obtenir les données de la cellule
             QModelIndex index = model->index(row, col);
             QString data = model->data(index).toString();
 
-            // insertion des données de la cellule
+            // Insérer les données de la cellule
             painter.drawText(col * cellWidth, row * cellHeight, cellWidth, cellHeight, Qt::AlignLeft, data);
         }
     }
 
     // Terminez avec QPainter
     painter.end();
-
-
 }
 
+void MainWindow::on_importCSV_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Ouvrir fichier CSV"), QString(), tr("Fichiers CSV (*.csv)"));
+        if (fileName.isEmpty()) return;
+
+        QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::warning(this, tr("Erreur"), tr("Impossible d'ouvrir le fichier."));
+            return;
+        }
+
+        QTextStream in(&file);
+        try {
+            while (!in.atEnd()) {
+                QString line = in.readLine();
+                QStringList fields = line.split(';');
+
+                if (fields.size() < 9) {
+                        // Afficher un avertissement ou gérer le cas où la ligne ne contient pas suffisamment de champs
+                        qDebug() << "La ligne CSV ne contient pas suffisamment de champs";
+                        continue; // Passer à la prochaine ligne
+                    }
+
+                // Créer un objet Employes avec les données lues depuis le fichier CSV
+                Employes employee;
+                employee.setCin(fields[0].toInt());
+                employee.setNom(fields[1]);
+                employee.setPrenom(fields[2]);
+                employee.setGenre(fields[3]);
+                employee.setTel(fields[4].toInt());
+                employee.setEmail(fields[5]);
+                employee.setAdresse(fields[6]);
+                employee.setFonction(fields[7]);
+                employee.setSalaire(fields[8].toFloat()); // Convertir en float
+
+                // Ajouter l'employé à la base de données
+                if (!employee.ajouter()) {
+                    QMessageBox::warning(this, tr("Erreur"), tr("Impossible d'ajouter l'employé à la base de données."));
+                    return;
+                }
+            }
+        } catch (const std::exception& e) {
+            QMessageBox::critical(this, tr("Erreur"), tr("Une erreur s'est produite lors de l'importation du fichier CSV : %1").arg(e.what()));
+        }
+
+        file.close();
+        QMessageBox::information(this, tr("Succès"), tr("Données ajoutées avec succès à la base de données."));
+}
 
 void MainWindow::on_statGenderPushButton_clicked()
 {
     QChartView *chartView ;
-       QSqlQuery q1,q2,q3;
-       qreal tot=0,c1=0,c2=0;
-       q1.prepare("SELECT * FROM EMPLOYES");
-       q1.exec();
-       q2.prepare("SELECT * FROM EMPLOYES WHERE GENRE='homme'");
-       q2.exec();
-       q3.prepare("SELECT * FROM EMPLOYES WHERE GENRE='femme'");
-       q3.exec();
+    QSqlQuery q1, q2, q3;
+    qreal tot = 0, c1 = 0, c2 = 0;
+    q1.prepare("SELECT * FROM EMPLOYES");
+    q1.exec();
+    q2.prepare("SELECT * FROM EMPLOYES WHERE GENRE='homme'");
+    q2.exec();
+    q3.prepare("SELECT * FROM EMPLOYES WHERE GENRE='femme'");
+    q3.exec();
 
-       while (q1.next()){tot++;}
-       while (q2.next()){c1++;}
-       while (q3.next()){c2++;}
+    while (q1.next()) { tot++; }
+    while (q2.next()) { c1++; }
+    while (q3.next()) { c2++; }
 
-       c1=c1/tot; c2=c2/tot;
-       QPieSeries *series = new QPieSeries();//morceau mta camembere
-       series->append("homme",c1);
-       series->append("femme",c2);
+    c1 = c1 / tot;
+    c2 = c2 / tot;
 
-       QChart *chart = new QChart();
-       chart->addSeries(series);
-       chart->legend()->show();
-       chart->setAnimationOptions(QChart::AllAnimations);
-       chart->setTheme(QChart::ChartThemeQt);
-       chartView = new QChartView(chart,ui->Employe_label_Stats);
-       chartView->setRenderHint(QPainter::Antialiasing);
-       chartView->setMinimumSize(570,570);
-       chartView->show();
+    QPieSeries *series = new QPieSeries();
+    QPieSlice *slice1 = series->append("homme", c1);
+    QPieSlice *slice2 = series->append("femme", c2);
+
+    // Définition des libellés avec les pourcentages
+    slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
+    slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
+
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->legend()->show();
+    chart->setAnimationOptions(QChart::AllAnimations);
+    chart->setTheme(QChart::ChartThemeQt);
+    chartView = new QChartView(chart, ui->Employe_label_Stats);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setMinimumSize(570, 570);
+    chartView->show();
 }
+
 
 void MainWindow::on_statSalaryPushButton_clicked()
 {
-    QChartView *chartView ;
-       QSqlQuery q1,q2,q3,q4;
-       qreal tot=0,c1=0,c2=0,c3=0;
-       q1.prepare("SELECT * FROM EMPLOYES");
-       q1.exec();
-       q2.prepare("SELECT * FROM EMPLOYES WHERE SALAIRE=1000");
-       q2.exec();
-       q3.prepare("SELECT * FROM EMPLOYES WHERE SALAIRE=2000");
-       q3.exec();
-       q4.prepare("SELECT * FROM EMPLOYES WHERE SALAIRE=1500");
-       q4.exec();
-       while (q1.next()){tot++;}
-       while (q2.next()){c1++;}
-       while (q3.next()){c2++;}
-       while (q4.next()){c3++;}
-       c1=c1/tot; c2=c2/tot; c3=c3/tot;
-       QPieSeries *series = new QPieSeries();
-       series->append("1000",c1);
-       series->append("2000",c2);
-       series->append("1500",c3);
-       QChart *chart = new QChart();
-       chart->addSeries(series);
-       chart->legend()->show();
-       chart->setAnimationOptions(QChart::AllAnimations);
-       chart->setTheme(QChart::ChartThemeQt);
-       chartView = new QChartView(chart,ui->Employe_label_Stats);
-       chartView->setRenderHint(QPainter::Antialiasing);
-       chartView->setMinimumSize(570,570);
-       chartView->show();
+    QChartView *chartView;
+    QSqlQuery q1, q2, q3, q4;
+    qreal tot = 0, c1 = 0, c2 = 0, c3 = 0;
+    q1.prepare("SELECT * FROM EMPLOYES");
+    q1.exec();
+    q2.prepare("SELECT * FROM EMPLOYES WHERE SALAIRE=1000");
+    q2.exec();
+    q3.prepare("SELECT * FROM EMPLOYES WHERE SALAIRE=2000");
+    q3.exec();
+    q4.prepare("SELECT * FROM EMPLOYES WHERE SALAIRE=1500");
+    q4.exec();
+    while (q1.next()) { tot++; }
+    while (q2.next()) { c1++; }
+    while (q3.next()) { c2++; }
+    while (q4.next()) { c3++; }
+    c1 = c1 / tot;
+    c2 = c2 / tot;
+    c3 = c3 / tot;
+
+    QPieSeries *series = new QPieSeries();
+    QPieSlice *slice1 = series->append("1000", c1);
+    QPieSlice *slice2 = series->append("2000", c2);
+    QPieSlice *slice3 = series->append("1500", c3);
+
+    // Définition des libellés avec les pourcentages
+    slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
+    slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
+    slice3->setLabel(QString("%1%").arg(QString::number(c3 * 100, 'f', 2)));
+
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->legend()->show();
+    chart->setAnimationOptions(QChart::AllAnimations);
+    chart->setTheme(QChart::ChartThemeQt);
+    chartView = new QChartView(chart, ui->Employe_label_Stats);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setMinimumSize(570, 570);
+    chartView->show();
 }
+
 
 void MainWindow::on_statFonctionPushButton_clicked()
 {
-    QChartView *chartView ;
-    QSqlQuery q1,q2,q3,q4,q5,q6;
-    qreal tot=0,c1=0,c2=0,c3=0,c4=0,c5=0;
+    QChartView *chartView;
+    QSqlQuery q1, q2, q3, q4, q5, q6;
+    qreal tot = 0, c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
     q1.prepare("SELECT * FROM EMPLOYES");
     q1.exec();
     q2.prepare("SELECT * FROM EMPLOYES WHERE FONCTION='employes'");
@@ -439,24 +522,40 @@ void MainWindow::on_statFonctionPushButton_clicked()
     q5.exec();
     q6.prepare("SELECT * FROM EMPLOYES WHERE FONCTION='equipements'");
     q6.exec();
-    while (q1.next()){tot++;}
-    while (q2.next()){c1++;}
-    while (q3.next()){c2++;}
-    while (q4.next()){c3++;}
-    while (q5.next()){c4++;}
-    while (q6.next()){c5++;}
-    c1=c1/tot; c2=c2/tot; c3=c3/tot; c4=c4/tot; c5=c5/tot;
+    while (q1.next()) { tot++; }
+    while (q2.next()) { c1++; }
+    while (q3.next()) { c2++; }
+    while (q4.next()) { c3++; }
+    while (q5.next()) { c4++; }
+    while (q6.next()) { c5++; }
+    c1 = c1 / tot;
+    c2 = c2 / tot;
+    c3 = c3 / tot;
+    c4 = c4 / tot;
+    c5 = c5 / tot;
 
     // meilleure choix des couleurs
     QStringList colors;
     colors << "#ff0000" << "#00ff00" << "#ffff00" << "#ff00ff" << "#0000ff"; // Rouge, Vert, Jaune, Violet, Bleu
 
     QPieSeries *series = new QPieSeries();
-    series->append("employes",c1);
-    series->append("clients",c2);
-    series->append("abonnements",c3);
-    series->append("evenements",c4);
-    series->append("equipements",c5);
+    QPieSlice *slice1 = series->append("employes", c1);
+    QPieSlice *slice2 = series->append("clients", c2);
+    QPieSlice *slice3 = series->append("abonnements", c3);
+    QPieSlice *slice4 = series->append("evenements", c4);
+    QPieSlice *slice5 = series->append("equipements", c5);
+
+    // Définition des libellés avec les pourcentages
+    slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
+    slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
+    slice3->setLabel(QString("%1%").arg(QString::number(c3 * 100, 'f', 2)));
+    slice4->setLabel(QString("%1%").arg(QString::number(c4 * 100, 'f', 2)));
+    slice5->setLabel(QString("%1%").arg(QString::number(c5 * 100, 'f', 2)));
+
+    // Définition des pourcentages à 0% pour les parties vides
+    if (c3 == 0) slice3->setLabel("0%");
+    if (c4 == 0) slice4->setLabel("0%");
+    if (c5 == 0) slice5->setLabel("0%");
 
     QChart *chart = new QChart();
     chart->addSeries(series);
@@ -475,6 +574,8 @@ void MainWindow::on_statFonctionPushButton_clicked()
     chartView->setMinimumSize(570, 570);
     chartView->show();
 }
+
+
 void MainWindow::on_AjouterButton_clicked() {
   int CIN = ui->ACIN->text().toInt();
   QString nom = ui->ANom->text();
@@ -628,3 +729,19 @@ void MainWindow::on_Abonnement_pushButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(4);
 }
+
+void MainWindow::on_menu_pushButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::on_login_pushButton_6_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
+
+
+
+

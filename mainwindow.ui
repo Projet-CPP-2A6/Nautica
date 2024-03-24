@@ -29,7 +29,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QFrame" name="frame_2">
@@ -592,11 +592,11 @@ QPushButton:hover {
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="gestion_employes">
        <attribute name="title">
-        <string>Ajouter</string>
+        <string>Add</string>
        </attribute>
        <widget class="QFrame" name="frame_7">
         <property name="geometry">
@@ -1099,7 +1099,7 @@ QLineEdit:focus {
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>Affichage</string>
+        <string>Display</string>
        </attribute>
        <widget class="QFrame" name="frame_9">
         <property name="geometry">
@@ -1213,7 +1213,7 @@ QPushButton:hover {
         <widget class="QPushButton" name="triCinPushButton">
          <property name="geometry">
           <rect>
-           <x>310</x>
+           <x>260</x>
            <y>480</y>
            <width>121</width>
            <height>28</height>
@@ -1241,7 +1241,7 @@ QPushButton:hover {
         <widget class="QPushButton" name="triNomPushButton">
          <property name="geometry">
           <rect>
-           <x>450</x>
+           <x>390</x>
            <y>480</y>
            <width>131</width>
            <height>28</height>
@@ -1364,6 +1364,80 @@ QPushButton:hover {
          </property>
          <property name="text">
           <string>PDF</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="triSalaryPushButton">
+         <property name="geometry">
+          <rect>
+           <x>530</x>
+           <y>480</y>
+           <width>141</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+}
+
+QPushButton:hover {
+    background-color: blue; /* Nouvelle couleur de fond au survol */
+    color: white; /* Nouvelle couleur de texte au survol */
+}</string>
+         </property>
+         <property name="text">
+          <string>order by salary</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="PhoneradioButton">
+         <property name="geometry">
+          <rect>
+           <x>870</x>
+           <y>540</y>
+           <width>97</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>phone</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="importCSV">
+         <property name="geometry">
+          <rect>
+           <x>690</x>
+           <y>70</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+}
+
+QPushButton:hover {
+    background-color: blue; /* Nouvelle couleur de fond au survol */
+    color: white; /* Nouvelle couleur de texte au survol */
+}</string>
+         </property>
+         <property name="text">
+          <string>import</string>
          </property>
         </widget>
        </widget>
@@ -1489,7 +1563,7 @@ QLineEdit:focus {
           </font>
          </property>
          <property name="text">
-          <string>Adresse</string>
+          <string>Adress</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_22">
@@ -1509,7 +1583,7 @@ QLineEdit:focus {
           </font>
          </property>
          <property name="text">
-          <string>Prenom</string>
+          <string>First Name</string>
          </property>
         </widget>
         <widget class="QLineEdit" name="updateTelephone_LE">
@@ -1624,7 +1698,7 @@ QLineEdit:focus {
           </font>
          </property>
          <property name="text">
-          <string>Salaire</string>
+          <string>Salary</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_36">
@@ -1759,7 +1833,7 @@ QLineEdit:focus {
           </font>
          </property>
          <property name="text">
-          <string>Genre</string>
+          <string>Gender</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_34">
@@ -1779,7 +1853,7 @@ QLineEdit:focus {
           </font>
          </property>
          <property name="text">
-          <string>Telephone</string>
+          <string>phone</string>
          </property>
         </widget>
         <widget class="QLineEdit" name="updatePrenom_LE">
@@ -3602,7 +3676,7 @@ border-radius: 10px; /* Coins arrondis */
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="pushButton_8">
+    <widget class="QPushButton" name="menu_pushButton">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -3637,7 +3711,7 @@ QPushButton:hover{
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_6">
+    <widget class="QPushButton" name="login_pushButton_6">
      <property name="geometry">
       <rect>
        <x>20</x>
