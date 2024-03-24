@@ -18,6 +18,7 @@
 #include <QUrl>
 #include <QImage>
 #include <QPageSize>
+#include <QSqlRecord>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
@@ -1111,4 +1112,78 @@ void MainWindow::on_statPrixPushButton_clicked()
     // Set chart for chart view
     chartView->setChart(chart);
     chartView->show();
+}
+
+QList<QStringList> MainWindow::retrieveAvailableEquipment(const QString &dateString) {
+    QList<QStringList> availableEquipment; // QList of QStringList to store equipment details
+
+    // Get the existing database connection
+    QSqlDatabase db = QSqlDatabase::database(); // Assuming the connection is already established
+
+    // Check if the database connection is valid and open
+    if (!db.isValid() || !db.isOpen()) {
+        qDebug() << "Database connection is invalid or not open";
+        return availableEquipment;
+    }
+
+    // Prepare the SQL query to retrieve available equipment details
+    QSqlQuery query(db); // Pass the database connection to the query
+    QString sqlQuery = "SELECT * FROM equipement WHERE etat = 'bien' "
+                       "AND reference NOT IN (SELECT reference_equipement FROM maintenance WHERE :date BETWEEN date_debut AND date_fin)";
+    query.prepare(sqlQuery);
+    query.bindValue(":date", dateString);
+
+    // Execute the query
+    if (!query.exec()) {
+        qDebug() << "Error executing query:" << query.lastError().text();
+        return availableEquipment;
+    }
+
+    // Process the query results
+    while (query.next()) {
+        QStringList equipmentDetails;
+        for (int i = 0; i < query.record().count(); ++i) {
+            equipmentDetails << query.value(i).toString(); // Append each column value to the QStringList
+        }
+        availableEquipment << equipmentDetails; // Append the QStringList to the QList
+    }
+
+    // Return the list of available equipment details
+    return availableEquipment;
+}
+
+void MainWindow::displayEquipmentDetails(const QList<QStringList> &availableEquipment) {
+    // Clear existing content in the table widget
+    ui->equipmentDetailsTableWidget->clearContents();
+    ui->equipmentDetailsTableWidget->setRowCount(0); // Clear all rows
+
+    // Set column headers
+    QStringList headers = {"Reference", "Price", "Number", "State", "Functionality", "Type"};
+    ui->equipmentDetailsTableWidget->setColumnCount(headers.size());
+    ui->equipmentDetailsTableWidget->setHorizontalHeaderLabels(headers);
+
+    // Populate the table widget with available equipment details
+    int row = 0;
+    for (const QStringList &equipmentDetails : availableEquipment) {
+        if (equipmentDetails.size() != headers.size()) {
+            // Skip if the number of details doesn't match the number of columns
+            continue;
+        }
+        ui->equipmentDetailsTableWidget->insertRow(row);
+        for (int column = 0; column < headers.size(); ++column) {
+            QTableWidgetItem *item = new QTableWidgetItem(equipmentDetails.at(column));
+            ui->equipmentDetailsTableWidget->setItem(row, column, item);
+        }
+        ++row;
+    }
+}
+
+
+void MainWindow::on_calendarWidget_clicked(const QDate &date)
+{
+    // Retrieve available equipment for the selected date
+    QList<QStringList> availableEquipment = retrieveAvailableEquipment(date.toString("yyyy-MM-dd"));
+
+    // Display available equipment details
+    displayEquipmentDetails(availableEquipment);
 }
