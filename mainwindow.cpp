@@ -1,9 +1,9 @@
 #include "mainwindow.h"
+#include "abonement.h"
 #include "client.h"
 #include "employes.h"
 #include "equipement.h"
 #include "ui_mainwindow.h"
-#include "abonement.h"
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QDesktopServices>
@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
   Employes e(0, "", "", "", 0, "", "", "", 0);
   Client c;
   ui->listEmployetableView->setModel(e.afficher());
-    ui->table_abonnement->setModel(display.afficher_abonnement());
-    ui->table_abonnement_2->setModel(display.afficher_abonnement());
+  ui->table_abonnement->setModel(display.afficher_abonnement());
+  ui->table_abonnement_2->setModel(display.afficher_abonnement());
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -485,42 +485,37 @@ void MainWindow::on_DeleteClientBtn_clicked() {
   ui->AllClientsModel->setModel(C.Afficher());
 }
 
+void MainWindow::on_AjouterButton_2_clicked() {
+  QString reference = ui->reference->text();
+  int prix = ui->prix->text().toInt();
+  int nombre = ui->nombre->text().toInt();
+  QString fonctionalite = ui->fonctionalite->text();
+  QString type = ui->type_2->text();
+  QString etat = ui->etat->text();
+  Equipements E(reference, prix, nombre, fonctionalite, type, etat);
 
-void MainWindow::on_AjouterButton_2_clicked()
-{
-    QString reference=ui->reference->text();
-    int prix=ui->prix->text().toInt();
-    int nombre=ui->nombre->text().toInt();
-    QString fonctionalite=ui->fonctionalite->text();
-    QString type=ui->type_2->text();
-    QString etat=ui->etat->text();
-    Equipements E(reference,prix,nombre,fonctionalite,type,etat);
-
-    if (E.ajouter()) {
-        qDebug()<< "Ajout reussi";
-    }
+  if (E.ajouter()) {
+    qDebug() << "Ajout reussi";
+  }
 }
 
-
-void MainWindow::on_AjouterButton_3_clicked()
-{
-    QString reference=ui->REFtoDelete->text();
-    Equipements E;
-    E.setReference(reference);
-    E.supprimer();
-    ui->REFtoDelete->clear();
-    E.afficher();
+void MainWindow::on_AjouterButton_3_clicked() {
+  QString reference = ui->REFtoDelete->text();
+  Equipements E;
+  E.setReference(reference);
+  E.supprimer();
+  ui->REFtoDelete->clear();
+  E.afficher();
 }
 
-void MainWindow::on_AjouterButton_4_clicked()
-{
-    Equipements E;
-    QSqlQueryModel *EquipementModel = E.afficher();
-    qDebug() << EquipementModel;
-    if (EquipementModel == nullptr) {
-        qDebug() << "nullptr" << endl;
-    }
-    ui->tableView_3->setModel(EquipementModel);
+void MainWindow::on_AjouterButton_4_clicked() {
+  Equipements E;
+  QSqlQueryModel *EquipementModel = E.afficher();
+  qDebug() << EquipementModel;
+  if (EquipementModel == nullptr) {
+    qDebug() << "nullptr" << endl;
+  }
+  ui->tableView_3->setModel(EquipementModel);
 }
 
 void MainWindow::on_ShowAllClients_clicked() {
@@ -528,10 +523,9 @@ void MainWindow::on_ShowAllClients_clicked() {
   ui->AllClientsModel->setModel(C.Afficher());
 }
 
-void MainWindow::on_SearchClientBtn_clicked() {
+void MainWindow::on_SearchCIN_textChanged(const QString &searchedText) {
   Client C;
-  int CIN = ui->SearchCIN->text().toInt();
-  QAbstractItemModel *ClientModel = C.RechercherEtAfficher(CIN);
+  QAbstractItemModel *ClientModel = C.RechercherEtAfficher(searchedText);
   if (ClientModel == nullptr) {
     qDebug() << "nullptr" << endl;
   }
@@ -567,10 +561,230 @@ void MainWindow::on_UpdateClientBtn_clicked() {
   }
 }
 
-void MainWindow::on_SearchClientUpdateBtn_clicked() {
-  int CIN = ui->UCIN->text().toInt();
-  Client NC;
-  Client CTU = NC.RechercheClient(CIN);
+void MainWindow::on_TrierParButton_clicked() {
+  Client C;
+  QString critere = ui->CINradioButton->isChecked()      ? "CIN"
+                    : ui->NOMradioButton->isChecked()    ? "NOM"
+                    : ui->PRENOMradioButton->isChecked() ? "PRENOM"
+                    : ui->DATE_NAISSANCEradioButton->isChecked()
+                        ? "DATE_NAISSANCE"
+                    : ui->GENDERradioButton->isChecked() ? "GENRE"
+                    : ui->PHONEradioButton->isChecked()  ? "TELEPHONE"
+                    : ui->EMAILradioButton->isChecked()  ? "EMAIL"
+                                                         : "";
+
+  QAbstractItemModel *sortedModel = C.TriPar(critere);
+  if (sortedModel == nullptr) {
+    qDebug() << "nullptr" << endl;
+  }
+  ui->AllClientsModel->setModel(sortedModel);
+}
+
+void MainWindow::on_CRefStat_clicked() {
+  Client C;
+  vector<int> Stat = C.Statistics();
+  qDebug() << Stat;
+  int numClients = Stat[0];
+  int numMales = Stat[1];
+  int numFemales = Stat[2];
+  int avgAge = Stat[3];
+
+  const int barSpacing = 40;
+
+  QGraphicsScene *scene = new QGraphicsScene(this);
+
+  QGraphicsRectItem *clientsBar = scene->addRect(0, 0, numClients * 5, 20);
+  QGraphicsRectItem *malesBar = scene->addRect(0, barSpacing, numMales * 5, 20);
+  QGraphicsRectItem *femalesBar =
+      scene->addRect(0, 2 * barSpacing, numFemales * 5, 20);
+  QGraphicsRectItem *avgAgeBar =
+      scene->addRect(0, 3 * barSpacing, avgAge * 2, 20);
+
+  clientsBar->setBrush(Qt::blue);
+  malesBar->setBrush(Qt::green);
+  femalesBar->setBrush(Qt::red);
+  avgAgeBar->setBrush(Qt::yellow);
+
+  QGraphicsTextItem *clientsLabel =
+      scene->addText(QString("Number of Clients: %1").arg(numClients));
+  clientsLabel->setPos(numClients * 5 + 10, 0);
+
+  QGraphicsTextItem *malesLabel =
+      scene->addText(QString("Number of Males: %1").arg(numMales));
+  malesLabel->setPos(numMales * 5 + 10, barSpacing);
+
+  QGraphicsTextItem *femalesLabel =
+      scene->addText(QString("Number of Females: %1").arg(numFemales));
+  femalesLabel->setPos(numFemales * 5 + 10, 2 * barSpacing);
+
+  QGraphicsTextItem *avgAgeLabel =
+      scene->addText(QString("Average Age: %1").arg(avgAge));
+  avgAgeLabel->setPos(avgAge * 2 + 10, 3 * barSpacing);
+
+  QGraphicsView *view = new QGraphicsView(scene);
+
+  QVBoxLayout *layout = new QVBoxLayout(ui->CStatFrame);
+  layout->addWidget(view);
+}
+
+void MainWindow::on_CPDFExport_clicked() {
+  Client C;
+  QSqlQueryModel *ClientModel = C.Afficher();
+
+  QString defaultFileName = "ClientsList.pdf";
+  QString fileName = QFileDialog::getSaveFileName(
+      this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
+
+  if (fileName.isEmpty() || !ClientModel)
+    return;
+
+  QPrinter printer;
+  printer.setOutputFormat(QPrinter::PdfFormat);
+  printer.setOutputFileName(fileName);
+
+  QTextDocument doc;
+  QTextCursor cursor(&doc);
+
+  int rowCount = ClientModel->rowCount();
+  int colCount = ClientModel->columnCount();
+
+  QTextTable *table = cursor.insertTable(rowCount + 1, colCount);
+
+  for (int col = 0; col < colCount; ++col) {
+    QString columnName =
+        ClientModel->headerData(col, Qt::Horizontal).toString();
+    QTextTableCell cell = table->cellAt(0, col);
+    QTextCursor cellCursor = cell.firstCursorPosition();
+    cellCursor.insertText(columnName);
+  }
+
+  for (int row = 0; row < rowCount; ++row) {
+    for (int col = 0; col < colCount; ++col) {
+      QModelIndex index = ClientModel->index(row, col);
+      QString data;
+      if (col == 4) {
+        int genderValue = ClientModel->data(index).toInt();
+        data = (genderValue == 0) ? "M" : "F";
+      } else {
+        data = ClientModel->data(index).toString();
+      }
+      QTextTableCell cell = table->cellAt(row + 1, col);
+      QTextCursor cellCursor = cell.firstCursorPosition();
+      cellCursor.insertText(data);
+    }
+  }
+
+  QTextTableFormat tableFormat = table->format();
+  tableFormat.setBorder(1);
+  table->setFormat(tableFormat);
+
+  doc.print(&printer);
+}
+bool valid_id(QString id) {
+  for (int i = 0; i < id.length(); i++) {
+    if ((id[i] >= '0' && id[i] <= '9')) {
+
+    } else {
+      return false;
+    }
+  }
+  return true;
+}
+
+void MainWindow::on_add_abonnement_push_clicked() {
+  QString id_abnt = ui->ref_abonnement->text();
+  QString activity = ui->activity_abonnement->currentText();
+  QString membre = ui->number_abonnement->text();
+  QString cin = ui->cin_abonnement->text();
+  QString price = ui->price_abonnement->text();
+  QString duration = ui->duration_abonnement->currentText();
+  Abonement abonnement(id_abnt, activity, membre, cin, price, duration);
+
+  if (!price.isEmpty() && !cin.isEmpty()) {
+    if (cin.size() == 8 && valid_id(cin) && id_abnt.size() == 8 &&
+        valid_id(id_abnt)) {
+      if (valid_id(membre) && valid_id(price)) {
+        bool ajoutReussi = abonnement.ajouter();
+        if (ajoutReussi) {
+          QMessageBox::information(this, "Ajout réussi",
+                                   "Le Abonement a été ajouté avec succès.");
+          ui->table_abonnement->setModel(abonnement.afficher_abonnement());
+          ui->table_abonnement_2->setModel(abonnement.afficher_abonnement());
+        } else {
+          QMessageBox::critical(
+              this, "Erreur d'ajout",
+              "Une erreur est survenue lors de l'ajout du Abonement.");
+        }
+      } else {
+        QMessageBox::warning(this, "price or number invalide",
+                             "Le price et number doit contenir exactement des "
+                             "caractères numériques.");
+      }
+    } else {
+      QMessageBox::warning(this, "CIN or id_abnt invalide",
+                           "Le CIN et id_abnt doit contenir exactement 8 "
+                           "caractères numériques.");
+    }
+  } else {
+    QMessageBox::warning(this, "Données manquantes",
+                         "Veuillez entrer le prix et le CIN.");
+  }
+}
+
+void MainWindow::on_delete_abonnement_button_clicked() {
+  QString id = ui->delete_abonnement_field->text();
+  Abonement Abonement;
+  bool test = supp.supprimer_abonnement(id);
+  if (test) {
+    QMessageBox::information(
+        nullptr, QObject::tr("Supprimer ABONEMENT"),
+        QObject::tr("Le ABONEMENT HAS BEEN DELETED SUCCESSFULLY.\n"
+                    "CLICK OK TO EXIST."),
+        QMessageBox::Ok);
+  } else {
+    QMessageBox::information(nullptr, QObject::tr("DELETE ABONEMENTs"),
+                             QObject::tr("Le ABONEMENT HASN'T BEEN DELETED.\n"
+                                         "CLICK OK TO EXIST."),
+                             QMessageBox::Ok);
+  }
+  ui->table_abonnement->setModel(Abonement.afficher_abonnement());
+  ui->table_abonnement_2->setModel(Abonement.afficher_abonnement());
+}
+
+void MainWindow::on_aupdate_abnt_clicked() {
+  QString id_abnt = ui->ref_update_abnt->text();
+  QString activity = ui->activity_update_abnt->currentText();
+  QString membre = ui->number_update_abnt->text();
+  QString cin = ui->idclient_update_abnt->text();
+  QString price = ui->price_update_abnt->text();
+  QString duration = ui->comboBox_3->currentText();
+  Abonement Abonement(id_abnt, activity, membre, cin, price, duration);
+  bool test = Abonement.modifier(id_abnt);
+  if (test) {
+    QMessageBox::information(
+        this, "Modification réussie",
+        "Les informations du Abonement ont été modifiées avec succès.");
+    ui->table_abonnement->setModel(Abonement.afficher_abonnement());
+    ui->table_abonnement_2->setModel(Abonement.afficher_abonnement());
+
+  } else {
+    QMessageBox::critical(
+        this, "Erreur de modification",
+        "Une erreur est survenue lors de la modification du Abonement.");
+  }
+}
+
+void MainWindow::on_refreshTableV_3_clicked() {
+  ui->table_abonnement->setModel(display.afficher_abonnement());
+  ui->table_abonnement_2->setModel(display.afficher_abonnement());
+}
+
+void MainWindow::on_SearchClientUpdateButton_clicked() {
+  Client CTU;
+  if (!ui->UCIN->text().isEmpty()) {
+    int CIN = ui->UCIN->text().toInt();
+    CTU = CTU.RechercheClient(CIN);
+  }
   ui->UCIN->setText(QString::number(CTU.getCIN(), 'f', 0));
   ui->UNom->setText(CTU.getNom());
   ui->UPrenom->setText(CTU.getPrenom());
@@ -586,222 +800,6 @@ void MainWindow::on_SearchClientUpdateBtn_clicked() {
 
   ui->UTel->setText(QString::number(CTU.getTel(), 'f', 0));
   ui->UEmail->setText(CTU.getEmail());
-}
-
-void MainWindow::on_TrierParButton_clicked() {
-  Client C;
-  QString critere = ui->crietereTri->text();
-  QAbstractItemModel *sortedModel = C.TriPar(critere);
-  if (sortedModel == nullptr) {
-    qDebug() << "nullptr" << endl;
-  }
-  ui->AllClientsModel->setModel(sortedModel);
-}
-
-
-void MainWindow::on_CRefStat_clicked()
-{
-    Client C;
-    vector<int> Stat = C.Statistics();
-    qDebug() << Stat;
-    int numClients = Stat[0];
-    int numMales = Stat[1];
-    int numFemales = Stat[2];
-    int avgAge = Stat[3];
-
-    const int barSpacing = 40;
-
-    QGraphicsScene* scene = new QGraphicsScene(this);
-
-    QGraphicsRectItem* clientsBar = scene->addRect(0, 0, numClients * 5, 20);
-    QGraphicsRectItem* malesBar = scene->addRect(0, barSpacing, numMales * 5, 20);
-    QGraphicsRectItem* femalesBar = scene->addRect(0, 2 * barSpacing, numFemales * 5, 20);
-    QGraphicsRectItem* avgAgeBar = scene->addRect(0, 3 * barSpacing, avgAge * 2, 20);
-
-    clientsBar->setBrush(Qt::blue);
-    malesBar->setBrush(Qt::green);
-    femalesBar->setBrush(Qt::red);
-    avgAgeBar->setBrush(Qt::yellow);
-
-    QGraphicsTextItem* clientsLabel = scene->addText(QString("Number of Clients: %1").arg(numClients));
-    clientsLabel->setPos(numClients * 5 + 10, 0);
-
-    QGraphicsTextItem* malesLabel = scene->addText(QString("Number of Males: %1").arg(numMales));
-    malesLabel->setPos(numMales * 5 + 10, barSpacing);
-
-    QGraphicsTextItem* femalesLabel = scene->addText(QString("Number of Females: %1").arg(numFemales));
-    femalesLabel->setPos(numFemales * 5 + 10, 2 * barSpacing);
-
-    QGraphicsTextItem* avgAgeLabel = scene->addText(QString("Average Age: %1").arg(avgAge));
-    avgAgeLabel->setPos(avgAge * 2 + 10, 3 * barSpacing);
-
-    QGraphicsView* view = new QGraphicsView(scene);
-
-    QVBoxLayout* layout = new QVBoxLayout(ui->CStatFrame);
-    layout->addWidget(view);
-}
-
-void MainWindow::on_CPDFExport_clicked() {
-    Client C;
-    QSqlQueryModel *ClientModel = C.Afficher();
-
-    QString defaultFileName = "ClientsList.pdf";
-    QString fileName = QFileDialog::getSaveFileName(this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
-
-    if (fileName.isEmpty() || !ClientModel)
-        return;
-
-    QPrinter printer;
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName(fileName);
-
-    QTextDocument doc;
-    QTextCursor cursor(&doc);
-
-    int rowCount = ClientModel->rowCount();
-    int colCount = ClientModel->columnCount();
-
-    QTextTable *table = cursor.insertTable(rowCount + 1, colCount);
-
-    for (int col = 0; col < colCount; ++col) {
-        QString columnName = ClientModel->headerData(col, Qt::Horizontal).toString();
-        QTextTableCell cell = table->cellAt(0, col);
-        QTextCursor cellCursor = cell.firstCursorPosition();
-        cellCursor.insertText(columnName);
-    }
-
-    for (int row = 0; row < rowCount; ++row) {
-        for (int col = 0; col < colCount; ++col) {
-            QModelIndex index = ClientModel->index(row, col);
-            QString data;
-            if (col == 4) {
-                int genderValue = ClientModel->data(index).toInt();
-                data = (genderValue == 0) ? "M" : "F";
-            } else {
-                data = ClientModel->data(index).toString();
-            }
-            QTextTableCell cell = table->cellAt(row + 1, col);
-            QTextCursor cellCursor = cell.firstCursorPosition();
-            cellCursor.insertText(data);
-        }
-    }
-
-    QTextTableFormat tableFormat = table->format();
-    tableFormat.setBorder(1);
-    table->setFormat(tableFormat);
-
-    doc.print(&printer);
-}
-bool valid_id(QString id)
-{
-    for (int i = 0;i < id.length(); i++)
-    {
-       if((id[i] >= '0' && id[i] <= '9'))
-       {
-
-       }
-           else
-       {
-       return false ;
-       }
-    }
-    return true ;
-}
-
-void MainWindow::on_add_abonnement_push_clicked()
-{
-    QString id_abnt = ui->ref_abonnement->text();
-    QString activity = ui->activity_abonnement->currentText();
-    QString membre = ui->number_abonnement->text();
-    QString cin = ui->cin_abonnement->text();
-    QString price = ui->price_abonnement->text();
-    QString duration = ui->duration_abonnement->currentText();
-    Abonement abonnement(id_abnt, activity, membre, cin, price, duration);
-
-    if (!price.isEmpty() && !cin.isEmpty())
-    {
-        if (cin.size() == 8 && valid_id(cin) && id_abnt.size() == 8 && valid_id(id_abnt))
-        {
-            if ( valid_id(membre) &&  valid_id(price))
-            {
-            bool ajoutReussi = abonnement.ajouter();
-            if (ajoutReussi)
-            {
-                QMessageBox::information(this, "Ajout réussi", "Le Abonement a été ajouté avec succès.");
-                ui->table_abonnement->setModel(abonnement.afficher_abonnement());
-                ui->table_abonnement_2->setModel(abonnement.afficher_abonnement());
-            }
-            else
-            {
-                QMessageBox::critical(this, "Erreur d'ajout", "Une erreur est survenue lors de l'ajout du Abonement.");
-            }
-            }
-            else
-            {
-                QMessageBox::warning(this, "price or number invalide", "Le price et number doit contenir exactement des caractères numériques.");
-            }
-        }
-        else
-        {
-            QMessageBox::warning(this, "CIN or id_abnt invalide", "Le CIN et id_abnt doit contenir exactement 8 caractères numériques.");
-        }
-    }
-    else
-    {
-        QMessageBox::warning(this, "Données manquantes", "Veuillez entrer le prix et le CIN.");
-    }
-}
-
-
-void MainWindow::on_delete_abonnement_button_clicked()
-{
-    QString id = ui->delete_abonnement_field->text();
-    Abonement Abonement;
-               bool test=supp.supprimer_abonnement(id);
-                if(test)
-                {
-                     QMessageBox::information(nullptr, QObject::tr("Supprimer ABONEMENT"),
-                                             QObject::tr("Le ABONEMENT HAS BEEN DELETED SUCCESSFULLY.\n"
-                                                         "CLICK OK TO EXIST."), QMessageBox::Ok);
-                      }
-                          else
-                    {
-                    QMessageBox::information(nullptr, QObject::tr("DELETE ABONEMENTs"),
-                                          QObject::tr("Le ABONEMENT HASN'T BEEN DELETED.\n"
-                                                    "CLICK OK TO EXIST."), QMessageBox::Ok);
-                    }
-           ui->table_abonnement->setModel(Abonement.afficher_abonnement());
-           ui->table_abonnement_2->setModel(Abonement.afficher_abonnement());
-
-}
-
-void MainWindow::on_aupdate_abnt_clicked()
-{
-    QString id_abnt = ui->ref_update_abnt->text();
-    QString activity =ui->activity_update_abnt->currentText();
-    QString membre = ui->number_update_abnt->text();
-    QString cin = ui->idclient_update_abnt->text();
-    QString price = ui->price_update_abnt->text();
-    QString duration = ui->comboBox_3->currentText();
-    Abonement Abonement(id_abnt, activity, membre, cin,price,duration);
-        bool test = Abonement.modifier(id_abnt);
-                if (test)
-               {
-                   QMessageBox::information(this, "Modification réussie", "Les informations du Abonement ont été modifiées avec succès.");
-                   ui->table_abonnement->setModel(Abonement.afficher_abonnement());
-                   ui->table_abonnement_2 ->setModel(Abonement.afficher_abonnement());
-
-               }
-               else
-               {
-                   QMessageBox::critical(this, "Erreur de modification", "Une erreur est survenue lors de la modification du Abonement.");
-               }
-}
-
-void MainWindow::on_refreshTableV_3_clicked()
-{
-    ui->table_abonnement->setModel(display.afficher_abonnement());
-    ui->table_abonnement_2 ->setModel(display.afficher_abonnement());
 }
 
 void MainWindow::on_AjouterButton_5_clicked()
