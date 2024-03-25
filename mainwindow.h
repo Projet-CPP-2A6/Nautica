@@ -77,11 +77,8 @@ private slots:
     void on_AjouterButton_3_clicked();
 
     void on_AjouterButton_4_clicked();
-    void on_SearchClientBtn_clicked();
 
     void on_UpdateClientBtn_clicked();
-
-    void on_SearchClientUpdateBtn_clicked();
 
     void on_TrierParButton_clicked();
 
@@ -96,6 +93,9 @@ private slots:
     void on_aupdate_abnt_clicked();
 
     void on_refreshTableV_3_clicked();
+    void on_SearchCIN_textChanged(const QString &searchedText);
+
+    void on_SearchClientUpdateButton_clicked();
     void on_AjouterButton_5_clicked();
 
     void on_lineEdit_2_textChanged(const QString &arg1);
