@@ -10,12 +10,14 @@
 #include "abonement.h"
 QT_CHARTS_USE_NAMESPACE
 QT_BEGIN_NAMESPACE
-namespace Ui {
+namespace Ui
+{
     class MainWindow;
 } // namespace Ui
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
 
 public:
@@ -34,7 +36,6 @@ private slots:
     void on_clientPushButton_clicked();
     void on_equipementsPushButton_clicked();
     void on_evenementsPushButton_clicked();
-    void on_abonnementPushButton_clicked();
     void on_showHidepushButton_clicked();
     void on_pushButton_clicked();
     void on_lineEdit_textChanged(const QString &arg1);
@@ -71,9 +72,11 @@ private slots:
     void on_importCSV_clicked();
     void on_pushButton_7_clicked();
     void on_BTmenu_EmpoyepushButton_clicked();
-    void on_Abonnement_pushButton_clicked();
+    void on_abonnementPushButton_clicked();
     void on_menu_pushButton_clicked();
     void on_login_pushButton_6_clicked();
+    void on_pushButton_10_clicked();
+    void on_pb_logOut_clicked();
 
 private:
     Ui::MainWindow *ui;

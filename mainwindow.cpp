@@ -23,11 +23,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
   ui->setupUi(this);
   Employes e(0, "", "", "", 0, "", "", "", 0);
-  Client c;
+  int state = 0;
+  ui->frame_3->setVisible(false);
   ui->listEmployetableView->setModel(e.afficher());
   ui->table_abonnement->setModel(display.afficher_abonnement());
   ui->table_abonnement_2->setModel(display.afficher_abonnement());
-  ui->stackedWidget->setCurrentIndex(3);
+  ui->stackedWidget->setCurrentIndex(0);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -143,6 +144,7 @@ void MainWindow::on_loginPushButton_clicked()
   query.bindValue(":CIN", CIN);
   if (query.exec())
   {
+    ui->frame_3->setVisible(true);
     if (query.next())
     {
       ui->stackedWidget->setCurrentIndex(1);
@@ -157,8 +159,13 @@ void MainWindow::on_loginPushButton_clicked()
         ui->abonnementPushButton->setEnabled(true);
         ui->evenementsPushButton->setEnabled(true);
         ui->pushButton_7->setEnabled(true);
+        ui->login_pushButton_6->setEnabled(true);
+        ui->BTmenu_EmpoyepushButton->setEnabled(true);
+        ui->abonnementPushButton->setEnabled(true);
+        ui->pushButton_10->setEnabled(true);
+        ui->menu_pushButton->setEnabled(true);
       }
-      if (titre.compare("employes") == 0)
+      else if (titre.compare("employes") == 0)
       {
         ui->employesPushButton->setEnabled(true);
         ui->equipementsPushButton->setEnabled(false);
@@ -166,8 +173,13 @@ void MainWindow::on_loginPushButton_clicked()
         ui->abonnementPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
         ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(true);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(false);
       }
-      if (titre.compare("clients") == 0)
+      else if (titre.compare("clients") == 0)
       {
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
@@ -175,8 +187,13 @@ void MainWindow::on_loginPushButton_clicked()
         ui->abonnementPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
         ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(false);
       }
-      if (titre.compare("equipements") == 0)
+      else if (titre.compare("equipements") == 0)
       {
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(true);
@@ -184,8 +201,13 @@ void MainWindow::on_loginPushButton_clicked()
         ui->abonnementPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
         ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(true);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(false);
       }
-      if (titre.compare("abonnements") == 0)
+      else if (titre.compare("abonnements") == 0)
       {
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
@@ -193,8 +215,13 @@ void MainWindow::on_loginPushButton_clicked()
         ui->abonnementPushButton->setEnabled(true);
         ui->evenementsPushButton->setEnabled(false);
         ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(true);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(false);
       }
-      if (titre.compare("evenements") == 0)
+      else if (titre.compare("evenements") == 0)
       {
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
@@ -202,6 +229,26 @@ void MainWindow::on_loginPushButton_clicked()
         ui->abonnementPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(true);
         ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(true);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(false);
+      }
+      else
+      {
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+
+        ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(false);
       }
       QString NOM = query.value(1).toString();
       QString PRENOM = query.value(2).toString();
@@ -212,6 +259,7 @@ void MainWindow::on_loginPushButton_clicked()
     }
     else
     {
+      ui->frame_3->setVisible(false);
       ui->loginInfoLabel->setText("iditenfiants incorrectes!");
     }
   }
@@ -222,32 +270,10 @@ void MainWindow::on_loginPushButton_clicked()
     // Traitez ici l'erreur de requête, par exemple, affichez un message
     // d'erreur ou enregistrez la journalisation.
   }
+  ui->loginEmailLineEdit->clear();
+  ui->passwordLineEdit->clear();
 }
 
-void MainWindow::on_employesPushButton_clicked()
-{
-  ui->stackedWidget->setCurrentIndex(2);
-}
-
-void MainWindow::on_clientPushButton_clicked()
-{
-  ui->stackedWidget->setCurrentIndex(3);
-}
-
-void MainWindow::on_equipementsPushButton_clicked()
-{
-  ui->stackedWidget->setCurrentIndex(4);
-}
-
-void MainWindow::on_evenementsPushButton_clicked()
-{
-  ui->stackedWidget->setCurrentIndex(5);
-}
-
-void MainWindow::on_abonnementPushButton_clicked()
-{
-  ui->stackedWidget->setCurrentIndex(6);
-}
 
 int modes = 0;
 void MainWindow::on_showHidepushButton_clicked()
@@ -293,6 +319,10 @@ void MainWindow::on_lineEdit_textChanged(const QString &arg1)
   if (ui->CinRadioButton_2->isChecked() == true)
   {
     e.chercherEmpNom(ui->listEmployetableView, arg1);
+  }
+  if (ui->PhoneradioButton->isChecked() == true)
+  {
+    e.chercherEmpTel(ui->listEmployetableView, arg1);
   }
   if (ui->PhoneradioButton->isChecked() == true)
   {
@@ -417,153 +447,199 @@ void MainWindow::on_importCSV_clicked()
 
 void MainWindow::on_statGenderPushButton_clicked()
 {
-    QChartView *chartView ;
-    QSqlQuery q1, q2, q3;
-    qreal tot = 0, c1 = 0, c2 = 0;
-    q1.prepare("SELECT * FROM EMPLOYES");
-    q1.exec();
-    q2.prepare("SELECT * FROM EMPLOYES WHERE GENRE='homme'");
-    q2.exec();
-    q3.prepare("SELECT * FROM EMPLOYES WHERE GENRE='femme'");
-    q3.exec();
+  QChartView *chartView;
+  QSqlQuery q1, q2, q3;
+  qreal tot = 0, c1 = 0, c2 = 0;
+  q1.prepare("SELECT * FROM EMPLOYES");
+  q1.exec();
+  q2.prepare("SELECT * FROM EMPLOYES WHERE GENRE='homme'");
+  q2.exec();
+  q3.prepare("SELECT * FROM EMPLOYES WHERE GENRE='femme'");
+  q3.exec();
 
-    while (q1.next()) { tot++; }
-    while (q2.next()) { c1++; }
-    while (q3.next()) { c2++; }
+  while (q1.next())
+  {
+    tot++;
+  }
+  while (q2.next())
+  {
+    c1++;
+  }
+  while (q3.next())
+  {
+    c2++;
+  }
 
-    c1 = c1 / tot;
-    c2 = c2 / tot;
+  c1 = c1 / tot;
+  c2 = c2 / tot;
 
-    QPieSeries *series = new QPieSeries();
-    QPieSlice *slice1 = series->append("homme", c1);
-    QPieSlice *slice2 = series->append("femme", c2);
+  QPieSeries *series = new QPieSeries();
+  QPieSlice *slice1 = series->append("homme", c1);
+  QPieSlice *slice2 = series->append("femme", c2);
 
-    // Définition des libellés avec les pourcentages
-    slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
-    slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
+  // Définition des libellés avec les pourcentages
+  slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
+  slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
 
-    QChart *chart = new QChart();
-    chart->addSeries(series);
-    chart->legend()->show();
-    chart->setAnimationOptions(QChart::AllAnimations);
-    chart->setTheme(QChart::ChartThemeQt);
-    chartView = new QChartView(chart, ui->Employe_label_Stats);
-    chartView->setRenderHint(QPainter::Antialiasing);
-    chartView->setMinimumSize(570, 570);
-    chartView->show();
+  QChart *chart = new QChart();
+  chart->addSeries(series);
+  chart->legend()->show();
+  chart->setAnimationOptions(QChart::AllAnimations);
+  chart->setTheme(QChart::ChartThemeQt);
+  chartView = new QChartView(chart, ui->Employe_label_Stats);
+  chartView->setRenderHint(QPainter::Antialiasing);
+  chartView->setMinimumSize(570, 570);
+  chartView->show();
 }
 
 void MainWindow::on_statSalaryPushButton_clicked()
 {
-    QChartView *chartView;
-    QSqlQuery q1, q2, q3, q4;
-    qreal tot = 0, c1 = 0, c2 = 0, c3 = 0;
-    q1.prepare("SELECT * FROM EMPLOYES");
-    q1.exec();
-    q2.prepare("SELECT * FROM EMPLOYES WHERE SALAIRE=1000");
-    q2.exec();
-    q3.prepare("SELECT * FROM EMPLOYES WHERE SALAIRE=2000");
-    q3.exec();
-    q4.prepare("SELECT * FROM EMPLOYES WHERE SALAIRE=1500");
-    q4.exec();
-    while (q1.next()) { tot++; }
-    while (q2.next()) { c1++; }
-    while (q3.next()) { c2++; }
-    while (q4.next()) { c3++; }
-    c1 = c1 / tot;
-    c2 = c2 / tot;
-    c3 = c3 / tot;
+  QChartView *chartView;
+  QSqlQuery q1, q2, q3, q4;
+  qreal tot = 0, c1 = 0, c2 = 0, c3 = 0;
+  q1.prepare("SELECT * FROM EMPLOYES");
+  q1.exec();
+  q2.prepare("SELECT * FROM EMPLOYES WHERE SALAIRE=1000");
+  q2.exec();
+  q3.prepare("SELECT * FROM EMPLOYES WHERE SALAIRE=2000");
+  q3.exec();
+  q4.prepare("SELECT * FROM EMPLOYES WHERE SALAIRE=1500");
+  q4.exec();
+  while (q1.next())
+  {
+    tot++;
+  }
+  while (q2.next())
+  {
+    c1++;
+  }
+  while (q3.next())
+  {
+    c2++;
+  }
+  while (q4.next())
+  {
+    c3++;
+  }
+  c1 = c1 / tot;
+  c2 = c2 / tot;
+  c3 = c3 / tot;
 
-    QPieSeries *series = new QPieSeries();
-    QPieSlice *slice1 = series->append("1000", c1);
-    QPieSlice *slice2 = series->append("2000", c2);
-    QPieSlice *slice3 = series->append("1500", c3);
+  QPieSeries *series = new QPieSeries();
+  QPieSlice *slice1 = series->append("1000", c1);
+  QPieSlice *slice2 = series->append("2000", c2);
+  QPieSlice *slice3 = series->append("1500", c3);
 
-    // Définition des libellés avec les pourcentages
-    slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
-    slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
-    slice3->setLabel(QString("%1%").arg(QString::number(c3 * 100, 'f', 2)));
+  // Définition des libellés avec les pourcentages
+  slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
+  slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
+  slice3->setLabel(QString("%1%").arg(QString::number(c3 * 100, 'f', 2)));
 
-    QChart *chart = new QChart();
-    chart->addSeries(series);
-    chart->legend()->show();
-    chart->setAnimationOptions(QChart::AllAnimations);
-    chart->setTheme(QChart::ChartThemeQt);
-    chartView = new QChartView(chart, ui->Employe_label_Stats);
-    chartView->setRenderHint(QPainter::Antialiasing);
-    chartView->setMinimumSize(570, 570);
-    chartView->show();
+  QChart *chart = new QChart();
+  chart->addSeries(series);
+  chart->legend()->show();
+  chart->setAnimationOptions(QChart::AllAnimations);
+  chart->setTheme(QChart::ChartThemeQt);
+  chartView = new QChartView(chart, ui->Employe_label_Stats);
+  chartView->setRenderHint(QPainter::Antialiasing);
+  chartView->setMinimumSize(570, 570);
+  chartView->show();
 }
-
 
 void MainWindow::on_statFonctionPushButton_clicked()
 {
-    QChartView *chartView;
-    QSqlQuery q1, q2, q3, q4, q5, q6;
-    qreal tot = 0, c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
-    q1.prepare("SELECT * FROM EMPLOYES");
-    q1.exec();
-    q2.prepare("SELECT * FROM EMPLOYES WHERE FONCTION='employes'");
-    q2.exec();
-    q3.prepare("SELECT * FROM EMPLOYES WHERE FONCTION='clients'");
-    q3.exec();
-    q4.prepare("SELECT * FROM EMPLOYES WHERE FONCTION='abonnements'");
-    q4.exec();
-    q5.prepare("SELECT * FROM EMPLOYES WHERE FONCTION='evenements'");
-    q5.exec();
-    q6.prepare("SELECT * FROM EMPLOYES WHERE FONCTION='equipements'");
-    q6.exec();
-    while (q1.next()) { tot++; }
-    while (q2.next()) { c1++; }
-    while (q3.next()) { c2++; }
-    while (q4.next()) { c3++; }
-    while (q5.next()) { c4++; }
-    while (q6.next()) { c5++; }
-    c1 = c1 / tot;
-    c2 = c2 / tot;
-    c3 = c3 / tot;
-    c4 = c4 / tot;
-    c5 = c5 / tot;
+  QChartView *chartView;
+  QSqlQuery q1, q2, q3, q4, q5, q6;
+  qreal tot = 0, c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
+  q1.prepare("SELECT * FROM EMPLOYES");
+  q1.exec();
+  q2.prepare("SELECT * FROM EMPLOYES WHERE FONCTION='employes'");
+  q2.exec();
+  q3.prepare("SELECT * FROM EMPLOYES WHERE FONCTION='clients'");
+  q3.exec();
+  q4.prepare("SELECT * FROM EMPLOYES WHERE FONCTION='abonnements'");
+  q4.exec();
+  q5.prepare("SELECT * FROM EMPLOYES WHERE FONCTION='evenements'");
+  q5.exec();
+  q6.prepare("SELECT * FROM EMPLOYES WHERE FONCTION='equipements'");
+  q6.exec();
+  while (q1.next())
+  {
+    tot++;
+  }
+  while (q2.next())
+  {
+    c1++;
+  }
+  while (q3.next())
+  {
+    c2++;
+  }
+  while (q4.next())
+  {
+    c3++;
+  }
+  while (q5.next())
+  {
+    c4++;
+  }
+  while (q6.next())
+  {
+    c5++;
+  }
+  c1 = c1 / tot;
+  c2 = c2 / tot;
+  c3 = c3 / tot;
+  c4 = c4 / tot;
+  c5 = c5 / tot;
 
-    // meilleure choix des couleurs
-    QStringList colors;
-    colors << "#ff0000" << "#00ff00" << "#ffff00" << "#ff00ff" << "#0000ff"; // Rouge, Vert, Jaune, Violet, Bleu
+  // meilleure choix des couleurs
+  QStringList colors;
+  colors << "#ff0000"
+         << "#00ff00"
+         << "#ffff00"
+         << "#ff00ff"
+         << "#0000ff"; // Rouge, Vert, Jaune, Violet, Bleu
 
-    QPieSeries *series = new QPieSeries();
-    QPieSlice *slice1 = series->append("employes", c1);
-    QPieSlice *slice2 = series->append("clients", c2);
-    QPieSlice *slice3 = series->append("abonnements", c3);
-    QPieSlice *slice4 = series->append("evenements", c4);
-    QPieSlice *slice5 = series->append("equipements", c5);
+  QPieSeries *series = new QPieSeries();
+  QPieSlice *slice1 = series->append("employes", c1);
+  QPieSlice *slice2 = series->append("clients", c2);
+  QPieSlice *slice3 = series->append("abonnements", c3);
+  QPieSlice *slice4 = series->append("evenements", c4);
+  QPieSlice *slice5 = series->append("equipements", c5);
 
-    // Définition des libellés avec les pourcentages
-    slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
-    slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
-    slice3->setLabel(QString("%1%").arg(QString::number(c3 * 100, 'f', 2)));
-    slice4->setLabel(QString("%1%").arg(QString::number(c4 * 100, 'f', 2)));
-    slice5->setLabel(QString("%1%").arg(QString::number(c5 * 100, 'f', 2)));
+  // Définition des libellés avec les pourcentages
+  slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
+  slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
+  slice3->setLabel(QString("%1%").arg(QString::number(c3 * 100, 'f', 2)));
+  slice4->setLabel(QString("%1%").arg(QString::number(c4 * 100, 'f', 2)));
+  slice5->setLabel(QString("%1%").arg(QString::number(c5 * 100, 'f', 2)));
 
-    // Définition des pourcentages à 0% pour les parties vides
-    if (c3 == 0) slice3->setLabel("0%");
-    if (c4 == 0) slice4->setLabel("0%");
-    if (c5 == 0) slice5->setLabel("0%");
+  // Définition des pourcentages à 0% pour les parties vides
+  if (c3 == 0)
+    slice3->setLabel("0%");
+  if (c4 == 0)
+    slice4->setLabel("0%");
+  if (c5 == 0)
+    slice5->setLabel("0%");
 
-    QChart *chart = new QChart();
-    chart->addSeries(series);
-    chart->legend()->show();
-    chart->setAnimationOptions(QChart::AllAnimations);
-    chart->setTheme(QChart::ChartThemeQt);
+  QChart *chart = new QChart();
+  chart->addSeries(series);
+  chart->legend()->show();
+  chart->setAnimationOptions(QChart::AllAnimations);
+  chart->setTheme(QChart::ChartThemeQt);
 
-    // Appliquer les couleurs aux tranches du graphique
-    QList<QPieSlice *> slices = series->slices();
-    for (int i = 0; i < slices.size(); ++i) {
-        slices.at(i)->setBrush(QColor(colors[i % colors.size()]));
-    }
+  // Appliquer les couleurs aux tranches du graphique
+  QList<QPieSlice *> slices = series->slices();
+  for (int i = 0; i < slices.size(); ++i)
+  {
+    slices.at(i)->setBrush(QColor(colors[i % colors.size()]));
+  }
 
-    chartView = new QChartView(chart, ui->Employe_label_Stats);
-    chartView->setRenderHint(QPainter::Antialiasing);
-    chartView->setMinimumSize(570, 570);
-    chartView->show();
+  chartView = new QChartView(chart, ui->Employe_label_Stats);
+  chartView->setRenderHint(QPainter::Antialiasing);
+  chartView->setMinimumSize(570, 570);
+  chartView->show();
 }
 
 void MainWindow::on_AjouterButton_clicked()
@@ -945,32 +1021,66 @@ void MainWindow::on_refreshTableV_3_clicked()
   ui->table_abonnement->setModel(display.afficher_abonnement());
   ui->table_abonnement_2->setModel(display.afficher_abonnement());
 }
+
+/* ---------------------------------------------------- */
 void MainWindow::on_pushButton_7_clicked()
 {
-    // Bouton pour rediriger vers CLIENTS
-    ui->stackedWidget->setCurrentIndex(3);
+  // Bouton pour rediriger vers CLIENTS
+  ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::on_BTmenu_EmpoyepushButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(2);
+  ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::on_Abonnement_pushButton_clicked()
+void MainWindow::on_abonnementPushButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(4);
+  ui->stackedWidget->setCurrentIndex(4);
 }
 
 void MainWindow::on_menu_pushButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(1);
+  ui->stackedWidget->setCurrentIndex(1);
 }
 
 void MainWindow::on_login_pushButton_6_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(0);
+  ui->stackedWidget->setCurrentIndex(0);
+}
+void MainWindow::on_pushButton_10_clicked()
+{
+  ui->stackedWidget->setCurrentIndex(6);
 }
 
+void MainWindow::on_pb_logOut_clicked()
+{
+
+  ui->frame_3->setVisible(false);
+  ui->stackedWidget->setCurrentIndex(0);
+}
+void MainWindow::on_employesPushButton_clicked()
+{
+  ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::on_clientPushButton_clicked()
+{
+  ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::on_equipementsPushButton_clicked()
+{
+  ui->stackedWidget->setCurrentIndex(4);
+}
+
+void MainWindow::on_evenementsPushButton_clicked()
+{
+  ui->stackedWidget->setCurrentIndex(5);
+}
+
+
+/* ---------------------------------------------------- */
 void MainWindow::on_SearchClientUpdateButton_clicked()
 {
   Client CTU;
