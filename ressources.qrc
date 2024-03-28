@@ -28,5 +28,6 @@
         <file>icones/plongeons.jpg</file>
         <file>icones/voile.jpg</file>
         <file>icones/l-aviron-l.jpg</file>
+        <file>icones/iconlogout.png</file>
     </qresource>
 </RCC>
