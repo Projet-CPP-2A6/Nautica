@@ -56,34 +56,90 @@ bool valid_id(QString id)
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    int CIN = ui->CIN_LE->text().toInt();
-    qDebug() << "Type of variable 'a': " << typeid(CIN).name();
+    // Récupération des valeurs des champs
+    QString cinStr = ui->CIN_LE->text();
     QString nom = ui->nom_LE->text();
     QString prenom = ui->prenom_LE->text();
     QString adresse = ui->adresse_LE->text();
-    QString genre = ui->genre_LE->text();
+    QString genre = ui->genre_LE->text().toLower(); // Convertir en minuscules pour la comparaison
     QString email = ui->email_LE->text();
     QString fonction = ui->fonction_LE->text();
     int salaire = ui->salaire_LE->text().toInt();
-   qDebug() << "Type of variable 'salaire': " << typeid(salaire).name();
-    int telephone = ui->telephone_LE->text().toInt();
-    qDebug() << "Type of variable 'teelephone': " << typeid(telephone).name();
+    QString telephoneStr = ui->telephone_LE->text();
 
-    Employes e(CIN,nom,prenom,genre,telephone,email,adresse,fonction,salaire);
-   // e.ajouter();
-    bool test=e.ajouter();
-    if(test)
+    // Expression régulière pour vérifier le format du CIN (chiffres seulement)
+    QRegExp regexCIN("^[0-9]+$");
+    // Expression régulière pour vérifier le format du nom et du prénom (lettres seulement)
+    QRegExp regexNomPrenom("^[a-zA-Z]+$");
+    // Expression régulière pour vérifier le format de l'email
+    QRegExp regexEmail("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
+    // Expression régulière pour vérifier le format du numéro de téléphone (chiffres seulement)
+    QRegExp regexTelephone("^[0-9]+$");
+
+    // Vérification des saisies
+    if (cinStr.isEmpty() || !regexCIN.exactMatch(cinStr))
     {
-      QMessageBox::information(this, "Succès", "L'employé a été ajouté avec succès.");
-      ui->listEmployetableView->setModel(e.afficher());
+        QMessageBox::critical(this, "Erreur", "Veuillez saisir un CIN valide (chiffres seulement).");
+        return;
+    }
 
+    if (nom.isEmpty() || !regexNomPrenom.exactMatch(nom))
+    {
+        QMessageBox::critical(this, "Erreur", "Veuillez saisir un nom valide (lettres seulement).");
+        return;
+    }
+
+    if (prenom.isEmpty() || !regexNomPrenom.exactMatch(prenom))
+    {
+        QMessageBox::critical(this, "Erreur", "Veuillez saisir un prénom valide (lettres seulement).");
+        return;
+    }
+
+    if (email.isEmpty() || !regexEmail.exactMatch(email))
+    {
+        QMessageBox::critical(this, "Erreur", "Veuillez saisir une adresse email valide.");
+        return;
+    }
+
+    if (telephoneStr.isEmpty() || !regexTelephone.exactMatch(telephoneStr))
+    {
+        QMessageBox::critical(this, "Erreur", "Veuillez saisir un numéro de téléphone valide (chiffres seulement).");
+        return;
+    }
+
+    // Vérification du nombre de chiffres dans le numéro de téléphone
+    if (telephoneStr.length() != 8)
+    {
+        QMessageBox::critical(this, "Erreur", "Veuillez saisir un numéro de téléphone valide (8 chiffres).");
+        return;
+    }
+
+    // Vérification du genre
+    if (genre != "homme" && genre != "femme")
+    {
+        QMessageBox::critical(this, "Erreur", "Veuillez saisir un genre valide (homme ou femme).");
+        return;
+    }
+
+    // Convertir les champs nécessaires en types appropriés
+    int CIN = cinStr.toInt();
+    int telephone = telephoneStr.toInt();
+
+    // Si toutes les saisies sont valides, ajoutez l'employé
+    Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction, salaire);
+    bool test = e.ajouter();
+    if (test)
+    {
+        QMessageBox::information(this, "Succès", "L'employé a été ajouté avec succès.");
+        ui->listEmployetableView->setModel(e.afficher());
     }
     else
-        {
-            QMessageBox::critical(this, "Erreur", "employé existant. Veuillez réessayer.");
-        }
-
+    {
+        QMessageBox::critical(this, "Erreur", "Employé existant. Veuillez réessayer.");
+    }
 }
+
+
 
 void MainWindow::on_refreshTableV_clicked()
 {
