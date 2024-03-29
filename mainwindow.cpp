@@ -7,7 +7,9 @@
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QDesktopServices>
+#include <QImage>
 #include <QMessageBox>
+#include <QPageSize>
 #include <QPainter>
 #include <QPdfWriter>
 #include <QPrinter>
@@ -16,11 +18,8 @@
 #include <QString>
 #include <QTableView>
 #include <QUrl>
-#include <QImage>
-#include <QPageSize>
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow)
-{
+    : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
   Employes e(0, "", "", "", 0, "", "", "", 0);
   int state = 0;
@@ -33,8 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::on_pushButton_3_clicked()
-{
+void MainWindow::on_pushButton_3_clicked() {
   int CIN = ui->CIN_LE->text().toInt();
   qDebug() << "Type of variable 'a': " << typeid(CIN).name();
   QString nom = ui->nom_LE->text();
@@ -52,39 +50,32 @@ void MainWindow::on_pushButton_3_clicked()
              salaire);
   // e.ajouter();
   bool test = e.ajouter();
-  if (test)
-  {
+  if (test) {
     QMessageBox::information(this, "Succès",
                              "L'employé a été ajouté avec succès.");
     ui->listEmployetableView->setModel(e.afficher());
-  }
-  else
-  {
+  } else {
     QMessageBox::critical(this, "Erreur",
                           "employé existant. Veuillez réessayer.");
   }
 }
 
-void MainWindow::on_refreshTableV_clicked()
-{
+void MainWindow::on_refreshTableV_clicked() {
   Employes e(0, "", "", "", 0, "", "", "", 0);
 
   ui->listEmployetableView->setModel(e.afficher());
 }
 
-void MainWindow::on_deletePushButton_clicked()
-{
+void MainWindow::on_deletePushButton_clicked() {
   Employes e;
   e.setCin(ui->cinDlineEdit->text().toInt());
   bool test = e.supprimer(e.getcin());
-  if (test)
-  {
+  if (test) {
     ui->listEmployetableView->setModel(e.afficher());
   }
 }
 
-void MainWindow::on_updatePushButton_clicked()
-{
+void MainWindow::on_updatePushButton_clicked() {
   int CIN = ui->updateCin_LE->text().toInt();
   QString nom = ui->updateNom_LE->text();
   QString prenom = ui->updatePrenom_LE->text();
@@ -98,8 +89,7 @@ void MainWindow::on_updatePushButton_clicked()
              salaire);
   e.modifier();
   bool test = e.modifier();
-  if (test)
-  {
+  if (test) {
     ui->listEmployetableView->setModel(e.afficher());
     ui->updateCin_LE->clear();
     ui->updateNom_LE->clear();
@@ -113,26 +103,22 @@ void MainWindow::on_updatePushButton_clicked()
   }
 }
 
-void MainWindow::on_triCinPushButton_clicked()
-{
+void MainWindow::on_triCinPushButton_clicked() {
   Employes e;
   ui->listEmployetableView->setModel(e.triCin());
 }
 
-void MainWindow::on_triNomPushButton_clicked()
-{
+void MainWindow::on_triNomPushButton_clicked() {
   Employes e;
   ui->listEmployetableView->setModel(e.triNom());
 }
 
-void MainWindow::on_triSalaryPushButton_clicked()
-{
+void MainWindow::on_triSalaryPushButton_clicked() {
   Employes e;
   ui->listEmployetableView->setModel(e.triSalary());
 }
 
-void MainWindow::on_loginPushButton_clicked()
-{
+void MainWindow::on_loginPushButton_clicked() {
   QString EMAIL = ui->loginEmailLineEdit->text();
   QString CIN = ui->passwordLineEdit->text();
   qDebug() << "email récupéré :" << EMAIL;
@@ -142,17 +128,14 @@ void MainWindow::on_loginPushButton_clicked()
   query.prepare("SELECT * FROM EMPLOYES WHERE EMAIL = :EMAIL AND CIN = :CIN");
   query.bindValue(":EMAIL", EMAIL);
   query.bindValue(":CIN", CIN);
-  if (query.exec())
-  {
+  if (query.exec()) {
     ui->frame_3->setVisible(true);
-    if (query.next())
-    {
+    if (query.next()) {
       ui->stackedWidget->setCurrentIndex(1);
       titre = query.value(7).toString();
       qDebug() << "fonction récupéré :" << titre;
 
-      if (titre.compare("admin") == 0)
-      {
+      if (titre.compare("admin") == 0) {
         ui->employesPushButton->setEnabled(true);
         ui->equipementsPushButton->setEnabled(true);
         ui->clientPushButton->setEnabled(true);
@@ -164,9 +147,7 @@ void MainWindow::on_loginPushButton_clicked()
         ui->abonnementPushButton->setEnabled(true);
         ui->pushButton_10->setEnabled(true);
         ui->menu_pushButton->setEnabled(true);
-      }
-      else if (titre.compare("employes") == 0)
-      {
+      } else if (titre.compare("employes") == 0) {
         ui->employesPushButton->setEnabled(true);
         ui->equipementsPushButton->setEnabled(false);
         ui->clientPushButton->setEnabled(false);
@@ -178,9 +159,7 @@ void MainWindow::on_loginPushButton_clicked()
         ui->abonnementPushButton->setEnabled(false);
         ui->pushButton_10->setEnabled(false);
         ui->menu_pushButton->setEnabled(false);
-      }
-      else if (titre.compare("clients") == 0)
-      {
+      } else if (titre.compare("clients") == 0) {
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->clientPushButton->setEnabled(true);
@@ -192,9 +171,7 @@ void MainWindow::on_loginPushButton_clicked()
         ui->abonnementPushButton->setEnabled(false);
         ui->pushButton_10->setEnabled(false);
         ui->menu_pushButton->setEnabled(false);
-      }
-      else if (titre.compare("equipements") == 0)
-      {
+      } else if (titre.compare("equipements") == 0) {
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(true);
         ui->clientPushButton->setEnabled(false);
@@ -206,9 +183,7 @@ void MainWindow::on_loginPushButton_clicked()
         ui->abonnementPushButton->setEnabled(false);
         ui->pushButton_10->setEnabled(false);
         ui->menu_pushButton->setEnabled(false);
-      }
-      else if (titre.compare("abonnements") == 0)
-      {
+      } else if (titre.compare("abonnements") == 0) {
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->clientPushButton->setEnabled(false);
@@ -220,9 +195,7 @@ void MainWindow::on_loginPushButton_clicked()
         ui->abonnementPushButton->setEnabled(true);
         ui->pushButton_10->setEnabled(false);
         ui->menu_pushButton->setEnabled(false);
-      }
-      else if (titre.compare("evenements") == 0)
-      {
+      } else if (titre.compare("evenements") == 0) {
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->clientPushButton->setEnabled(false);
@@ -234,9 +207,7 @@ void MainWindow::on_loginPushButton_clicked()
         ui->abonnementPushButton->setEnabled(true);
         ui->pushButton_10->setEnabled(false);
         ui->menu_pushButton->setEnabled(false);
-      }
-      else
-      {
+      } else {
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->clientPushButton->setEnabled(false);
@@ -256,15 +227,11 @@ void MainWindow::on_loginPushButton_clicked()
       qDebug() << "Nom récupéré :" << NOM;
       qDebug() << "Prénom récupéré :" << PRENOM;
       ui->userStatusLabel->setText("utilisateur: " + NOM + " " + PRENOM + "");
-    }
-    else
-    {
+    } else {
       ui->frame_3->setVisible(false);
       ui->loginInfoLabel->setText("iditenfiants incorrectes!");
     }
-  }
-  else
-  {
+  } else {
     qDebug() << "Erreur lors de l'exécution de la requête SQL:"
              << query.lastError().text();
     // Traitez ici l'erreur de requête, par exemple, affichez un message
@@ -274,30 +241,23 @@ void MainWindow::on_loginPushButton_clicked()
   ui->passwordLineEdit->clear();
 }
 
-
 int modes = 0;
-void MainWindow::on_showHidepushButton_clicked()
-{
-  if (modes == 1)
-  {
+void MainWindow::on_showHidepushButton_clicked() {
+  if (modes == 1) {
     ui->passwordLineEdit->setEchoMode(QLineEdit::Normal);
     ui->showHidepushButton->setText("Hide");
     modes = 0;
-  }
-  else
-  {
+  } else {
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
     ui->showHidepushButton->setText("Show");
     modes = 1;
   }
 }
 
-void MainWindow::on_pushButton_clicked()
-{
+void MainWindow::on_pushButton_clicked() {
   int CIN = ui->updateCin_LE->text().toInt();
   Employes e;
-  if (e.rechercher(CIN))
-  {
+  if (e.rechercher(CIN)) {
     ui->updateNom_LE->setText(e.getNom());
     ui->updatePrenom_LE->setText(e.getPrenom());
     ui->updateAdresse_LE->setText(e.getAdresse());
@@ -309,35 +269,29 @@ void MainWindow::on_pushButton_clicked()
   }
 }
 
-void MainWindow::on_lineEdit_textChanged(const QString &arg1)
-{
+void MainWindow::on_lineEdit_textChanged(const QString &arg1) {
   Employes e;
-  if (ui->nomRadioButton->isChecked() == true)
-  {
+  if (ui->nomRadioButton->isChecked() == true) {
     e.chercherEmpCin(ui->listEmployetableView, arg1);
   }
-  if (ui->CinRadioButton_2->isChecked() == true)
-  {
+  if (ui->CinRadioButton_2->isChecked() == true) {
     e.chercherEmpNom(ui->listEmployetableView, arg1);
   }
-  if (ui->PhoneradioButton->isChecked() == true)
-  {
+  if (ui->PhoneradioButton->isChecked() == true) {
     e.chercherEmpTel(ui->listEmployetableView, arg1);
   }
-  if (ui->PhoneradioButton->isChecked() == true)
-  {
+  if (ui->PhoneradioButton->isChecked() == true) {
     e.chercherEmpTel(ui->listEmployetableView, arg1);
   }
 }
 
-void MainWindow::on_PDFpushButton_clicked()
-{
+void MainWindow::on_PDFpushButton_clicked() {
   // Demander à l'utilisateur de choisir l'emplacement et le nom du fichier PDF
-  QString filePath = QFileDialog::getSaveFileName(this, tr("Enregistrer le PDF"), "", tr("Fichiers PDF (*.pdf)"));
+  QString filePath = QFileDialog::getSaveFileName(
+      this, tr("Enregistrer le PDF"), "", tr("Fichiers PDF (*.pdf)"));
 
   // Si l'utilisateur annule la sélection, quitter la fonction
-  if (filePath.isEmpty())
-  {
+  if (filePath.isEmpty()) {
     return;
   }
   // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
@@ -347,8 +301,7 @@ void MainWindow::on_PDFpushButton_clicked()
 
   // Créatoin d'un objet QPainter pour l'objet QPrinter
   QPainter painter;
-  if (!painter.begin(&printer))
-  {
+  if (!painter.begin(&printer)) {
     qWarning("Failed to open file, is it writable?");
     return;
   }
@@ -364,17 +317,15 @@ void MainWindow::on_PDFpushButton_clicked()
   int cellWidth = 100;
   int cellHeight = 30;
   // Insérer les noms des colonnes
-  for (int col = 0; col < columns; ++col)
-  {
+  for (int col = 0; col < columns; ++col) {
     QString headerData = model->headerData(col, Qt::Horizontal).toString();
-    painter.drawText(col * cellWidth, 0, cellWidth, cellHeight, Qt::AlignCenter, headerData);
+    painter.drawText(col * cellWidth, 0, cellWidth, cellHeight, Qt::AlignCenter,
+                     headerData);
   }
 
   // Insérer les données de la table sur le périphérique de sortie PDF
-  for (int row = 1; row < rows; ++row)
-  {
-    for (int col = 0; col < columns; ++col)
-    {
+  for (int row = 1; row < rows; ++row) {
+    for (int col = 0; col < columns; ++col) {
       // Obtenir les données de la cellule
       QModelIndex index = model->index(row, col);
       QString data = model->data(index).toString();
@@ -388,30 +339,28 @@ void MainWindow::on_PDFpushButton_clicked()
   // Terminez avec QPainter
   painter.end();
 }
-void MainWindow::on_importCSV_clicked()
-{
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Ouvrir fichier CSV"), QString(), tr("Fichiers CSV (*.csv)"));
+void MainWindow::on_importCSV_clicked() {
+  QString fileName = QFileDialog::getOpenFileName(
+      this, tr("Ouvrir fichier CSV"), QString(), tr("Fichiers CSV (*.csv)"));
   if (fileName.isEmpty())
     return;
 
   QFile file(fileName);
-  if (!file.open(QIODevice::ReadOnly))
-  {
-    QMessageBox::warning(this, tr("Erreur"), tr("Impossible d'ouvrir le fichier."));
+  if (!file.open(QIODevice::ReadOnly)) {
+    QMessageBox::warning(this, tr("Erreur"),
+                         tr("Impossible d'ouvrir le fichier."));
     return;
   }
 
   QTextStream in(&file);
-  try
-  {
-    while (!in.atEnd())
-    {
+  try {
+    while (!in.atEnd()) {
       QString line = in.readLine();
       QStringList fields = line.split(';');
 
-      if (fields.size() < 9)
-      {
-        // Afficher un avertissement ou gérer le cas où la ligne ne contient pas suffisamment de champs
+      if (fields.size() < 9) {
+        // Afficher un avertissement ou gérer le cas où la ligne ne contient pas
+        // suffisamment de champs
         qDebug() << "La ligne CSV ne contient pas suffisamment de champs";
         continue; // Passer à la prochaine ligne
       }
@@ -429,24 +378,27 @@ void MainWindow::on_importCSV_clicked()
       employee.setSalaire(fields[8].toFloat()); // Convertir en float
 
       // Ajouter l'employé à la base de données
-      if (!employee.ajouter())
-      {
-        QMessageBox::warning(this, tr("Erreur"), tr("Impossible d'ajouter l'employé à la base de données."));
+      if (!employee.ajouter()) {
+        QMessageBox::warning(
+            this, tr("Erreur"),
+            tr("Impossible d'ajouter l'employé à la base de données."));
         return;
       }
     }
-  }
-  catch (const std::exception &e)
-  {
-    QMessageBox::critical(this, tr("Erreur"), tr("Une erreur s'est produite lors de l'importation du fichier CSV : %1").arg(e.what()));
+  } catch (const std::exception &e) {
+    QMessageBox::critical(this, tr("Erreur"),
+                          tr("Une erreur s'est produite lors de l'importation "
+                             "du fichier CSV : %1")
+                              .arg(e.what()));
   }
 
   file.close();
-  QMessageBox::information(this, tr("Succès"), tr("Données ajoutées avec succès à la base de données."));
+  QMessageBox::information(
+      this, tr("Succès"),
+      tr("Données ajoutées avec succès à la base de données."));
 }
 
-void MainWindow::on_statGenderPushButton_clicked()
-{
+void MainWindow::on_statGenderPushButton_clicked() {
   QChartView *chartView;
   QSqlQuery q1, q2, q3;
   qreal tot = 0, c1 = 0, c2 = 0;
@@ -457,16 +409,13 @@ void MainWindow::on_statGenderPushButton_clicked()
   q3.prepare("SELECT * FROM EMPLOYES WHERE GENRE='femme'");
   q3.exec();
 
-  while (q1.next())
-  {
+  while (q1.next()) {
     tot++;
   }
-  while (q2.next())
-  {
+  while (q2.next()) {
     c1++;
   }
-  while (q3.next())
-  {
+  while (q3.next()) {
     c2++;
   }
 
@@ -492,8 +441,7 @@ void MainWindow::on_statGenderPushButton_clicked()
   chartView->show();
 }
 
-void MainWindow::on_statSalaryPushButton_clicked()
-{
+void MainWindow::on_statSalaryPushButton_clicked() {
   QChartView *chartView;
   QSqlQuery q1, q2, q3, q4;
   qreal tot = 0, c1 = 0, c2 = 0, c3 = 0;
@@ -505,20 +453,16 @@ void MainWindow::on_statSalaryPushButton_clicked()
   q3.exec();
   q4.prepare("SELECT * FROM EMPLOYES WHERE SALAIRE=1500");
   q4.exec();
-  while (q1.next())
-  {
+  while (q1.next()) {
     tot++;
   }
-  while (q2.next())
-  {
+  while (q2.next()) {
     c1++;
   }
-  while (q3.next())
-  {
+  while (q3.next()) {
     c2++;
   }
-  while (q4.next())
-  {
+  while (q4.next()) {
     c3++;
   }
   c1 = c1 / tot;
@@ -546,8 +490,7 @@ void MainWindow::on_statSalaryPushButton_clicked()
   chartView->show();
 }
 
-void MainWindow::on_statFonctionPushButton_clicked()
-{
+void MainWindow::on_statFonctionPushButton_clicked() {
   QChartView *chartView;
   QSqlQuery q1, q2, q3, q4, q5, q6;
   qreal tot = 0, c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
@@ -563,28 +506,22 @@ void MainWindow::on_statFonctionPushButton_clicked()
   q5.exec();
   q6.prepare("SELECT * FROM EMPLOYES WHERE FONCTION='equipements'");
   q6.exec();
-  while (q1.next())
-  {
+  while (q1.next()) {
     tot++;
   }
-  while (q2.next())
-  {
+  while (q2.next()) {
     c1++;
   }
-  while (q3.next())
-  {
+  while (q3.next()) {
     c2++;
   }
-  while (q4.next())
-  {
+  while (q4.next()) {
     c3++;
   }
-  while (q5.next())
-  {
+  while (q5.next()) {
     c4++;
   }
-  while (q6.next())
-  {
+  while (q6.next()) {
     c5++;
   }
   c1 = c1 / tot;
@@ -631,8 +568,7 @@ void MainWindow::on_statFonctionPushButton_clicked()
 
   // Appliquer les couleurs aux tranches du graphique
   QList<QPieSlice *> slices = series->slices();
-  for (int i = 0; i < slices.size(); ++i)
-  {
+  for (int i = 0; i < slices.size(); ++i) {
     slices.at(i)->setBrush(QColor(colors[i % colors.size()]));
   }
 
@@ -642,8 +578,7 @@ void MainWindow::on_statFonctionPushButton_clicked()
   chartView->show();
 }
 
-void MainWindow::on_AjouterButton_clicked()
-{
+void MainWindow::on_AjouterButton_clicked() {
   int CIN = ui->ACIN->text().toInt();
   QString nom = ui->ANom->text();
   QString prenom = ui->APrenom->text();
@@ -657,8 +592,7 @@ void MainWindow::on_AjouterButton_clicked()
   //(int CIN, QString nom, QString prenom, QDate date_naissance,
   // int genre, int tel, QString email)
   Client NC(CIN, nom, prenom, date_naissance, genre, tel, email);
-  if (NC.Ajouter())
-  {
+  if (NC.Ajouter()) {
     // ui->listClientsView->setModel(NC.afficher());
     ui->ACIN->clear();
     ui->ANom->clear();
@@ -673,8 +607,7 @@ void MainWindow::on_AjouterButton_clicked()
   }
 }
 
-void MainWindow::on_DeleteClientBtn_clicked()
-{
+void MainWindow::on_DeleteClientBtn_clicked() {
   int CIN = ui->CINtoDelete->text().toInt();
   Client C;
   C.setCIN(CIN);
@@ -683,8 +616,7 @@ void MainWindow::on_DeleteClientBtn_clicked()
   ui->AllClientsModel->setModel(C.Afficher());
 }
 
-void MainWindow::on_AjouterButton_2_clicked()
-{
+void MainWindow::on_AjouterButton_2_clicked() {
   QString reference = ui->reference->text();
   int prix = ui->prix->text().toInt();
   int nombre = ui->nombre->text().toInt();
@@ -693,14 +625,12 @@ void MainWindow::on_AjouterButton_2_clicked()
   QString etat = ui->etat->text();
   Equipements E(reference, prix, nombre, fonctionalite, type, etat);
 
-  if (E.ajouter())
-  {
+  if (E.ajouter()) {
     qDebug() << "Ajout reussi";
   }
 }
 
-void MainWindow::on_AjouterButton_3_clicked()
-{
+void MainWindow::on_AjouterButton_3_clicked() {
   QString reference = ui->REFtoDelete->text();
   Equipements E;
   E.setReference(reference);
@@ -709,37 +639,31 @@ void MainWindow::on_AjouterButton_3_clicked()
   E.afficher();
 }
 
-void MainWindow::on_AjouterButton_4_clicked()
-{
+void MainWindow::on_AjouterButton_4_clicked() {
   Equipements E;
   QSqlQueryModel *EquipementModel = E.afficher();
   qDebug() << EquipementModel;
-  if (EquipementModel == nullptr)
-  {
+  if (EquipementModel == nullptr) {
     qDebug() << "nullptr" << endl;
   }
   ui->tableView_3->setModel(EquipementModel);
 }
 
-void MainWindow::on_ShowAllClients_clicked()
-{
+void MainWindow::on_ShowAllClients_clicked() {
   Client C;
   ui->AllClientsModel->setModel(C.Afficher());
 }
 
-void MainWindow::on_SearchCIN_textChanged(const QString &searchedText)
-{
+void MainWindow::on_SearchCIN_textChanged(const QString &searchedText) {
   Client C;
   QAbstractItemModel *ClientModel = C.RechercherEtAfficher(searchedText);
-  if (ClientModel == nullptr)
-  {
+  if (ClientModel == nullptr) {
     qDebug() << "nullptr" << endl;
   }
   ui->OneClientModel->setModel(ClientModel);
 }
 
-void MainWindow::on_UpdateClientBtn_clicked()
-{
+void MainWindow::on_UpdateClientBtn_clicked() {
   int CIN = ui->UCIN->text().toInt();
   QString nom = ui->UNom->text();
   QString prenom = ui->UPrenom->text();
@@ -753,8 +677,7 @@ void MainWindow::on_UpdateClientBtn_clicked()
   //(int CIN, QString nom, QString prenom, QDate date_naissance,
   // int genre, int tel, QString email)
   Client NC(CIN, nom, prenom, date_naissance, genre, tel, email);
-  if (NC.Modifier())
-  {
+  if (NC.Modifier()) {
     // ui->listClientsView->setModel(NC.afficher());
     ui->UCIN->clear();
     ui->UNom->clear();
@@ -769,8 +692,7 @@ void MainWindow::on_UpdateClientBtn_clicked()
   }
 }
 
-void MainWindow::on_TrierParButton_clicked()
-{
+void MainWindow::on_TrierParButton_clicked() {
   Client C;
   QString critere = ui->CINradioButton->isChecked()      ? "CIN"
                     : ui->NOMradioButton->isChecked()    ? "NOM"
@@ -783,15 +705,13 @@ void MainWindow::on_TrierParButton_clicked()
                                                          : "";
 
   QAbstractItemModel *sortedModel = C.TriPar(critere);
-  if (sortedModel == nullptr)
-  {
+  if (sortedModel == nullptr) {
     qDebug() << "nullptr" << endl;
   }
   ui->AllClientsModel->setModel(sortedModel);
 }
 
-void MainWindow::on_CRefStat_clicked()
-{
+void MainWindow::on_CRefStat_clicked() {
   Client C;
   vector<int> Stat = C.Statistics();
   qDebug() << Stat;
@@ -838,8 +758,7 @@ void MainWindow::on_CRefStat_clicked()
   layout->addWidget(view);
 }
 
-void MainWindow::on_CPDFExport_clicked()
-{
+void MainWindow::on_CPDFExport_clicked() {
   Client C;
   QSqlQueryModel *ClientModel = C.Afficher();
 
@@ -862,8 +781,7 @@ void MainWindow::on_CPDFExport_clicked()
 
   QTextTable *table = cursor.insertTable(rowCount + 1, colCount);
 
-  for (int col = 0; col < colCount; ++col)
-  {
+  for (int col = 0; col < colCount; ++col) {
     QString columnName =
         ClientModel->headerData(col, Qt::Horizontal).toString();
     QTextTableCell cell = table->cellAt(0, col);
@@ -871,19 +789,14 @@ void MainWindow::on_CPDFExport_clicked()
     cellCursor.insertText(columnName);
   }
 
-  for (int row = 0; row < rowCount; ++row)
-  {
-    for (int col = 0; col < colCount; ++col)
-    {
+  for (int row = 0; row < rowCount; ++row) {
+    for (int col = 0; col < colCount; ++col) {
       QModelIndex index = ClientModel->index(row, col);
       QString data;
-      if (col == 4)
-      {
+      if (col == 4) {
         int genderValue = ClientModel->data(index).toInt();
         data = (genderValue == 0) ? "M" : "F";
-      }
-      else
-      {
+      } else {
         data = ClientModel->data(index).toString();
       }
       QTextTableCell cell = table->cellAt(row + 1, col);
@@ -898,23 +811,17 @@ void MainWindow::on_CPDFExport_clicked()
 
   doc.print(&printer);
 }
-bool valid_id(QString id)
-{
-  for (int i = 0; i < id.length(); i++)
-  {
-    if ((id[i] >= '0' && id[i] <= '9'))
-    {
-    }
-    else
-    {
+bool valid_id(QString id) {
+  for (int i = 0; i < id.length(); i++) {
+    if ((id[i] >= '0' && id[i] <= '9')) {
+    } else {
       return false;
     }
   }
   return true;
 }
 
-void MainWindow::on_add_abonnement_push_clicked()
-{
+void MainWindow::on_add_abonnement_push_clicked() {
   QString id_abnt = ui->ref_abonnement->text();
   QString activity = ui->activity_abonnement->currentText();
   QString membre = ui->number_abonnement->text();
@@ -923,64 +830,48 @@ void MainWindow::on_add_abonnement_push_clicked()
   QString duration = ui->duration_abonnement->currentText();
   Abonement abonnement(id_abnt, activity, membre, cin, price, duration);
 
-  if (!price.isEmpty() && !cin.isEmpty())
-  {
+  if (!price.isEmpty() && !cin.isEmpty()) {
     if (cin.size() == 8 && valid_id(cin) && id_abnt.size() == 8 &&
-        valid_id(id_abnt))
-    {
-      if (valid_id(membre) && valid_id(price))
-      {
+        valid_id(id_abnt)) {
+      if (valid_id(membre) && valid_id(price)) {
         bool ajoutReussi = abonnement.ajouter();
-        if (ajoutReussi)
-        {
+        if (ajoutReussi) {
           QMessageBox::information(this, "Ajout réussi",
                                    "Le Abonement a été ajouté avec succès.");
           ui->table_abonnement->setModel(abonnement.afficher_abonnement());
           ui->table_abonnement_2->setModel(abonnement.afficher_abonnement());
-        }
-        else
-        {
+        } else {
           QMessageBox::critical(
               this, "Erreur d'ajout",
               "Une erreur est survenue lors de l'ajout du Abonement.");
         }
-      }
-      else
-      {
+      } else {
         QMessageBox::warning(this, "price or number invalide",
                              "Le price et number doit contenir exactement des "
                              "caractères numériques.");
       }
-    }
-    else
-    {
+    } else {
       QMessageBox::warning(this, "CIN or id_abnt invalide",
                            "Le CIN et id_abnt doit contenir exactement 8 "
                            "caractères numériques.");
     }
-  }
-  else
-  {
+  } else {
     QMessageBox::warning(this, "Données manquantes",
                          "Veuillez entrer le prix et le CIN.");
   }
 }
 
-void MainWindow::on_delete_abonnement_button_clicked()
-{
+void MainWindow::on_delete_abonnement_button_clicked() {
   QString id = ui->delete_abonnement_field->text();
   Abonement Abonement;
   bool test = supp.supprimer_abonnement(id);
-  if (test)
-  {
+  if (test) {
     QMessageBox::information(
         nullptr, QObject::tr("Supprimer ABONEMENT"),
         QObject::tr("Le ABONEMENT HAS BEEN DELETED SUCCESSFULLY.\n"
                     "CLICK OK TO EXIST."),
         QMessageBox::Ok);
-  }
-  else
-  {
+  } else {
     QMessageBox::information(nullptr, QObject::tr("DELETE ABONEMENTs"),
                              QObject::tr("Le ABONEMENT HASN'T BEEN DELETED.\n"
                                          "CLICK OK TO EXIST."),
@@ -990,8 +881,7 @@ void MainWindow::on_delete_abonnement_button_clicked()
   ui->table_abonnement_2->setModel(Abonement.afficher_abonnement());
 }
 
-void MainWindow::on_aupdate_abnt_clicked()
-{
+void MainWindow::on_aupdate_abnt_clicked() {
   QString id_abnt = ui->ref_update_abnt->text();
   QString activity = ui->activity_update_abnt->currentText();
   QString membre = ui->number_update_abnt->text();
@@ -1000,92 +890,74 @@ void MainWindow::on_aupdate_abnt_clicked()
   QString duration = ui->comboBox_3->currentText();
   Abonement Abonement(id_abnt, activity, membre, cin, price, duration);
   bool test = Abonement.modifier(id_abnt);
-  if (test)
-  {
+  if (test) {
     QMessageBox::information(
         this, "Modification réussie",
         "Les informations du Abonement ont été modifiées avec succès.");
     ui->table_abonnement->setModel(Abonement.afficher_abonnement());
     ui->table_abonnement_2->setModel(Abonement.afficher_abonnement());
-  }
-  else
-  {
+  } else {
     QMessageBox::critical(
         this, "Erreur de modification",
         "Une erreur est survenue lors de la modification du Abonement.");
   }
 }
 
-void MainWindow::on_refreshTableV_3_clicked()
-{
+void MainWindow::on_refreshTableV_3_clicked() {
   ui->table_abonnement->setModel(display.afficher_abonnement());
   ui->table_abonnement_2->setModel(display.afficher_abonnement());
 }
 
 /* ---------------------------------------------------- */
-void MainWindow::on_pushButton_7_clicked()
-{
+void MainWindow::on_pushButton_7_clicked() {
   // Bouton pour rediriger vers CLIENTS
   ui->stackedWidget->setCurrentIndex(3);
 }
 
-void MainWindow::on_BTmenu_EmpoyepushButton_clicked()
-{
+void MainWindow::on_BTmenu_EmpoyepushButton_clicked() {
   ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::on_abonnementPushButton_clicked()
-{
+void MainWindow::on_abonnementPushButton_clicked() {
   ui->stackedWidget->setCurrentIndex(4);
 }
 
-void MainWindow::on_menu_pushButton_clicked()
-{
+void MainWindow::on_menu_pushButton_clicked() {
   ui->stackedWidget->setCurrentIndex(1);
 }
 
-void MainWindow::on_login_pushButton_6_clicked()
-{
+void MainWindow::on_login_pushButton_6_clicked() {
   ui->stackedWidget->setCurrentIndex(0);
 }
-void MainWindow::on_pushButton_10_clicked()
-{
+void MainWindow::on_pushButton_10_clicked() {
   ui->stackedWidget->setCurrentIndex(6);
 }
 
-void MainWindow::on_pb_logOut_clicked()
-{
+void MainWindow::on_pb_logOut_clicked() {
 
   ui->frame_3->setVisible(false);
   ui->stackedWidget->setCurrentIndex(0);
 }
-void MainWindow::on_employesPushButton_clicked()
-{
+void MainWindow::on_employesPushButton_clicked() {
   ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::on_clientPushButton_clicked()
-{
+void MainWindow::on_clientPushButton_clicked() {
   ui->stackedWidget->setCurrentIndex(3);
 }
 
-void MainWindow::on_equipementsPushButton_clicked()
-{
+void MainWindow::on_equipementsPushButton_clicked() {
   ui->stackedWidget->setCurrentIndex(4);
 }
 
-void MainWindow::on_evenementsPushButton_clicked()
-{
+void MainWindow::on_evenementsPushButton_clicked() {
   ui->stackedWidget->setCurrentIndex(5);
 }
 
-
 /* ---------------------------------------------------- */
-void MainWindow::on_SearchClientUpdateButton_clicked()
-{
+void MainWindow::on_SearchClientUpdateButton_clicked() {
   Client CTU;
-  if (!ui->UCIN->text().isEmpty())
-  {
+  if (!ui->UCIN->text().isEmpty()) {
     int CIN = ui->UCIN->text().toInt();
     CTU = CTU.RechercheClient(CIN);
   }
@@ -1096,12 +968,9 @@ void MainWindow::on_SearchClientUpdateButton_clicked()
   QDate birthDate = CTU.getDateNaissance();
   ui->UDateEdit->setDate(birthDate);
 
-  if (CTU.getGenre() == 1)
-  {
+  if (CTU.getGenre() == 1) {
     ui->UFradioButton->setChecked(true);
-  }
-  else if (CTU.getGenre() == 0)
-  {
+  } else if (CTU.getGenre() == 0) {
     ui->UMradioButton->setChecked(true);
   }
 
@@ -1109,8 +978,7 @@ void MainWindow::on_SearchClientUpdateButton_clicked()
   ui->UEmail->setText(CTU.getEmail());
 }
 
-void MainWindow::on_AjouterButton_5_clicked()
-{
+void MainWindow::on_AjouterButton_5_clicked() {
   QString reference = ui->updateCin_LE_2->text();
   QString fonctionalite = ui->reference_7->text();
   int prix = ui->reference_9->text().toInt();
@@ -1120,8 +988,7 @@ void MainWindow::on_AjouterButton_5_clicked()
   Equipements E(reference, prix, nombre, fonctionalite, type, etat);
   E.modifier();
   bool test = E.modifier();
-  if (test)
-  {
+  if (test) {
     ui->tableView_3->setModel(E.afficher());
     ui->updateCin_LE_2->clear();
     ui->reference_7->clear();
@@ -1132,43 +999,35 @@ void MainWindow::on_AjouterButton_5_clicked()
   }
 }
 
-void MainWindow::on_lineEdit_2_textChanged(const QString &arg1)
-{
+void MainWindow::on_lineEdit_2_textChanged(const QString &arg1) {
   Equipements E;
-  if (ui->nomRadioButton_2->isChecked() == true)
-  {
+  if (ui->nomRadioButton_2->isChecked() == true) {
     E.chercherEquipRef(ui->tableView_3, arg1);
   }
-  if (ui->nomRadioButton_3->isChecked() == true)
-  {
+  if (ui->nomRadioButton_3->isChecked() == true) {
     E.chercherEquipType(ui->tableView_3, arg1);
   }
-  if (ui->nomRadioButton_4->isChecked() == true)
-  {
+  if (ui->nomRadioButton_4->isChecked() == true) {
     E.chercherEquipEtat(ui->tableView_3, arg1);
   }
 }
 
-void MainWindow::on_triCinPushButton_2_clicked()
-{
+void MainWindow::on_triCinPushButton_2_clicked() {
   Equipements E;
   ui->tableView_3->setModel(E.triRef());
 }
 
-void MainWindow::on_triCinPushButton_3_clicked()
-{
+void MainWindow::on_triCinPushButton_3_clicked() {
   Equipements E;
   ui->tableView_3->setModel(E.triType());
 }
 
-void MainWindow::on_triCinPushButton_4_clicked()
-{
+void MainWindow::on_triCinPushButton_4_clicked() {
   Equipements E;
   ui->tableView_3->setModel(E.triEtat());
 }
 
-void MainWindow::on_PDFpushButton_2_clicked()
-{
+void MainWindow::on_PDFpushButton_2_clicked() {
   // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
   QPrinter printer;
   printer.setOutputFormat(QPrinter::PdfFormat);
@@ -1176,8 +1035,7 @@ void MainWindow::on_PDFpushButton_2_clicked()
 
   // Création d'un objet QPainter pour l'objet QPrinter
   QPainter painter;
-  if (!painter.begin(&printer))
-  {
+  if (!painter.begin(&printer)) {
     qWarning("failed to open file, is it writable?");
     return;
   }
@@ -1199,54 +1057,48 @@ void MainWindow::on_PDFpushButton_2_clicked()
 
   // Dessiner les lignes de la table
   painter.drawRect(0, 0, columns * cellWidth, (rows + 1) * cellHeight);
-  for (int row = 1; row < rows + 1; ++row)
-  {
-    painter.drawLine(0, row * cellHeight, columns * cellWidth, row * cellHeight);
+  for (int row = 1; row < rows + 1; ++row) {
+    painter.drawLine(0, row * cellHeight, columns * cellWidth,
+                     row * cellHeight);
   }
-  for (int col = 1; col < columns; ++col)
-  {
-    painter.drawLine(col * cellWidth, 0, col * cellWidth, (rows + 1) * cellHeight);
+  for (int col = 1; col < columns; ++col) {
+    painter.drawLine(col * cellWidth, 0, col * cellWidth,
+                     (rows + 1) * cellHeight);
   }
 
   // Dessiner les en-têtes de colonnes
   QFont font = painter.font();
   font.setBold(true);
   painter.setFont(font);
-  for (int col = 0; col < columns; ++col)
-  {
+  for (int col = 0; col < columns; ++col) {
     QModelIndex index = model->index(0, col);
     QString headerData = model->headerData(col, Qt::Horizontal).toString();
-    painter.drawText(col * cellWidth, 0, cellWidth, cellHeight,
-                     Qt::AlignCenter, headerData);
+    painter.drawText(col * cellWidth, 0, cellWidth, cellHeight, Qt::AlignCenter,
+                     headerData);
   }
 
   // Dessiner les données de la table sur le périphérique de sortie PDF
-  for (int row = 0; row < rows; ++row)
-  {
-    for (int col = 0; col < columns; ++col)
-    {
+  for (int row = 0; row < rows; ++row) {
+    for (int col = 0; col < columns; ++col) {
       // Obtenir les données de la cellule
       QModelIndex index = model->index(row, col);
       QString data = model->data(index).toString();
 
       // Dessiner les données de la cellule
-      painter.drawText(col * cellWidth, (row + 1) * cellHeight, cellWidth, cellHeight,
-                       Qt::AlignLeft | Qt::AlignVCenter, data);
+      painter.drawText(col * cellWidth, (row + 1) * cellHeight, cellWidth,
+                       cellHeight, Qt::AlignLeft | Qt::AlignVCenter, data);
     }
   }
 
   // Dessiner l'image au centre de la page
   QImage image("C:/youssef/NauticaLogo.png");
-  if (!image.isNull())
-  {
+  if (!image.isNull()) {
     int imageWidth = image.width();
     int imageHeight = image.height();
     int x = (pageWidth - imageWidth) / 2;
     int y = (pageHeight - imageHeight) / 2;
     painter.drawImage(x, y, image);
-  }
-  else
-  {
+  } else {
     qWarning("Failed to load image");
   }
 
@@ -1254,9 +1106,9 @@ void MainWindow::on_PDFpushButton_2_clicked()
   painter.end();
 }
 
-void MainWindow::on_statTypePushButton_2_clicked()
-{
-  QChartView *chartView = new QChartView(ui->Equipement_label_Stats); // Chart view created with parent
+void MainWindow::on_statTypePushButton_2_clicked() {
+  QChartView *chartView = new QChartView(
+      ui->Equipement_label_Stats); // Chart view created with parent
   chartView->setRenderHint(QPainter::Antialiasing);
   chartView->setMinimumSize(570, 570);
 
@@ -1280,8 +1132,7 @@ void MainWindow::on_statTypePushButton_2_clicked()
     c2 = q3.value(0).toInt();
 
   // Calculate proportions
-  if (tot != 0)
-  {
+  if (tot != 0) {
     c1 = c1 / tot;
     c2 = c2 / tot;
   }
@@ -1290,7 +1141,8 @@ void MainWindow::on_statTypePushButton_2_clicked()
   QPieSeries *series = new QPieSeries();
   QPieSlice *slice1 = series->append("sport", c1);
   QPieSlice *slice2 = series->append("help", c2);
-  series->setHoleSize(0.5); // Set hole size for doughnut chart (0.5 means half size of the chart)
+  series->setHoleSize(0.5); // Set hole size for doughnut chart (0.5 means half
+                            // size of the chart)
 
   // Set labels as slice name and percentage
   slice1->setLabel(QString("%1: %2%").arg(slice1->label()).arg(c1 * 100));
@@ -1312,9 +1164,9 @@ void MainWindow::on_statTypePushButton_2_clicked()
   chartView->show();
 }
 
-void MainWindow::on_StatEtatPushButton_clicked()
-{
-  QChartView *chartView = new QChartView(ui->Equipement_label_Stats); // Chart view created with parent
+void MainWindow::on_StatEtatPushButton_clicked() {
+  QChartView *chartView = new QChartView(
+      ui->Equipement_label_Stats); // Chart view created with parent
   chartView->setRenderHint(QPainter::Antialiasing);
   chartView->setMinimumSize(570, 570);
 
@@ -1338,8 +1190,7 @@ void MainWindow::on_StatEtatPushButton_clicked()
     c2 = q3.value(0).toInt();
 
   // Calculate proportions
-  if (tot != 0)
-  {
+  if (tot != 0) {
     c1 = c1 / tot;
     c2 = c2 / tot;
   }
@@ -1348,7 +1199,8 @@ void MainWindow::on_StatEtatPushButton_clicked()
   QPieSeries *series = new QPieSeries();
   QPieSlice *slice1 = series->append("bien", c1);
   QPieSlice *slice2 = series->append("mauvais", c2);
-  series->setHoleSize(0.5); // Set hole size for doughnut chart (0.5 means half size of the chart)
+  series->setHoleSize(0.5); // Set hole size for doughnut chart (0.5 means half
+                            // size of the chart)
 
   // Set labels as slice name and percentage
   slice1->setLabel(QString("%1: %2%").arg(slice1->label()).arg(c1 * 100));
@@ -1370,9 +1222,9 @@ void MainWindow::on_StatEtatPushButton_clicked()
   chartView->show();
 }
 
-void MainWindow::on_statPrixPushButton_clicked()
-{
-  QChartView *chartView = new QChartView(ui->Equipement_label_Stats); // Chart view created with parent
+void MainWindow::on_statPrixPushButton_clicked() {
+  QChartView *chartView = new QChartView(
+      ui->Equipement_label_Stats); // Chart view created with parent
   chartView->setRenderHint(QPainter::Antialiasing);
   chartView->setMinimumSize(570, 570);
 
@@ -1398,8 +1250,7 @@ void MainWindow::on_statPrixPushButton_clicked()
   c3 = tot - c1 - c2; // Calculate count for "Over 500" slice
 
   // Calculate proportions
-  if (tot != 0)
-  {
+  if (tot != 0) {
     c1 = c1 / tot;
     c2 = c2 / tot;
     c3 = c3 / tot;
@@ -1410,7 +1261,8 @@ void MainWindow::on_statPrixPushButton_clicked()
   QPieSlice *slice1 = series->append("Under 200", c1);
   QPieSlice *slice2 = series->append("Between 200 and 500", c2);
   QPieSlice *slice3 = series->append("Over 500", c3);
-  series->setHoleSize(0.5); // Set hole size for doughnut chart (0.5 means half size of the chart)
+  series->setHoleSize(0.5); // Set hole size for doughnut chart (0.5 means half
+                            // size of the chart)
 
   // Set labels as slice name and percentage
   slice1->setLabel(QString("%1: %2%").arg(slice1->label()).arg(c1 * 100));
