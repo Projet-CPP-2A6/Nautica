@@ -18,8 +18,8 @@ jobs:
 
       - name: Install Clang
         run: |
-          apt-get update
-          apt-get install -y clang-format
+          sudo apt update
+          sudo apt install -y clang-format
 
       - name: Run Clang-Format
         run: |
