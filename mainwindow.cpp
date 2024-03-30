@@ -1239,4 +1239,3 @@ void MainWindow::on_CRefStatExport_clicked() {
     pixmap.save(fileName); // Save the image to the specified file
   }
 }
-}
