@@ -463,6 +463,12 @@ void MainWindow::on_AjouterButton_clicked() {
   Client NC(CIN, nom, prenom, date_naissance, genre, tel, email);
   if (NC.Ajouter()) {
     // ui->listClientsView->setModel(NC.afficher());
+    if (!NC.saveLog(QDateTime::currentDateTime(), CIN, "Created", "")) {
+      ui->ClientAddLabel->setText("Error saving Log");
+      ui->ClientAddLabel->setStyleSheet("color: red;");
+      QTimer::singleShot(10000, this,
+                         [=]() { ui->ClientAddLabel->setText(""); });
+    }
     ui->ACIN->clear();
     ui->ANom->clear();
     ui->APrenom->clear();
@@ -485,9 +491,17 @@ void MainWindow::on_AjouterButton_clicked() {
 
 void MainWindow::on_DeleteClientBtn_clicked() {
   int CIN = ui->CINtoDelete->text().toInt();
-  Client C;
-  C.setCIN(CIN);
+  Client C, EmptyClient;
+  C = C.RechercheClient(CIN);
+  QString changes = EmptyClient.compareClients(C, EmptyClient);
   if (C.Supprimer()) {
+    if (!EmptyClient.saveLog(QDateTime::currentDateTime(), CIN, "Delete",
+                             changes)) {
+      ui->DeleteClientLabel->setText("Error Saving Log");
+      ui->DeleteClientLabel->setStyleSheet("color: red;");
+      QTimer::singleShot(10000, this,
+                         [=]() { ui->DeleteClientLabel->setText(""); });
+    }
     ui->DeleteClientLabel->setText("Client Deleted");
     ui->DeleteClientLabel->setStyleSheet("color: green;");
     ui->CINtoDelete->clear();
@@ -550,51 +564,59 @@ void MainWindow::on_SearchCIN_textChanged(const QString &searchedText) {
 }
 
 void MainWindow::on_UpdateClientBtn_clicked() {
-    int CIN = ui->UCIN->text().toInt();
-    QString nom = ui->UNom->text();
-    QString prenom = ui->UPrenom->text();
-    QDate date_naissance = ui->UDateEdit->date();
-    int genre = ui->UFradioButton->isChecked() ? 1 : (ui->UMradioButton->isChecked() ? 0 : -1);
-    int tel = ui->UTel->text().toInt();
-    QString email = ui->UEmail->text();
+  int CIN = ui->UCIN->text().toInt();
+  QString nom = ui->UNom->text();
+  QString prenom = ui->UPrenom->text();
+  QDate date_naissance = ui->UDateEdit->date();
+  int genre = ui->UFradioButton->isChecked()
+                  ? 1
+                  : (ui->UMradioButton->isChecked() ? 0 : -1);
+  int tel = ui->UTel->text().toInt();
+  QString email = ui->UEmail->text();
 
-    Client oldClient;
-     oldClient = oldClient.RechercheClient(CIN);
-    if (oldClient.getCIN()==0) {
-        ui->ClientUpdateLabel->setText("Client not found");
+  Client oldClient;
+  oldClient = oldClient.RechercheClient(CIN);
+  if (oldClient.getCIN() == 0) {
+    ui->ClientUpdateLabel->setText("Client not found");
+    ui->ClientUpdateLabel->setStyleSheet("color: red;");
+    QTimer::singleShot(10000, this,
+                       [=]() { ui->ClientUpdateLabel->setText(""); });
+    return;
+  }
+
+  Client newClient(CIN, nom, prenom, date_naissance, genre, tel, email);
+
+  QString changes = newClient.compareClients(oldClient, newClient);
+
+  if (newClient.Modifier()) {
+    if (!changes.isEmpty()) {
+      QDateTime currentDateTime = QDateTime::currentDateTime();
+      if (!newClient.saveLog(currentDateTime, CIN, "Updated", changes)) {
+        ui->ClientUpdateLabel->setText("Error Saving Logs");
         ui->ClientUpdateLabel->setStyleSheet("color: red;");
-        QTimer::singleShot(10000, this, [=]() { ui->ClientUpdateLabel->setText(""); });
-        return;
+        QTimer::singleShot(10000, this,
+                           [=]() { ui->ClientUpdateLabel->setText(""); });
+      }
     }
 
-    Client newClient(CIN, nom, prenom, date_naissance, genre, tel, email);
-
-    QString changes = newClient.compareClients(oldClient, newClient);
-
-    if (newClient.Modifier()) {
-        if (!changes.isEmpty()) {
-            QDateTime currentDateTime = QDateTime::currentDateTime();
-            if (!newClient.saveLog(currentDateTime, CIN, "Updated", changes)) {
-                qDebug() << "Error saving log";
-            }
-        }
-
-        ui->UCIN->clear();
-        ui->UNom->clear();
-        ui->UPrenom->clear();
-        ui->UDateEdit->clear();
-        ui->UFradioButton->setChecked(false);
-        ui->UMradioButton->setChecked(false);
-        ui->UTel->clear();
-        ui->UEmail->clear();
-        ui->ClientUpdateLabel->setText("Client Updated");
-        ui->ClientUpdateLabel->setStyleSheet("color: green;");
-        QTimer::singleShot(10000, this, [=]() { ui->ClientUpdateLabel->setText(""); });
-    } else {
-        ui->ClientUpdateLabel->setText("Error Updating Client");
-        ui->ClientUpdateLabel->setStyleSheet("color: red;");
-        QTimer::singleShot(10000, this, [=]() { ui->ClientUpdateLabel->setText(""); });
-    }
+    ui->UCIN->clear();
+    ui->UNom->clear();
+    ui->UPrenom->clear();
+    ui->UDateEdit->clear();
+    ui->UFradioButton->setChecked(false);
+    ui->UMradioButton->setChecked(false);
+    ui->UTel->clear();
+    ui->UEmail->clear();
+    ui->ClientUpdateLabel->setText("Client Updated");
+    ui->ClientUpdateLabel->setStyleSheet("color: green;");
+    QTimer::singleShot(10000, this,
+                       [=]() { ui->ClientUpdateLabel->setText(""); });
+  } else {
+    ui->ClientUpdateLabel->setText("Error Updating Client");
+    ui->ClientUpdateLabel->setStyleSheet("color: red;");
+    QTimer::singleShot(10000, this,
+                       [=]() { ui->ClientUpdateLabel->setText(""); });
+  }
 }
 
 void MainWindow::on_TrierParButton_clicked() {
@@ -1147,4 +1169,11 @@ void MainWindow::on_statPrixPushButton_clicked() {
   // Set chart for chart view
   chartView->setChart(chart);
   chartView->show();
+}
+
+void MainWindow::on_ViewLogsButton_clicked() {
+  QDate startDate = ui->startDate->date();
+  QDate endDate = ui->endDate->date();
+  Client ShowLogs;
+  ui->LogsView->setModel(ShowLogs.getLogs(startDate, endDate));
 }

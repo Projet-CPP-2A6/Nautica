@@ -54,7 +54,9 @@ public:
   int Recherche(int CIN);
   Client RechercheClient(int CIN);
   vector<int> Statistics();
-  bool saveLog(QDateTime datetime, int Client_CIN, QString action, QString changes);
+  bool saveLog(QDateTime datetime, int Client_CIN, QString action,
+               QString changes);
+  QSqlQueryModel *getLogs(QDate startDate, QDate endDate);
   QString compareClients(Client oldClient, Client newClient);
 };
 

@@ -2773,6 +2773,99 @@ QLineEdit:focus {
         </property>
        </widget>
       </widget>
+      <widget class="QWidget" name="tab_10">
+       <attribute name="title">
+        <string>Logs</string>
+       </attribute>
+       <widget class="QFrame" name="frame_15">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>1031</width>
+          <height>531</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="0" column="0" rowspan="4">
+          <widget class="QTableView" name="LogsView"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_51">
+           <property name="text">
+            <string>From:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QDateEdit" name="startDate">
+           <property name="styleSheet">
+            <string notr="true">QDateEdit {
+    border: 2px solid black; 
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QDateEdit:focus {
+    border-color: black; 
+    background-color: rgba(248, 248, 248, 1); 
+}
+</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="label_52">
+           <property name="text">
+            <string>To:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QDateEdit" name="endDate">
+           <property name="styleSheet">
+            <string notr="true">QDateEdit {
+    border: 2px solid black; 
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QDateEdit:focus {
+    border-color: black; 
+    background-color: rgba(248, 248, 248, 1); 
+}
+</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1" colspan="2">
+          <widget class="QPushButton" name="ViewLogsButton">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ffffff; /* Fond blanc */
+border: 2px solid blue; /* Bordure bleue */
+border-radius: 10px; /* Coins arrondis */
+padding: 1px 2px; /* Espacement intérieur */
+color: black; /* Couleur du texte */
+font-size: 16px; /* Taille de la police */</string>
+           </property>
+           <property name="text">
+            <string>View Logs</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="M4">
