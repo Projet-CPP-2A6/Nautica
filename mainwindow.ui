@@ -2022,7 +2022,7 @@ QPushButton:hover {
        <string notr="true">background-color: white;</string>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab_9">
        <attribute name="title">
@@ -2770,6 +2770,29 @@ QLineEdit:focus {
         </property>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="CRefStatExport">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>500</y>
+          <width>161</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+        </property>
+        <property name="text">
+         <string>Export Statistics</string>
         </property>
        </widget>
       </widget>

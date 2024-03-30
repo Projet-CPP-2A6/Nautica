@@ -1177,3 +1177,66 @@ void MainWindow::on_ViewLogsButton_clicked() {
   Client ShowLogs;
   ui->LogsView->setModel(ShowLogs.getLogs(startDate, endDate));
 }
+
+void MainWindow::on_CRefStatExport_clicked() {
+  Client C;
+  vector<int> Stat = C.Statistics();
+  qDebug() << Stat;
+  int numClients = Stat[0];
+  int numMales = Stat[1];
+  int numFemales = Stat[2];
+  int avgAge = Stat[3];
+
+  const int barSpacing = 40;
+
+  QGraphicsScene *scene = new QGraphicsScene(this);
+
+  QGraphicsRectItem *clientsBar = scene->addRect(0, 0, numClients * 5, 20);
+  QGraphicsRectItem *malesBar = scene->addRect(0, barSpacing, numMales * 5, 20);
+  QGraphicsRectItem *femalesBar =
+      scene->addRect(0, 2 * barSpacing, numFemales * 5, 20);
+  QGraphicsRectItem *avgAgeBar =
+      scene->addRect(0, 3 * barSpacing, avgAge * 2, 20);
+
+  clientsBar->setBrush(Qt::blue);
+  malesBar->setBrush(Qt::green);
+  femalesBar->setBrush(Qt::red);
+  avgAgeBar->setBrush(Qt::yellow);
+
+  QGraphicsTextItem *clientsLabel =
+      scene->addText(QString("Number of Clients: %1").arg(numClients));
+  clientsLabel->setPos(numClients * 5 + 10, 0);
+
+  QGraphicsTextItem *malesLabel =
+      scene->addText(QString("Number of Males: %1").arg(numMales));
+  malesLabel->setPos(numMales * 5 + 10, barSpacing);
+
+  QGraphicsTextItem *femalesLabel =
+      scene->addText(QString("Number of Females: %1").arg(numFemales));
+  femalesLabel->setPos(numFemales * 5 + 10, 2 * barSpacing);
+
+  QGraphicsTextItem *avgAgeLabel =
+      scene->addText(QString("Average Age: %1").arg(avgAge));
+  avgAgeLabel->setPos(avgAge * 2 + 10, 3 * barSpacing);
+
+  QGraphicsView *view = new QGraphicsView(scene);
+
+  QVBoxLayout *layout = new QVBoxLayout(ui->CStatFrame);
+  layout->addWidget(view);
+
+  // Image export test, on click export image is a copy of this
+  QString defaultFileName = "ClientsList.png";
+  QString fileName = QFileDialog::getSaveFileName(
+      this, "Save Image", defaultFileName, "Image Files (*.png)");
+
+  if (!fileName.isEmpty()) {
+    QWidget *statFrameWidget = ui->CStatFrame;
+
+    // Create a QPixmap to render the widget content
+    QPixmap pixmap(statFrameWidget->size());
+    statFrameWidget->render(&pixmap);
+
+    pixmap.save(fileName); // Save the image to the specified file
+  }
+}
+}

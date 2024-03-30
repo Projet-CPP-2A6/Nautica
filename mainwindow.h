@@ -112,6 +112,8 @@ private slots:
   void on_statPrixPushButton_clicked();
   void on_ViewLogsButton_clicked();
 
+  void on_CRefStatExport_clicked();
+
 private:
   Ui::MainWindow *ui;
   Abonement supp;
