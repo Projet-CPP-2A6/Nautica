@@ -114,6 +114,8 @@ private slots:
 
   void on_CRefStatExport_clicked();
 
+  void on_TodayDateButton_clicked();
+
 private:
   Ui::MainWindow *ui;
   Abonement supp;

@@ -2022,7 +2022,7 @@ QPushButton:hover {
        <string notr="true">background-color: white;</string>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="tab_9">
        <attribute name="title">
@@ -2819,13 +2819,6 @@ QLineEdit:focus {
          <item row="0" column="0" rowspan="4">
           <widget class="QTableView" name="LogsView"/>
          </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_51">
-           <property name="text">
-            <string>From:</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="2">
           <widget class="QDateEdit" name="startDate">
            <property name="styleSheet">
@@ -2845,10 +2838,32 @@ QDateEdit:focus {
            </property>
           </widget>
          </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_51">
+           <property name="text">
+            <string>From:</string>
+           </property>
+          </widget>
+         </item>
          <item row="1" column="1">
           <widget class="QLabel" name="label_52">
            <property name="text">
             <string>To:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1" colspan="2">
+          <widget class="QPushButton" name="ViewLogsButton">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ffffff; /* Fond blanc */
+border: 2px solid blue; /* Bordure bleue */
+border-radius: 10px; /* Coins arrondis */
+padding: 1px 2px; /* Espacement intérieur */
+color: black; /* Couleur du texte */
+font-size: 16px; /* Taille de la police */</string>
+           </property>
+           <property name="text">
+            <string>View Logs</string>
            </property>
           </widget>
          </item>
@@ -2871,18 +2886,18 @@ QDateEdit:focus {
            </property>
           </widget>
          </item>
-         <item row="2" column="1" colspan="2">
-          <widget class="QPushButton" name="ViewLogsButton">
+         <item row="1" column="3">
+          <widget class="QPushButton" name="TodayDateButton">
            <property name="styleSheet">
             <string notr="true">background-color: #ffffff; /* Fond blanc */
-border: 2px solid blue; /* Bordure bleue */
+border: 2px solid green;
 border-radius: 10px; /* Coins arrondis */
 padding: 1px 2px; /* Espacement intérieur */
 color: black; /* Couleur du texte */
 font-size: 16px; /* Taille de la police */</string>
            </property>
            <property name="text">
-            <string>View Logs</string>
+            <string>Today</string>
            </property>
           </widget>
          </item>

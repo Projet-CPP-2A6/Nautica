@@ -1175,7 +1175,9 @@ void MainWindow::on_ViewLogsButton_clicked() {
   QDate startDate = ui->startDate->date();
   QDate endDate = ui->endDate->date();
   Client ShowLogs;
-  ui->LogsView->setModel(ShowLogs.getLogs(startDate, endDate));
+  QSqlQueryModel *LogsModel = ShowLogs.getLogs(startDate, endDate);
+  if(LogsModel!=nullptr)
+  { ui->LogsView->setModel(LogsModel);}
 }
 
 void MainWindow::on_CRefStatExport_clicked() {
@@ -1238,4 +1240,8 @@ void MainWindow::on_CRefStatExport_clicked() {
 
     pixmap.save(fileName); // Save the image to the specified file
   }
+}
+
+void MainWindow::on_TodayDateButton_clicked() {
+    ui->endDate->setDate(QDate::currentDate());
 }

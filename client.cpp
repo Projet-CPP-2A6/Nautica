@@ -311,7 +311,7 @@ QString Client::compareClients(Client oldClient, Client newClient) {
                    newClient.getEmail() + "\n");
   }
 
-  return changes.join(";");
+  return changes.join(" ; ");
 };
 
 bool Client::saveLog(QDateTime datetime, int Client_CIN, QString action,
@@ -330,33 +330,39 @@ bool Client::saveLog(QDateTime datetime, int Client_CIN, QString action,
   }
   return true;
 }
-QSqlQueryModel *Client::getLogs(QDate startDate, QDate endDate) {
-  QSqlQuery query;
-  if (startDate > endDate) {
 
-    return nullptr;
-  }
-  if (startDate.isValid() && endDate.isValid()) {
-    query.prepare("SELECT TO_CHAR(*) FROM LOGS WHERE DATETIME BETWEEN "
-                  ":START_DATE AND :END_DATE");
-  } else {
-    query.prepare("SELECT TO_CHAR(*) FROM LOGS");
-  }
-  query.bindValue(":START_DATE", startDate);
-  query.bindValue(":END_DATE", endDate);
-  if (!query.exec()) {
-    qDebug() << "Failed to execute query:" << query.lastError().text();
-    qDebug() << "Database Error:" << query.lastError().databaseText();
-    return nullptr;
-  }
-  QSqlQueryModel *model = new QSqlQueryModel();
-  model->setQuery(query);
-  model->setHeaderData(0, Qt::Horizontal, QObject::tr("DATETIME"));
-  model->setHeaderData(1, Qt::Horizontal, QObject::tr("CIN"));
-  model->setHeaderData(2, Qt::Horizontal, QObject::tr("ACTION"));
-  model->setHeaderData(3, Qt::Horizontal, QObject::tr("CHANGES"));
-  return model;
+QSqlQueryModel *Client::getLogs(QDate startDate, QDate endDate) {
+    QSqlQueryModel *model = new QSqlQueryModel();
+
+    if (!startDate.isValid() || !endDate.isValid() || startDate > endDate) {
+        qDebug() << "Invalid date range.";
+        return nullptr;
+    }
+
+    QSqlQuery query;
+    if (startDate == endDate) {
+        query.prepare("SELECT DATETIME, TO_CHAR(CIN), ACTION, CHANGES FROM LOGS");
+    } else {
+        query.prepare("SELECT DATETIME, TO_CHAR(CIN), ACTION, CHANGES FROM LOGS WHERE TRUNC(DATETIME) BETWEEN TO_DATE(:START_DATE, 'DD/MM/YYYY') AND TO_DATE(:END_DATE, 'DD/MM/YYYY')");
+        query.bindValue(":START_DATE", startDate.toString("dd/MM/yyyy"));
+        query.bindValue(":END_DATE", endDate.toString("dd/MM/yyyy"));
+    }
+
+    if (!query.exec()) {
+        qDebug() << "Failed to execute query:" << query.lastError().text();
+        qDebug() << "Database Error:" << query.lastError().databaseText();
+        return nullptr;
+    }
+
+    model->setQuery(query);
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("DATETIME"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("CIN"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("ACTION"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("CHANGES"));
+
+    return model;
 }
+
 // Getters
 int Client::getCIN() { return CIN; };
 
