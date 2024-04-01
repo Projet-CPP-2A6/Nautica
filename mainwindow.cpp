@@ -1200,7 +1200,7 @@ void MainWindow::on_AjouterButton_6_clicked()
     QString reference_equipement = ui->reference_equipement->text();
     QDate date_debut = ui->date_debut->date(); // Adjust the format according to your input
     QDate date_fin = ui->date_fin->date(); // Adjust the format according to your input
-    float prix_maintenance = ui->type_2->text().toFloat(); // Assuming this should be a float
+    float prix_maintenance = ui->prix_maintenance->text().toFloat(); // Assuming this should be a float
     QString etat = ui->etat->text();
 
     maintenance M(CIN_employe, reference_equipement, date_debut, date_fin, prix_maintenance);
