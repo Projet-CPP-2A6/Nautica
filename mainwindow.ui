@@ -3847,7 +3847,7 @@ QLineEdit:focus {
           </font>
          </property>
          <property name="text">
-          <string>Prix</string>
+          <string>Prixe</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_52">
@@ -3963,7 +3963,7 @@ QLineEdit:focus {
         <widget class="QPushButton" name="AjouterButton_6">
          <property name="geometry">
           <rect>
-           <x>220</x>
+           <x>210</x>
            <y>410</y>
            <width>451</width>
            <height>41</height>
