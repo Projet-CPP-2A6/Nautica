@@ -1,7 +1,5 @@
 #ifndef EQUIPEMENTS_H
 #define EQUIPEMENTS_H
-#ifndef EQUIPEMENT_H
-#define EQUIPEMENT_H
 
 #include <QTableView>
 #include <QString>
@@ -56,21 +54,33 @@ QSqlQueryModel* triEtat();
 
 };
 
-#endif // EQUIPEMENTS_H
-
-class Equipement
+class maintenance
 {
-    QString reference;
-    QString fonctionalite;
-    float prix;
-    QString nom;
-    QString prenom;
-    QString genre;
-    QString email;
-    QString adresse;
-    QString fonction;
+private:
+    float CIN_employe;
+    QString reference_equipement;
+    QDate date_debut;
+    QDate date_fin;
+    float prix_maintenance;
 public:
-    Equipement();
+    maintenance();
+    maintenance(float CIN_employe,QString reference_equipement,QDate date_debut,QDate date_fin,float prix_maintenance);
+    //getters
+    float getCIN_employe();
+    QString getReference_equipement();
+    QDate getDate_debut();
+    QDate getDate_fin();
+    float getPrix_maintenance();
+    //setters
+    void setCIN_equipement(float CIN_employe);
+    void setReference_equipement(QString reference_equipement);
+    void setDate_debut(QDate date_debut);
+    void setDate_fin(QDate date_fin);
+    void setPrix_maintenance(float prix_maintenance);
+
+    bool ajouter();
 };
 
-#endif // EQUIPEMENT_H
+
+#endif // EQUIPEMENTS_H
+

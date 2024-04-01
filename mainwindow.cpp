@@ -861,20 +861,26 @@ void MainWindow::on_triCinPushButton_4_clicked()
 
 void MainWindow::on_PDFpushButton_2_clicked()
 {
+    Equipements E;
+     QSqlQueryModel *model = E.afficher();
     // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
     QPrinter printer;
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName("C:/youssef/listeEquipement.pdf");
+    QString defaultFileName = "EquipmentList.pdf";
+    QString fileName = QFileDialog::getSaveFileName(
+          this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
 
     // Création d'un objet QPainter pour l'objet QPrinter
-    QPainter painter;
-    if (!painter.begin(&printer)) {
-        qWarning("failed to open file, is it writable?");
+    if (fileName.isEmpty() || !model)
         return;
-    }
-
-    // Obtenir le modèle de la table à partir de la QTableView
-    QAbstractItemModel *model = ui->tableView_3->model();
+    QPainter painter;
+    printer.setOutputFormat(QPrinter::PdfFormat);
+      printer.setOutputFileName(fileName);
+      if (!painter.begin(&printer))
+        {
+          qWarning("failed to open file, is it writable?");
+          return;
+        }
 
     // Obtenir les dimensions de la table
     int rows = model->rowCount();
@@ -1187,3 +1193,20 @@ void MainWindow::on_calendarWidget_clicked(const QDate &date)
     // Display available equipment details
     displayEquipmentDetails(availableEquipment);
 }
+
+void MainWindow::on_AjouterButton_6_clicked()
+{
+    float CIN_employe = ui->CIN_employe->text().toFloat();
+    QString reference_equipement = ui->reference_equipement->text();
+    QDate date_debut = ui->date_debut->date(); // Adjust the format according to your input
+    QDate date_fin = ui->date_fin->date(); // Adjust the format according to your input
+    float prix_maintenance = ui->type_2->text().toFloat(); // Assuming this should be a float
+    QString etat = ui->etat->text();
+
+    maintenance M(CIN_employe, reference_equipement, date_debut, date_fin, prix_maintenance);
+
+    if (M.ajouter()) {
+        qDebug()<< "Ajout réussi";
+    }
+}
+

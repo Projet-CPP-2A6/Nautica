@@ -120,6 +120,8 @@ private slots:
 
     void on_calendarWidget_clicked(const QDate &date);
 
+    void on_AjouterButton_6_clicked();
+
 private:
     Ui::MainWindow *ui;
     Abonement supp ;

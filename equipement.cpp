@@ -18,6 +18,17 @@ Equipements::Equipements()
     type=" ";
     etat="  ";
 };
+
+maintenance::maintenance()
+{
+    CIN_employe=0;
+    reference_equipement=" ";
+    date_debut=QDate::currentDate();
+    date_fin=QDate::currentDate();
+    prix_maintenance=0;
+};
+
+
  Equipements::Equipements(QString reference,int prix,int nombre,QString fonctionalite,QString type,QString etat)
  {
      this->reference=reference;
@@ -28,7 +39,36 @@ Equipements::Equipements()
      this->etat=etat;
  };
 
+ maintenance::maintenance(float CIN_employe,QString reference_equipement,QDate date_debut,QDate date_fin,float prix_maintenance)
+ {
+     this->CIN_employe=CIN_employe;
+     this->reference_equipement=reference_equipement;
+     this->date_debut=date_debut;
+     this->date_fin=date_fin;
+     this->prix_maintenance=prix_maintenance;
+ };
+
 //getters
+float maintenance::getCIN_employe()
+{
+  return CIN_employe;
+};
+QString maintenance::getReference_equipement()
+{
+    return reference_equipement;
+};
+QDate maintenance::getDate_debut()
+{
+    return date_debut;
+};
+QDate maintenance::getDate_fin()
+{
+    return date_fin;
+};
+float maintenance::getPrix_maintenance()
+{
+    return prix_maintenance;
+};
 QString  Equipements::getReference()
 {
     return reference;
@@ -55,6 +95,26 @@ QString Equipements::getEtat()
 };
 
 //setters
+void maintenance::setCIN_equipement(float CIN_employe)
+{
+    this->CIN_employe=CIN_employe;
+};
+void maintenance::setReference_equipement(QString reference_equipement)
+{
+    this->reference_equipement=reference_equipement;
+};
+void maintenance::setDate_debut(QDate date_debut)
+{
+    this->date_debut=date_debut;
+};
+void maintenance::setDate_fin(QDate date_fin)
+{
+    this->date_fin=date_fin;
+};
+void maintenance::setPrix_maintenance(float prix_maintenance)
+{
+    this->prix_maintenance=prix_maintenance;
+};
 void Equipements::setReference(QString reference)
 {
     this->reference=reference;
@@ -102,6 +162,27 @@ bool Equipements::ajouter()
 
     return true;
 }
+
+bool maintenance::ajouter()
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO MAINTENANCE(CIN_EMPLOYE,REFERENCE_EQUIPEMENT,DATE_DEBUT,DATE_FIN,PRIX_MAINTENANCE)"
+                  "VALUES (:CIN_EMPLOYE,:REFERENCE_EQUIPEMENT,:DATE_DEBUT,:DATE_FIN,:PRIX_MAINTENANCE)");
+    query.bindValue(":CIN_EMPLOYE", getCIN_employe());
+    query.bindValue(":REFERENCE_EQUIPEMENT", getReference_equipement());
+    query.bindValue(":DATE_DEBUT", getDate_debut().toString(Qt::ISODate)); // Convert QDate to string
+    query.bindValue(":DATE_FIN", getDate_fin().toString(Qt::ISODate)); // Convert QDate to string
+    query.bindValue(":PRIX_MAINTENANCE", getPrix_maintenance());
+
+    if (!query.exec()) {
+        qDebug() << "Failed to execute query:" << query.lastError().text();
+        qDebug() << "Oracle Error:" << query.lastError().databaseText();
+        return false;
+    }
+
+    return true;
+}
+
 
 
 bool Equipements::modifier()
@@ -247,10 +328,4 @@ QSqlQueryModel* Equipements::triEtat()
     return  model;
 
 };
-#include "equipement.h"
 
-
-Equipement::Equipement()
-{
-
-}
