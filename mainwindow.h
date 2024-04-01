@@ -114,6 +114,12 @@ private slots:
 
     void on_statPrixPushButton_clicked();
 
+    QList<QStringList> retrieveAvailableEquipment(const QString &dateString);
+
+    void displayEquipmentDetails(const QList<QStringList> &availableEquipment);
+
+    void on_calendarWidget_clicked(const QDate &date);
+
 private:
     Ui::MainWindow *ui;
     Abonement supp ;
