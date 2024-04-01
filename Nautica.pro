@@ -16,7 +16,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    calculator.cpp \
     client.cpp \
     connection.cpp \
     employes.cpp \
@@ -26,7 +25,6 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
-    calculator.h \
     client.h \
     connection.h \
     employes.h \
@@ -36,7 +34,6 @@ HEADERS += \
 
 FORMS += \
     accueil.ui \
-    calculator.ui \
     mainwindow.ui
 
 # Default rules for deployment.
