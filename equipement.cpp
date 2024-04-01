@@ -166,14 +166,14 @@ bool Equipements::ajouter()
 bool maintenance::ajouter()
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO MAINTENANCE(CIN_EMPLOYE,REFERENCE_EQUIPEMENT,DATE_DEBUT,DATE_FIN,PRIX_MAINTENANCE)"
-                  " VALUES (:CIN_EMPLOYE,:REFERENCE_EQUIPEMENT,:DATE_DEBUT,:DATE_FIN,:PRIX_MAINTENANCE)");
+    query.prepare("INSERT INTO MAINTENANCE(CIN_EMPLOYE,REFERENCE_EQUIPEMENT,DATE_DEBUT,DATE_FIN,PRIX_MAINTENANCE) "
+                  "VALUES (:CIN_EMPLOYE, :REFERENCE_EQUIPEMENT, :DATE_DEBUT, :DATE_FIN, CAST(:PRIX_MAINTENANCE AS FLOAT))");
+
     query.bindValue(":CIN_EMPLOYE", getCIN_employe());
     query.bindValue(":REFERENCE_EQUIPEMENT", getReference_equipement());
     query.bindValue(":DATE_DEBUT", getDate_debut()); // Directly bind QDate
     query.bindValue(":DATE_FIN", getDate_fin()); // Directly bind QDate
     query.bindValue(":PRIX_MAINTENANCE", getPrix_maintenance());
-
     if (!query.exec()) {
         qDebug() << "Failed to execute query:" << query.lastError().text();
         qDebug() << "Query:" << query.lastQuery();
@@ -184,12 +184,15 @@ bool maintenance::ajouter()
         qDebug() << "DATE_FIN:" << getDate_fin();
         qDebug() << "PRIX_MAINTENANCE:" << getPrix_maintenance();
         qDebug() << "Oracle Error:" << query.lastError().databaseText();
+        qDebug() << "Value bound to PRIX_MAINTENANCE:" << QString::number(getPrix_maintenance());
+
         return false;
     }
 
     qDebug() << "Query executed successfully:" << query.lastQuery();
     return true;
 }
+
 
 
 bool Equipements::modifier()

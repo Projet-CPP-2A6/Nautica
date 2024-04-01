@@ -1196,17 +1196,29 @@ void MainWindow::on_calendarWidget_clicked(const QDate &date)
 
 void MainWindow::on_AjouterButton_6_clicked()
 {
+    // Retrieve data from UI elements
     float CIN_employe = ui->CIN_employe->text().toFloat();
     QString reference_equipement = ui->reference_equipement->text();
-    QDate date_debut = ui->date_debut->date(); // Adjust the format according to your input
-    QDate date_fin = ui->date_fin->date(); // Adjust the format according to your input
-    float prix_maintenance = ui->prix_maintenance->text().toFloat(); // Assuming this should be a float
+    QDate date_debut = ui->date_debut->date();
+    QDate date_fin = ui->date_fin->date();
+    float prix_maintenance = ui->prix_maintenance->text().toFloat();
     QString etat = ui->etat->text();
 
+    qDebug() << "CIN_employe:" << CIN_employe;
+    qDebug() << "reference_equipement:" << reference_equipement;
+    qDebug() << "date_debut:" << date_debut.toString("yyyy-MM-dd");
+    qDebug() << "date_fin:" << date_fin.toString("yyyy-MM-dd");
+    qDebug() << "prix_maintenance:" << prix_maintenance;
+    qDebug() << "etat:" << etat;
+
+    // Create maintenance object
     maintenance M(CIN_employe, reference_equipement, date_debut, date_fin, prix_maintenance);
 
+    // Attempt to add maintenance
     if (M.ajouter()) {
         qDebug()<< "Ajout réussi";
     }
 }
+
+
 
