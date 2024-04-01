@@ -49,7 +49,7 @@ public:
   bool Modifier();
   bool Supprimer();
   QSqlQueryModel *Afficher();
-  QSqlQueryModel *RechercherEtAfficher(int CIN);
+  QSqlQueryModel *RechercherEtAfficher(QString searchedText);
   QSqlQueryModel *TriPar(QString critere);
   int Recherche(int CIN);
   Client RechercheClient(int CIN);

@@ -9,9 +9,7 @@
 #include <QString>
 #include <QTableView>
 #include <QtDebug>
-#include <iostream>
 #include <regex>
-#include <vector>
 using namespace std;
 Client::Client() {
   this->CIN = 0;
@@ -96,7 +94,8 @@ bool Client::Supprimer() {
 QSqlQueryModel *Client::Afficher() {
   QSqlQueryModel *model = new QSqlQueryModel();
   model->setQuery(
-      "SELECT TO_CHAR(CIN), NOM, PRENOM, TO_CHAR(DATE_NAISSANCE, 'DD-MM-YYYY'),  CASE WHEN GENRE = 0 THEN 'M' "
+      "SELECT TO_CHAR(CIN), NOM, PRENOM, TO_CHAR(DATE_NAISSANCE, "
+      "'DD-MM-YYYY'),  CASE WHEN GENRE = 0 THEN 'M' "
       "ELSE 'F' END AS GENRE, TO_CHAR(TELEPHONE), EMAIL  FROM CLIENTS");
   if (model->lastError().isValid()) {
     qDebug() << "Failed to execute query:" << model->lastError().text();
@@ -105,7 +104,7 @@ QSqlQueryModel *Client::Afficher() {
     return nullptr;
   }
 
-  for (int row = 0; row < model->rowCount(); ++row) {
+  /*for (int row = 0; row < model->rowCount(); ++row) {
     QString cin = model->record(row).value("CIN").toString();
     QString telephone = model->record(row).value("TELEPHONE").toString();
     cin = QString::number(cin.toLongLong());
@@ -122,7 +121,7 @@ QSqlQueryModel *Client::Afficher() {
     model->setData(
         model->index(row, model->record(row).indexOf("DATE_NAISSANCE")),
         formattedDate);
-  }
+  }*/
 
   model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
   model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
@@ -138,7 +137,8 @@ QSqlQueryModel *Client::Afficher() {
 QSqlQueryModel *Client::TriPar(QString critere) {
   QSqlQueryModel *model = new QSqlQueryModel();
   QSqlQuery query;
-  QString queryString = "SELECT TO_CHAR(CIN), NOM, PRENOM, TO_CHAR(DATE_NAISSANCE, 'DD-MM-YYYY'), "
+  QString queryString = "SELECT TO_CHAR(CIN), NOM, PRENOM, "
+                        "TO_CHAR(DATE_NAISSANCE, 'DD-MM-YYYY'), "
                         "CASE WHEN GENRE = 0 THEN 'M' ELSE 'F' END AS GENRE, "
                         "TO_CHAR(TELEPHONE), EMAIL "
                         "FROM CLIENTS ORDER BY ";
@@ -170,17 +170,27 @@ QSqlQueryModel *Client::TriPar(QString critere) {
   return model;
 };
 
-QSqlQueryModel *Client::RechercherEtAfficher(int CIN) {
+QSqlQueryModel *Client::RechercherEtAfficher(QString searchedText) {
   QSqlQueryModel *model = new QSqlQueryModel();
   QSqlQuery query;
-  query.prepare("SELECT TO_CHAR(CIN), NOM, PRENOM, TO_CHAR(DATE_NAISSANCE, 'DD-MM-YYYY'), "
-                "CASE WHEN GENRE = 0 THEN 'M' ELSE 'F' END AS GENRE, "
-                "TO_CHAR(TELEPHONE), EMAIL "
-                "FROM CLIENTS WHERE CIN=:CIN");
-  query.bindValue(":CIN", CIN);
+  query.prepare(
+      "SELECT TO_CHAR(CIN), NOM, PRENOM, TO_CHAR(DATE_NAISSANCE, "
+      "'DD-MM-YYYY'), "
+      "CASE WHEN GENRE = 0 THEN 'M' ELSE 'F' END AS GENRE, "
+      "TO_CHAR(TELEPHONE), EMAIL "
+      "FROM CLIENTS WHERE TO_CHAR(CIN) LIKE '%' || :SEARCHEDTEXT || '%'"
+      "OR NOM LIKE '%' || :SEARCHEDTEXT || '%'"
+      "OR PRENOM LIKE '%' || :SEARCHEDTEXT || '%'"
+      "OR TO_CHAR(TELEPHONE) LIKE '%' || :SEARCHEDTEXT || '%'"
+      "OR EMAIL LIKE '%' || :SEARCHEDTEXT || '%' ");
+  query.bindValue(":SEARCHEDTEXT", searchedText);
   if (!query.exec()) {
     qDebug() << "Failed to execute query:" << query.lastError().text();
     qDebug() << "Database Error:" << query.lastError().databaseText();
+    delete model;
+    return nullptr;
+  }
+  if (searchedText == "") {
     delete model;
     return nullptr;
   }
@@ -193,7 +203,7 @@ QSqlQueryModel *Client::RechercherEtAfficher(int CIN) {
   model->setHeaderData(5, Qt::Horizontal, QObject::tr("TELEPHONE"));
   model->setHeaderData(6, Qt::Horizontal, QObject::tr("EMAIL"));
   return model;
-};
+}
 
 int Client::Recherche(int CIN) {
   QSqlQuery query;
@@ -274,6 +284,8 @@ bool Client::saveLog(QDate current_date, int Client_CIN) {
     qDebug() << "Database Error:" << query.lastError().databaseText();
     return false;
   }
+  QStringList LineData = {current_date.toString(), QString::number(Client_CIN)};
+
   return true;
 };
 // Getters
