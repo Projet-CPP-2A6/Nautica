@@ -273,21 +273,96 @@ Client Client::RechercheClient(int CIN) {
     return Client();
   }
 };
+QString Client::compareClients(Client oldClient, Client newClient) {
+  QStringList changes;
 
-bool Client::saveLog(QDate current_date, int Client_CIN) {
+  if (oldClient.getCIN() != newClient.getCIN()) {
+    changes.append("CIN: " + QString::number(oldClient.getCIN()) + " -> " +
+                   QString::number(newClient.getCIN()) + "\n");
+  }
+
+  if (oldClient.getTel() != newClient.getTel()) {
+    changes.append("Telephone: " + QString::number(oldClient.getTel()) +
+                   " -> " + QString::number(newClient.getTel()) + "\n");
+  }
+
+  if (oldClient.getDateNaissance() != newClient.getDateNaissance()) {
+    changes.append("Date of Birth: " + oldClient.getDateNaissance().toString() +
+                   " -> " + newClient.getDateNaissance().toString() + "\n");
+  }
+
+  if (oldClient.getNom() != newClient.getNom()) {
+    changes.append("Last Name: " + oldClient.getNom() + " -> " +
+                   newClient.getNom() + "\n");
+  }
+
+  if (oldClient.getPrenom() != newClient.getPrenom()) {
+    changes.append("First Name: " + oldClient.getPrenom() + " -> " +
+                   newClient.getPrenom() + "\n");
+  }
+
+  if (oldClient.getGenre() != newClient.getGenre()) {
+    changes.append("Gender: " + QString::number(oldClient.getGenre()) + " -> " +
+                   QString::number(newClient.getGenre()) + "\n");
+  }
+
+  if (oldClient.getEmail() != newClient.getEmail()) {
+    changes.append("Email: " + oldClient.getEmail() + " -> " +
+                   newClient.getEmail() + "\n");
+  }
+
+  return changes.join(" ; ");
+};
+
+bool Client::saveLog(QDateTime datetime, int Client_CIN, QString action,
+                     QString changes) {
   QSqlQuery query;
-  query.prepare("INSERT INTO LOGS (DATE, CIN) VALUES (:DATE, :CLIENT_CIN)");
-  query.bindValue(":DATE", current_date);
+  query.prepare("INSERT INTO LOGS (DATETIME, CIN, ACTION, CHANGES) VALUES "
+                "(:DATETIME, :CLIENT_CIN, :ACTION, :CHANGES)");
+  query.bindValue(":DATETIME", datetime);
   query.bindValue(":CLIENT_CIN", Client_CIN);
+  query.bindValue(":ACTION", action);
+  query.bindValue(":CHANGES", changes);
   if (!query.exec()) {
     qDebug() << "Failed to execute query:" << query.lastError().text();
     qDebug() << "Database Error:" << query.lastError().databaseText();
     return false;
   }
-  QStringList LineData = {current_date.toString(), QString::number(Client_CIN)};
-
   return true;
-};
+}
+
+QSqlQueryModel *Client::getLogs(QDate startDate, QDate endDate) {
+    QSqlQueryModel *model = new QSqlQueryModel();
+
+    if (!startDate.isValid() || !endDate.isValid() || startDate > endDate) {
+        qDebug() << "Invalid date range.";
+        return nullptr;
+    }
+
+    QSqlQuery query;
+    if (startDate == endDate) {
+        query.prepare("SELECT DATETIME, TO_CHAR(CIN), ACTION, CHANGES FROM LOGS");
+    } else {
+        query.prepare("SELECT DATETIME, TO_CHAR(CIN), ACTION, CHANGES FROM LOGS WHERE TRUNC(DATETIME) BETWEEN TO_DATE(:START_DATE, 'DD/MM/YYYY') AND TO_DATE(:END_DATE, 'DD/MM/YYYY')");
+        query.bindValue(":START_DATE", startDate.toString("dd/MM/yyyy"));
+        query.bindValue(":END_DATE", endDate.toString("dd/MM/yyyy"));
+    }
+
+    if (!query.exec()) {
+        qDebug() << "Failed to execute query:" << query.lastError().text();
+        qDebug() << "Database Error:" << query.lastError().databaseText();
+        return nullptr;
+    }
+
+    model->setQuery(query);
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("DATETIME"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("CIN"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("ACTION"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("CHANGES"));
+
+    return model;
+}
+
 // Getters
 int Client::getCIN() { return CIN; };
 

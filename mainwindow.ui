@@ -202,8 +202,8 @@ QPushButton {
     padding: 10px 20px; /* Set padding inside the button */
     text-align: center; /* Center the text */
     text-decoration: none; /* Remove underline from the text */
-    display: inline-block;
-    cursor: pointer; /* Add a pointer cursor on hover */
+    
+    
     border-radius: 5px; /* Optional: Add rounded corners */
 }
 
@@ -252,8 +252,8 @@ QPushButton:hover {
     padding: 1px 1px; /* Set padding inside the button */
     text-align: center; /* Center the text */
     text-decoration: none; /* Remove underline from the text */
-    display: inline-block;
-    cursor: pointer; /* Add a pointer cursor on hover */
+    
+    
     border-radius: 10px; /* Optional: Add rounded corners */
 }
 
@@ -2366,6 +2366,19 @@ QLineEdit:focus {
          </item>
         </layout>
        </widget>
+       <widget class="QLabel" name="ClientAddLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>550</y>
+          <width>161</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab_5">
        <attribute name="title">
@@ -2387,10 +2400,41 @@ QLineEdit:focus {
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
+         <item row="5" column="1">
+          <widget class="QRadioButton" name="PRENOMradioButton">
+           <property name="text">
+            <string>First Name</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QPushButton" name="ShowAllClients">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+           </property>
+           <property name="text">
+            <string>List Clients</string>
+           </property>
+          </widget>
+         </item>
          <item row="8" column="1">
           <widget class="QRadioButton" name="PHONEradioButton">
            <property name="text">
             <string>Phone Number</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QRadioButton" name="CINradioButton">
+           <property name="text">
+            <string>CIN</string>
            </property>
           </widget>
          </item>
@@ -2400,32 +2444,6 @@ QLineEdit:focus {
             <string>Gender</string>
            </property>
           </widget>
-         </item>
-         <item row="5" column="1">
-          <widget class="QRadioButton" name="PRENOMradioButton">
-           <property name="text">
-            <string>First Name</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QPushButton" name="DeleteClientBtn">
-           <property name="styleSheet">
-            <string notr="true">background-color: #ffffff; /* Fond blanc */
-    border: 2px solid blue; /* Bordure bleue */
-    border-radius: 10px; /* Coins arrondis */
-    padding: 1px 2px; /* Espacement intérieur */
-    color: black; /* Couleur du texte */
-    font-size: 16px; /* Taille de la police */
-    </string>
-           </property>
-           <property name="text">
-            <string>Delete</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0" colspan="2">
-          <widget class="QTableView" name="AllClientsModel"/>
          </item>
          <item row="0" column="0">
           <widget class="QLineEdit" name="CINtoDelete">
@@ -2449,8 +2467,8 @@ QLineEdit:focus {
            </property>
           </widget>
          </item>
-         <item row="1" column="0" colspan="2">
-          <widget class="QPushButton" name="ShowAllClients">
+         <item row="3" column="0">
+          <widget class="QPushButton" name="TrierParButton">
            <property name="styleSheet">
             <string notr="true">background-color: #ffffff; /* Fond blanc */
     border: 2px solid blue; /* Bordure bleue */
@@ -2458,11 +2476,50 @@ QLineEdit:focus {
     padding: 1px 2px; /* Espacement intérieur */
     color: black; /* Couleur du texte */
     font-size: 16px; /* Taille de la police */
-   
-   </string>
+    </string>
            </property>
            <property name="text">
-            <string>List Clients</string>
+            <string>Order By</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="DeleteClientBtn">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+    </string>
+           </property>
+           <property name="text">
+            <string>Delete</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QRadioButton" name="NOMradioButton">
+           <property name="text">
+            <string>Last Name</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="1">
+          <widget class="QRadioButton" name="EMAILradioButton">
+           <property name="text">
+            <string>Email</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="2">
+          <widget class="QTableView" name="AllClientsModel"/>
+         </item>
+         <item row="6" column="1">
+          <widget class="QRadioButton" name="DATE_NAISSANCEradioButton">
+           <property name="text">
+            <string>Birthdate</string>
            </property>
           </widget>
          </item>
@@ -2482,47 +2539,10 @@ QLineEdit:focus {
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
-          <widget class="QRadioButton" name="CINradioButton">
+         <item row="11" column="0">
+          <widget class="QLabel" name="DeleteClientLabel">
            <property name="text">
-            <string>CIN</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QRadioButton" name="NOMradioButton">
-           <property name="text">
-            <string>Last Name</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="1">
-          <widget class="QRadioButton" name="DATE_NAISSANCEradioButton">
-           <property name="text">
-            <string>Birthdate</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QPushButton" name="TrierParButton">
-           <property name="styleSheet">
-            <string notr="true">background-color: #ffffff; /* Fond blanc */
-    border: 2px solid blue; /* Bordure bleue */
-    border-radius: 10px; /* Coins arrondis */
-    padding: 1px 2px; /* Espacement intérieur */
-    color: black; /* Couleur du texte */
-    font-size: 16px; /* Taille de la police */
-    </string>
-           </property>
-           <property name="text">
-            <string>Order By</string>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="1">
-          <widget class="QRadioButton" name="EMAILradioButton">
-           <property name="text">
-            <string>Email</string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -2549,53 +2569,8 @@ QLineEdit:focus {
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QGridLayout" name="gridLayout_4">
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_27">
-           <property name="text">
-            <string>First Name</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_38">
-           <property name="text">
-            <string>Gender</string>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="0" colspan="3">
-          <widget class="QPushButton" name="UpdateClientBtn">
-           <property name="styleSheet">
-            <string notr="true">background-color: #ffffff; /* Fond blanc */
-    border: 2px solid blue; /* Bordure bleue */
-    border-radius: 10px; /* Coins arrondis */
-    padding: 1px 2px; /* Espacement intérieur */
-    color: black; /* Couleur du texte */
-    font-size: 16px; /* Taille de la police */
-   
-   </string>
-           </property>
-           <property name="text">
-            <string>Update Client Info</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_39">
-           <property name="text">
-            <string>CIN</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="2">
-          <widget class="QRadioButton" name="UMradioButton">
-           <property name="text">
-            <string>M</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QLineEdit" name="UNom">
+         <item row="6" column="2">
+          <widget class="QLineEdit" name="UTel">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
     border: 2px solid black; 
@@ -2610,30 +2585,14 @@ QLineEdit:focus {
     background-color: rgba(248, 248, 248, 1); 
 }
 </string>
+           </property>
+           <property name="maxLength">
+            <number>8</number>
            </property>
           </widget>
          </item>
          <item row="2" column="2">
           <widget class="QLineEdit" name="UPrenom">
-           <property name="styleSheet">
-            <string notr="true">QLineEdit {
-    border: 2px solid black; 
-    border-radius: 15px;
-    padding: 5px;
-    background-color: rgba(255, 255, 255);
-    color: black;
-}
-
-QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
-}
-</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="2">
-          <widget class="QLineEdit" name="UEmail">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
     border: 2px solid black; 
@@ -2665,6 +2624,60 @@ QLineEdit:focus {
            </property>
           </widget>
          </item>
+         <item row="5" column="2">
+          <widget class="QRadioButton" name="UFradioButton">
+           <property name="text">
+            <string>F</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="label_40">
+           <property name="text">
+            <string>Email</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_25">
+           <property name="text">
+            <string>Last Name</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_27">
+           <property name="text">
+            <string>First Name</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="2">
+          <widget class="QRadioButton" name="UMradioButton">
+           <property name="text">
+            <string>M</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="2">
+          <widget class="QLineEdit" name="UEmail">
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+    border: 2px solid black; 
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QLineEdit:focus {
+    border-color: black; 
+    background-color: rgba(248, 248, 248, 1); 
+}
+</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="2">
           <widget class="QLineEdit" name="UCIN">
            <property name="styleSheet">
@@ -2687,6 +2700,32 @@ QLineEdit:focus {
            </property>
           </widget>
          </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_38">
+           <property name="text">
+            <string>Gender</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLineEdit" name="UNom">
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+    border: 2px solid black; 
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QLineEdit:focus {
+    border-color: black; 
+    background-color: rgba(248, 248, 248, 1); 
+}
+</string>
+           </property>
+          </widget>
+         </item>
          <item row="3" column="2">
           <widget class="QDateEdit" name="UDateEdit">
            <property name="styleSheet">
@@ -2706,46 +2745,27 @@ QDateEdit:focus {
            </property>
           </widget>
          </item>
-         <item row="7" column="0">
-          <widget class="QLabel" name="label_40">
-           <property name="text">
-            <string>Email</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="2">
-          <widget class="QLineEdit" name="UTel">
+         <item row="9" column="0" colspan="3">
+          <widget class="QPushButton" name="UpdateClientBtn">
            <property name="styleSheet">
-            <string notr="true">QLineEdit {
-    border: 2px solid black; 
-    border-radius: 15px;
-    padding: 5px;
-    background-color: rgba(255, 255, 255);
-    color: black;
-}
-
-QLineEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
-}
-</string>
+            <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
            </property>
-           <property name="maxLength">
-            <number>8</number>
+           <property name="text">
+            <string>Update Client Info</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_25">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_39">
            <property name="text">
-            <string>Last Name</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="2">
-          <widget class="QRadioButton" name="UFradioButton">
-           <property name="text">
-            <string>F</string>
+            <string>CIN</string>
            </property>
           </widget>
          </item>
@@ -2766,6 +2786,19 @@ QLineEdit:focus {
           </widget>
          </item>
         </layout>
+       </widget>
+       <widget class="QLabel" name="ClientUpdateLabel">
+        <property name="geometry">
+         <rect>
+          <x>136</x>
+          <y>550</y>
+          <width>161</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_4">
@@ -2818,7 +2851,7 @@ QLineEdit:focus {
       </widget>
       <widget class="QWidget" name="tab_7">
        <attribute name="title">
-        <string>Page</string>
+        <string>Statistics</string>
        </attribute>
        <widget class="QPushButton" name="CRefStat">
         <property name="geometry">
@@ -2859,6 +2892,137 @@ QLineEdit:focus {
          <enum>QFrame::Raised</enum>
         </property>
        </widget>
+       <widget class="QPushButton" name="CRefStatExport">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>500</y>
+          <width>161</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+        </property>
+        <property name="text">
+         <string>Export Statistics</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_10">
+       <attribute name="title">
+        <string>Logs</string>
+       </attribute>
+       <widget class="QFrame" name="frame_15">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>1031</width>
+          <height>531</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="0" column="0" rowspan="4">
+          <widget class="QTableView" name="LogsView"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="QDateEdit" name="startDate">
+           <property name="styleSheet">
+            <string notr="true">QDateEdit {
+    border: 2px solid black; 
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QDateEdit:focus {
+    border-color: black; 
+    background-color: rgba(248, 248, 248, 1); 
+}
+</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_51">
+           <property name="text">
+            <string>From:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="label_52">
+           <property name="text">
+            <string>To:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1" colspan="2">
+          <widget class="QPushButton" name="ViewLogsButton">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ffffff; /* Fond blanc */
+border: 2px solid blue; /* Bordure bleue */
+border-radius: 10px; /* Coins arrondis */
+padding: 1px 2px; /* Espacement intérieur */
+color: black; /* Couleur du texte */
+font-size: 16px; /* Taille de la police */</string>
+           </property>
+           <property name="text">
+            <string>View Logs</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QDateEdit" name="endDate">
+           <property name="styleSheet">
+            <string notr="true">QDateEdit {
+    border: 2px solid black; 
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QDateEdit:focus {
+    border-color: black; 
+    background-color: rgba(248, 248, 248, 1); 
+}
+</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QPushButton" name="TodayDateButton">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ffffff; /* Fond blanc */
+border: 2px solid green;
+border-radius: 10px; /* Coins arrondis */
+padding: 1px 2px; /* Espacement intérieur */
+color: black; /* Couleur du texte */
+font-size: 16px; /* Taille de la police */</string>
+           </property>
+           <property name="text">
+            <string>Today</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
      </widget>
     </widget>
@@ -2876,7 +3040,7 @@ QLineEdit:focus {
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="add_equipments">
        <attribute name="title">
@@ -3916,6 +4080,31 @@ QLineEdit:focus {
         </property>
        </widget>
       </widget>
+      <widget class="QWidget" name="tab_9">
+       <attribute name="title">
+        <string>calendar</string>
+       </attribute>
+       <widget class="QCalendarWidget" name="calendarWidget">
+        <property name="geometry">
+         <rect>
+          <x>3</x>
+          <y>-23</y>
+          <width>591</width>
+          <height>611</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="equipmentDetailsTableWidget">
+        <property name="geometry">
+         <rect>
+          <x>590</x>
+          <y>0</y>
+          <width>591</width>
+          <height>341</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="M5">
@@ -4946,8 +5135,8 @@ QPushButton {
     padding: 10px 20px; /* Set padding inside the button */
     text-align: center; /* Center the text */
     text-decoration: none; /* Remove underline from the text */
-    display: inline-block;
-    cursor: pointer; /* Add a pointer cursor on hover */
+    
+    
     border-radius: 5px; /* Optional: Add rounded corners */
 }
 

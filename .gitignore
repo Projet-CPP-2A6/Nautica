@@ -64,7 +64,7 @@ debug/
 # MinGW generated files
 *.Debug
 *.Release
-
+debug/
 # Python byte code
 *.pyc
 

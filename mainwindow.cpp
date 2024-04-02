@@ -15,6 +15,7 @@
 #include <QPrinter>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QSqlRecord>
 #include <QString>
 #include <QTableView>
 #include <QUrl>
@@ -594,6 +595,12 @@ void MainWindow::on_AjouterButton_clicked() {
   Client NC(CIN, nom, prenom, date_naissance, genre, tel, email);
   if (NC.Ajouter()) {
     // ui->listClientsView->setModel(NC.afficher());
+    if (!NC.saveLog(QDateTime::currentDateTime(), CIN, "Created", "")) {
+      ui->ClientAddLabel->setText("Error saving Log");
+      ui->ClientAddLabel->setStyleSheet("color: red;");
+      QTimer::singleShot(10000, this,
+                         [=]() { ui->ClientAddLabel->setText(""); });
+    }
     ui->ACIN->clear();
     ui->ANom->clear();
     ui->APrenom->clear();
@@ -602,18 +609,43 @@ void MainWindow::on_AjouterButton_clicked() {
     ui->MradioButton->setChecked(false);
     ui->ATel->clear();
     ui->AEmail->clear();
-    qDebug() << "Ajout reussi";
     // Write message to label
+    ui->ClientAddLabel->setText("Client Added");
+    ui->ClientAddLabel->setStyleSheet("color: green;");
+    QTimer::singleShot(10000, this, [=]() { ui->ClientAddLabel->setText(""); });
+
+  } else {
+    ui->ClientAddLabel->setText("Error Adding Client");
+    ui->ClientAddLabel->setStyleSheet("color: red;");
+    QTimer::singleShot(10000, this, [=]() { ui->ClientAddLabel->setText(""); });
   }
 }
 
 void MainWindow::on_DeleteClientBtn_clicked() {
   int CIN = ui->CINtoDelete->text().toInt();
-  Client C;
-  C.setCIN(CIN);
-  C.Supprimer();
-  ui->CINtoDelete->clear();
-  ui->AllClientsModel->setModel(C.Afficher());
+  Client C, EmptyClient;
+  C = C.RechercheClient(CIN);
+  QString changes = EmptyClient.compareClients(C, EmptyClient);
+  if (C.Supprimer()) {
+    if (!EmptyClient.saveLog(QDateTime::currentDateTime(), CIN, "Delete",
+                             changes)) {
+      ui->DeleteClientLabel->setText("Error Saving Log");
+      ui->DeleteClientLabel->setStyleSheet("color: red;");
+      QTimer::singleShot(10000, this,
+                         [=]() { ui->DeleteClientLabel->setText(""); });
+    }
+    ui->DeleteClientLabel->setText("Client Deleted");
+    ui->DeleteClientLabel->setStyleSheet("color: green;");
+    ui->CINtoDelete->clear();
+    ui->AllClientsModel->setModel(C.Afficher());
+    QTimer::singleShot(10000, this,
+                       [=]() { ui->DeleteClientLabel->setText(""); });
+  } else {
+    ui->DeleteClientLabel->setText("Error Deleting Client");
+    ui->DeleteClientLabel->setStyleSheet("color: red;");
+    QTimer::singleShot(10000, this,
+                       [=]() { ui->DeleteClientLabel->setText(""); });
+  }
 }
 
 void MainWindow::on_AjouterButton_2_clicked() {
@@ -658,7 +690,7 @@ void MainWindow::on_SearchCIN_textChanged(const QString &searchedText) {
   Client C;
   QAbstractItemModel *ClientModel = C.RechercherEtAfficher(searchedText);
   if (ClientModel == nullptr) {
-    qDebug() << "nullptr" << endl;
+    qDebug() << "nullptr/working as intended" << endl;
   }
   ui->OneClientModel->setModel(ClientModel);
 }
@@ -668,17 +700,37 @@ void MainWindow::on_UpdateClientBtn_clicked() {
   QString nom = ui->UNom->text();
   QString prenom = ui->UPrenom->text();
   QDate date_naissance = ui->UDateEdit->date();
-  qDebug() << date_naissance;
   int genre = ui->UFradioButton->isChecked()
                   ? 1
                   : (ui->UMradioButton->isChecked() ? 0 : -1);
   int tel = ui->UTel->text().toInt();
   QString email = ui->UEmail->text();
-  //(int CIN, QString nom, QString prenom, QDate date_naissance,
-  // int genre, int tel, QString email)
-  Client NC(CIN, nom, prenom, date_naissance, genre, tel, email);
-  if (NC.Modifier()) {
-    // ui->listClientsView->setModel(NC.afficher());
+
+  Client oldClient;
+  oldClient = oldClient.RechercheClient(CIN);
+  if (oldClient.getCIN() == 0) {
+    ui->ClientUpdateLabel->setText("Client not found");
+    ui->ClientUpdateLabel->setStyleSheet("color: red;");
+    QTimer::singleShot(10000, this,
+                       [=]() { ui->ClientUpdateLabel->setText(""); });
+    return;
+  }
+
+  Client newClient(CIN, nom, prenom, date_naissance, genre, tel, email);
+
+  QString changes = newClient.compareClients(oldClient, newClient);
+
+  if (newClient.Modifier()) {
+    if (!changes.isEmpty()) {
+      QDateTime currentDateTime = QDateTime::currentDateTime();
+      if (!newClient.saveLog(currentDateTime, CIN, "Updated", changes)) {
+        ui->ClientUpdateLabel->setText("Error Saving Logs");
+        ui->ClientUpdateLabel->setStyleSheet("color: red;");
+        QTimer::singleShot(10000, this,
+                           [=]() { ui->ClientUpdateLabel->setText(""); });
+      }
+    }
+
     ui->UCIN->clear();
     ui->UNom->clear();
     ui->UPrenom->clear();
@@ -687,8 +739,15 @@ void MainWindow::on_UpdateClientBtn_clicked() {
     ui->UMradioButton->setChecked(false);
     ui->UTel->clear();
     ui->UEmail->clear();
-    qDebug() << "Ajout reussi";
-    // Write message to label
+    ui->ClientUpdateLabel->setText("Client Updated");
+    ui->ClientUpdateLabel->setStyleSheet("color: green;");
+    QTimer::singleShot(10000, this,
+                       [=]() { ui->ClientUpdateLabel->setText(""); });
+  } else {
+    ui->ClientUpdateLabel->setText("Error Updating Client");
+    ui->ClientUpdateLabel->setStyleSheet("color: red;");
+    QTimer::singleShot(10000, this,
+                       [=]() { ui->ClientUpdateLabel->setText(""); });
   }
 }
 
@@ -811,6 +870,7 @@ void MainWindow::on_CPDFExport_clicked() {
 
   doc.print(&printer);
 }
+
 bool valid_id(QString id) {
   for (int i = 0; i < id.length(); i++) {
     if ((id[i] >= '0' && id[i] <= '9')) {
@@ -961,21 +1021,23 @@ void MainWindow::on_SearchClientUpdateButton_clicked() {
     int CIN = ui->UCIN->text().toInt();
     CTU = CTU.RechercheClient(CIN);
   }
-  ui->UCIN->setText(QString::number(CTU.getCIN(), 'f', 0));
-  ui->UNom->setText(CTU.getNom());
-  ui->UPrenom->setText(CTU.getPrenom());
+  if (CTU.getCIN() != 0) {
+    ui->UCIN->setText(QString::number(CTU.getCIN(), 'f', 0));
+    ui->UNom->setText(CTU.getNom());
+    ui->UPrenom->setText(CTU.getPrenom());
 
-  QDate birthDate = CTU.getDateNaissance();
-  ui->UDateEdit->setDate(birthDate);
+    QDate birthDate = CTU.getDateNaissance();
+    ui->UDateEdit->setDate(birthDate);
 
-  if (CTU.getGenre() == 1) {
-    ui->UFradioButton->setChecked(true);
-  } else if (CTU.getGenre() == 0) {
-    ui->UMradioButton->setChecked(true);
+    if (CTU.getGenre() == 1) {
+      ui->UFradioButton->setChecked(true);
+    } else if (CTU.getGenre() == 0) {
+      ui->UMradioButton->setChecked(true);
+    }
+
+    ui->UTel->setText(QString::number(CTU.getTel(), 'f', 0));
+    ui->UEmail->setText(CTU.getEmail());
   }
-
-  ui->UTel->setText(QString::number(CTU.getTel(), 'f', 0));
-  ui->UEmail->setText(CTU.getEmail());
 }
 
 void MainWindow::on_AjouterButton_5_clicked() {
@@ -1071,7 +1133,7 @@ void MainWindow::on_PDFpushButton_2_clicked() {
   font.setBold(true);
   painter.setFont(font);
   for (int col = 0; col < columns; ++col) {
-    QModelIndex index = model->index(0, col);
+    // QModelIndex index = model->index(0, col);
     QString headerData = model->headerData(col, Qt::Horizontal).toString();
     painter.drawText(col * cellWidth, 0, cellWidth, cellHeight, Qt::AlignCenter,
                      headerData);
@@ -1284,4 +1346,151 @@ void MainWindow::on_statPrixPushButton_clicked() {
   // Set chart for chart view
   chartView->setChart(chart);
   chartView->show();
+}
+
+void MainWindow::on_ViewLogsButton_clicked() {
+  QDate startDate = ui->startDate->date();
+  QDate endDate = ui->endDate->date();
+  Client ShowLogs;
+  QSqlQueryModel *LogsModel = ShowLogs.getLogs(startDate, endDate);
+  if (LogsModel != nullptr) {
+    ui->LogsView->setModel(LogsModel);
+  }
+}
+
+void MainWindow::on_CRefStatExport_clicked() {
+  Client C;
+  vector<int> Stat = C.Statistics();
+  qDebug() << Stat;
+  int numClients = Stat[0];
+  int numMales = Stat[1];
+  int numFemales = Stat[2];
+  int avgAge = Stat[3];
+
+  const int barSpacing = 40;
+
+  QGraphicsScene *scene = new QGraphicsScene(this);
+
+  QGraphicsRectItem *clientsBar = scene->addRect(0, 0, numClients * 5, 20);
+  QGraphicsRectItem *malesBar = scene->addRect(0, barSpacing, numMales * 5, 20);
+  QGraphicsRectItem *femalesBar =
+      scene->addRect(0, 2 * barSpacing, numFemales * 5, 20);
+  QGraphicsRectItem *avgAgeBar =
+      scene->addRect(0, 3 * barSpacing, avgAge * 2, 20);
+
+  clientsBar->setBrush(Qt::blue);
+  malesBar->setBrush(Qt::green);
+  femalesBar->setBrush(Qt::red);
+  avgAgeBar->setBrush(Qt::yellow);
+
+  QGraphicsTextItem *clientsLabel =
+      scene->addText(QString("Number of Clients: %1").arg(numClients));
+  clientsLabel->setPos(numClients * 5 + 10, 0);
+
+  QGraphicsTextItem *malesLabel =
+      scene->addText(QString("Number of Males: %1").arg(numMales));
+  malesLabel->setPos(numMales * 5 + 10, barSpacing);
+
+  QGraphicsTextItem *femalesLabel =
+      scene->addText(QString("Number of Females: %1").arg(numFemales));
+  femalesLabel->setPos(numFemales * 5 + 10, 2 * barSpacing);
+
+  QGraphicsTextItem *avgAgeLabel =
+      scene->addText(QString("Average Age: %1").arg(avgAge));
+  avgAgeLabel->setPos(avgAge * 2 + 10, 3 * barSpacing);
+
+  QGraphicsView *view = new QGraphicsView(scene);
+
+  QVBoxLayout *layout = new QVBoxLayout(ui->CStatFrame);
+  layout->addWidget(view);
+
+  // Image export test, on click export image is a copy of this
+  QString defaultFileName = "ClientsList.png";
+  QString fileName = QFileDialog::getSaveFileName(
+      this, "Save Image", defaultFileName, "Image Files (*.png)");
+
+  if (!fileName.isEmpty()) {
+    QWidget *statFrameWidget = ui->CStatFrame;
+
+    // Create a QPixmap to render the widget content
+    QPixmap pixmap(statFrameWidget->size());
+    statFrameWidget->render(&pixmap);
+
+    pixmap.save(fileName); // Save the image to the specified file
+  }
+}
+
+void MainWindow::on_TodayDateButton_clicked() {
+  ui->endDate->setDate(QDate::currentDate());
+}
+
+QList<QStringList>
+MainWindow::retrieveAvailableEquipment(const QString &dateString) {
+  QList<QStringList>
+      availableEquipment; // QList of QStringList to store equipment details
+
+  QSqlQuery query;
+  QString sqlQuery = "SELECT * FROM equipement WHERE etat = 'bien' "
+                     "AND reference NOT IN (SELECT reference_equipement FROM "
+                     "maintenance WHERE :date BETWEEN date_debut AND date_fin)";
+  query.prepare(sqlQuery);
+  query.bindValue(":date", dateString);
+
+  // Execute the query
+  if (!query.exec()) {
+    qDebug() << "Error executing query:" << query.lastError().text();
+    return availableEquipment;
+  }
+
+  // Process the query results
+  while (query.next()) {
+    QStringList equipmentDetails;
+    for (int i = 0; i < query.record().count(); ++i) {
+      equipmentDetails << query.value(i).toString(); // Append each column value
+                                                     // to the QStringList
+    }
+    availableEquipment
+        << equipmentDetails; // Append the QStringList to the QList
+  }
+
+  // Return the list of available equipment details
+  return availableEquipment;
+}
+
+void MainWindow::displayEquipmentDetails(
+    const QList<QStringList> &availableEquipment) {
+  // Clear existing content in the table widget
+  ui->equipmentDetailsTableWidget->clearContents();
+  ui->equipmentDetailsTableWidget->setRowCount(0); // Clear all rows
+
+  // Set column headers
+  QStringList headers = {"Reference", "Price",         "Number",
+                         "State",     "Functionality", "Type"};
+  ui->equipmentDetailsTableWidget->setColumnCount(headers.size());
+  ui->equipmentDetailsTableWidget->setHorizontalHeaderLabels(headers);
+
+  // Populate the table widget with available equipment details
+  int row = 0;
+  for (const QStringList &equipmentDetails : availableEquipment) {
+    if (equipmentDetails.size() != headers.size()) {
+      // Skip if the number of details doesn't match the number of columns
+      continue;
+    }
+    ui->equipmentDetailsTableWidget->insertRow(row);
+    for (int column = 0; column < headers.size(); ++column) {
+      QTableWidgetItem *item =
+          new QTableWidgetItem(equipmentDetails.at(column));
+      ui->equipmentDetailsTableWidget->setItem(row, column, item);
+    }
+    ++row;
+  }
+}
+
+void MainWindow::on_calendarWidget_clicked(const QDate &date) {
+  // Retrieve available equipment for the selected date
+  QList<QStringList> availableEquipment =
+      retrieveAvailableEquipment(date.toString("yyyy-MM-dd"));
+
+  // Display available equipment details
+  displayEquipmentDetails(availableEquipment);
 }
