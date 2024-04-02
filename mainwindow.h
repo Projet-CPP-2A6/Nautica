@@ -76,8 +76,8 @@ private slots:
   void on_login_pushButton_6_clicked();
   void on_pushButton_10_clicked();
   void on_pb_logOut_clicked();
-void on_triSalaryPushButton_clicked();
-void on_importCSV_clicked();
+  void on_triSalaryPushButton_clicked();
+  void on_importCSV_clicked();
   QList<QStringList> retrieveAvailableEquipment(const QString &dateString);
   void displayEquipmentDetails(const QList<QStringList> &availableEquipment);
   void on_calendarWidget_clicked(const QDate &date);
