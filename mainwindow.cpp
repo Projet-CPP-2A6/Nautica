@@ -163,6 +163,7 @@ void MainWindow::on_deletePushButton_clicked()
 
 void MainWindow::on_updatePushButton_clicked()
 {
+    // Récupération des valeurs des champs
     int CIN = ui->updateCin_LE->text().toInt();
     QString nom = ui->updateNom_LE->text();
     QString prenom = ui->updatePrenom_LE->text();
@@ -172,23 +173,63 @@ void MainWindow::on_updatePushButton_clicked()
     QString fonction = ui->updateFonction_LE->text();
     int telephone = ui->updateTelephone_LE->text().toInt();
     int salaire = ui->updateSalaire_LE->text().toInt();
-    Employes e(CIN,nom,prenom,genre,telephone,email,adresse,fonction,salaire);
-    e.modifier();
-    bool test=e.modifier();
-    if(test)
-    {
-        ui->listEmployetableView->setModel(e.afficher());
-        ui->updateCin_LE->clear();
-               ui->updateNom_LE->clear();
-               ui->updatePrenom_LE->clear();
-               ui->updateAdresse_LE->clear();
-               ui->updateGenre_LE->clear();
-               ui->updateEmail_LE->clear();
-               ui->updateFonction_LE->clear();
-               ui->updateTelephone_LE->clear();
-               ui->updateSalaire_LE->clear();
+
+    // Vérification des contraintes de saisie
+    bool saisieValide = true;
+    QString messageErreur;
+
+    // Vérification du nom et prénom
+    if(nom.isEmpty() || prenom.isEmpty()) {
+        messageErreur += "Veuillez saisir le nom et le prénom.\n";
+        saisieValide = false;
+    }
+
+    // Vérification du genre
+    if(genre.toLower() != "homme" && genre.toLower() != "femme") {
+        messageErreur += "Le genre doit être 'Homme' ou 'Femme'.\n";
+        saisieValide = false;
+    }
+
+    // Vérification du format de l'email
+    QRegExp regex("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
+    if(!email.contains(regex)) {
+        messageErreur += "Veuillez saisir une adresse email valide.\n";
+        saisieValide = false;
+    }
+
+    // Vérification de la fonction (lettre seulement)
+    QRegExp regexFonction("[A-Za-z]+");
+    if (!fonction.contains(regexFonction)) {
+        messageErreur += "La fonction doit contenir uniquement des lettres.\n";
+        saisieValide = false;
+    }
+
+
+
+    // Si la saisie est valide, effectuer la modification
+    if(saisieValide) {
+        Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction, salaire);
+        bool test = e.modifier();
+        if(test) {
+            ui->listEmployetableView->setModel(e.afficher());
+            // Effacer les champs après la modification réussie
+            ui->updateCin_LE->clear();
+            ui->updateNom_LE->clear();
+            ui->updatePrenom_LE->clear();
+            ui->updateAdresse_LE->clear();
+            ui->updateGenre_LE->clear();
+            ui->updateEmail_LE->clear();
+            ui->updateFonction_LE->clear();
+            ui->updateTelephone_LE->clear();
+            ui->updateSalaire_LE->clear();
+        }
+    } else {
+        // Afficher un message d'erreur si la saisie est invalide
+        QMessageBox::critical(this, "Erreur de saisie", messageErreur);
     }
 }
+
+
 
 void MainWindow::on_triCinPushButton_clicked()
 {
