@@ -32,7 +32,7 @@
      <string notr="true">background-color: white;</string>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QFrame" name="frame_2">
@@ -580,30 +580,30 @@ QPushButton:hover {
        </property>
       </widget>
       <widget class="QLabel" name="role_lbl">
-        <property name="geometry">
-         <rect>
-          <x>640</x>
-          <y>460</y>
-          <width>381</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Nirmala UI</family>
-          <pointsize>11</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"> 
+       <property name="geometry">
+        <rect>
+         <x>640</x>
+         <y>460</y>
+         <width>381</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Nirmala UI</family>
+         <pointsize>11</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"> 
  color: rgb(140,140,140);</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="gestion">
@@ -1888,16 +1888,16 @@ QPushButton:hover {
          </property>
         </widget>
         <widget class="QPushButton" name="triSalaryPushButton">
-            <property name="geometry">
-             <rect>
-              <x>530</x>
-              <y>480</y>
-              <width>141</width>
-              <height>28</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton {
+         <property name="geometry">
+          <rect>
+           <x>530</x>
+           <y>480</y>
+           <width>141</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
        background-color: #ffffff; /* Fond blanc */
        border: 2px solid blue; /* Bordure bleue */
        border-radius: 10px; /* Coins arrondis */
@@ -1910,40 +1910,40 @@ QPushButton:hover {
        background-color: blue; /* Nouvelle couleur de fond au survol */
        color: white; /* Nouvelle couleur de texte au survol */
    }</string>
-            </property>
-            <property name="text">
-             <string>order by salary</string>
-            </property>
-           </widget>
-           <widget class="QRadioButton" name="PhoneradioButton">
-            <property name="geometry">
-             <rect>
-              <x>870</x>
-              <y>540</y>
-              <width>97</width>
-              <height>20</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>phone</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="importCSV">
-            <property name="geometry">
-             <rect>
-              <x>690</x>
-              <y>70</y>
-              <width>93</width>
-              <height>28</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton {
+         </property>
+         <property name="text">
+          <string>order by salary</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="PhoneradioButton">
+         <property name="geometry">
+          <rect>
+           <x>870</x>
+           <y>540</y>
+           <width>97</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>phone</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="importCSV">
+         <property name="geometry">
+          <rect>
+           <x>690</x>
+           <y>70</y>
+           <width>93</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
        background-color: #ffffff; /* Fond blanc */
        border: 2px solid blue; /* Bordure bleue */
        border-radius: 10px; /* Coins arrondis */
@@ -1956,11 +1956,11 @@ QPushButton:hover {
        background-color: blue; /* Nouvelle couleur de fond au survol */
        color: white; /* Nouvelle couleur de texte au survol */
    }</string>
-            </property>
-            <property name="text">
-             <string>import</string>
-            </property>
-           </widget>
+         </property>
+         <property name="text">
+          <string>import</string>
+         </property>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="tab">
@@ -2101,10 +2101,15 @@ QPushButton:hover {
          </property>
         </widget>
        </widget>
-       <widget class="QWidget" name="tab_2">
-        <attribute name="title">
-         <string>Page</string>
-        </attribute>
+       <widget class="QWidget" name="tab_2" native="true">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>1171</width>
+          <height>591</height>
+         </rect>
+        </property>
         <widget class="QFrame" name="frame_19">
          <property name="geometry">
           <rect>
@@ -5076,7 +5081,7 @@ border-radius: 10px; /* Coins arrondis */
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="menu_pushButton">
+    <widget class="QPushButton" name="MenuPage">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -5111,7 +5116,7 @@ QPushButton:hover{
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="login_pushButton_6">
+    <widget class="QPushButton" name="SubscriptionsPage">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -5162,7 +5167,7 @@ QPushButton:hover {
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_10">
+    <widget class="QPushButton" name="ClientsPage">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -5178,7 +5183,7 @@ QPushButton:hover {
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_7">
+    <widget class="QPushButton" name="EventsPage">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -5197,7 +5202,7 @@ QPushButton:hover {
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_9">
+    <widget class="QPushButton" name="EquipmentsPage">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -5216,7 +5221,7 @@ QPushButton:hover {
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="BTmenu_EmpoyepushButton">
+    <widget class="QPushButton" name="EmployeesPage">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -5227,6 +5232,23 @@ QPushButton:hover {
      </property>
      <property name="styleSheet">
       <string notr="true">background-image: url(:/new/icons/icones/icons8-setting-50.png);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="LogoutButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>520</y>
+       <width>51</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+background-image: url(:/new/icons/icones/iconlogout.png);</string>
      </property>
      <property name="text">
       <string/>
