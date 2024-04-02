@@ -33,12 +33,12 @@ public:
   QString getEtat();
 
   // setters
-  void setReference(QString reference);
-  void setPrix(int prix);
-  void setNombre(int nombre);
+  bool setReference(QString reference);
+  bool setPrix(int prix);
+  bool setNombre(int nombre);
   void setFonctionalite(QString fonctionalite);
-  void setType(QString type);
-  void setEtat(QString etat);
+  bool setType(QString type);
+  bool setEtat(QString etat);
 
   // partie crud
   bool ajouter();
