@@ -544,8 +544,7 @@ void MainWindow::on_importCSV_clicked()
         QMessageBox::information(this, tr("Succès"), tr("Données ajoutées avec succès à la base de données."));
 }
 
-void MainWindow::on_statGenderPushButton_clicked()
-{
+void MainWindow::on_statGenderPushButton_clicked() {
     QChartView *chartView ;
     QSqlQuery q1, q2, q3;
     qreal tot = 0, c1 = 0, c2 = 0;
@@ -564,16 +563,14 @@ void MainWindow::on_statGenderPushButton_clicked()
     c2 = c2 / tot;
 
     QPieSeries *series = new QPieSeries();
-    QPieSlice *slice1 = series->append("homme", c1);
-    QPieSlice *slice2 = series->append("femme", c2);
+    QPieSlice *slice1 = series->append("homme (" + QString::number(c1 * 100, 'f', 2) + "%)", c1);
+    QPieSlice *slice2 = series->append("femme (" + QString::number(c2 * 100, 'f', 2) + "%)", c2);
 
-    // Définition des libellés avec les pourcentages
-    slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
-    slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
+    slice1->setLabelVisible(true);
+    slice2->setLabelVisible(true);
 
     QChart *chart = new QChart();
     chart->addSeries(series);
-    chart->legend()->show();
     chart->setAnimationOptions(QChart::AllAnimations);
     chart->setTheme(QChart::ChartThemeQt);
     chartView = new QChartView(chart, ui->Employe_label_Stats);
@@ -581,6 +578,7 @@ void MainWindow::on_statGenderPushButton_clicked()
     chartView->setMinimumSize(570, 570);
     chartView->show();
 }
+
 
 
 void MainWindow::on_statSalaryPushButton_clicked()
@@ -605,18 +603,16 @@ void MainWindow::on_statSalaryPushButton_clicked()
     c3 = c3 / tot;
 
     QPieSeries *series = new QPieSeries();
-    QPieSlice *slice1 = series->append("1000", c1);
-    QPieSlice *slice2 = series->append("2000", c2);
-    QPieSlice *slice3 = series->append("1500", c3);
+    QPieSlice *slice1 = series->append("1000 (" + QString::number(c1 * 100, 'f', 2) + "%)", c1);
+    QPieSlice *slice2 = series->append("2000 (" + QString::number(c2 * 100, 'f', 2) + "%)", c2);
+    QPieSlice *slice3 = series->append("1500 (" + QString::number(c3 * 100, 'f', 2) + "%)", c3);
 
-    // Définition des libellés avec les pourcentages
-    slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
-    slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
-    slice3->setLabel(QString("%1%").arg(QString::number(c3 * 100, 'f', 2)));
+    slice1->setLabelVisible(true);
+    slice2->setLabelVisible(true);
+    slice3->setLabelVisible(true);
 
     QChart *chart = new QChart();
     chart->addSeries(series);
-    chart->legend()->show();
     chart->setAnimationOptions(QChart::AllAnimations);
     chart->setTheme(QChart::ChartThemeQt);
     chartView = new QChartView(chart, ui->Employe_label_Stats);
@@ -624,6 +620,7 @@ void MainWindow::on_statSalaryPushButton_clicked()
     chartView->setMinimumSize(570, 570);
     chartView->show();
 }
+
 
 
 void MainWindow::on_statFonctionPushButton_clicked()
@@ -660,23 +657,17 @@ void MainWindow::on_statFonctionPushButton_clicked()
     colors << "#ff0000" << "#00ff00" << "#ffff00" << "#ff00ff" << "#0000ff"; // Rouge, Vert, Jaune, Violet, Bleu
 
     QPieSeries *series = new QPieSeries();
-    QPieSlice *slice1 = series->append("employes", c1);
-    QPieSlice *slice2 = series->append("clients", c2);
-    QPieSlice *slice3 = series->append("abonnements", c3);
-    QPieSlice *slice4 = series->append("evenements", c4);
-    QPieSlice *slice5 = series->append("equipements", c5);
+    QPieSlice *slice1 = series->append("employes (" + QString::number(c1 * 100, 'f', 2) + "%)", c1);
+    QPieSlice *slice2 = series->append("clients (" + QString::number(c2 * 100, 'f', 2) + "%)", c2);
+    QPieSlice *slice3 = series->append("abonnements (" + QString::number(c3 * 100, 'f', 2) + "%)", c3);
+    QPieSlice *slice4 = series->append("evenements (" + QString::number(c4 * 100, 'f', 2) + "%)", c4);
+    QPieSlice *slice5 = series->append("equipements (" + QString::number(c5 * 100, 'f', 2) + "%)", c5);
 
-    // Définition des libellés avec les pourcentages
-    slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
-    slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
-    slice3->setLabel(QString("%1%").arg(QString::number(c3 * 100, 'f', 2)));
-    slice4->setLabel(QString("%1%").arg(QString::number(c4 * 100, 'f', 2)));
-    slice5->setLabel(QString("%1%").arg(QString::number(c5 * 100, 'f', 2)));
-
-    // Définition des pourcentages à 0% pour les parties vides
-    if (c3 == 0) slice3->setLabel("0%");
-    if (c4 == 0) slice4->setLabel("0%");
-    if (c5 == 0) slice5->setLabel("0%");
+    slice1->setLabelVisible(true);
+    slice2->setLabelVisible(true);
+    slice3->setLabelVisible(true);
+    slice4->setLabelVisible(true);
+    slice5->setLabelVisible(true);
 
     QChart *chart = new QChart();
     chart->addSeries(series);
@@ -687,7 +678,7 @@ void MainWindow::on_statFonctionPushButton_clicked()
     // Appliquer les couleurs aux tranches du graphique
     QList<QPieSlice *> slices = series->slices();
     for (int i = 0; i < slices.size(); ++i) {
-        slices.at(i)->setBrush(QColor(colors[i % colors.size()]));
+       slices.at(i)->setBrush(QColor(colors[i % colors.size()]));
     }
 
     chartView = new QChartView(chart, ui->Employe_label_Stats);
@@ -695,6 +686,7 @@ void MainWindow::on_statFonctionPushButton_clicked()
     chartView->setMinimumSize(570, 570);
     chartView->show();
 }
+
 
 
 void MainWindow::on_AjouterButton_clicked() {

@@ -260,7 +260,7 @@ QPushButton:hover {
 }</string>
        </property>
        <property name="text">
-        <string>show</string>
+        <string>Show</string>
        </property>
       </widget>
      </widget>
@@ -617,7 +617,7 @@ color: rgb(140,140,140);</string>
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="gestion_employes">
        <attribute name="title">
@@ -2022,9 +2022,9 @@ QPushButton:hover {
          <property name="geometry">
           <rect>
            <x>320</x>
-           <y>20</y>
-           <width>491</width>
-           <height>471</height>
+           <y>0</y>
+           <width>841</width>
+           <height>521</height>
           </rect>
          </property>
          <property name="text">
