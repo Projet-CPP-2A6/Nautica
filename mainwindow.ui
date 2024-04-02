@@ -2137,8 +2137,8 @@ QPushButton:hover {
      <widget class="QTabWidget" name="tabWidget_2">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>0</y>
+        <x>40</x>
+        <y>-30</y>
         <width>1181</width>
         <height>611</height>
        </rect>
@@ -3056,11 +3056,18 @@ font-size: 16px; /* Taille de la police */</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="lineEdit_3"/>
-         </item>
          <item row="1" column="1">
           <widget class="QPushButton" name="pushButton_2">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+           </property>
            <property name="text">
             <string>PushButton</string>
            </property>
@@ -3075,35 +3082,25 @@ font-size: 16px; /* Taille de la police */</string>
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QFormLayout" name="formLayout_2">
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_55">
-              <property name="text">
-               <string>Session Date:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
+            <item row="0" column="0">
              <widget class="QLabel" name="label_54">
+              <property name="styleSheet">
+               <string notr="true">font: 22pt &quot;MS Shell Dlg 2&quot;;
+font: 20pt &quot;MS Shell Dlg 2&quot;;</string>
+              </property>
               <property name="text">
                <string>Note :</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="1">
+            <item row="2" column="1">
              <widget class="QRadioButton" name="note1">
               <property name="text">
                <string>1/5</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
-             <widget class="QRadioButton" name="note2">
-              <property name="text">
-               <string>2/5</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
+            <item row="4" column="1">
              <widget class="QRadioButton" name="note3">
               <property name="text">
                <string>3/5</string>
@@ -3111,20 +3108,96 @@ font-size: 16px; /* Taille de la police */</string>
              </widget>
             </item>
             <item row="5" column="1">
-             <widget class="QRadioButton" name="note5">
-              <property name="text">
-               <string>5/5</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
              <widget class="QRadioButton" name="note4">
               <property name="text">
                <string>4/5</string>
               </property>
              </widget>
             </item>
+            <item row="6" column="1">
+             <widget class="QRadioButton" name="note5">
+              <property name="text">
+               <string>5/5</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QRadioButton" name="note3_2">
+              <property name="text">
+               <string>2/5</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="0">
+             <widget class="QLabel" name="label_55">
+              <property name="styleSheet">
+               <string notr="true">font: 16pt &quot;MS Shell Dlg 2&quot;;
+font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+              </property>
+              <property name="text">
+               <string>Session Date:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QDateEdit" name="UDateEdit_2">
+              <property name="styleSheet">
+               <string notr="true">QDateEdit {
+    border: 2px solid black; 
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QDateEdit:focus {
+    border-color: black; 
+    background-color: rgba(248, 248, 248, 1); 
+}
+</string>
+              </property>
+             </widget>
+            </item>
            </layout>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="CINLineEdit">
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+    border: 2px solid black; 
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QLineEdit:focus {
+    border-color: black; 
+    background-color: rgba(248, 248, 248, 1); 
+}
+</string>
+           </property>
+           <property name="maxLength">
+            <number>8</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QPushButton" name="UpdateClientBtn_2">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+           </property>
+           <property name="text">
+            <string>Update Client Info</string>
+           </property>
           </widget>
          </item>
         </layout>
@@ -5363,7 +5436,7 @@ background-image: url(:/new/icons/icones/iconlogout.png);</string>
      <x>0</x>
      <y>0</y>
      <width>1269</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

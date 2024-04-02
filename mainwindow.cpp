@@ -1084,10 +1084,21 @@ void MainWindow::on_triCinPushButton_4_clicked() {
 }
 
 void MainWindow::on_PDFpushButton_2_clicked() {
+    Equipements E;
+    // Obtenir le modèle de la table à partir de la QTableView
+    QAbstractItemModel *model = E.afficher();
+
+    QString defaultFileName = "EquipementList.pdf";
+      QString fileName = QFileDialog::getSaveFileName(
+          this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
+
+      if (fileName.isEmpty() || !model)
+        return;
+
   // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
   QPrinter printer;
   printer.setOutputFormat(QPrinter::PdfFormat);
-  printer.setOutputFileName("C:/youssef/listeEquipement.pdf");
+  printer.setOutputFileName(fileName);
 
   // Création d'un objet QPainter pour l'objet QPrinter
   QPainter painter;
@@ -1095,9 +1106,6 @@ void MainWindow::on_PDFpushButton_2_clicked() {
     qWarning("failed to open file, is it writable?");
     return;
   }
-
-  // Obtenir le modèle de la table à partir de la QTableView
-  QAbstractItemModel *model = ui->tableView_3->model();
 
   // Obtenir les dimensions de la table
   int rows = model->rowCount();
