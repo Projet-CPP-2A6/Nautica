@@ -69,18 +69,22 @@ private slots:
   void on_ViewLogsButton_clicked();
   void on_CRefStatExport_clicked();
   void on_TodayDateButton_clicked();
-  void on_pushButton_7_clicked();
-  void on_BTmenu_EmpoyepushButton_clicked();
   void on_abonnementPushButton_clicked();
-  void on_menu_pushButton_clicked();
-  void on_login_pushButton_6_clicked();
-  void on_pushButton_10_clicked();
-  void on_pb_logOut_clicked();
   void on_triSalaryPushButton_clicked();
   void on_importCSV_clicked();
   QList<QStringList> retrieveAvailableEquipment(const QString &dateString);
   void displayEquipmentDetails(const QList<QStringList> &availableEquipment);
   void on_calendarWidget_clicked(const QDate &date);
+  void on_MenuPage_clicked();
+  void on_SubscriptionsPage_clicked();
+  void on_ClientsPage_clicked();
+  void on_EventsPage_clicked();
+
+  void on_EmployeesPage_clicked();
+
+  void on_EquipmentsPage_clicked();
+
+  void on_LogoutButton_clicked();
 
 private:
   Ui::MainWindow *ui;

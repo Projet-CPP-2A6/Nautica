@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
   Employes e(0, "", "", "", 0, "", "", "", 0);
-  int state = 0;
+  // int state = 0;
   ui->frame_3->setVisible(false);
   ui->listEmployetableView->setModel(e.afficher());
   ui->table_abonnement->setModel(display.afficher_abonnement());
@@ -122,8 +122,6 @@ void MainWindow::on_triSalaryPushButton_clicked() {
 void MainWindow::on_loginPushButton_clicked() {
   QString EMAIL = ui->loginEmailLineEdit->text();
   QString CIN = ui->passwordLineEdit->text();
-  qDebug() << "email récupéré :" << EMAIL;
-  qDebug() << "cin récupéré :" << CIN;
   QSqlQuery query;
   QString titre;
   query.prepare("SELECT * FROM EMPLOYES WHERE EMAIL = :EMAIL AND CIN = :CIN");
@@ -134,99 +132,87 @@ void MainWindow::on_loginPushButton_clicked() {
     if (query.next()) {
       ui->stackedWidget->setCurrentIndex(1);
       titre = query.value(7).toString();
-      qDebug() << "fonction récupéré :" << titre;
 
       if (titre.compare("admin") == 0) {
+        ui->clientPushButton->setEnabled(true);
         ui->employesPushButton->setEnabled(true);
         ui->equipementsPushButton->setEnabled(true);
-        ui->clientPushButton->setEnabled(true);
-        ui->abonnementPushButton->setEnabled(true);
         ui->evenementsPushButton->setEnabled(true);
-        ui->pushButton_7->setEnabled(true);
-        ui->login_pushButton_6->setEnabled(true);
-        ui->BTmenu_EmpoyepushButton->setEnabled(true);
         ui->abonnementPushButton->setEnabled(true);
-        ui->pushButton_10->setEnabled(true);
-        ui->menu_pushButton->setEnabled(true);
+        ui->ClientsPage->setEnabled(true);
+        ui->EmployeesPage->setEnabled(true);
+        ui->EquipmentsPage->setEnabled(true);
+        ui->EventsPage->setEnabled(true);
+        ui->SubscriptionsPage->setEnabled(true);
       } else if (titre.compare("employes") == 0) {
-        ui->employesPushButton->setEnabled(true);
-        ui->equipementsPushButton->setEnabled(false);
-        ui->clientPushButton->setEnabled(false);
-        ui->abonnementPushButton->setEnabled(false);
-        ui->evenementsPushButton->setEnabled(false);
-        ui->pushButton_7->setEnabled(false);
-        ui->login_pushButton_6->setEnabled(false);
-        ui->BTmenu_EmpoyepushButton->setEnabled(true);
-        ui->abonnementPushButton->setEnabled(false);
-        ui->pushButton_10->setEnabled(false);
-        ui->menu_pushButton->setEnabled(false);
+          ui->clientPushButton->setEnabled(false);
+          ui->employesPushButton->setEnabled(true);
+          ui->equipementsPushButton->setEnabled(false);
+          ui->evenementsPushButton->setEnabled(false);
+          ui->abonnementPushButton->setEnabled(false);
+          ui->ClientsPage->setEnabled(false);
+          ui->EmployeesPage->setEnabled(true);
+          ui->EquipmentsPage->setEnabled(false);
+          ui->EventsPage->setEnabled(false);
+          ui->SubscriptionsPage->setEnabled(false);
       } else if (titre.compare("clients") == 0) {
-        ui->employesPushButton->setEnabled(false);
-        ui->equipementsPushButton->setEnabled(false);
-        ui->clientPushButton->setEnabled(true);
-        ui->abonnementPushButton->setEnabled(false);
-        ui->evenementsPushButton->setEnabled(false);
-        ui->pushButton_7->setEnabled(false);
-        ui->login_pushButton_6->setEnabled(false);
-        ui->BTmenu_EmpoyepushButton->setEnabled(false);
-        ui->abonnementPushButton->setEnabled(false);
-        ui->pushButton_10->setEnabled(false);
-        ui->menu_pushButton->setEnabled(false);
+          ui->clientPushButton->setEnabled(true);
+          ui->employesPushButton->setEnabled(false);
+          ui->equipementsPushButton->setEnabled(false);
+          ui->evenementsPushButton->setEnabled(false);
+          ui->abonnementPushButton->setEnabled(false);
+          ui->ClientsPage->setEnabled(true);
+          ui->EmployeesPage->setEnabled(false);
+          ui->EquipmentsPage->setEnabled(false);
+          ui->EventsPage->setEnabled(false);
+          ui->SubscriptionsPage->setEnabled(false);
       } else if (titre.compare("equipements") == 0) {
-        ui->employesPushButton->setEnabled(false);
-        ui->equipementsPushButton->setEnabled(true);
-        ui->clientPushButton->setEnabled(false);
-        ui->abonnementPushButton->setEnabled(false);
-        ui->evenementsPushButton->setEnabled(false);
-        ui->pushButton_7->setEnabled(false);
-        ui->login_pushButton_6->setEnabled(true);
-        ui->BTmenu_EmpoyepushButton->setEnabled(false);
-        ui->abonnementPushButton->setEnabled(false);
-        ui->pushButton_10->setEnabled(false);
-        ui->menu_pushButton->setEnabled(false);
+          ui->clientPushButton->setEnabled(false);
+          ui->employesPushButton->setEnabled(false);
+          ui->equipementsPushButton->setEnabled(true);
+          ui->evenementsPushButton->setEnabled(false);
+          ui->abonnementPushButton->setEnabled(false);
+          ui->ClientsPage->setEnabled(false);
+          ui->EmployeesPage->setEnabled(false);
+          ui->EquipmentsPage->setEnabled(true);
+          ui->EventsPage->setEnabled(false);
+          ui->SubscriptionsPage->setEnabled(false);
       } else if (titre.compare("abonnements") == 0) {
-        ui->employesPushButton->setEnabled(false);
-        ui->equipementsPushButton->setEnabled(false);
-        ui->clientPushButton->setEnabled(false);
-        ui->abonnementPushButton->setEnabled(true);
-        ui->evenementsPushButton->setEnabled(false);
-        ui->pushButton_7->setEnabled(false);
-        ui->login_pushButton_6->setEnabled(false);
-        ui->BTmenu_EmpoyepushButton->setEnabled(false);
-        ui->abonnementPushButton->setEnabled(true);
-        ui->pushButton_10->setEnabled(false);
-        ui->menu_pushButton->setEnabled(false);
+          ui->clientPushButton->setEnabled(false);
+          ui->employesPushButton->setEnabled(false);
+          ui->equipementsPushButton->setEnabled(false);
+          ui->evenementsPushButton->setEnabled(false);
+          ui->abonnementPushButton->setEnabled(true);
+          ui->ClientsPage->setEnabled(false);
+          ui->EmployeesPage->setEnabled(false);
+          ui->EquipmentsPage->setEnabled(false);
+          ui->EventsPage->setEnabled(false);
+          ui->SubscriptionsPage->setEnabled(true);
       } else if (titre.compare("evenements") == 0) {
-        ui->employesPushButton->setEnabled(false);
-        ui->equipementsPushButton->setEnabled(false);
-        ui->clientPushButton->setEnabled(false);
-        ui->abonnementPushButton->setEnabled(false);
-        ui->evenementsPushButton->setEnabled(true);
-        ui->pushButton_7->setEnabled(false);
-        ui->login_pushButton_6->setEnabled(false);
-        ui->BTmenu_EmpoyepushButton->setEnabled(false);
-        ui->abonnementPushButton->setEnabled(true);
-        ui->pushButton_10->setEnabled(false);
-        ui->menu_pushButton->setEnabled(false);
+          ui->clientPushButton->setEnabled(false);
+          ui->employesPushButton->setEnabled(false);
+          ui->equipementsPushButton->setEnabled(false);
+          ui->evenementsPushButton->setEnabled(true);
+          ui->abonnementPushButton->setEnabled(false);
+          ui->ClientsPage->setEnabled(false);
+          ui->EmployeesPage->setEnabled(false);
+          ui->EquipmentsPage->setEnabled(false);
+          ui->EventsPage->setEnabled(true);
+          ui->SubscriptionsPage->setEnabled(false);
       } else {
-        ui->employesPushButton->setEnabled(false);
-        ui->equipementsPushButton->setEnabled(false);
-        ui->clientPushButton->setEnabled(false);
-        ui->abonnementPushButton->setEnabled(false);
-        ui->evenementsPushButton->setEnabled(false);
-
-        ui->pushButton_7->setEnabled(false);
-        ui->login_pushButton_6->setEnabled(false);
-        ui->BTmenu_EmpoyepushButton->setEnabled(false);
-        ui->abonnementPushButton->setEnabled(false);
-        ui->pushButton_10->setEnabled(false);
-        ui->menu_pushButton->setEnabled(false);
+          ui->clientPushButton->setEnabled(false);
+          ui->employesPushButton->setEnabled(false);
+          ui->equipementsPushButton->setEnabled(false);
+          ui->evenementsPushButton->setEnabled(false);
+          ui->abonnementPushButton->setEnabled(false);
+          ui->ClientsPage->setEnabled(false);
+          ui->EmployeesPage->setEnabled(false);
+          ui->EquipmentsPage->setEnabled(false);
+          ui->EventsPage->setEnabled(false);
+          ui->SubscriptionsPage->setEnabled(false);
       }
       QString NOM = query.value(1).toString();
       QString PRENOM = query.value(2).toString();
-      // Vérification des valeurs récupérées
-      qDebug() << "Nom récupéré :" << NOM;
-      qDebug() << "Prénom récupéré :" << PRENOM;
       ui->userStatusLabel->setText("utilisateur: " + NOM + " " + PRENOM + "");
     } else {
       ui->frame_3->setVisible(false);
@@ -969,35 +955,43 @@ void MainWindow::on_refreshTableV_3_clicked() {
 }
 
 /* ---------------------------------------------------- */
-void MainWindow::on_pushButton_7_clicked() {
-  // Bouton pour rediriger vers CLIENTS
-  ui->stackedWidget->setCurrentIndex(3);
-}
 
-void MainWindow::on_BTmenu_EmpoyepushButton_clicked() {
-  ui->stackedWidget->setCurrentIndex(2);
-}
-
-void MainWindow::on_abonnementPushButton_clicked() {
-  ui->stackedWidget->setCurrentIndex(4);
-}
-
-void MainWindow::on_menu_pushButton_clicked() {
+void MainWindow::on_MenuPage_clicked() {
   ui->stackedWidget->setCurrentIndex(1);
 }
 
-void MainWindow::on_login_pushButton_6_clicked() {
-  ui->stackedWidget->setCurrentIndex(0);
+void MainWindow::on_SubscriptionsPage_clicked() {
+  ui->stackedWidget->setCurrentIndex(5);
 }
-void MainWindow::on_pushButton_10_clicked() {
+
+void MainWindow::on_ClientsPage_clicked() {
+  ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::on_EventsPage_clicked() {
   ui->stackedWidget->setCurrentIndex(6);
 }
 
-void MainWindow::on_pb_logOut_clicked() {
-
-  ui->frame_3->setVisible(false);
-  ui->stackedWidget->setCurrentIndex(0);
+void MainWindow::on_EquipmentsPage_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(4);
 }
+
+void MainWindow::on_EmployeesPage_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::on_LogoutButton_clicked()
+{
+    ui->frame_3->setHidden(true);
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_abonnementPushButton_clicked() {
+  ui->stackedWidget->setCurrentIndex(5);
+}
+
 void MainWindow::on_employesPushButton_clicked() {
   ui->stackedWidget->setCurrentIndex(2);
 }
@@ -1011,7 +1005,7 @@ void MainWindow::on_equipementsPushButton_clicked() {
 }
 
 void MainWindow::on_evenementsPushButton_clicked() {
-  ui->stackedWidget->setCurrentIndex(5);
+  ui->stackedWidget->setCurrentIndex(6);
 }
 
 /* ---------------------------------------------------- */
