@@ -2137,8 +2137,8 @@ QPushButton:hover {
      <widget class="QTabWidget" name="tabWidget_2">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>-30</y>
+        <x>0</x>
+        <y>0</y>
         <width>1181</width>
         <height>611</height>
        </rect>
@@ -3036,10 +3036,10 @@ font-size: 16px; /* Taille de la police */</string>
        <widget class="QFrame" name="frame_16">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>591</width>
-          <height>431</height>
+          <x>10</x>
+          <y>30</y>
+          <width>521</width>
+          <height>421</height>
          </rect>
         </property>
         <property name="frameShape">
@@ -3048,117 +3048,12 @@ font-size: 16px; /* Taille de la police */</string>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QFormLayout" name="formLayout">
+        <layout class="QGridLayout" name="gridLayout_6">
          <item row="0" column="0">
           <widget class="QLabel" name="label_53">
            <property name="text">
             <string>CIN:</string>
            </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QPushButton" name="pushButton_2">
-           <property name="styleSheet">
-            <string notr="true">background-color: #ffffff; /* Fond blanc */
-    border: 2px solid blue; /* Bordure bleue */
-    border-radius: 10px; /* Coins arrondis */
-    padding: 1px 2px; /* Espacement intérieur */
-    color: black; /* Couleur du texte */
-    font-size: 16px; /* Taille de la police */
-   
-   </string>
-           </property>
-           <property name="text">
-            <string>PushButton</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QFrame" name="frame_17">
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-           <layout class="QFormLayout" name="formLayout_2">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_54">
-              <property name="styleSheet">
-               <string notr="true">font: 22pt &quot;MS Shell Dlg 2&quot;;
-font: 20pt &quot;MS Shell Dlg 2&quot;;</string>
-              </property>
-              <property name="text">
-               <string>Note :</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QRadioButton" name="note1">
-              <property name="text">
-               <string>1/5</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QRadioButton" name="note3">
-              <property name="text">
-               <string>3/5</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QRadioButton" name="note4">
-              <property name="text">
-               <string>4/5</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QRadioButton" name="note5">
-              <property name="text">
-               <string>5/5</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QRadioButton" name="note3_2">
-              <property name="text">
-               <string>2/5</string>
-              </property>
-             </widget>
-            </item>
-            <item row="9" column="0">
-             <widget class="QLabel" name="label_55">
-              <property name="styleSheet">
-               <string notr="true">font: 16pt &quot;MS Shell Dlg 2&quot;;
-font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
-              </property>
-              <property name="text">
-               <string>Session Date:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="9" column="1">
-             <widget class="QDateEdit" name="UDateEdit_2">
-              <property name="styleSheet">
-               <string notr="true">QDateEdit {
-    border: 2px solid black; 
-    border-radius: 15px;
-    padding: 5px;
-    background-color: rgba(255, 255, 255);
-    color: black;
-}
-
-QDateEdit:focus {
-    border-color: black; 
-    background-color: rgba(248, 248, 248, 1); 
-}
-</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
           </widget>
          </item>
          <item row="0" column="1">
@@ -3183,8 +3078,8 @@ QLineEdit:focus {
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
-          <widget class="QPushButton" name="UpdateClientBtn_2">
+         <item row="1" column="1">
+          <widget class="QPushButton" name="SearchClient">
            <property name="styleSheet">
             <string notr="true">background-color: #ffffff; /* Fond blanc */
     border: 2px solid blue; /* Bordure bleue */
@@ -3196,11 +3091,172 @@ QLineEdit:focus {
    </string>
            </property>
            <property name="text">
-            <string>Update Client Info</string>
+            <string>Search</string>
            </property>
           </widget>
          </item>
+         <item row="2" column="1">
+          <widget class="QFrame" name="ClientNoteFrame">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_7">
+            <item row="7" column="2">
+             <widget class="QPushButton" name="TodayButton">
+              <property name="styleSheet">
+               <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid green; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+              </property>
+              <property name="text">
+               <string>Today</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_55">
+              <property name="styleSheet">
+               <string notr="true">font: 16pt &quot;MS Shell Dlg 2&quot;;
+font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+              </property>
+              <property name="text">
+               <string>Session Date:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QRadioButton" name="note4">
+              <property name="text">
+               <string>4/5</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_54">
+              <property name="styleSheet">
+               <string notr="true">font: 22pt &quot;MS Shell Dlg 2&quot;;
+font: 20pt &quot;MS Shell Dlg 2&quot;;</string>
+              </property>
+              <property name="text">
+               <string>Note :</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QRadioButton" name="note3">
+              <property name="text">
+               <string>3/5</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QDateEdit" name="SessionDate">
+              <property name="styleSheet">
+               <string notr="true">QDateEdit {
+    border: 2px solid black; 
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QDateEdit:focus {
+    border-color: black; 
+    background-color: rgba(248, 248, 248, 1); 
+}
+</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QRadioButton" name="note1">
+              <property name="text">
+               <string>1/5</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QRadioButton" name="note2">
+              <property name="text">
+               <string>2/5</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QRadioButton" name="note5">
+              <property name="text">
+               <string>5/5</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="0" colspan="3">
+             <widget class="QPushButton" name="SessionButton">
+              <property name="styleSheet">
+               <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+              </property>
+              <property name="text">
+               <string>Add Performance Note</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
         </layout>
+       </widget>
+       <widget class="QFrame" name="PerformanceStatsFrame">
+        <property name="geometry">
+         <rect>
+          <x>560</x>
+          <y>40</y>
+          <width>471</width>
+          <height>341</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="PerformanceStatsButton">
+        <property name="geometry">
+         <rect>
+          <x>720</x>
+          <y>410</y>
+          <width>311</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+        </property>
+        <property name="text">
+         <string>Performance Stats</string>
+        </property>
        </widget>
       </widget>
      </widget>
@@ -5436,7 +5492,7 @@ background-image: url(:/new/icons/icones/iconlogout.png);</string>
      <x>0</x>
      <y>0</y>
      <width>1269</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

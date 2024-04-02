@@ -86,6 +86,14 @@ private slots:
 
   void on_LogoutButton_clicked();
 
+  void on_SearchClient_clicked();
+
+  void on_TodayButton_clicked();
+
+  void on_SessionButton_clicked();
+
+  void on_PerformanceStatsButton_clicked();
+
 private:
   Ui::MainWindow *ui;
   Abonement supp;

@@ -10,6 +10,7 @@
 #include <QTableView>
 #include <QtDebug>
 #include <vector>
+#include <QMap>
 using namespace std;
 class Client {
 private:
@@ -22,6 +23,11 @@ private:
   QString email;
 
 public:
+  struct PerformanceStats {
+      int month;
+      int year;
+      double averageNote;
+  };
   Client();
   Client(int CIN, QString nom, QString prenom, QDate date_naissance, int genre,
          int tel, QString email);
@@ -58,6 +64,8 @@ public:
                QString changes);
   QSqlQueryModel *getLogs(QDate startDate, QDate endDate);
   QString compareClients(Client oldClient, Client newClient);
+  bool SavePerformance(int CIN, int SessionNote, QDate SessionDate);
+  QMap<int, PerformanceStats> RetrievePerformanceStats(int CIN);
 };
 
 #endif // CLIENT_H

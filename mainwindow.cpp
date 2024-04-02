@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
   Employes e(0, "", "", "", 0, "", "", "", 0);
   // int state = 0;
   ui->frame_3->setVisible(false);
+  ui->ClientNoteFrame->setHidden(true);
   ui->listEmployetableView->setModel(e.afficher());
   ui->table_abonnement->setModel(display.afficher_abonnement());
   ui->table_abonnement_2->setModel(display.afficher_abonnement());
@@ -1495,4 +1496,125 @@ void MainWindow::on_calendarWidget_clicked(const QDate &date) {
 
   // Display available equipment details
   displayEquipmentDetails(availableEquipment);
+}
+
+void MainWindow::on_SearchClient_clicked() {
+    Client searchedClient;
+    int searchedCIN = ui->CINLineEdit->text().toInt();
+
+    if(searchedClient.Recherche(searchedCIN)) {
+        ui->ClientNoteFrame->setHidden(false);
+    }
+
+    /* QMap<int, Client::PerformanceStats> performanceData = searchedClient.RetrievePerformanceStats(searchedCIN);
+
+    QBarSeries *series = new QBarSeries();
+
+    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+        QBarSet *set = new QBarSet(QString::number(it.key()));
+        *set << it.value().averageNote;
+        series->append(set);
+    }
+
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->setTitle("Performance Stats");
+    chart->setAnimationOptions(QChart::SeriesAnimations);
+
+    QStringList categories;
+    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+        categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
+    }
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
+    axisX->append(categories);
+    chart->addAxis(axisX, Qt::AlignBottom);
+    series->attachAxis(axisX);
+
+    QValueAxis *axisY = new QValueAxis();
+    axisY->setLabelFormat("%.2f");
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisY);
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    ui->PerformanceStatsFrame->layout()->addWidget(chartView);*/
+}
+
+void MainWindow::on_TodayButton_clicked()
+{
+    ui->SessionDate->setDate(QDate::currentDate());
+}
+
+void MainWindow::on_SessionButton_clicked()
+{
+    Client SearchedClient;
+    int SearchedCIN = ui->CINLineEdit->text().toInt();
+    int selectedRadio = ui->note1->isChecked() ? 1 :
+                    ui->note2->isChecked() ? 2 :
+                    ui->note3->isChecked() ? 3 :
+                    ui->note4->isChecked() ? 4 :
+                    ui->note5->isChecked() ? 5 : 0;
+    QDate SessionDate = ui->SessionDate->date();
+    if(SearchedClient.Recherche(SearchedCIN) && selectedRadio!=0){
+        SearchedClient.SavePerformance(SearchedCIN, selectedRadio, SessionDate);
+    }
+}
+
+void MainWindow::on_PerformanceStatsButton_clicked()
+{
+    Client searchedClient;
+    int SearchedCIN = ui->CINLineEdit->text().toInt();
+    QMap<int, Client::PerformanceStats> performanceData = searchedClient.RetrievePerformanceStats(SearchedCIN);
+
+    if (performanceData.isEmpty()) {
+        qDebug() << "Performance data is empty. Cannot generate chart.";
+        return;
+    }
+
+    QBarSeries *series = new QBarSeries();
+
+    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+        QBarSet *set = new QBarSet(QString::number(it.key()));
+        *set << it.value().averageNote;
+        series->append(set);
+    }
+
+    QChart *chart = new QChart();
+
+    // Check if series is empty
+    if (series->count() == 0) {
+        qDebug() << "No data available for chart. Aborting chart creation.";
+        delete series;
+        delete chart;
+        return;
+    }
+
+    chart->addSeries(series);
+    chart->setTitle("Performance Stats");
+    chart->setAnimationOptions(QChart::SeriesAnimations);
+
+    QStringList categories;
+    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+        categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
+    }
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
+    axisX->append(categories);
+    chart->addAxis(axisX, Qt::AlignBottom);
+    series->attachAxis(axisX);
+
+    QValueAxis *axisY = new QValueAxis();
+    axisY->setLabelFormat("%.2f");
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisY);
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    if (!ui->PerformanceStatsFrame->layout()) {
+        QVBoxLayout *layout = new QVBoxLayout(ui->PerformanceStatsFrame);
+        ui->PerformanceStatsFrame->setLayout(layout);
+    }
+
+    ui->PerformanceStatsFrame->layout()->addWidget(chartView);
 }
