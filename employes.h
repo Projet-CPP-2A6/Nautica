@@ -57,8 +57,10 @@ public:
   bool rechercher(int CIN);
   void chercherEmpCin(QTableView *table, QString l);
   void chercherEmpNom(QTableView *table, QString l);
+  void chercherEmpTel(QTableView *table, QString l);
   QSqlQueryModel *afficher();
   QSqlQueryModel *triCin();
   QSqlQueryModel *triNom();
+  QSqlQueryModel *triSalary();
 };
 #endif // EMPLOYES_H

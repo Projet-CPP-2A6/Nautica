@@ -32,7 +32,7 @@
      <string notr="true">background-color: white;</string>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QFrame" name="frame_2">
@@ -579,6 +579,31 @@ QPushButton:hover {
         <string/>
        </property>
       </widget>
+      <widget class="QLabel" name="role_lbl">
+        <property name="geometry">
+         <rect>
+          <x>640</x>
+          <y>460</y>
+          <width>381</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Nirmala UI</family>
+          <pointsize>11</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"> 
+ color: rgb(140,140,140);</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="gestion">
@@ -595,11 +620,11 @@ QPushButton:hover {
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="gestion_employes">
        <attribute name="title">
-        <string>Tab 1</string>
+        <string>Add</string>
        </attribute>
        <widget class="QFrame" name="frame_7">
         <property name="geometry">
@@ -1098,7 +1123,7 @@ QLineEdit:focus {
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
-        <string>Page</string>
+        <string>Update</string>
        </attribute>
        <widget class="QFrame" name="frame_10">
         <property name="geometry">
@@ -1217,7 +1242,7 @@ QLineEdit:focus {
           </font>
          </property>
          <property name="text">
-          <string>Adresse</string>
+          <string>Adress</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_22">
@@ -1237,7 +1262,7 @@ QLineEdit:focus {
           </font>
          </property>
          <property name="text">
-          <string>Prenom</string>
+          <string>First Name</string>
          </property>
         </widget>
         <widget class="QLineEdit" name="updateTelephone_LE">
@@ -1352,7 +1377,7 @@ QLineEdit:focus {
           </font>
          </property>
          <property name="text">
-          <string>Salaire</string>
+          <string>Salary</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_36">
@@ -1487,7 +1512,7 @@ QLineEdit:focus {
           </font>
          </property>
          <property name="text">
-          <string>Genre</string>
+          <string>Gender</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_34">
@@ -1507,7 +1532,7 @@ QLineEdit:focus {
           </font>
          </property>
          <property name="text">
-          <string>Telephone</string>
+          <string>Phone</string>
          </property>
         </widget>
         <widget class="QLineEdit" name="updatePrenom_LE">
@@ -1595,7 +1620,7 @@ QPushButton:hover {
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>Display</string>
        </attribute>
        <widget class="QFrame" name="frame_9">
         <property name="geometry">
@@ -1709,7 +1734,7 @@ QPushButton:hover {
         <widget class="QPushButton" name="triCinPushButton">
          <property name="geometry">
           <rect>
-           <x>310</x>
+           <x>260</x>
            <y>480</y>
            <width>121</width>
            <height>28</height>
@@ -1737,7 +1762,7 @@ QPushButton:hover {
         <widget class="QPushButton" name="triNomPushButton">
          <property name="geometry">
           <rect>
-           <x>450</x>
+           <x>390</x>
            <y>480</y>
            <width>131</width>
            <height>28</height>
@@ -1862,6 +1887,80 @@ QPushButton:hover {
           <string>PDF</string>
          </property>
         </widget>
+        <widget class="QPushButton" name="triSalaryPushButton">
+            <property name="geometry">
+             <rect>
+              <x>530</x>
+              <y>480</y>
+              <width>141</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+       background-color: #ffffff; /* Fond blanc */
+       border: 2px solid blue; /* Bordure bleue */
+       border-radius: 10px; /* Coins arrondis */
+       padding: 1px 2px; /* Espacement intérieur */
+       color: black; /* Couleur du texte */
+       font-size: 16px; /* Taille de la police */
+   }
+   
+   QPushButton:hover {
+       background-color: blue; /* Nouvelle couleur de fond au survol */
+       color: white; /* Nouvelle couleur de texte au survol */
+   }</string>
+            </property>
+            <property name="text">
+             <string>order by salary</string>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="PhoneradioButton">
+            <property name="geometry">
+             <rect>
+              <x>870</x>
+              <y>540</y>
+              <width>97</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>phone</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="importCSV">
+            <property name="geometry">
+             <rect>
+              <x>690</x>
+              <y>70</y>
+              <width>93</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+       background-color: #ffffff; /* Fond blanc */
+       border: 2px solid blue; /* Bordure bleue */
+       border-radius: 10px; /* Coins arrondis */
+       padding: 1px 2px; /* Espacement intérieur */
+       color: black; /* Couleur du texte */
+       font-size: 16px; /* Taille de la police */
+   }
+   
+   QPushButton:hover {
+       background-color: blue; /* Nouvelle couleur de fond au survol */
+       color: white; /* Nouvelle couleur de texte au survol */
+   }</string>
+            </property>
+            <property name="text">
+             <string>import</string>
+            </property>
+           </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="tab">
@@ -2002,6 +2101,27 @@ QPushButton:hover {
          </property>
         </widget>
        </widget>
+       <widget class="QWidget" name="tab_2">
+        <attribute name="title">
+         <string>Page</string>
+        </attribute>
+        <widget class="QFrame" name="frame_19">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>1171</width>
+           <height>591</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+       </widget>
       </widget>
      </widget>
     </widget>
@@ -2022,7 +2142,7 @@ QPushButton:hover {
        <string notr="true">background-color: white;</string>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_9">
        <attribute name="title">
@@ -4956,7 +5076,7 @@ border-radius: 10px; /* Coins arrondis */
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="pushButton_8">
+    <widget class="QPushButton" name="menu_pushButton">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -4991,7 +5111,7 @@ QPushButton:hover{
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_6">
+    <widget class="QPushButton" name="login_pushButton_6">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -5096,7 +5216,7 @@ QPushButton:hover {
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="BTmenu_EmpoyepushButton">
      <property name="geometry">
       <rect>
        <x>20</x>

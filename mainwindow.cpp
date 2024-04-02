@@ -19,15 +19,16 @@
 #include <QString>
 #include <QTableView>
 #include <QUrl>
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
   Employes e(0, "", "", "", 0, "", "", "", 0);
-  Client c;
+  int state = 0;
+  ui->frame_3->setVisible(false);
   ui->listEmployetableView->setModel(e.afficher());
   ui->table_abonnement->setModel(display.afficher_abonnement());
   ui->table_abonnement_2->setModel(display.afficher_abonnement());
+  ui->stackedWidget->setCurrentIndex(0);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -54,7 +55,6 @@ void MainWindow::on_pushButton_3_clicked() {
     QMessageBox::information(this, "Succès",
                              "L'employé a été ajouté avec succès.");
     ui->listEmployetableView->setModel(e.afficher());
-
   } else {
     QMessageBox::critical(this, "Erreur",
                           "employé existant. Veuillez réessayer.");
@@ -114,6 +114,11 @@ void MainWindow::on_triNomPushButton_clicked() {
   ui->listEmployetableView->setModel(e.triNom());
 }
 
+void MainWindow::on_triSalaryPushButton_clicked() {
+  Employes e;
+  ui->listEmployetableView->setModel(e.triSalary());
+}
+
 void MainWindow::on_loginPushButton_clicked() {
   QString EMAIL = ui->loginEmailLineEdit->text();
   QString CIN = ui->passwordLineEdit->text();
@@ -125,6 +130,7 @@ void MainWindow::on_loginPushButton_clicked() {
   query.bindValue(":EMAIL", EMAIL);
   query.bindValue(":CIN", CIN);
   if (query.exec()) {
+    ui->frame_3->setVisible(true);
     if (query.next()) {
       ui->stackedWidget->setCurrentIndex(1);
       titre = query.value(7).toString();
@@ -136,41 +142,85 @@ void MainWindow::on_loginPushButton_clicked() {
         ui->clientPushButton->setEnabled(true);
         ui->abonnementPushButton->setEnabled(true);
         ui->evenementsPushButton->setEnabled(true);
-      }
-      if (titre.compare("employes") == 0) {
+        ui->pushButton_7->setEnabled(true);
+        ui->login_pushButton_6->setEnabled(true);
+        ui->BTmenu_EmpoyepushButton->setEnabled(true);
+        ui->abonnementPushButton->setEnabled(true);
+        ui->pushButton_10->setEnabled(true);
+        ui->menu_pushButton->setEnabled(true);
+      } else if (titre.compare("employes") == 0) {
         ui->employesPushButton->setEnabled(true);
         ui->equipementsPushButton->setEnabled(false);
         ui->clientPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
-      }
-      if (titre.compare("clients") == 0) {
+        ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(true);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(false);
+      } else if (titre.compare("clients") == 0) {
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->clientPushButton->setEnabled(true);
         ui->abonnementPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
-      }
-      if (titre.compare("equipements") == 0) {
+        ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(false);
+      } else if (titre.compare("equipements") == 0) {
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(true);
         ui->clientPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
-      }
-      if (titre.compare("abonnements") == 0) {
+        ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(true);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(false);
+      } else if (titre.compare("abonnements") == 0) {
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->clientPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(true);
         ui->evenementsPushButton->setEnabled(false);
-      }
-      if (titre.compare("evenements") == 0) {
+        ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(true);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(false);
+      } else if (titre.compare("evenements") == 0) {
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->clientPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(true);
+        ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(true);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(false);
+      } else {
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+
+        ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(false);
       }
       QString NOM = query.value(1).toString();
       QString PRENOM = query.value(2).toString();
@@ -178,8 +228,8 @@ void MainWindow::on_loginPushButton_clicked() {
       qDebug() << "Nom récupéré :" << NOM;
       qDebug() << "Prénom récupéré :" << PRENOM;
       ui->userStatusLabel->setText("utilisateur: " + NOM + " " + PRENOM + "");
-
     } else {
+      ui->frame_3->setVisible(false);
       ui->loginInfoLabel->setText("iditenfiants incorrectes!");
     }
   } else {
@@ -188,26 +238,8 @@ void MainWindow::on_loginPushButton_clicked() {
     // Traitez ici l'erreur de requête, par exemple, affichez un message
     // d'erreur ou enregistrez la journalisation.
   }
-}
-
-void MainWindow::on_employesPushButton_clicked() {
-  ui->stackedWidget->setCurrentIndex(2);
-}
-
-void MainWindow::on_clientPushButton_clicked() {
-  ui->stackedWidget->setCurrentIndex(3);
-}
-
-void MainWindow::on_equipementsPushButton_clicked() {
-  ui->stackedWidget->setCurrentIndex(4);
-}
-
-void MainWindow::on_evenementsPushButton_clicked() {
-  ui->stackedWidget->setCurrentIndex(5);
-}
-
-void MainWindow::on_abonnementPushButton_clicked() {
-  ui->stackedWidget->setCurrentIndex(6);
+  ui->loginEmailLineEdit->clear();
+  ui->passwordLineEdit->clear();
 }
 
 int modes = 0;
@@ -246,19 +278,32 @@ void MainWindow::on_lineEdit_textChanged(const QString &arg1) {
   if (ui->CinRadioButton_2->isChecked() == true) {
     e.chercherEmpNom(ui->listEmployetableView, arg1);
   }
+  if (ui->PhoneradioButton->isChecked() == true) {
+    e.chercherEmpTel(ui->listEmployetableView, arg1);
+  }
+  if (ui->PhoneradioButton->isChecked() == true) {
+    e.chercherEmpTel(ui->listEmployetableView, arg1);
+  }
 }
 
 void MainWindow::on_PDFpushButton_clicked() {
+  // Demander à l'utilisateur de choisir l'emplacement et le nom du fichier PDF
+  QString filePath = QFileDialog::getSaveFileName(
+      this, tr("Enregistrer le PDF"), "", tr("Fichiers PDF (*.pdf)"));
+
+  // Si l'utilisateur annule la sélection, quitter la fonction
+  if (filePath.isEmpty()) {
+    return;
+  }
   // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
   QPrinter printer;
   printer.setOutputFormat(QPrinter::PdfFormat);
-  printer.setOutputFileName("C:/Users/chihe/Desktop/deuxieme annee "
-                            "esprit/s2/projet nautique/listeEmployes.pdf");
+  printer.setOutputFileName(filePath);
 
   // Créatoin d'un objet QPainter pour l'objet QPrinter
   QPainter painter;
   if (!painter.begin(&printer)) {
-    qWarning("failed to open file, is it writable?");
+    qWarning("Failed to open file, is it writable?");
     return;
   }
 
@@ -272,21 +317,21 @@ void MainWindow::on_PDFpushButton_clicked() {
   // Définissez la taille de la cellule pour le dessin
   int cellWidth = 100;
   int cellHeight = 30;
-
-  // Inserer les noms des colonnes
+  // Insérer les noms des colonnes
   for (int col = 0; col < columns; ++col) {
     QString headerData = model->headerData(col, Qt::Horizontal).toString();
     painter.drawText(col * cellWidth, 0, cellWidth, cellHeight, Qt::AlignCenter,
                      headerData);
   }
-  // Inserer les données de la table sur le périphérique de sortie PDF
+
+  // Insérer les données de la table sur le périphérique de sortie PDF
   for (int row = 1; row < rows; ++row) {
     for (int col = 0; col < columns; ++col) {
       // Obtenir les données de la cellule
       QModelIndex index = model->index(row, col);
       QString data = model->data(index).toString();
 
-      // insertion des données de la cellule
+      // Insérer les données de la cellule
       painter.drawText(col * cellWidth, row * cellHeight, cellWidth, cellHeight,
                        Qt::AlignLeft, data);
     }
@@ -294,6 +339,64 @@ void MainWindow::on_PDFpushButton_clicked() {
 
   // Terminez avec QPainter
   painter.end();
+}
+void MainWindow::on_importCSV_clicked() {
+  QString fileName = QFileDialog::getOpenFileName(
+      this, tr("Ouvrir fichier CSV"), QString(), tr("Fichiers CSV (*.csv)"));
+  if (fileName.isEmpty())
+    return;
+
+  QFile file(fileName);
+  if (!file.open(QIODevice::ReadOnly)) {
+    QMessageBox::warning(this, tr("Erreur"),
+                         tr("Impossible d'ouvrir le fichier."));
+    return;
+  }
+
+  QTextStream in(&file);
+  try {
+    while (!in.atEnd()) {
+      QString line = in.readLine();
+      QStringList fields = line.split(';');
+
+      if (fields.size() < 9) {
+        // Afficher un avertissement ou gérer le cas où la ligne ne contient pas
+        // suffisamment de champs
+        qDebug() << "La ligne CSV ne contient pas suffisamment de champs";
+        continue; // Passer à la prochaine ligne
+      }
+
+      // Créer un objet Employes avec les données lues depuis le fichier CSV
+      Employes employee;
+      employee.setCin(fields[0].toInt());
+      employee.setNom(fields[1]);
+      employee.setPrenom(fields[2]);
+      employee.setGenre(fields[3]);
+      employee.setTel(fields[4].toInt());
+      employee.setEmail(fields[5]);
+      employee.setAdresse(fields[6]);
+      employee.setFonction(fields[7]);
+      employee.setSalaire(fields[8].toFloat()); // Convertir en float
+
+      // Ajouter l'employé à la base de données
+      if (!employee.ajouter()) {
+        QMessageBox::warning(
+            this, tr("Erreur"),
+            tr("Impossible d'ajouter l'employé à la base de données."));
+        return;
+      }
+    }
+  } catch (const std::exception &e) {
+    QMessageBox::critical(this, tr("Erreur"),
+                          tr("Une erreur s'est produite lors de l'importation "
+                             "du fichier CSV : %1")
+                              .arg(e.what()));
+  }
+
+  file.close();
+  QMessageBox::information(
+      this, tr("Succès"),
+      tr("Données ajoutées avec succès à la base de données."));
 }
 
 void MainWindow::on_statGenderPushButton_clicked() {
@@ -319,9 +422,14 @@ void MainWindow::on_statGenderPushButton_clicked() {
 
   c1 = c1 / tot;
   c2 = c2 / tot;
-  QPieSeries *series = new QPieSeries(); // morceau mta camembere
-  series->append("homme", c1);
-  series->append("femme", c2);
+
+  QPieSeries *series = new QPieSeries();
+  QPieSlice *slice1 = series->append("homme", c1);
+  QPieSlice *slice2 = series->append("femme", c2);
+
+  // Définition des libellés avec les pourcentages
+  slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
+  slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
 
   QChart *chart = new QChart();
   chart->addSeries(series);
@@ -361,10 +469,17 @@ void MainWindow::on_statSalaryPushButton_clicked() {
   c1 = c1 / tot;
   c2 = c2 / tot;
   c3 = c3 / tot;
+
   QPieSeries *series = new QPieSeries();
-  series->append("1000", c1);
-  series->append("2000", c2);
-  series->append("1500", c3);
+  QPieSlice *slice1 = series->append("1000", c1);
+  QPieSlice *slice2 = series->append("2000", c2);
+  QPieSlice *slice3 = series->append("1500", c3);
+
+  // Définition des libellés avec les pourcentages
+  slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
+  slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
+  slice3->setLabel(QString("%1%").arg(QString::number(c3 * 100, 'f', 2)));
+
   QChart *chart = new QChart();
   chart->addSeries(series);
   chart->legend()->show();
@@ -425,11 +540,26 @@ void MainWindow::on_statFonctionPushButton_clicked() {
          << "#0000ff"; // Rouge, Vert, Jaune, Violet, Bleu
 
   QPieSeries *series = new QPieSeries();
-  series->append("employes", c1);
-  series->append("clients", c2);
-  series->append("abonnements", c3);
-  series->append("evenements", c4);
-  series->append("equipements", c5);
+  QPieSlice *slice1 = series->append("employes", c1);
+  QPieSlice *slice2 = series->append("clients", c2);
+  QPieSlice *slice3 = series->append("abonnements", c3);
+  QPieSlice *slice4 = series->append("evenements", c4);
+  QPieSlice *slice5 = series->append("equipements", c5);
+
+  // Définition des libellés avec les pourcentages
+  slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
+  slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
+  slice3->setLabel(QString("%1%").arg(QString::number(c3 * 100, 'f', 2)));
+  slice4->setLabel(QString("%1%").arg(QString::number(c4 * 100, 'f', 2)));
+  slice5->setLabel(QString("%1%").arg(QString::number(c5 * 100, 'f', 2)));
+
+  // Définition des pourcentages à 0% pour les parties vides
+  if (c3 == 0)
+    slice3->setLabel("0%");
+  if (c4 == 0)
+    slice4->setLabel("0%");
+  if (c5 == 0)
+    slice5->setLabel("0%");
 
   QChart *chart = new QChart();
   chart->addSeries(series);
@@ -744,7 +874,6 @@ void MainWindow::on_CPDFExport_clicked() {
 bool valid_id(QString id) {
   for (int i = 0; i < id.length(); i++) {
     if ((id[i] >= '0' && id[i] <= '9')) {
-
     } else {
       return false;
     }
@@ -827,7 +956,6 @@ void MainWindow::on_aupdate_abnt_clicked() {
         "Les informations du Abonement ont été modifiées avec succès.");
     ui->table_abonnement->setModel(Abonement.afficher_abonnement());
     ui->table_abonnement_2->setModel(Abonement.afficher_abonnement());
-
   } else {
     QMessageBox::critical(
         this, "Erreur de modification",
@@ -840,6 +968,53 @@ void MainWindow::on_refreshTableV_3_clicked() {
   ui->table_abonnement_2->setModel(display.afficher_abonnement());
 }
 
+/* ---------------------------------------------------- */
+void MainWindow::on_pushButton_7_clicked() {
+  // Bouton pour rediriger vers CLIENTS
+  ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::on_BTmenu_EmpoyepushButton_clicked() {
+  ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::on_abonnementPushButton_clicked() {
+  ui->stackedWidget->setCurrentIndex(4);
+}
+
+void MainWindow::on_menu_pushButton_clicked() {
+  ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::on_login_pushButton_6_clicked() {
+  ui->stackedWidget->setCurrentIndex(0);
+}
+void MainWindow::on_pushButton_10_clicked() {
+  ui->stackedWidget->setCurrentIndex(6);
+}
+
+void MainWindow::on_pb_logOut_clicked() {
+
+  ui->frame_3->setVisible(false);
+  ui->stackedWidget->setCurrentIndex(0);
+}
+void MainWindow::on_employesPushButton_clicked() {
+  ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::on_clientPushButton_clicked() {
+  ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::on_equipementsPushButton_clicked() {
+  ui->stackedWidget->setCurrentIndex(4);
+}
+
+void MainWindow::on_evenementsPushButton_clicked() {
+  ui->stackedWidget->setCurrentIndex(5);
+}
+
+/* ---------------------------------------------------- */
 void MainWindow::on_SearchClientUpdateButton_clicked() {
   Client CTU;
   if (!ui->UCIN->text().isEmpty()) {

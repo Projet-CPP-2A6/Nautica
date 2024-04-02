@@ -199,6 +199,21 @@ QSqlQueryModel *Employes::triNom() {
   return model;
 };
 
+QSqlQueryModel *Employes::triSalary() {
+  QSqlQueryModel *model = new QSqlQueryModel();
+  model->setQuery("SELECT * FROM EMPLOYES order by SALAIRE");
+  model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
+  model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
+  model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
+  model->setHeaderData(3, Qt::Horizontal, QObject::tr("GENRE"));
+  model->setHeaderData(4, Qt::Horizontal, QObject::tr("TELEPHONE"));
+  model->setHeaderData(5, Qt::Horizontal, QObject::tr("EMAIL"));
+  model->setHeaderData(6, Qt::Horizontal, QObject::tr("ADRESSE"));
+  model->setHeaderData(7, Qt::Horizontal, QObject::tr("FONCTION"));
+  model->setHeaderData(8, Qt::Horizontal, QObject::tr("SALAIRE"));
+  return model;
+};
+
 void Employes::chercherEmpCin(QTableView *table, QString l) {
   QSqlQueryModel *model = new QSqlQueryModel();
   QSqlQuery *query = new QSqlQuery;
@@ -212,6 +227,25 @@ void Employes::chercherEmpCin(QTableView *table, QString l) {
   table->setModel(model);
   table->show();
 };
+
+void Employes::chercherEmpTel(QTableView *table, QString l) {
+  QSqlQueryModel *model = new QSqlQueryModel();
+  QSqlQuery *query = new QSqlQuery;
+
+  query->prepare("SELECT * FROM EMPLOYES WHERE TELEPHONE = :TELEPHONE");
+  query->bindValue(":TELEPHONE", l);
+
+  // Si le numéro de téléphone est vide, afficher tous les employés
+  if (l.isEmpty()) {
+    query->prepare("SELECT * FROM EMPLOYES");
+  }
+
+  query->exec();
+  model->setQuery(*query);
+  table->setModel(model);
+  table->show();
+};
+
 void Employes::chercherEmpNom(QTableView *table, QString l) {
   QSqlQueryModel *model = new QSqlQueryModel();
   QSqlQuery *query = new QSqlQuery;
