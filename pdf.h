@@ -7,19 +7,18 @@ namespace Ui {
 class pdf;
 }
 
-class pdf : public QDialog
-{
-    Q_OBJECT
+class pdf : public QDialog {
+  Q_OBJECT
 
 public:
-    explicit pdf(QWidget *parent = nullptr);
-    ~pdf();
+  explicit pdf(QWidget *parent = nullptr);
+  ~pdf();
 
 private slots:
-    void on_pushButton_clicked();
+  void on_pushButton_clicked();
 
 private:
-    Ui::pdf *ui;
+  Ui::pdf *ui;
 };
 
 #endif // PDF_H

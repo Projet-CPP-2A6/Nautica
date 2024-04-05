@@ -2,16 +2,16 @@
 #define EMAIL_H
 #include <QString>
 
-class mailer
-{
+class mailer {
 public:
-    mailer();
-    mailer(QString, QString, QString);
+  mailer();
+  mailer(QString, QString, QString);
 
-    static int sendEmail(QString,QString,QString);
- private:
-    QString destinataire;
-    QString object,body;
+  static int sendEmail(QString, QString, QString);
+
+private:
+  QString destinataire;
+  QString object, body;
 };
 
 #endif // EMAIL_H
