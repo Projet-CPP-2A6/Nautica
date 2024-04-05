@@ -1,4 +1,4 @@
-QT       += core gui sql printsupport charts
+QT       += core gui sql printsupport charts network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,19 +18,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     client.cpp \
     connection.cpp \
+    email.cpp \
     employes.cpp \
     equipement.cpp \
     abonement.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    pdf.cpp \
+    stat1.cpp
 
 HEADERS += \
     client.h \
     connection.h \
+    email.h \
     employes.h \
     equipement.h \
     abonement.h \
-    mainwindow.h
+    mainwindow.h \
+    pdf.h \
+    stat1.h
 
 FORMS += \
     accueil.ui \

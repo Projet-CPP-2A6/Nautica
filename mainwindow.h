@@ -86,6 +86,30 @@ private slots:
 
   void on_LogoutButton_clicked();
 
+  void on_delete_abonnement_button_2_clicked();
+
+  void on_checkBoxsearchabnt_stateChanged(int arg1);
+
+  void on_pushButton_12_clicked();
+
+  void on_radioButton_clicked();
+
+  void on_radioButton_2_clicked();
+
+  void on_radioButton_3_clicked();
+
+  void on_checkBoxsearchabnt_2_stateChanged(int arg1);
+
+  void on_checkBoxsearchabnt_3_stateChanged(int arg1);
+
+  void on_pushButton_13_clicked();
+
+  void on_b_note_clicked();
+
+  void on_envoyer_email_clicked();
+
+  void hideLabels();
+
 private:
   Ui::MainWindow *ui;
   Abonement supp;
