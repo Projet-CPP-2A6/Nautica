@@ -85,9 +85,6 @@ private slots:
   void on_EquipmentsPage_clicked();
 
   void on_LogoutButton_clicked();
-
-  void on_delete_abonnement_button_2_clicked();
-
   void on_checkBoxsearchabnt_stateChanged();
 
   void on_pushButton_12_clicked();
