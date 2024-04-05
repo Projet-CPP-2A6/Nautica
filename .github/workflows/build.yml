@@ -2,10 +2,9 @@ name: Qt Project Build Workflow
 
 on:
   push:
-    branches: "**"
+    branches: ["**"]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   build:
@@ -24,7 +23,8 @@ jobs:
           target: "desktop"
           arch: "win32_mingw53"
           tools: "tools_mingw,qt.tools.win32_mingw530"
-          modules: "qtcharts, qtnetworkauth"
+          modules: "qtcharts qtnetworkauth"
+
       - name: Qt 5 environment configuration
         shell: pwsh
         run: |
