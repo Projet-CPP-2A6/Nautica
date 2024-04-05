@@ -4155,7 +4155,7 @@ font-size: 16px; /* Taille de la police */</string>
           <number>8</number>
          </property>
         </widget>
-        <widget class="QPushButton" name="AjouterButton_6">
+        <widget class="QPushButton" name="addMaintenance">
          <property name="geometry">
           <rect>
            <x>220</x>

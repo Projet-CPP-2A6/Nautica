@@ -1490,7 +1490,7 @@ void MainWindow::on_calendarWidget_clicked(const QDate &date) {
   displayEquipmentDetails(availableEquipment);
 }
 
-void MainWindow::on_AjouterButton_6_clicked()
+void MainWindow::on_addMaintenance_clicked()
 {
     int CIN_employe = ui->CIN_employe->text().toFloat();
     QString reference_equipement = ui->reference_equipement->text();
