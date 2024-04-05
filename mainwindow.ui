@@ -4164,7 +4164,7 @@ font-size: 16px; /* Taille de la police */</string>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <widget class="QPushButton" name="delete_abonnement_button_2">
+        <widget class="QPushButton" name="delete_abonnement_button">
          <property name="geometry">
           <rect>
            <x>20</x>

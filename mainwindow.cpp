@@ -1471,7 +1471,7 @@ void MainWindow::on_calendarWidget_clicked(const QDate &date) {
   displayEquipmentDetails(availableEquipment);
 }
 
-void MainWindow::on_delete_abonnement_button_2_clicked() {
+void MainWindow::on_delete_abonnement_button_clicked() {
   QString id = ui->delete_abonnement->text();
   Abonement Abonement;
   bool test = supp.supprimer_abonnement(id);
