@@ -86,6 +86,8 @@ private slots:
 
   void on_LogoutButton_clicked();
 
+  void on_AjouterButton_6_clicked();
+
 private:
   Ui::MainWindow *ui;
   Abonement supp;

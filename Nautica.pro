@@ -22,6 +22,7 @@ SOURCES += \
     equipement.cpp \
     abonement.cpp \
     main.cpp \
+    maintenance.cpp \
     mainwindow.cpp
 
 HEADERS += \
@@ -30,6 +31,7 @@ HEADERS += \
     employes.h \
     equipement.h \
     abonement.h \
+    maintenance.h \
     mainwindow.h
 
 FORMS += \
