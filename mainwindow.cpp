@@ -809,54 +809,97 @@ void MainWindow::on_CPDFExport_clicked() {
   Client C;
   QSqlQueryModel *ClientModel = C.Afficher();
 
+  if (!ClientModel) {
+    qDebug() << "Failed to retrieve client data";
+    return;
+  }
+
+  int rowCount = ClientModel->rowCount();
+  int colCount = ClientModel->columnCount();
+
   QString defaultFileName = "ClientsList.pdf";
   QString fileName = QFileDialog::getSaveFileName(
       this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
 
-  if (fileName.isEmpty() || !ClientModel)
+  if (fileName.isEmpty()) {
+    qDebug() << "File name is empty";
+    delete ClientModel;
     return;
+  }
 
   QPrinter printer;
   printer.setOutputFormat(QPrinter::PdfFormat);
   printer.setOutputFileName(fileName);
 
-  QTextDocument doc;
-  QTextCursor cursor(&doc);
+  QPainter painter;
+  if (!painter.begin(&printer)) {
+    qDebug() << "Failed to open the printer";
+    delete ClientModel;
+    return;
+  }
 
-  int rowCount = ClientModel->rowCount();
-  int colCount = ClientModel->columnCount();
+  int pageWidth = printer.pageRect().width();
+  int pageHeight = printer.pageRect().height();
 
-  QTextTable *table = cursor.insertTable(rowCount + 1, colCount);
+  QImage image("img/logo.png");
+  if (image.isNull()) {
+    qDebug() << "Failed to load image";
+  } else {
+    int imageWidth = image.width();
+    int imageHeight = image.height();
+    int x = (pageWidth - imageWidth) / 2;
+    int y = (pageHeight - imageHeight) / 4;
+    painter.drawImage(x, y, image);
+    qDebug() << "Logo drawn successfully!";
+  }
 
+  QFont titleFont = painter.font();
+  titleFont.setPointSize(24);
+  titleFont.setBold(true);
+  painter.setFont(titleFont);
+  QString title = "Clients List";
+  painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20,
+                   Qt::AlignHCenter | Qt::AlignTop, title);
+
+  QFont font = painter.font();
+  font.setPointSize(7);
+  painter.setFont(font);
+  int cellWidth = 100;
+  int cellHeight = 30;
+  int headerHeight = 2 * cellHeight;
+  int titleBottomSpacing = 20;
+  int tableStartX = 30;
+  painter.drawRect(tableStartX, pageHeight / titleBottomSpacing + headerHeight,
+                   colCount * cellWidth, cellHeight);
   for (int col = 0; col < colCount; ++col) {
     QString columnName =
         ClientModel->headerData(col, Qt::Horizontal).toString();
-    QTextTableCell cell = table->cellAt(0, col);
-    QTextCursor cellCursor = cell.firstCursorPosition();
-    cellCursor.insertText(columnName);
+    painter.drawText(tableStartX + col * cellWidth,
+                     pageHeight / titleBottomSpacing + headerHeight, cellWidth,
+                     cellHeight, Qt::AlignCenter, columnName);
+    painter.drawRect(tableStartX + col * cellWidth,
+                     pageHeight / titleBottomSpacing + headerHeight, cellWidth,
+                     cellHeight);
   }
 
   for (int row = 0; row < rowCount; ++row) {
     for (int col = 0; col < colCount; ++col) {
       QModelIndex index = ClientModel->index(row, col);
-      QString data;
-      if (col == 4) {
-        int genderValue = ClientModel->data(index).toInt();
-        data = (genderValue == 0) ? "M" : "F";
-      } else {
-        data = ClientModel->data(index).toString();
-      }
-      QTextTableCell cell = table->cellAt(row + 1, col);
-      QTextCursor cellCursor = cell.firstCursorPosition();
-      cellCursor.insertText(data);
+      QString data = ClientModel->data(index).toString();
+      painter.drawText(tableStartX + col * cellWidth,
+                       pageHeight / titleBottomSpacing + headerHeight +
+                           (row + 1) * cellHeight,
+                       cellWidth, cellHeight,
+                       Qt::AlignCenter | Qt::AlignVCenter, data);
+      painter.drawRect(tableStartX + col * cellWidth,
+                       pageHeight / titleBottomSpacing + headerHeight +
+                           (row + 1) * cellHeight,
+                       cellWidth, cellHeight);
     }
   }
 
-  QTextTableFormat tableFormat = table->format();
-  tableFormat.setBorder(1);
-  table->setFormat(tableFormat);
-
-  doc.print(&printer);
+  delete ClientModel;
+  painter.end();
 }
 
 bool valid_id(QString id) {
