@@ -1642,6 +1642,7 @@ void MainWindow::on_PerformanceStatsButton_clicked() {
   }
 
   ui->PerformanceStatsFrame->layout()->addWidget(chartView);
+}
 void MainWindow::on_delete_abonnement_button_clicked() {
   QString id = ui->delete_abonnement->text();
   Abonement Abonement;
