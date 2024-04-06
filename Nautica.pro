@@ -27,7 +27,6 @@ SOURCES += \
     pdf.cpp \
     stat1.cpp \
     maintenance.cpp \
-    mainwindow.cpp
 
 HEADERS += \
     client.h \
@@ -39,8 +38,7 @@ HEADERS += \
     mainwindow.h \
     pdf.h \
     stat1.h \
-    maintenance.h \
-    mainwindow.h
+    maintenance.h
 
 FORMS += \
     accueil.ui \
