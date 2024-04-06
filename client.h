@@ -2,6 +2,7 @@
 #define CLIENT_H
 #include <QDate>
 #include <QDebug>
+#include <QMap>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -10,7 +11,6 @@
 #include <QTableView>
 #include <QtDebug>
 #include <vector>
-#include <QMap>
 using namespace std;
 class Client {
 private:
@@ -24,9 +24,9 @@ private:
 
 public:
   struct PerformanceStats {
-      int month;
-      int year;
-      double averageNote;
+    int month;
+    int year;
+    double averageNote;
   };
   Client();
   Client(int CIN, QString nom, QString prenom, QDate date_naissance, int genre,

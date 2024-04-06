@@ -419,8 +419,8 @@ bool Client::setEmail(QString email) {
 
 bool Client::SavePerformance(int CIN, int SessionNote, QDate SessionDate) {
   QSqlQuery query;
-  query.prepare(
-      "INSERT INTO CLIENT_PERFORMANCE (CIN, SESSIONNOTE, SESSIONDATE) VALUES (:CIN, :SessionNote, :SessionDate)");
+  query.prepare("INSERT INTO CLIENT_PERFORMANCE (CIN, SESSIONNOTE, "
+                "SESSIONDATE) VALUES (:CIN, :SessionNote, :SessionDate)");
   query.bindValue(":CIN", CIN);
   query.bindValue(":SessionNote", SessionNote); // corrected binding
   query.bindValue(":SessionDate", SessionDate);
@@ -433,36 +433,39 @@ bool Client::SavePerformance(int CIN, int SessionNote, QDate SessionDate) {
   return true;
 }
 
-
 QMap<int, Client::PerformanceStats> Client::RetrievePerformanceStats(int CIN) {
-    QMap<int, Client::PerformanceStats> performanceData;
+  QMap<int, Client::PerformanceStats> performanceData;
 
-    QSqlQuery query;
-    query.prepare("SELECT EXTRACT(MONTH FROM SESSIONDATE) AS month, EXTRACT(YEAR FROM SESSIONDATE) AS year, SUM(SESSIONNOTE) AS total_notes, COUNT(*) AS session_count FROM CLIENT_PERFORMANCE WHERE CIN = :CIN GROUP BY EXTRACT(YEAR FROM SESSIONDATE), EXTRACT(MONTH FROM SESSIONDATE)");
-    query.bindValue(":CIN", CIN);
+  QSqlQuery query;
+  query.prepare(
+      "SELECT EXTRACT(MONTH FROM SESSIONDATE) AS month, EXTRACT(YEAR FROM "
+      "SESSIONDATE) AS year, SUM(SESSIONNOTE) AS total_notes, COUNT(*) AS "
+      "session_count FROM CLIENT_PERFORMANCE WHERE CIN = :CIN GROUP BY "
+      "EXTRACT(YEAR FROM SESSIONDATE), EXTRACT(MONTH FROM SESSIONDATE)");
+  query.bindValue(":CIN", CIN);
 
-    if (!query.exec()) {
-        qDebug() << "Failed to execute query:" << query.lastError().text();
-        qDebug() << "Database Error:" << query.lastError().databaseText();
-        return performanceData;
-    }
-
-    while (query.next()) {
-        int month = query.value("month").toInt();
-        int year = query.value("year").toInt();
-        int totalNotes = query.value("total_notes").toInt();
-        int sessionCount = query.value("session_count").toInt();
-
-        double averageNote = (sessionCount > 0)
-            ? static_cast<double>(totalNotes) / sessionCount
-            : 0.0;
-        Client::PerformanceStats stats;
-        stats.month = month;
-        stats.year = year;
-        stats.averageNote = averageNote;
-
-        performanceData.insertMulti(month, stats);
-    }
-
+  if (!query.exec()) {
+    qDebug() << "Failed to execute query:" << query.lastError().text();
+    qDebug() << "Database Error:" << query.lastError().databaseText();
     return performanceData;
+  }
+
+  while (query.next()) {
+    int month = query.value("month").toInt();
+    int year = query.value("year").toInt();
+    int totalNotes = query.value("total_notes").toInt();
+    int sessionCount = query.value("session_count").toInt();
+
+    double averageNote = (sessionCount > 0)
+                             ? static_cast<double>(totalNotes) / sessionCount
+                             : 0.0;
+    Client::PerformanceStats stats;
+    stats.month = month;
+    stats.year = year;
+    stats.averageNote = averageNote;
+
+    performanceData.insertMulti(month, stats);
+  }
+
+  return performanceData;
 }

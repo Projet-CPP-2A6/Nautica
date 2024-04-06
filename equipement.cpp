@@ -9,7 +9,6 @@
 #include <QtDebug>
 #include <regex>
 
-
 Equipements::Equipements() {
   reference = "  ";
   prix = 0;
@@ -38,63 +37,65 @@ QString Equipements::getEtat() { return etat; };
 
 // Setters
 bool Equipements::setReference(QString reference) {
-    // Define the new regular expression pattern requiring at least two capital letters
-    std::regex pattern("^(.*[A-Z].*){2,}$");
+  // Define the new regular expression pattern requiring at least two capital
+  // letters
+  std::regex pattern("^(.*[A-Z].*){2,}$");
 
-    // Check if the provided string matches the new pattern
-    if (std::regex_match(reference.toLocal8Bit().constData(), pattern)) {
-        // If it matches, set the reference and return true
-        this->reference = reference;
-        return true;
-    }
-    // If it doesn't match, return false
-    qDebug() << "Error: Reference must contain at leasttwo capital letters.";
-    return false;
+  // Check if the provided string matches the new pattern
+  if (std::regex_match(reference.toLocal8Bit().constData(), pattern)) {
+    // If it matches, set the reference and return true
+    this->reference = reference;
+    return true;
+  }
+  // If it doesn't match, return false
+  qDebug() << "Error: Reference must contain at leasttwo capital letters.";
+  return false;
 }
 bool Equipements::setPrix(int prix) {
-    // Check if prix is non-negative
-    if (prix >= 0) {
-        this->prix = prix;
-        return true;
-    }
-    // If prix is negative, return false
-    qDebug() << "Error: Prix must be positive.";
-    return false;
+  // Check if prix is non-negative
+  if (prix >= 0) {
+    this->prix = prix;
+    return true;
+  }
+  // If prix is negative, return false
+  qDebug() << "Error: Prix must be positive.";
+  return false;
 }
 bool Equipements::setNombre(int nombre) {
-    // Check if nombre is strictly positive
-    if (nombre > 0) {
-        this->nombre = nombre;
-        return true;
-    }
-    // If nombre is not strictly positive, return false
-    qDebug() << "Error: Nombre must be strictly positive .";
-    return false;
+  // Check if nombre is strictly positive
+  if (nombre > 0) {
+    this->nombre = nombre;
+    return true;
+  }
+  // If nombre is not strictly positive, return false
+  qDebug() << "Error: Nombre must be strictly positive .";
+  return false;
 }
 
 void Equipements::setFonctionalite(QString fonctionalite) {
   this->fonctionalite = fonctionalite;
 };
 bool Equipements::setType(QString type) {
-    // Check if the provided type is either "sport" or "help"
-    if (type == "sport" || type == "help") {
-        this->type = type;
-        return true;
-    }
-    // If the provided type is not "sport" or "help", return false
-    qDebug() << "Error: Type must be either 'sport' or 'help'.";
-    return false;
+  // Check if the provided type is either "sport" or "help"
+  if (type == "sport" || type == "help") {
+    this->type = type;
+    return true;
+  }
+  // If the provided type is not "sport" or "help", return false
+  qDebug() << "Error: Type must be either 'sport' or 'help'.";
+  return false;
 }
 
 bool Equipements::setEtat(QString etat) {
-    // Check if the provided etat is either "bien" or "mauvais"
-    if (etat == "bien" || etat == "mauvais") {
-        this->etat = etat;
-        return true;
-    }
-    // If the provided etat is not "bien" or "mauvais", return false with an error message
-    qDebug() << "Error: Etat must be either 'bien' or 'mauvais'.";
-    return false;
+  // Check if the provided etat is either "bien" or "mauvais"
+  if (etat == "bien" || etat == "mauvais") {
+    this->etat = etat;
+    return true;
+  }
+  // If the provided etat is not "bien" or "mauvais", return false with an error
+  // message
+  qDebug() << "Error: Etat must be either 'bien' or 'mauvais'.";
+  return false;
 }
 //-----------partie crud--------------------
 

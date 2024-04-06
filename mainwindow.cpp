@@ -3,6 +3,7 @@
 #include "client.h"
 #include "employes.h"
 #include "equipement.h"
+#include "maintenance.h"
 #include "ui_mainwindow.h"
 #include <QAbstractItemModel>
 #include <QDebug>
@@ -19,7 +20,6 @@
 #include <QString>
 #include <QTableView>
 #include <QUrl>
-#include "maintenance.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
@@ -147,71 +147,71 @@ void MainWindow::on_loginPushButton_clicked() {
         ui->EventsPage->setEnabled(true);
         ui->SubscriptionsPage->setEnabled(true);
       } else if (titre.compare("employes") == 0) {
-          ui->clientPushButton->setEnabled(false);
-          ui->employesPushButton->setEnabled(true);
-          ui->equipementsPushButton->setEnabled(false);
-          ui->evenementsPushButton->setEnabled(false);
-          ui->abonnementPushButton->setEnabled(false);
-          ui->ClientsPage->setEnabled(false);
-          ui->EmployeesPage->setEnabled(true);
-          ui->EquipmentsPage->setEnabled(false);
-          ui->EventsPage->setEnabled(false);
-          ui->SubscriptionsPage->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->employesPushButton->setEnabled(true);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->ClientsPage->setEnabled(false);
+        ui->EmployeesPage->setEnabled(true);
+        ui->EquipmentsPage->setEnabled(false);
+        ui->EventsPage->setEnabled(false);
+        ui->SubscriptionsPage->setEnabled(false);
       } else if (titre.compare("clients") == 0) {
-          ui->clientPushButton->setEnabled(true);
-          ui->employesPushButton->setEnabled(false);
-          ui->equipementsPushButton->setEnabled(false);
-          ui->evenementsPushButton->setEnabled(false);
-          ui->abonnementPushButton->setEnabled(false);
-          ui->ClientsPage->setEnabled(true);
-          ui->EmployeesPage->setEnabled(false);
-          ui->EquipmentsPage->setEnabled(false);
-          ui->EventsPage->setEnabled(false);
-          ui->SubscriptionsPage->setEnabled(false);
+        ui->clientPushButton->setEnabled(true);
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->ClientsPage->setEnabled(true);
+        ui->EmployeesPage->setEnabled(false);
+        ui->EquipmentsPage->setEnabled(false);
+        ui->EventsPage->setEnabled(false);
+        ui->SubscriptionsPage->setEnabled(false);
       } else if (titre.compare("equipements") == 0) {
-          ui->clientPushButton->setEnabled(false);
-          ui->employesPushButton->setEnabled(false);
-          ui->equipementsPushButton->setEnabled(true);
-          ui->evenementsPushButton->setEnabled(false);
-          ui->abonnementPushButton->setEnabled(false);
-          ui->ClientsPage->setEnabled(false);
-          ui->EmployeesPage->setEnabled(false);
-          ui->EquipmentsPage->setEnabled(true);
-          ui->EventsPage->setEnabled(false);
-          ui->SubscriptionsPage->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(true);
+        ui->evenementsPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->ClientsPage->setEnabled(false);
+        ui->EmployeesPage->setEnabled(false);
+        ui->EquipmentsPage->setEnabled(true);
+        ui->EventsPage->setEnabled(false);
+        ui->SubscriptionsPage->setEnabled(false);
       } else if (titre.compare("abonnements") == 0) {
-          ui->clientPushButton->setEnabled(false);
-          ui->employesPushButton->setEnabled(false);
-          ui->equipementsPushButton->setEnabled(false);
-          ui->evenementsPushButton->setEnabled(false);
-          ui->abonnementPushButton->setEnabled(true);
-          ui->ClientsPage->setEnabled(false);
-          ui->EmployeesPage->setEnabled(false);
-          ui->EquipmentsPage->setEnabled(false);
-          ui->EventsPage->setEnabled(false);
-          ui->SubscriptionsPage->setEnabled(true);
+        ui->clientPushButton->setEnabled(false);
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(true);
+        ui->ClientsPage->setEnabled(false);
+        ui->EmployeesPage->setEnabled(false);
+        ui->EquipmentsPage->setEnabled(false);
+        ui->EventsPage->setEnabled(false);
+        ui->SubscriptionsPage->setEnabled(true);
       } else if (titre.compare("evenements") == 0) {
-          ui->clientPushButton->setEnabled(false);
-          ui->employesPushButton->setEnabled(false);
-          ui->equipementsPushButton->setEnabled(false);
-          ui->evenementsPushButton->setEnabled(true);
-          ui->abonnementPushButton->setEnabled(false);
-          ui->ClientsPage->setEnabled(false);
-          ui->EmployeesPage->setEnabled(false);
-          ui->EquipmentsPage->setEnabled(false);
-          ui->EventsPage->setEnabled(true);
-          ui->SubscriptionsPage->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(true);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->ClientsPage->setEnabled(false);
+        ui->EmployeesPage->setEnabled(false);
+        ui->EquipmentsPage->setEnabled(false);
+        ui->EventsPage->setEnabled(true);
+        ui->SubscriptionsPage->setEnabled(false);
       } else {
-          ui->clientPushButton->setEnabled(false);
-          ui->employesPushButton->setEnabled(false);
-          ui->equipementsPushButton->setEnabled(false);
-          ui->evenementsPushButton->setEnabled(false);
-          ui->abonnementPushButton->setEnabled(false);
-          ui->ClientsPage->setEnabled(false);
-          ui->EmployeesPage->setEnabled(false);
-          ui->EquipmentsPage->setEnabled(false);
-          ui->EventsPage->setEnabled(false);
-          ui->SubscriptionsPage->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->ClientsPage->setEnabled(false);
+        ui->EmployeesPage->setEnabled(false);
+        ui->EquipmentsPage->setEnabled(false);
+        ui->EventsPage->setEnabled(false);
+        ui->SubscriptionsPage->setEnabled(false);
       }
       QString NOM = query.value(1).toString();
       QString PRENOM = query.value(2).toString();
@@ -974,20 +974,17 @@ void MainWindow::on_EventsPage_clicked() {
   ui->stackedWidget->setCurrentIndex(6);
 }
 
-void MainWindow::on_EquipmentsPage_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(4);
+void MainWindow::on_EquipmentsPage_clicked() {
+  ui->stackedWidget->setCurrentIndex(4);
 }
 
-void MainWindow::on_EmployeesPage_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(2);
+void MainWindow::on_EmployeesPage_clicked() {
+  ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::on_LogoutButton_clicked()
-{
-    ui->frame_3->setHidden(true);
-    ui->stackedWidget->setCurrentIndex(0);
+void MainWindow::on_LogoutButton_clicked() {
+  ui->frame_3->setHidden(true);
+  ui->stackedWidget->setCurrentIndex(0);
 }
 
 void MainWindow::on_abonnementPushButton_clicked() {
@@ -1086,16 +1083,16 @@ void MainWindow::on_triCinPushButton_4_clicked() {
 }
 
 void MainWindow::on_PDFpushButton_2_clicked() {
-    Equipements E;
-    // Obtenir le modèle de la table à partir de la QTableView
-    QAbstractItemModel *model = E.afficher();
+  Equipements E;
+  // Obtenir le modèle de la table à partir de la QTableView
+  QAbstractItemModel *model = E.afficher();
 
-    QString defaultFileName = "EquipementList.pdf";
-      QString fileName = QFileDialog::getSaveFileName(
-          this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
+  QString defaultFileName = "EquipementList.pdf";
+  QString fileName = QFileDialog::getSaveFileName(
+      this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
 
-      if (fileName.isEmpty() || !model)
-        return;
+  if (fileName.isEmpty() || !model)
+    return;
 
   // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
   QPrinter printer;
@@ -1500,136 +1497,135 @@ void MainWindow::on_calendarWidget_clicked(const QDate &date) {
 }
 
 void MainWindow::on_SearchClient_clicked() {
-    Client searchedClient;
-    int searchedCIN = ui->CINLineEdit->text().toInt();
+  Client searchedClient;
+  int searchedCIN = ui->CINLineEdit->text().toInt();
 
-    if(searchedClient.Recherche(searchedCIN)) {
-        ui->ClientNoteFrame->setHidden(false);
-    }
+  if (searchedClient.Recherche(searchedCIN)) {
+    ui->ClientNoteFrame->setHidden(false);
+  }
 
-    /* QMap<int, Client::PerformanceStats> performanceData = searchedClient.RetrievePerformanceStats(searchedCIN);
+  /* QMap<int, Client::PerformanceStats> performanceData =
+  searchedClient.RetrievePerformanceStats(searchedCIN);
 
-    QBarSeries *series = new QBarSeries();
+  QBarSeries *series = new QBarSeries();
 
-    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
-        QBarSet *set = new QBarSet(QString::number(it.key()));
-        *set << it.value().averageNote;
-        series->append(set);
-    }
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+      QBarSet *set = new QBarSet(QString::number(it.key()));
+      *set << it.value().averageNote;
+      series->append(set);
+  }
 
-    QChart *chart = new QChart();
-    chart->addSeries(series);
-    chart->setTitle("Performance Stats");
-    chart->setAnimationOptions(QChart::SeriesAnimations);
+  QChart *chart = new QChart();
+  chart->addSeries(series);
+  chart->setTitle("Performance Stats");
+  chart->setAnimationOptions(QChart::SeriesAnimations);
 
-    QStringList categories;
-    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
-        categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
-    }
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(categories);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisX);
+  QStringList categories;
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+      categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
+  }
+  QBarCategoryAxis *axisX = new QBarCategoryAxis();
+  axisX->append(categories);
+  chart->addAxis(axisX, Qt::AlignBottom);
+  series->attachAxis(axisX);
 
-    QValueAxis *axisY = new QValueAxis();
-    axisY->setLabelFormat("%.2f");
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
+  QValueAxis *axisY = new QValueAxis();
+  axisY->setLabelFormat("%.2f");
+  chart->addAxis(axisY, Qt::AlignLeft);
+  series->attachAxis(axisY);
 
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
+  QChartView *chartView = new QChartView(chart);
+  chartView->setRenderHint(QPainter::Antialiasing);
 
-    ui->PerformanceStatsFrame->layout()->addWidget(chartView);*/
+  ui->PerformanceStatsFrame->layout()->addWidget(chartView);*/
 }
 
-void MainWindow::on_TodayButton_clicked()
-{
-    ui->SessionDate->setDate(QDate::currentDate());
+void MainWindow::on_TodayButton_clicked() {
+  ui->SessionDate->setDate(QDate::currentDate());
 }
 
-void MainWindow::on_SessionButton_clicked()
-{
-    Client SearchedClient;
-    int SearchedCIN = ui->CINLineEdit->text().toInt();
-    int selectedRadio = ui->note1->isChecked() ? 1 :
-                    ui->note2->isChecked() ? 2 :
-                    ui->note3->isChecked() ? 3 :
-                    ui->note4->isChecked() ? 4 :
-                    ui->note5->isChecked() ? 5 : 0;
-    QDate SessionDate = ui->SessionDate->date();
-    if(SearchedClient.Recherche(SearchedCIN) && selectedRadio!=0){
-        SearchedClient.SavePerformance(SearchedCIN, selectedRadio, SessionDate);
-    }
+void MainWindow::on_SessionButton_clicked() {
+  Client SearchedClient;
+  int SearchedCIN = ui->CINLineEdit->text().toInt();
+  int selectedRadio = ui->note1->isChecked()   ? 1
+                      : ui->note2->isChecked() ? 2
+                      : ui->note3->isChecked() ? 3
+                      : ui->note4->isChecked() ? 4
+                      : ui->note5->isChecked() ? 5
+                                               : 0;
+  QDate SessionDate = ui->SessionDate->date();
+  if (SearchedClient.Recherche(SearchedCIN) && selectedRadio != 0) {
+    SearchedClient.SavePerformance(SearchedCIN, selectedRadio, SessionDate);
+  }
 }
 
-void MainWindow::on_PerformanceStatsButton_clicked()
-{
-    Client searchedClient;
-    int SearchedCIN = ui->CINLineEdit->text().toInt();
-    QMap<int, Client::PerformanceStats> performanceData = searchedClient.RetrievePerformanceStats(SearchedCIN);
+void MainWindow::on_PerformanceStatsButton_clicked() {
+  Client searchedClient;
+  int SearchedCIN = ui->CINLineEdit->text().toInt();
+  QMap<int, Client::PerformanceStats> performanceData =
+      searchedClient.RetrievePerformanceStats(SearchedCIN);
 
-    if (performanceData.isEmpty()) {
-        qDebug() << "Performance data is empty. Cannot generate chart.";
-        return;
-    }
+  if (performanceData.isEmpty()) {
+    qDebug() << "Performance data is empty. Cannot generate chart.";
+    return;
+  }
 
-    QBarSeries *series = new QBarSeries();
+  QBarSeries *series = new QBarSeries();
 
-    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
-        QBarSet *set = new QBarSet(QString::number(it.key()));
-        *set << it.value().averageNote;
-        series->append(set);
-    }
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+    QBarSet *set = new QBarSet(QString::number(it.key()));
+    *set << it.value().averageNote;
+    series->append(set);
+  }
 
-    QChart *chart = new QChart();
+  QChart *chart = new QChart();
 
-    // Check if series is empty
-    if (series->count() == 0) {
-        qDebug() << "No data available for chart. Aborting chart creation.";
-        delete series;
-        delete chart;
-        return;
-    }
+  // Check if series is empty
+  if (series->count() == 0) {
+    qDebug() << "No data available for chart. Aborting chart creation.";
+    delete series;
+    delete chart;
+    return;
+  }
 
-    chart->addSeries(series);
-    chart->setTitle("Performance Stats");
-    chart->setAnimationOptions(QChart::SeriesAnimations);
+  chart->addSeries(series);
+  chart->setTitle("Performance Stats");
+  chart->setAnimationOptions(QChart::SeriesAnimations);
 
-    QStringList categories;
-    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
-        categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
-    }
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(categories);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisX);
+  QStringList categories;
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+    categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
+  }
+  QBarCategoryAxis *axisX = new QBarCategoryAxis();
+  axisX->append(categories);
+  chart->addAxis(axisX, Qt::AlignBottom);
+  series->attachAxis(axisX);
 
-    QValueAxis *axisY = new QValueAxis();
-    axisY->setLabelFormat("%.2f");
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
+  QValueAxis *axisY = new QValueAxis();
+  axisY->setLabelFormat("%.2f");
+  chart->addAxis(axisY, Qt::AlignLeft);
+  series->attachAxis(axisY);
 
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
+  QChartView *chartView = new QChartView(chart);
+  chartView->setRenderHint(QPainter::Antialiasing);
 
-    if (!ui->PerformanceStatsFrame->layout()) {
-        QVBoxLayout *layout = new QVBoxLayout(ui->PerformanceStatsFrame);
-        ui->PerformanceStatsFrame->setLayout(layout);
-    }
+  if (!ui->PerformanceStatsFrame->layout()) {
+    QVBoxLayout *layout = new QVBoxLayout(ui->PerformanceStatsFrame);
+    ui->PerformanceStatsFrame->setLayout(layout);
+  }
 
-    ui->PerformanceStatsFrame->layout()->addWidget(chartView);
+  ui->PerformanceStatsFrame->layout()->addWidget(chartView);
 }
-void MainWindow::on_addMaintenance_clicked()
-{
-    int CIN_employe = ui->CIN_employe->text().toFloat();
-    QString reference_equipement = ui->reference_equipement->text();
-    QDate date_debut = ui->date_debut->date();
-    QDate date_fin = ui->date_fin->date();
-    int prix_maintenance = ui->prix_maintenance->text().toFloat();
-    maintenance M(CIN_employe, reference_equipement, date_debut, date_fin, prix_maintenance);
+void MainWindow::on_addMaintenance_clicked() {
+  int CIN_employe = ui->CIN_employe->text().toFloat();
+  QString reference_equipement = ui->reference_equipement->text();
+  QDate date_debut = ui->date_debut->date();
+  QDate date_fin = ui->date_fin->date();
+  int prix_maintenance = ui->prix_maintenance->text().toFloat();
+  maintenance M(CIN_employe, reference_equipement, date_debut, date_fin,
+                prix_maintenance);
 
-    if (M.ajouter()) {
-      qDebug() << "Ajout réussi";
-    }
+  if (M.ajouter()) {
+    qDebug() << "Ajout réussi";
+  }
 }
-
