@@ -22,7 +22,7 @@
 #include <QString>
 #include <QTableView>
 #include <QUrl>
-
+#include "maintenance.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
@@ -1651,3 +1651,17 @@ void MainWindow::on_envoyer_email_clicked() {
   mailer::sendEmail(ui->destinataireEmail->text(), ui->objetEmail->text(),
                     ui->bodyEmail->text());
 }
+void MainWindow::on_addMaintenance_clicked()
+{
+    int CIN_employe = ui->CIN_employe->text().toFloat();
+    QString reference_equipement = ui->reference_equipement->text();
+    QDate date_debut = ui->date_debut->date();
+    QDate date_fin = ui->date_fin->date();
+    int prix_maintenance = ui->prix_maintenance->text().toFloat();
+    maintenance M(CIN_employe, reference_equipement, date_debut, date_fin, prix_maintenance);
+
+    if (M.ajouter()) {
+      qDebug() << "Ajout réussi";
+    }
+}
+

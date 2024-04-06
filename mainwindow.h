@@ -107,6 +107,8 @@ private slots:
 
   void hideLabels();
 
+  void on_addMaintenance_clicked();
+
 private:
   Ui::MainWindow *ui;
   Abonement supp;
