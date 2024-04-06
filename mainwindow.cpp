@@ -19,6 +19,7 @@
 #include <QString>
 #include <QTableView>
 #include <QUrl>
+#include "maintenance.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
@@ -1618,3 +1619,17 @@ void MainWindow::on_PerformanceStatsButton_clicked()
 
     ui->PerformanceStatsFrame->layout()->addWidget(chartView);
 }
+void MainWindow::on_addMaintenance_clicked()
+{
+    int CIN_employe = ui->CIN_employe->text().toFloat();
+    QString reference_equipement = ui->reference_equipement->text();
+    QDate date_debut = ui->date_debut->date();
+    QDate date_fin = ui->date_fin->date();
+    int prix_maintenance = ui->prix_maintenance->text().toFloat();
+    maintenance M(CIN_employe, reference_equipement, date_debut, date_fin, prix_maintenance);
+
+    if (M.ajouter()) {
+      qDebug() << "Ajout réussi";
+    }
+}
+

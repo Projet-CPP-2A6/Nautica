@@ -93,6 +93,7 @@ private slots:
   void on_SessionButton_clicked();
 
   void on_PerformanceStatsButton_clicked();
+  void on_addMaintenance_clicked();
 
 private:
   Ui::MainWindow *ui;
