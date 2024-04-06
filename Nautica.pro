@@ -25,7 +25,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     pdf.cpp \
-    stat1.cpp
+    stat1.cpp \
     maintenance.cpp \
     mainwindow.cpp
 
@@ -38,7 +38,7 @@ HEADERS += \
     abonement.h \
     mainwindow.h \
     pdf.h \
-    stat1.h
+    stat1.h \
     maintenance.h \
     mainwindow.h
 
