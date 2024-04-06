@@ -31,7 +31,6 @@ jobs:
           sudo apt update
           sudo apt install -y clang-format
           clang-format -style=llvm -i *.cpp *.h"
-            echo "$result"
             exit 1
           else
             echo "Clang-Format did not find any formatting issues."
