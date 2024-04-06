@@ -5,11 +5,15 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <QString>
-
+#include <QTableView>
+#include <QtCharts/QChartView>
+#include <QtCharts/QPieSeries>
+#include <iostream>
 class Abonement {
 public:
   Abonement();
-  Abonement(QString i, QString a, QString m, QString c, QString p, QString d);
+  Abonement(QString i, QString a, QString m, QString c, QString p, QString d,
+            QString e);
 
   QSqlQueryModel *afficher_abonnement();
   bool ajouter();
@@ -39,11 +43,14 @@ public:
   void setPrice(const QString &p);
 
   void setDuration(const QString &dur);
-
+  QString Calculer_Professionnalisme(QString, int);
   QSqlQueryModel *displayClause(QString cls);
   QSqlQueryModel *tri_id();
   QSqlQueryModel *tri_prix();
   QSqlQueryModel *tri_type();
+  QSqlQueryModel *researchid(QString i);
+  QSqlQueryModel *researchidAbnt(QString i);
+  QSqlQueryModel *researchidPrice(QString i);
 
   void notification_ajoutAbonement();
   void notification_suppAbonement();
@@ -57,6 +64,7 @@ private:
   QString cin;
   QString price;
   QString duration;
+  QString PROFESSIONALISME;
 };
 
 #endif // ABONEMENT_H
