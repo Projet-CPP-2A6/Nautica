@@ -85,6 +85,27 @@ private slots:
   void on_EquipmentsPage_clicked();
 
   void on_LogoutButton_clicked();
+  void on_checkBoxsearchabnt_stateChanged();
+
+  void on_pushButton_12_clicked();
+
+  void on_radioButton_clicked();
+
+  void on_radioButton_2_clicked();
+
+  void on_radioButton_3_clicked();
+
+  void on_checkBoxsearchabnt_2_stateChanged();
+
+  void on_checkBoxsearchabnt_3_stateChanged();
+
+  void on_pushButton_13_clicked();
+
+  void on_b_note_clicked();
+
+  void on_envoyer_email_clicked();
+
+  void hideLabels();
 
   void on_addMaintenance_clicked();
 

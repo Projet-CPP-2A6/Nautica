@@ -4,13 +4,14 @@
 Abonement::Abonement() {}
 
 Abonement::Abonement(QString i, QString a, QString m, QString c, QString p,
-                     QString d) {
+                     QString d, QString e) {
   id_abnt = i;
   activity = a;
   membre = m;
   cin = c;
   price = p;
   duration = d;
+  PROFESSIONALISME = e;
 }
 
 void Abonement::setActivity(const QString &act) { activity = act; }
@@ -70,4 +71,82 @@ bool Abonement::modifier(QString id_abnt) {
   query.bindValue(":price", price);
 
   return query.exec();
+}
+QSqlQueryModel *Abonement::researchid(QString i) {
+  QSqlQueryModel *model = new QSqlQueryModel();
+
+  model->setQuery("SELECT CIN, DURATION, MEMBRE, ACTIVITY, PRICE, ID_ABNT FROM "
+                  "ABONNEMENT where CIN like ('%" +
+                  i + "%') ");
+  model->setHeaderData(0, Qt::Horizontal, QObject::tr("cin"));
+  model->setHeaderData(1, Qt::Horizontal, QObject::tr("duration"));
+  model->setHeaderData(2, Qt::Horizontal, QObject::tr("membre"));
+  model->setHeaderData(3, Qt::Horizontal, QObject::tr("activity"));
+  model->setHeaderData(4, Qt::Horizontal, QObject::tr("price"));
+  model->setHeaderData(5, Qt::Horizontal, QObject::tr("id_abnt"));
+  return model;
+}
+QSqlQueryModel *Abonement::researchidAbnt(QString i) {
+  QSqlQueryModel *model = new QSqlQueryModel();
+
+  model->setQuery("SELECT CIN, DURATION, MEMBRE, ACTIVITY, PRICE, ID_ABNT FROM "
+                  "ABONNEMENT where ID_ABNT like ('%" +
+                  i + "%') ");
+  model->setHeaderData(0, Qt::Horizontal, QObject::tr("cin"));
+  model->setHeaderData(1, Qt::Horizontal, QObject::tr("duration"));
+  model->setHeaderData(2, Qt::Horizontal, QObject::tr("membre"));
+  model->setHeaderData(3, Qt::Horizontal, QObject::tr("activity"));
+  model->setHeaderData(4, Qt::Horizontal, QObject::tr("price"));
+  model->setHeaderData(5, Qt::Horizontal, QObject::tr("id_abnt"));
+  return model;
+}
+QSqlQueryModel *Abonement::researchidPrice(QString i) {
+  QSqlQueryModel *model = new QSqlQueryModel();
+
+  model->setQuery("SELECT CIN, DURATION, MEMBRE, ACTIVITY, PRICE, ID_ABNT FROM "
+                  "ABONNEMENT where PRICE like ('%" +
+                  i + "%') ");
+  model->setHeaderData(0, Qt::Horizontal, QObject::tr("cin"));
+  model->setHeaderData(1, Qt::Horizontal, QObject::tr("duration"));
+  model->setHeaderData(2, Qt::Horizontal, QObject::tr("membre"));
+  model->setHeaderData(3, Qt::Horizontal, QObject::tr("activity"));
+  model->setHeaderData(4, Qt::Horizontal, QObject::tr("price"));
+  model->setHeaderData(5, Qt::Horizontal, QObject::tr("id_abnt"));
+  return model;
+}
+
+QString Abonement::Calculer_Professionnalisme(QString cin, int points) {
+  QSqlQuery query;
+  query.prepare("SELECT PROFESSIONALISME FROM ABONNEMENT WHERE cin = :cin");
+  query.bindValue(":cin", cin);
+
+  if (!query.exec()) {
+    // qDebug() << "Erreur lors de la récupération des informations de l'employé
+    // : " << query.lastError().text();
+    return "";
+  }
+
+  if (query.next()) {
+    QString niveauStr = query.value("PROFESSIONALISME").toString();
+
+    // Mise à jour du professionnalisme dans la base de données
+    QSqlQuery updateQuery;
+    updateQuery.prepare("UPDATE ABONNEMENT SET PROFESSIONALISME = "
+                        ":professionnalisme WHERE cin = :cin");
+    updateQuery.bindValue(":professionnalisme", QString::number(points));
+    updateQuery.bindValue(":cin", cin);
+
+    if (updateQuery.exec()) {
+      // qDebug() << "Mise à jour du professionnalisme et du salaire avec
+      // succès.";
+      return niveauStr; // Retourner le niveau actuel du professionnalisme
+    } else {
+      // qDebug() << "Erreur lors de la mise à jour du professionnalisme et du
+      // salaire : " << updateQuery.lastError().text();
+    }
+  } else {
+    // qDebug() << "CIN inexistant.";
+  }
+
+  return "";
 }

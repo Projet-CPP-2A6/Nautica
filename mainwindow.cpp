@@ -1,8 +1,12 @@
 #include "mainwindow.h"
 #include "abonement.h"
 #include "client.h"
+#include "email.h"
 #include "employes.h"
 #include "equipement.h"
+#include "maintenance.h"
+#include "pdf.h"
+#include "stat1.h"
 #include "ui_mainwindow.h"
 #include <QAbstractItemModel>
 #include <QDebug>
@@ -19,7 +23,6 @@
 #include <QString>
 #include <QTableView>
 #include <QUrl>
-#include "maintenance.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
@@ -27,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
   // int state = 0;
   ui->frame_3->setVisible(false);
   ui->listEmployetableView->setModel(e.afficher());
-  ui->table_abonnement->setModel(display.afficher_abonnement());
+  ui->table_abonnement_3->setModel(display.afficher_abonnement());
   ui->table_abonnement_2->setModel(display.afficher_abonnement());
   ui->stackedWidget->setCurrentIndex(0);
 }
@@ -146,71 +149,71 @@ void MainWindow::on_loginPushButton_clicked() {
         ui->EventsPage->setEnabled(true);
         ui->SubscriptionsPage->setEnabled(true);
       } else if (titre.compare("employes") == 0) {
-          ui->clientPushButton->setEnabled(false);
-          ui->employesPushButton->setEnabled(true);
-          ui->equipementsPushButton->setEnabled(false);
-          ui->evenementsPushButton->setEnabled(false);
-          ui->abonnementPushButton->setEnabled(false);
-          ui->ClientsPage->setEnabled(false);
-          ui->EmployeesPage->setEnabled(true);
-          ui->EquipmentsPage->setEnabled(false);
-          ui->EventsPage->setEnabled(false);
-          ui->SubscriptionsPage->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->employesPushButton->setEnabled(true);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->ClientsPage->setEnabled(false);
+        ui->EmployeesPage->setEnabled(true);
+        ui->EquipmentsPage->setEnabled(false);
+        ui->EventsPage->setEnabled(false);
+        ui->SubscriptionsPage->setEnabled(false);
       } else if (titre.compare("clients") == 0) {
-          ui->clientPushButton->setEnabled(true);
-          ui->employesPushButton->setEnabled(false);
-          ui->equipementsPushButton->setEnabled(false);
-          ui->evenementsPushButton->setEnabled(false);
-          ui->abonnementPushButton->setEnabled(false);
-          ui->ClientsPage->setEnabled(true);
-          ui->EmployeesPage->setEnabled(false);
-          ui->EquipmentsPage->setEnabled(false);
-          ui->EventsPage->setEnabled(false);
-          ui->SubscriptionsPage->setEnabled(false);
+        ui->clientPushButton->setEnabled(true);
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->ClientsPage->setEnabled(true);
+        ui->EmployeesPage->setEnabled(false);
+        ui->EquipmentsPage->setEnabled(false);
+        ui->EventsPage->setEnabled(false);
+        ui->SubscriptionsPage->setEnabled(false);
       } else if (titre.compare("equipements") == 0) {
-          ui->clientPushButton->setEnabled(false);
-          ui->employesPushButton->setEnabled(false);
-          ui->equipementsPushButton->setEnabled(true);
-          ui->evenementsPushButton->setEnabled(false);
-          ui->abonnementPushButton->setEnabled(false);
-          ui->ClientsPage->setEnabled(false);
-          ui->EmployeesPage->setEnabled(false);
-          ui->EquipmentsPage->setEnabled(true);
-          ui->EventsPage->setEnabled(false);
-          ui->SubscriptionsPage->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(true);
+        ui->evenementsPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->ClientsPage->setEnabled(false);
+        ui->EmployeesPage->setEnabled(false);
+        ui->EquipmentsPage->setEnabled(true);
+        ui->EventsPage->setEnabled(false);
+        ui->SubscriptionsPage->setEnabled(false);
       } else if (titre.compare("abonnements") == 0) {
-          ui->clientPushButton->setEnabled(false);
-          ui->employesPushButton->setEnabled(false);
-          ui->equipementsPushButton->setEnabled(false);
-          ui->evenementsPushButton->setEnabled(false);
-          ui->abonnementPushButton->setEnabled(true);
-          ui->ClientsPage->setEnabled(false);
-          ui->EmployeesPage->setEnabled(false);
-          ui->EquipmentsPage->setEnabled(false);
-          ui->EventsPage->setEnabled(false);
-          ui->SubscriptionsPage->setEnabled(true);
+        ui->clientPushButton->setEnabled(false);
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(true);
+        ui->ClientsPage->setEnabled(false);
+        ui->EmployeesPage->setEnabled(false);
+        ui->EquipmentsPage->setEnabled(false);
+        ui->EventsPage->setEnabled(false);
+        ui->SubscriptionsPage->setEnabled(true);
       } else if (titre.compare("evenements") == 0) {
-          ui->clientPushButton->setEnabled(false);
-          ui->employesPushButton->setEnabled(false);
-          ui->equipementsPushButton->setEnabled(false);
-          ui->evenementsPushButton->setEnabled(true);
-          ui->abonnementPushButton->setEnabled(false);
-          ui->ClientsPage->setEnabled(false);
-          ui->EmployeesPage->setEnabled(false);
-          ui->EquipmentsPage->setEnabled(false);
-          ui->EventsPage->setEnabled(true);
-          ui->SubscriptionsPage->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(true);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->ClientsPage->setEnabled(false);
+        ui->EmployeesPage->setEnabled(false);
+        ui->EquipmentsPage->setEnabled(false);
+        ui->EventsPage->setEnabled(true);
+        ui->SubscriptionsPage->setEnabled(false);
       } else {
-          ui->clientPushButton->setEnabled(false);
-          ui->employesPushButton->setEnabled(false);
-          ui->equipementsPushButton->setEnabled(false);
-          ui->evenementsPushButton->setEnabled(false);
-          ui->abonnementPushButton->setEnabled(false);
-          ui->ClientsPage->setEnabled(false);
-          ui->EmployeesPage->setEnabled(false);
-          ui->EquipmentsPage->setEnabled(false);
-          ui->EventsPage->setEnabled(false);
-          ui->SubscriptionsPage->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->ClientsPage->setEnabled(false);
+        ui->EmployeesPage->setEnabled(false);
+        ui->EquipmentsPage->setEnabled(false);
+        ui->EventsPage->setEnabled(false);
+        ui->SubscriptionsPage->setEnabled(false);
       }
       QString NOM = query.value(1).toString();
       QString PRENOM = query.value(2).toString();
@@ -861,6 +864,7 @@ void MainWindow::on_CPDFExport_clicked() {
 bool valid_id(QString id) {
   for (int i = 0; i < id.length(); i++) {
     if ((id[i] >= '0' && id[i] <= '9')) {
+
     } else {
       return false;
     }
@@ -875,7 +879,7 @@ void MainWindow::on_add_abonnement_push_clicked() {
   QString cin = ui->cin_abonnement->text();
   QString price = ui->price_abonnement->text();
   QString duration = ui->duration_abonnement->currentText();
-  Abonement abonnement(id_abnt, activity, membre, cin, price, duration);
+  Abonement abonnement(id_abnt, activity, membre, cin, price, duration, "20");
 
   if (!price.isEmpty() && !cin.isEmpty()) {
     if (cin.size() == 8 && valid_id(cin) && id_abnt.size() == 8 &&
@@ -885,7 +889,7 @@ void MainWindow::on_add_abonnement_push_clicked() {
         if (ajoutReussi) {
           QMessageBox::information(this, "Ajout réussi",
                                    "Le Abonement a été ajouté avec succès.");
-          ui->table_abonnement->setModel(abonnement.afficher_abonnement());
+          ui->table_abonnement_3->setModel(abonnement.afficher_abonnement());
           ui->table_abonnement_2->setModel(abonnement.afficher_abonnement());
         } else {
           QMessageBox::critical(
@@ -907,27 +911,6 @@ void MainWindow::on_add_abonnement_push_clicked() {
                          "Veuillez entrer le prix et le CIN.");
   }
 }
-
-void MainWindow::on_delete_abonnement_button_clicked() {
-  QString id = ui->delete_abonnement_field->text();
-  Abonement Abonement;
-  bool test = supp.supprimer_abonnement(id);
-  if (test) {
-    QMessageBox::information(
-        nullptr, QObject::tr("Supprimer ABONEMENT"),
-        QObject::tr("Le ABONEMENT HAS BEEN DELETED SUCCESSFULLY.\n"
-                    "CLICK OK TO EXIST."),
-        QMessageBox::Ok);
-  } else {
-    QMessageBox::information(nullptr, QObject::tr("DELETE ABONEMENTs"),
-                             QObject::tr("Le ABONEMENT HASN'T BEEN DELETED.\n"
-                                         "CLICK OK TO EXIST."),
-                             QMessageBox::Ok);
-  }
-  ui->table_abonnement->setModel(Abonement.afficher_abonnement());
-  ui->table_abonnement_2->setModel(Abonement.afficher_abonnement());
-}
-
 void MainWindow::on_aupdate_abnt_clicked() {
   QString id_abnt = ui->ref_update_abnt->text();
   QString activity = ui->activity_update_abnt->currentText();
@@ -935,14 +918,15 @@ void MainWindow::on_aupdate_abnt_clicked() {
   QString cin = ui->idclient_update_abnt->text();
   QString price = ui->price_update_abnt->text();
   QString duration = ui->comboBox_3->currentText();
-  Abonement Abonement(id_abnt, activity, membre, cin, price, duration);
+  Abonement Abonement(id_abnt, activity, membre, cin, price, duration, "20");
   bool test = Abonement.modifier(id_abnt);
   if (test) {
     QMessageBox::information(
         this, "Modification réussie",
         "Les informations du Abonement ont été modifiées avec succès.");
-    ui->table_abonnement->setModel(Abonement.afficher_abonnement());
+    ui->table_abonnement_3->setModel(Abonement.afficher_abonnement());
     ui->table_abonnement_2->setModel(Abonement.afficher_abonnement());
+
   } else {
     QMessageBox::critical(
         this, "Erreur de modification",
@@ -951,7 +935,7 @@ void MainWindow::on_aupdate_abnt_clicked() {
 }
 
 void MainWindow::on_refreshTableV_3_clicked() {
-  ui->table_abonnement->setModel(display.afficher_abonnement());
+  ui->table_abonnement_3->setModel(display.afficher_abonnement());
   ui->table_abonnement_2->setModel(display.afficher_abonnement());
 }
 
@@ -973,20 +957,17 @@ void MainWindow::on_EventsPage_clicked() {
   ui->stackedWidget->setCurrentIndex(6);
 }
 
-void MainWindow::on_EquipmentsPage_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(4);
+void MainWindow::on_EquipmentsPage_clicked() {
+  ui->stackedWidget->setCurrentIndex(4);
 }
 
-void MainWindow::on_EmployeesPage_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(2);
+void MainWindow::on_EmployeesPage_clicked() {
+  ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::on_LogoutButton_clicked()
-{
-    ui->frame_3->setHidden(true);
-    ui->stackedWidget->setCurrentIndex(0);
+void MainWindow::on_LogoutButton_clicked() {
+  ui->frame_3->setHidden(true);
+  ui->stackedWidget->setCurrentIndex(0);
 }
 
 void MainWindow::on_abonnementPushButton_clicked() {
@@ -1490,17 +1471,196 @@ void MainWindow::on_calendarWidget_clicked(const QDate &date) {
   displayEquipmentDetails(availableEquipment);
 }
 
-void MainWindow::on_addMaintenance_clicked()
-{
-    int CIN_employe = ui->CIN_employe->text().toFloat();
-    QString reference_equipement = ui->reference_equipement->text();
-    QDate date_debut = ui->date_debut->date();
-    QDate date_fin = ui->date_fin->date();
-    int prix_maintenance = ui->prix_maintenance->text().toFloat();
-    maintenance M(CIN_employe, reference_equipement, date_debut, date_fin, prix_maintenance);
-
-    if (M.ajouter()) {
-      qDebug() << "Ajout réussi";
-    }
+void MainWindow::on_delete_abonnement_button_clicked() {
+  QString id = ui->delete_abonnement->text();
+  Abonement Abonement;
+  bool test = supp.supprimer_abonnement(id);
+  if (test) {
+    QMessageBox::information(
+        nullptr, QObject::tr("Supprimer ABONEMENT"),
+        QObject::tr("Le ABONEMENT HAS BEEN DELETED SUCCESSFULLY.\n"
+                    "CLICK OK TO EXIST."),
+        QMessageBox::Ok);
+  } else {
+    QMessageBox::information(nullptr, QObject::tr("DELETE ABONEMENTs"),
+                             QObject::tr("Le ABONEMENT HASN'T BEEN DELETED.\n"
+                                         "CLICK OK TO EXIST."),
+                             QMessageBox::Ok);
+  }
+  ui->table_abonnement_3->setModel(Abonement.afficher_abonnement());
+  ui->table_abonnement_2->setModel(Abonement.afficher_abonnement());
 }
 
+void MainWindow::on_checkBoxsearchabnt_stateChanged() {
+  Abonement s;
+  if (ui->checkBoxsearchabnt->isChecked()) {
+    QString id = ui->cin_abonnement_2->text();
+    ui->table_abonnement_3->setModel(s.researchid(id));
+  } else {
+    ui->table_abonnement_3->setModel(s.afficher_abonnement());
+  }
+}
+
+void MainWindow::on_pushButton_12_clicked() {
+  pdf p;
+  p.setModal(true);
+  p.exec();
+  qDebug() << "pdf window open";
+}
+
+void MainWindow::on_radioButton_clicked() {
+  QMessageBox msgBox;
+  QSqlQueryModel *model = new QSqlQueryModel();
+  model->setQuery("select * from ABONNEMENT order by PRICE");
+  model->setHeaderData(0, Qt::Horizontal, QObject::tr("cin"));
+  model->setHeaderData(1, Qt::Horizontal, QObject::tr("duration"));
+  model->setHeaderData(2, Qt::Horizontal, QObject::tr("membre"));
+  model->setHeaderData(3, Qt::Horizontal, QObject::tr("activity"));
+  model->setHeaderData(4, Qt::Horizontal, QObject::tr("price"));
+  model->setHeaderData(5, Qt::Horizontal, QObject::tr("id_abnt"));
+  if (ui->radioButton->isChecked()) {
+    ui->table_abonnement_2->setModel(model);
+    ui->table_abonnement_3->setModel(model);
+    ui->table_abonnement_3->show();
+    ui->table_abonnement_2->show();
+    qDebug() << "TRI DONE";
+  } else {
+    ui->table_abonnement_2->setModel(display.afficher_abonnement());
+    ui->table_abonnement_3->setModel(display.afficher_abonnement());
+  }
+}
+
+void MainWindow::on_radioButton_2_clicked() {
+  QMessageBox msgBox;
+  QSqlQueryModel *model = new QSqlQueryModel();
+  model->setQuery("select * from ABONNEMENT order by CIN");
+  model->setHeaderData(0, Qt::Horizontal, QObject::tr("cin"));
+  model->setHeaderData(1, Qt::Horizontal, QObject::tr("duration"));
+  model->setHeaderData(2, Qt::Horizontal, QObject::tr("membre"));
+  model->setHeaderData(3, Qt::Horizontal, QObject::tr("activity"));
+  model->setHeaderData(4, Qt::Horizontal, QObject::tr("price"));
+  model->setHeaderData(5, Qt::Horizontal, QObject::tr("id_abnt"));
+  if (ui->radioButton_2->isChecked()) {
+    ui->table_abonnement_2->setModel(model);
+    ui->table_abonnement_3->setModel(model);
+    ui->table_abonnement_3->show();
+    ui->table_abonnement_2->show();
+    qDebug() << "TRI DONE";
+  } else {
+    ui->table_abonnement_2->setModel(display.afficher_abonnement());
+    ui->table_abonnement_3->setModel(display.afficher_abonnement());
+  }
+}
+
+void MainWindow::on_radioButton_3_clicked() {
+  QMessageBox msgBox;
+  QSqlQueryModel *model = new QSqlQueryModel();
+  model->setQuery("select * from ABONNEMENT order by ID_ABNT");
+  model->setHeaderData(0, Qt::Horizontal, QObject::tr("cin"));
+  model->setHeaderData(1, Qt::Horizontal, QObject::tr("duration"));
+  model->setHeaderData(2, Qt::Horizontal, QObject::tr("membre"));
+  model->setHeaderData(3, Qt::Horizontal, QObject::tr("activity"));
+  model->setHeaderData(4, Qt::Horizontal, QObject::tr("price"));
+  model->setHeaderData(5, Qt::Horizontal, QObject::tr("id_abnt"));
+  if (ui->radioButton_3->isChecked()) {
+    ui->table_abonnement_2->setModel(model);
+    ui->table_abonnement_3->setModel(model);
+    ui->table_abonnement_3->show();
+    ui->table_abonnement_2->show();
+    qDebug() << "TRI DONE";
+  } else {
+    ui->table_abonnement_2->setModel(display.afficher_abonnement());
+    ui->table_abonnement_3->setModel(display.afficher_abonnement());
+  }
+}
+
+void MainWindow::on_checkBoxsearchabnt_2_stateChanged() {
+  Abonement s;
+  if (ui->checkBoxsearchabnt_2->isChecked()) {
+    QString id = ui->cin_abonnement_2->text();
+    ui->table_abonnement_3->setModel(s.researchidAbnt(id));
+  } else {
+    ui->table_abonnement_3->setModel(s.afficher_abonnement());
+  }
+}
+
+void MainWindow::on_checkBoxsearchabnt_3_stateChanged() {
+  Abonement s;
+  if (ui->checkBoxsearchabnt_3->isChecked()) {
+    QString id = ui->cin_abonnement_2->text();
+    ui->table_abonnement_3->setModel(s.researchidPrice(id));
+  } else {
+    ui->table_abonnement_3->setModel(s.afficher_abonnement());
+  }
+}
+
+void MainWindow::on_pushButton_13_clicked() {
+  stat1 *s = new stat1();
+  s->make_duration();
+  s->show();
+  qDebug() << "stat window open";
+}
+
+void MainWindow::on_b_note_clicked() {
+  QString cin = ui->cin_emp_note->text();
+  QString note_acc = ui->note_emp->text();
+  bool ok;
+  int note_accorder = note_acc.toInt(&ok);
+
+  // Charger les informations depuis la base de données
+  QSqlQuery query;
+  query.prepare("SELECT ID_ABNT FROM ABONNEMENT WHERE CIN = :cin");
+  query.bindValue(":cin", cin);
+
+  if (query.exec() && query.next()) {
+    QString nom = query.value("ID_ABNT").toString();
+
+    Abonement e;
+    QString note = e.Calculer_Professionnalisme(cin, note_accorder);
+
+    // Afficher les informations dans les labels
+    ui->label_cin->setText(cin);
+    ui->label_nom->setText(nom);
+    // ui->label_note_2->setText(note);
+
+    if (note.toInt() < 20) {
+      ui->label_message->setText(
+          "<font color='red'>Réévaluation recommandée pour cet abonné.</font>");
+    } else {
+      ui->label_message->setText(
+          "<font color='green'>L'abonné est respectueux.</font>");
+    }
+
+    // Démarrer le QTimer pour masquer les labels après 5 secondes
+    QTimer::singleShot(5000, [=]() { ui->label_message->clear(); });
+  } else {
+    QMessageBox::critical(
+        nullptr, QObject::tr("Erreur"),
+        QObject::tr("Erreur lors de la mise à jour de la note."),
+        QMessageBox::Cancel);
+  }
+}
+void MainWindow::hideLabels() {
+  // Cacher les labels
+  ui->label_cin->clear();
+  ui->label_nom->clear();
+  ui->label_message->clear();
+}
+
+void MainWindow::on_envoyer_email_clicked() {
+  mailer::sendEmail(ui->destinataireEmail->text(), ui->objetEmail->text(),
+                    ui->bodyEmail->text());
+}
+void MainWindow::on_addMaintenance_clicked() {
+  int CIN_employe = ui->CIN_employe->text().toFloat();
+  QString reference_equipement = ui->reference_equipement->text();
+  QDate date_debut = ui->date_debut->date();
+  QDate date_fin = ui->date_fin->date();
+  int prix_maintenance = ui->prix_maintenance->text().toFloat();
+  maintenance M(CIN_employe, reference_equipement, date_debut, date_fin,
+                prix_maintenance);
+
+  if (M.ajouter()) {
+    qDebug() << "Ajout réussi";
+  }
+}

@@ -1,4 +1,4 @@
-QT       += core gui sql printsupport charts
+QT       += core gui sql printsupport charts network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,25 +18,33 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     client.cpp \
     connection.cpp \
+    email.cpp \
     employes.cpp \
     equipement.cpp \
     abonement.cpp \
     main.cpp \
+    mainwindow.cpp \
+    pdf.cpp \
+    stat1.cpp \
     maintenance.cpp \
-    mainwindow.cpp
 
 HEADERS += \
     client.h \
     connection.h \
+    email.h \
     employes.h \
     equipement.h \
     abonement.h \
-    maintenance.h \
-    mainwindow.h
+    mainwindow.h \
+    pdf.h \
+    stat1.h \
+    maintenance.h
 
 FORMS += \
     accueil.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    pdf.ui \
+    stat1.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
