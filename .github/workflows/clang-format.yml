@@ -1,0 +1,39 @@
+name: Clang-Format Check
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  clang-format-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Clang
+        run: |
+          sudo apt update
+          sudo apt install -y clang-format
+
+      - name: Run Clang-Format Check
+        run: |
+          result=$(clang-format -style=llvm -output-replacements-xml *.cpp *.h)
+
+          if [ -n "$result" ]; then
+            echo "Clang-Format found formatting issues.
+          Format using:
+          sudo apt update
+          sudo apt install -y clang-format
+          clang-format -style=llvm -i *.cpp *.h"
+            echo "$result"
+            exit 1
+          else
+            echo "Clang-Format did not find any formatting issues."
+          fi
+
