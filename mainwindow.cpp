@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
   ui->stackedWidget->setCurrentIndex(0);
 }
 
+
 MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::on_pushButton_3_clicked() {
@@ -1452,38 +1453,37 @@ void MainWindow::on_TodayDateButton_clicked() {
   ui->endDate->setDate(QDate::currentDate());
 }
 
-QList<QStringList>
-MainWindow::retrieveAvailableEquipment(const QString &dateString) {
-  QList<QStringList>
-      availableEquipment; // QList of QStringList to store equipment details
+QList<QStringList> MainWindow::retrieveAvailableEquipment(const QString &dateString) {
+    QList<QStringList> availableEquipment; // QList of QStringList to store equipment details
 
-  QSqlQuery query;
-  QString sqlQuery = "SELECT * FROM equipement WHERE etat = 'bien' "
-                     "AND reference NOT IN (SELECT reference_equipement FROM "
-                     "maintenance WHERE :date BETWEEN date_debut AND date_fin)";
-  query.prepare(sqlQuery);
-  query.bindValue(":date", dateString);
+    QSqlQuery query;
+    QString sqlQuery = "SELECT * FROM equipement WHERE etat = 'bien' "
+                       "AND reference NOT IN (SELECT reference_equipement FROM "
+                       "maintenance WHERE :date BETWEEN date_debut AND date_fin)";
+    // Modify the SQL query to use TO_DATE function
+    sqlQuery.replace(":date", "TO_DATE('" + dateString + "', 'YYYY-MM-DD')");
 
-  // Execute the query
-  if (!query.exec()) {
-    qDebug() << "Error executing query:" << query.lastError().text();
-    return availableEquipment;
-  }
+    query.prepare(sqlQuery);
 
-  // Process the query results
-  while (query.next()) {
-    QStringList equipmentDetails;
-    for (int i = 0; i < query.record().count(); ++i) {
-      equipmentDetails << query.value(i).toString(); // Append each column value
-                                                     // to the QStringList
+    // Execute the query
+    if (!query.exec()) {
+        qDebug() << "Error executing query:" << query.lastError().text();
+        return availableEquipment;
     }
-    availableEquipment
-        << equipmentDetails; // Append the QStringList to the QList
-  }
 
-  // Return the list of available equipment details
-  return availableEquipment;
+    // Process the query results
+    while (query.next()) {
+        QStringList equipmentDetails;
+        for (int i = 0; i < query.record().count(); ++i) {
+            equipmentDetails << query.value(i).toString(); // Append each column value to the QStringList
+        }
+        availableEquipment << equipmentDetails; // Append the QStringList to the QList
+    }
+
+    // Return the list of available equipment details
+    return availableEquipment;
 }
+
 
 void MainWindow::displayEquipmentDetails(
     const QList<QStringList> &availableEquipment) {
@@ -1515,12 +1515,23 @@ void MainWindow::displayEquipmentDetails(
 }
 
 void MainWindow::on_calendarWidget_clicked(const QDate &date) {
-  // Retrieve available equipment for the selected date
-  QList<QStringList> availableEquipment =
-      retrieveAvailableEquipment(date.toString("yyyy-MM-dd"));
+    // Retrieve available equipment for the selected date
+    QList<QStringList> availableEquipment = retrieveAvailableEquipment(date.toString("yyyy-MM-dd"));
 
-  // Display available equipment details
-  displayEquipmentDetails(availableEquipment);
+    // Display available equipment details
+    displayEquipmentDetails(availableEquipment);
+
+    // Highlight the date in the calendar based on availability
+    QCalendarWidget *calendar = ui->calendarWidget;
+    QTextCharFormat format;
+    if (!availableEquipment.isEmpty()) {
+        // Set background color to green for available dates
+        format.setBackground(Qt::green);
+    } else {
+        // Set background color to red for unavailable dates
+        format.setBackground(Qt::red);
+    }
+    calendar->setDateTextFormat(date, format);
 }
 
 void MainWindow::on_SearchClient_clicked() {
