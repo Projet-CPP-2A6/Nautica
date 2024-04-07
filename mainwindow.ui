@@ -32,7 +32,7 @@
      <string notr="true">background-color: white;</string>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QFrame" name="frame_2">
@@ -168,7 +168,7 @@ color: rgb(100, 127, 202);
         </font>
        </property>
        <property name="text">
-        <string>Passsword</string>
+        <string>Password</string>
        </property>
       </widget>
       <widget class="QPushButton" name="loginPushButton">
@@ -3045,7 +3045,7 @@ font-size: 16px; /* Taille de la police */</string>
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="add_equipments">
        <attribute name="title">
@@ -4229,11 +4229,6 @@ QDateEdit:focus {
          </property>
         </widget>
        </widget>
-      </widget>
-      <widget class="QWidget" name="tab_12">
-       <attribute name="title">
-        <string>view maintenance</string>
-       </attribute>
       </widget>
       <widget class="QWidget" name="tab_7">
        <attribute name="title">
