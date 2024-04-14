@@ -32,7 +32,7 @@
      <string notr="true">background-color: white;</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QFrame" name="frame_2">
@@ -2147,7 +2147,7 @@ QPushButton:hover {
        <string notr="true">background-color: white;</string>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_9">
        <attribute name="title">
@@ -2826,8 +2826,25 @@ QDateEdit:focus {
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="1">
+          <widget class="QPushButton" name="SearchByButton">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+           </property>
+           <property name="text">
+            <string>Search By</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
-          <widget class="QLineEdit" name="SearchCIN">
+          <widget class="QLineEdit" name="SearchText">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
     border: 2px solid black; 
@@ -2844,12 +2861,47 @@ QLineEdit:focus {
 </string>
            </property>
            <property name="maxLength">
-            <number>8</number>
+            <number>500</number>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" colspan="2">
+         <item row="4" column="2">
+          <widget class="QRadioButton" name="PhoneSearchValue">
+           <property name="text">
+            <string>Phone Number</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QRadioButton" name="NameSearchValue">
+           <property name="text">
+            <string>Name</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QRadioButton" name="CINSearchValue">
+           <property name="text">
+            <string>CIN</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QRadioButton" name="EmailSearchValue">
+           <property name="text">
+            <string>Email</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="2">
           <widget class="QTableView" name="OneClientModel"/>
+         </item>
+         <item row="2" column="2">
+          <widget class="QRadioButton" name="LastNameSearchValue">
+           <property name="text">
+            <string>LastName</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -6309,7 +6361,7 @@ background-image: url(:/new/icons/icones/iconlogout.png);</string>
      <x>0</x>
      <y>0</y>
      <width>1269</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

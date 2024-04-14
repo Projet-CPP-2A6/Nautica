@@ -55,7 +55,7 @@ public:
   bool Modifier();
   bool Supprimer();
   QSqlQueryModel *Afficher();
-  QSqlQueryModel *RechercherEtAfficher(QString searchedText);
+  QSqlQueryModel *RechercherEtAfficher(QString column, QString searchedText);
   QSqlQueryModel *TriPar(QString critere);
   int Recherche(int CIN);
   Client RechercheClient(int CIN);

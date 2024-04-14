@@ -55,7 +55,6 @@ private slots:
   void on_delete_abonnement_button_clicked();
   void on_aupdate_abnt_clicked();
   void on_refreshTableV_3_clicked();
-  void on_SearchCIN_textChanged(const QString &searchedText);
   void on_SearchClientUpdateButton_clicked();
   void on_AjouterButton_5_clicked();
   void on_lineEdit_2_textChanged(const QString &arg1);
@@ -115,6 +114,8 @@ private slots:
 
   void on_PerformanceStatsButton_clicked();
   void on_addMaintenance_clicked();
+
+  void on_SearchByButton_clicked();
 
 private:
   Ui::MainWindow *ui;

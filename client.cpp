@@ -171,39 +171,56 @@ QSqlQueryModel *Client::TriPar(QString critere) {
   return model;
 };
 
-QSqlQueryModel *Client::RechercherEtAfficher(QString searchedText) {
-  QSqlQueryModel *model = new QSqlQueryModel();
-  QSqlQuery query;
-  query.prepare(
-      "SELECT TO_CHAR(CIN), NOM, PRENOM, TO_CHAR(DATE_NAISSANCE, "
-      "'DD-MM-YYYY'), "
-      "CASE WHEN GENRE = 0 THEN 'M' ELSE 'F' END AS GENRE, "
-      "TO_CHAR(TELEPHONE), EMAIL "
-      "FROM CLIENTS WHERE TO_CHAR(CIN) LIKE '%' || :SEARCHEDTEXT || '%'"
-      "OR NOM LIKE '%' || :SEARCHEDTEXT || '%'"
-      "OR PRENOM LIKE '%' || :SEARCHEDTEXT || '%'"
-      "OR TO_CHAR(TELEPHONE) LIKE '%' || :SEARCHEDTEXT || '%'"
-      "OR EMAIL LIKE '%' || :SEARCHEDTEXT || '%' ");
-  query.bindValue(":SEARCHEDTEXT", searchedText);
-  if (!query.exec()) {
-    qDebug() << "Failed to execute query:" << query.lastError().text();
-    qDebug() << "Database Error:" << query.lastError().databaseText();
-    delete model;
-    return nullptr;
-  }
-  if (searchedText == "") {
-    delete model;
-    return nullptr;
-  }
-  model->setQuery(query);
-  model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
-  model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
-  model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
-  model->setHeaderData(3, Qt::Horizontal, QObject::tr("DATE_NAISSANCE"));
-  model->setHeaderData(4, Qt::Horizontal, QObject::tr("GENRE"));
-  model->setHeaderData(5, Qt::Horizontal, QObject::tr("TELEPHONE"));
-  model->setHeaderData(6, Qt::Horizontal, QObject::tr("EMAIL"));
-  return model;
+QSqlQueryModel *Client::RechercherEtAfficher(QString criteria, QString searchedText) {
+    QSqlQueryModel *model = new QSqlQueryModel();
+    QSqlQuery query;
+
+    QString queryString = QString("SELECT TO_CHAR(CIN), NOM, PRENOM, TO_CHAR(DATE_NAISSANCE, 'DD-MM-YYYY'), "
+                                  "CASE WHEN GENRE = 0 THEN 'M' ELSE 'F' END AS GENRE, "
+                                  "TO_CHAR(TELEPHONE), EMAIL "
+                                  "FROM CLIENTS WHERE ");
+
+    if (criteria == "CIN") {
+        queryString.append("TO_CHAR(CIN) LIKE :searchedText");
+    } else if (criteria == "NAME") {
+        queryString.append("PRENOM LIKE :searchedText");
+    } else if (criteria == "LASTNAME") {
+        queryString.append("NOM LIKE :searchedText");
+    } else if (criteria == "EMAIL") {
+        queryString.append("EMAIL LIKE :searchedText");
+    } else if (criteria == "TELEPHONE") {
+        queryString.append("TO_CHAR(TELEPHONE) LIKE :searchedText");
+    } else {
+        qDebug() << "Invalid criteria.";
+        delete model;
+        return nullptr;
+    }
+
+    query.prepare(queryString);
+    query.bindValue(":searchedText", "%" + searchedText + "%");
+
+    if (!query.exec()) {
+        qDebug() << "Failed to execute query:" << query.lastError().text();
+        qDebug() << "Database Error:" << query.lastError().databaseText();
+        delete model;
+        return nullptr;
+    }
+
+    if (searchedText.isEmpty() || criteria.isEmpty()) {
+        delete model;
+        return nullptr;
+    }
+
+    model->setQuery(query);
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("LAST NAME"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("FIRST NAME"));
+    model->setHeaderData(3, Qt::Horizontal, QObject::tr("DATE OF BIRTH"));
+    model->setHeaderData(4, Qt::Horizontal, QObject::tr("GENDER"));
+    model->setHeaderData(5, Qt::Horizontal, QObject::tr("PHONE NUMBER"));
+    model->setHeaderData(6, Qt::Horizontal, QObject::tr("EMAIL"));
+
+    return model;
 }
 
 int Client::Recherche(int CIN) {
