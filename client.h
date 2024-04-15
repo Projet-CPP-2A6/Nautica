@@ -59,7 +59,8 @@ public:
   QSqlQueryModel *TriPar(QString critere);
   int Recherche(int CIN);
   Client RechercheClient(int CIN);
-  vector<int> Statistics();
+  vector<int> AgeStatistics();
+  vector<int> GenderStatistics();
   bool saveLog(QDateTime datetime, int Client_CIN, QString action,
                QString changes);
   QSqlQueryModel *getLogs(QDate startDate, QDate endDate);

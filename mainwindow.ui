@@ -2147,7 +2147,7 @@ QPushButton:hover {
        <string notr="true">background-color: white;</string>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab_9">
        <attribute name="title">
@@ -2910,11 +2910,11 @@ QLineEdit:focus {
        <attribute name="title">
         <string>Statistics</string>
        </attribute>
-       <widget class="QPushButton" name="CRefStat">
+       <widget class="QPushButton" name="AgeStatButton">
         <property name="geometry">
          <rect>
-          <x>70</x>
-          <y>500</y>
+          <x>250</x>
+          <y>350</y>
           <width>161</width>
           <height>23</height>
          </rect>
@@ -2930,10 +2930,10 @@ QLineEdit:focus {
    </string>
         </property>
         <property name="text">
-         <string>Refresh Statistics</string>
+         <string>Age Statistics</string>
         </property>
        </widget>
-       <widget class="QFrame" name="CStatFrame">
+       <widget class="QFrame" name="AgeStatFrame">
         <property name="geometry">
          <rect>
           <x>60</x>
@@ -2949,11 +2949,11 @@ QLineEdit:focus {
          <enum>QFrame::Raised</enum>
         </property>
        </widget>
-       <widget class="QPushButton" name="CRefStatExport">
+       <widget class="QPushButton" name="AgeStatExport">
         <property name="geometry">
          <rect>
-          <x>270</x>
-          <y>500</y>
+          <x>250</x>
+          <y>380</y>
           <width>161</width>
           <height>23</height>
          </rect>
@@ -2969,7 +2969,69 @@ QLineEdit:focus {
    </string>
         </property>
         <property name="text">
-         <string>Export Statistics</string>
+         <string>Export</string>
+        </property>
+       </widget>
+       <widget class="QFrame" name="GenderStatFrame">
+        <property name="geometry">
+         <rect>
+          <x>620</x>
+          <y>50</y>
+          <width>551</width>
+          <height>271</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="GenderStatButton">
+        <property name="geometry">
+         <rect>
+          <x>790</x>
+          <y>350</y>
+          <width>161</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+        </property>
+        <property name="text">
+         <string>Gender Statistics</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="GenderStatExport">
+        <property name="geometry">
+         <rect>
+          <x>790</x>
+          <y>380</y>
+          <width>161</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+        </property>
+        <property name="text">
+         <string>Export</string>
         </property>
        </widget>
       </widget>

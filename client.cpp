@@ -241,38 +241,48 @@ int Client::Recherche(int CIN) {
   }
 };
 
-vector<int> Client::Statistics() {
+std::vector<int> Client::AgeStatistics() {
+  std::vector<int> ageStats(3, 0); // Initialize with three zeros: total, under 18, over 18
   QSqlQuery query;
-  query.prepare("SELECT GENRE, DATE_NAISSANCE FROM CLIENTS");
+  query.prepare("SELECT DATE_NAISSANCE FROM CLIENTS");
   if (!query.exec()) {
     qDebug() << "Error executing query:" << query.lastError().text();
-    return {};
+    return ageStats;
   }
-  int totalCount = 0;
-  int mCount = 0;
-  int fCount = 0;
-  int totalAge = 0;
+
   while (query.next()) {
-    totalCount++;
-    int gender = query.value(0).toInt();
-    QDate birthdate = query.value(1).toDate();
-    int age = QDate::currentDate().year() - birthdate.year();
-    if (QDate::currentDate().month() < birthdate.month() ||
-        (QDate::currentDate().month() == birthdate.month() &&
-         QDate::currentDate().day() < birthdate.day())) {
-      age--;
-    }
-    if (gender == 0) {
-      mCount++;
-      totalAge += age;
-    } else if (gender == 1) {
-      fCount++;
-      totalAge += age;
-    }
+    QDate birthDate = query.value(0).toDate();
+    int age = QDate::currentDate().year() - birthDate.year();
+    if (age < 18)
+      ageStats[1]++; // Increment count of people under 18
+    else
+      ageStats[2]++; // Increment count of people over 18
+    ageStats[0]++; // Increment total count
   }
-  double averageAge =
-      (totalCount > 0) ? (static_cast<double>(totalAge) / totalCount) : 0.0;
-  return {totalCount, mCount, fCount, static_cast<int>(averageAge)};
+
+  return ageStats;
+};
+
+std::vector<int> Client::GenderStatistics() {
+    std::vector<int> genderStats(3, 0); // Initialize with three zeros: total count, male count, and female count
+    QSqlQuery query;
+    query.prepare("SELECT GENRE FROM CLIENTS");
+    if (!query.exec()) {
+        qDebug() << "Error executing query:" << query.lastError().text();
+        return genderStats;
+    }
+
+    while (query.next()) {
+        int gender = query.value(0).toInt(); // Assuming 0 for male, 1 for female
+        if (gender == 0)
+            genderStats[1]++; // Increment male count
+        else if (gender == 1)
+            genderStats[2]++; // Increment female count
+        // Increment total count regardless of gender
+        genderStats[0]++;
+    }
+
+    return genderStats;
 };
 
 Client Client::RechercheClient(int CIN) {
