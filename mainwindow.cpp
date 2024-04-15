@@ -1545,65 +1545,67 @@ void MainWindow::on_SessionButton_clicked() {
 }
 
 void MainWindow::on_PerformanceStatsButton_clicked() {
-    Client searchedClient;
-    int SearchedCIN = ui->CINLineEdit->text().toInt();
-    QMap<int, Client::PerformanceStats> performanceData =
-        searchedClient.RetrievePerformanceStats(SearchedCIN);
+  Client searchedClient;
+  int SearchedCIN = ui->CINLineEdit->text().toInt();
+  QMap<int, Client::PerformanceStats> performanceData =
+      searchedClient.RetrievePerformanceStats(SearchedCIN);
 
-    if (performanceData.isEmpty()) {
-        qDebug() << "Performance data is empty. Cannot generate chart.";
-        return;
-    }
+  if (performanceData.isEmpty()) {
+    qDebug() << "Performance data is empty. Cannot generate chart.";
+    return;
+  }
 
-    QBarSeries *series = new QBarSeries();
-    int maximumPossibleNote = 5;
-    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
-        QBarSet *set = new QBarSet(QString::number(it.key()));
-        // Calculate percentage instead of using raw data
-        double percentage = (it.value().averageNote / maximumPossibleNote) * 100; // Assuming maximumPossibleNote is defined somewhere
-        *set << percentage;
-        series->append(set);
-    }
+  QBarSeries *series = new QBarSeries();
+  int maximumPossibleNote = 5;
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+    QBarSet *set = new QBarSet(QString::number(it.key()));
+    // Calculate percentage instead of using raw data
+    double percentage =
+        (it.value().averageNote / maximumPossibleNote) *
+        100; // Assuming maximumPossibleNote is defined somewhere
+    *set << percentage;
+    series->append(set);
+  }
 
-    QChart *chart = new QChart();
+  QChart *chart = new QChart();
 
-    // Check if series is empty
-    if (series->count() == 0) {
-        qDebug() << "No data available for chart. Aborting chart creation.";
-        delete series;
-        delete chart;
-        return;
-    }
+  // Check if series is empty
+  if (series->count() == 0) {
+    qDebug() << "No data available for chart. Aborting chart creation.";
+    delete series;
+    delete chart;
+    return;
+  }
 
-    chart->addSeries(series);
-    chart->setTitle("Performance Stats");
-    chart->setAnimationOptions(QChart::SeriesAnimations);
+  chart->addSeries(series);
+  chart->setTitle("Performance Stats");
+  chart->setAnimationOptions(QChart::SeriesAnimations);
 
-    QStringList categories;
-    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
-        categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
-    }
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(categories);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisX);
+  QStringList categories;
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+    categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
+  }
+  QBarCategoryAxis *axisX = new QBarCategoryAxis();
+  axisX->append(categories);
+  chart->addAxis(axisX, Qt::AlignBottom);
+  series->attachAxis(axisX);
 
-    // Update axis to represent percentages
-    QValueAxis *axisY = new QValueAxis();
-    axisY->setLabelFormat("%.2f%%"); // Representing as percentage
-    axisY->setRange(0, 100); // Assuming percentage range
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
+  // Update axis to represent percentages
+  QValueAxis *axisY = new QValueAxis();
+  axisY->setLabelFormat("%.2f%%"); // Representing as percentage
+  axisY->setRange(0, 100);         // Assuming percentage range
+  chart->addAxis(axisY, Qt::AlignLeft);
+  series->attachAxis(axisY);
 
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
+  QChartView *chartView = new QChartView(chart);
+  chartView->setRenderHint(QPainter::Antialiasing);
 
-    if (!ui->PerformanceStatsFrame->layout()) {
-        QVBoxLayout *layout = new QVBoxLayout(ui->PerformanceStatsFrame);
-        ui->PerformanceStatsFrame->setLayout(layout);
-    }
+  if (!ui->PerformanceStatsFrame->layout()) {
+    QVBoxLayout *layout = new QVBoxLayout(ui->PerformanceStatsFrame);
+    ui->PerformanceStatsFrame->setLayout(layout);
+  }
 
-    ui->PerformanceStatsFrame->layout()->addWidget(chartView);
+  ui->PerformanceStatsFrame->layout()->addWidget(chartView);
 }
 
 void MainWindow::on_delete_abonnement_button_clicked() {
@@ -1800,138 +1802,136 @@ void MainWindow::on_addMaintenance_clicked() {
   }
 }
 
-void MainWindow::on_SearchByButton_clicked()
-{
-    QString searchedText = ui->SearchText->text();
-    QString criteria = ui->CINSearchValue->isChecked() ? "CIN" :
-                       ui->NameSearchValue->isChecked() ? "NAME" :
-                       ui->LastNameSearchValue->isChecked() ? "LASTNAME" :
-                       ui->EmailSearchValue->isChecked() ? "EMAIL" :
-                       ui->PhoneSearchValue->isChecked() ? "TELEPHONE" : "";
-    Client C;
-    QAbstractItemModel *ClientModel = C.RechercherEtAfficher(criteria, searchedText);
-    if (ClientModel == nullptr) {
-      qDebug() << "nullptr/working as intended" << endl;
-    }
-    ui->OneClientModel->setModel(ClientModel);
+void MainWindow::on_SearchByButton_clicked() {
+  QString searchedText = ui->SearchText->text();
+  QString criteria = ui->CINSearchValue->isChecked()        ? "CIN"
+                     : ui->NameSearchValue->isChecked()     ? "NAME"
+                     : ui->LastNameSearchValue->isChecked() ? "LASTNAME"
+                     : ui->EmailSearchValue->isChecked()    ? "EMAIL"
+                     : ui->PhoneSearchValue->isChecked()    ? "TELEPHONE"
+                                                            : "";
+  Client C;
+  QAbstractItemModel *ClientModel =
+      C.RechercherEtAfficher(criteria, searchedText);
+  if (ClientModel == nullptr) {
+    qDebug() << "nullptr/working as intended" << endl;
+  }
+  ui->OneClientModel->setModel(ClientModel);
 }
 
-void MainWindow::on_AgeStatButton_clicked()
-{
-    Client AgeStatistics;
-    vector<int> AgeStatisticsValue = AgeStatistics.AgeStatistics();
+void MainWindow::on_AgeStatButton_clicked() {
+  Client AgeStatistics;
+  vector<int> AgeStatisticsValue = AgeStatistics.AgeStatistics();
 
-    int total = AgeStatisticsValue[0];
-    int under18 = AgeStatisticsValue[1];
-    int over18 = AgeStatisticsValue[2];
+  int total = AgeStatisticsValue[0];
+  int under18 = AgeStatisticsValue[1];
+  int over18 = AgeStatisticsValue[2];
 
-    double percentUnder18 = (static_cast<double>(under18) / total) * 100.0;
-    double percentOver18 = (static_cast<double>(over18) / total) * 100.0;
+  double percentUnder18 = (static_cast<double>(under18) / total) * 100.0;
+  double percentOver18 = (static_cast<double>(over18) / total) * 100.0;
 
-    // Create a bar series
-    QBarSeries *series = new QBarSeries();
+  // Create a bar series
+  QBarSeries *series = new QBarSeries();
 
-    // Create bars for under 18 and over 18
-    QBarSet *under18Bar = new QBarSet("Under 18");
-    *under18Bar << percentUnder18;
-    series->append(under18Bar);
+  // Create bars for under 18 and over 18
+  QBarSet *under18Bar = new QBarSet("Under 18");
+  *under18Bar << percentUnder18;
+  series->append(under18Bar);
 
-    QBarSet *over18Bar = new QBarSet("Over 18");
-    *over18Bar << percentOver18;
-    series->append(over18Bar);
+  QBarSet *over18Bar = new QBarSet("Over 18");
+  *over18Bar << percentOver18;
+  series->append(over18Bar);
 
-    // Create a chart
-    QChart *chart = new QChart();
-    chart->addSeries(series);
-    chart->setTitle(QString("Age Statistics (Total: %1)").arg(total));
-    chart->setAnimationOptions(QChart::SeriesAnimations);
+  // Create a chart
+  QChart *chart = new QChart();
+  chart->addSeries(series);
+  chart->setTitle(QString("Age Statistics (Total: %1)").arg(total));
+  chart->setAnimationOptions(QChart::SeriesAnimations);
 
-    // Set up axes
-    QStringList categories;
-    categories << "Percentage";
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(categories);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisX);
+  // Set up axes
+  QStringList categories;
+  categories << "Percentage";
+  QBarCategoryAxis *axisX = new QBarCategoryAxis();
+  axisX->append(categories);
+  chart->addAxis(axisX, Qt::AlignBottom);
+  series->attachAxis(axisX);
 
-    QValueAxis *axisY = new QValueAxis();
-    axisY->setLabelFormat("%.2f%%"); // Representing as percentage
-    axisY->setRange(0, 100); // Assuming percentage range
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
+  QValueAxis *axisY = new QValueAxis();
+  axisY->setLabelFormat("%.2f%%"); // Representing as percentage
+  axisY->setRange(0, 100);         // Assuming percentage range
+  chart->addAxis(axisY, Qt::AlignLeft);
+  series->attachAxis(axisY);
 
-    // Create chart view
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
+  // Create chart view
+  QChartView *chartView = new QChartView(chart);
+  chartView->setRenderHint(QPainter::Antialiasing);
 
-    // Add chart view to the frame
-    if (!ui->AgeStatFrame->layout()) {
-        QVBoxLayout *layout = new QVBoxLayout(ui->AgeStatFrame);
-        ui->AgeStatFrame->setLayout(layout);
-    }
+  // Add chart view to the frame
+  if (!ui->AgeStatFrame->layout()) {
+    QVBoxLayout *layout = new QVBoxLayout(ui->AgeStatFrame);
+    ui->AgeStatFrame->setLayout(layout);
+  }
 
-    ui->AgeStatFrame->layout()->addWidget(chartView);
+  ui->AgeStatFrame->layout()->addWidget(chartView);
 }
 
-void MainWindow::on_GenderStatButton_clicked()
-{
-    Client client;
-    vector<int> genderStats = client.GenderStatistics();
+void MainWindow::on_GenderStatButton_clicked() {
+  Client client;
+  vector<int> genderStats = client.GenderStatistics();
 
-    int total = genderStats[0];
-    int males = genderStats[1];
-    int females = genderStats[2];
+  int total = genderStats[0];
+  int males = genderStats[1];
+  int females = genderStats[2];
 
-    double malePercentage = (static_cast<double>(males) / total) * 100.0;
-    double femalePercentage = (static_cast<double>(females) / total) * 100.0;
+  double malePercentage = (static_cast<double>(males) / total) * 100.0;
+  double femalePercentage = (static_cast<double>(females) / total) * 100.0;
 
-    // Create a bar series
-    QBarSeries *series = new QBarSeries();
+  // Create a bar series
+  QBarSeries *series = new QBarSeries();
 
-    // Create bars for male and female
-    QBarSet *maleBar = new QBarSet("Male");
-    *maleBar << malePercentage;
-    series->append(maleBar);
+  // Create bars for male and female
+  QBarSet *maleBar = new QBarSet("Male");
+  *maleBar << malePercentage;
+  series->append(maleBar);
 
-    QBarSet *femaleBar = new QBarSet("Female");
-    *femaleBar << femalePercentage;
-    series->append(femaleBar);
+  QBarSet *femaleBar = new QBarSet("Female");
+  *femaleBar << femalePercentage;
+  series->append(femaleBar);
 
-    // Create a chart
-    QChart *chart = new QChart();
-    chart->addSeries(series);
-    chart->setTitle(QString("Gender Statistics (Total: %1)").arg(total));
-    chart->setAnimationOptions(QChart::SeriesAnimations);
+  // Create a chart
+  QChart *chart = new QChart();
+  chart->addSeries(series);
+  chart->setTitle(QString("Gender Statistics (Total: %1)").arg(total));
+  chart->setAnimationOptions(QChart::SeriesAnimations);
 
-    // Set up axes
-    QStringList categories;
-    categories << "Percentage";
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(categories);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisX);
+  // Set up axes
+  QStringList categories;
+  categories << "Percentage";
+  QBarCategoryAxis *axisX = new QBarCategoryAxis();
+  axisX->append(categories);
+  chart->addAxis(axisX, Qt::AlignBottom);
+  series->attachAxis(axisX);
 
-    QValueAxis *axisY = new QValueAxis();
-    axisY->setLabelFormat("%.2f%%"); // Representing as percentage
-    axisY->setRange(0, 100); // Assuming percentage range
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
+  QValueAxis *axisY = new QValueAxis();
+  axisY->setLabelFormat("%.2f%%"); // Representing as percentage
+  axisY->setRange(0, 100);         // Assuming percentage range
+  chart->addAxis(axisY, Qt::AlignLeft);
+  series->attachAxis(axisY);
 
-    // Create chart view
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
+  // Create chart view
+  QChartView *chartView = new QChartView(chart);
+  chartView->setRenderHint(QPainter::Antialiasing);
 
-    // Clear previous content of GenderStatFrame and add the chart view
-    if (ui->GenderStatFrame->layout()) {
-        QLayoutItem *item;
-        while ((item = ui->GenderStatFrame->layout()->takeAt(0)) != nullptr) {
-            delete item->widget();
-            delete item;
-        }
+  // Clear previous content of GenderStatFrame and add the chart view
+  if (ui->GenderStatFrame->layout()) {
+    QLayoutItem *item;
+    while ((item = ui->GenderStatFrame->layout()->takeAt(0)) != nullptr) {
+      delete item->widget();
+      delete item;
     }
+  }
 
-    QVBoxLayout *layout = new QVBoxLayout(ui->GenderStatFrame);
-    layout->addWidget(chartView);
-    ui->GenderStatFrame->setLayout(layout);
+  QVBoxLayout *layout = new QVBoxLayout(ui->GenderStatFrame);
+  layout->addWidget(chartView);
+  ui->GenderStatFrame->setLayout(layout);
 }
-

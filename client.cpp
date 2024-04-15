@@ -171,56 +171,59 @@ QSqlQueryModel *Client::TriPar(QString critere) {
   return model;
 };
 
-QSqlQueryModel *Client::RechercherEtAfficher(QString criteria, QString searchedText) {
-    QSqlQueryModel *model = new QSqlQueryModel();
-    QSqlQuery query;
+QSqlQueryModel *Client::RechercherEtAfficher(QString criteria,
+                                             QString searchedText) {
+  QSqlQueryModel *model = new QSqlQueryModel();
+  QSqlQuery query;
 
-    QString queryString = QString("SELECT TO_CHAR(CIN), NOM, PRENOM, TO_CHAR(DATE_NAISSANCE, 'DD-MM-YYYY'), "
-                                  "CASE WHEN GENRE = 0 THEN 'M' ELSE 'F' END AS GENRE, "
-                                  "TO_CHAR(TELEPHONE), EMAIL "
-                                  "FROM CLIENTS WHERE ");
+  QString queryString =
+      QString("SELECT TO_CHAR(CIN), NOM, PRENOM, TO_CHAR(DATE_NAISSANCE, "
+              "'DD-MM-YYYY'), "
+              "CASE WHEN GENRE = 0 THEN 'M' ELSE 'F' END AS GENRE, "
+              "TO_CHAR(TELEPHONE), EMAIL "
+              "FROM CLIENTS WHERE ");
 
-    if (criteria == "CIN") {
-        queryString.append("TO_CHAR(CIN) LIKE :searchedText");
-    } else if (criteria == "NAME") {
-        queryString.append("PRENOM LIKE :searchedText");
-    } else if (criteria == "LASTNAME") {
-        queryString.append("NOM LIKE :searchedText");
-    } else if (criteria == "EMAIL") {
-        queryString.append("EMAIL LIKE :searchedText");
-    } else if (criteria == "TELEPHONE") {
-        queryString.append("TO_CHAR(TELEPHONE) LIKE :searchedText");
-    } else {
-        qDebug() << "Invalid criteria.";
-        delete model;
-        return nullptr;
-    }
+  if (criteria == "CIN") {
+    queryString.append("TO_CHAR(CIN) LIKE :searchedText");
+  } else if (criteria == "NAME") {
+    queryString.append("PRENOM LIKE :searchedText");
+  } else if (criteria == "LASTNAME") {
+    queryString.append("NOM LIKE :searchedText");
+  } else if (criteria == "EMAIL") {
+    queryString.append("EMAIL LIKE :searchedText");
+  } else if (criteria == "TELEPHONE") {
+    queryString.append("TO_CHAR(TELEPHONE) LIKE :searchedText");
+  } else {
+    qDebug() << "Invalid criteria.";
+    delete model;
+    return nullptr;
+  }
 
-    query.prepare(queryString);
-    query.bindValue(":searchedText", "%" + searchedText + "%");
+  query.prepare(queryString);
+  query.bindValue(":searchedText", "%" + searchedText + "%");
 
-    if (!query.exec()) {
-        qDebug() << "Failed to execute query:" << query.lastError().text();
-        qDebug() << "Database Error:" << query.lastError().databaseText();
-        delete model;
-        return nullptr;
-    }
+  if (!query.exec()) {
+    qDebug() << "Failed to execute query:" << query.lastError().text();
+    qDebug() << "Database Error:" << query.lastError().databaseText();
+    delete model;
+    return nullptr;
+  }
 
-    if (searchedText.isEmpty() || criteria.isEmpty()) {
-        delete model;
-        return nullptr;
-    }
+  if (searchedText.isEmpty() || criteria.isEmpty()) {
+    delete model;
+    return nullptr;
+  }
 
-    model->setQuery(query);
-    model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
-    model->setHeaderData(1, Qt::Horizontal, QObject::tr("LAST NAME"));
-    model->setHeaderData(2, Qt::Horizontal, QObject::tr("FIRST NAME"));
-    model->setHeaderData(3, Qt::Horizontal, QObject::tr("DATE OF BIRTH"));
-    model->setHeaderData(4, Qt::Horizontal, QObject::tr("GENDER"));
-    model->setHeaderData(5, Qt::Horizontal, QObject::tr("PHONE NUMBER"));
-    model->setHeaderData(6, Qt::Horizontal, QObject::tr("EMAIL"));
+  model->setQuery(query);
+  model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
+  model->setHeaderData(1, Qt::Horizontal, QObject::tr("LAST NAME"));
+  model->setHeaderData(2, Qt::Horizontal, QObject::tr("FIRST NAME"));
+  model->setHeaderData(3, Qt::Horizontal, QObject::tr("DATE OF BIRTH"));
+  model->setHeaderData(4, Qt::Horizontal, QObject::tr("GENDER"));
+  model->setHeaderData(5, Qt::Horizontal, QObject::tr("PHONE NUMBER"));
+  model->setHeaderData(6, Qt::Horizontal, QObject::tr("EMAIL"));
 
-    return model;
+  return model;
 }
 
 int Client::Recherche(int CIN) {
@@ -242,7 +245,8 @@ int Client::Recherche(int CIN) {
 };
 
 std::vector<int> Client::AgeStatistics() {
-  std::vector<int> ageStats(3, 0); // Initialize with three zeros: total, under 18, over 18
+  std::vector<int> ageStats(
+      3, 0); // Initialize with three zeros: total, under 18, over 18
   QSqlQuery query;
   query.prepare("SELECT DATE_NAISSANCE FROM CLIENTS");
   if (!query.exec()) {
@@ -257,32 +261,33 @@ std::vector<int> Client::AgeStatistics() {
       ageStats[1]++; // Increment count of people under 18
     else
       ageStats[2]++; // Increment count of people over 18
-    ageStats[0]++; // Increment total count
+    ageStats[0]++;   // Increment total count
   }
 
   return ageStats;
 };
 
 std::vector<int> Client::GenderStatistics() {
-    std::vector<int> genderStats(3, 0); // Initialize with three zeros: total count, male count, and female count
-    QSqlQuery query;
-    query.prepare("SELECT GENRE FROM CLIENTS");
-    if (!query.exec()) {
-        qDebug() << "Error executing query:" << query.lastError().text();
-        return genderStats;
-    }
-
-    while (query.next()) {
-        int gender = query.value(0).toInt(); // Assuming 0 for male, 1 for female
-        if (gender == 0)
-            genderStats[1]++; // Increment male count
-        else if (gender == 1)
-            genderStats[2]++; // Increment female count
-        // Increment total count regardless of gender
-        genderStats[0]++;
-    }
-
+  std::vector<int> genderStats(3, 0); // Initialize with three zeros: total
+                                      // count, male count, and female count
+  QSqlQuery query;
+  query.prepare("SELECT GENRE FROM CLIENTS");
+  if (!query.exec()) {
+    qDebug() << "Error executing query:" << query.lastError().text();
     return genderStats;
+  }
+
+  while (query.next()) {
+    int gender = query.value(0).toInt(); // Assuming 0 for male, 1 for female
+    if (gender == 0)
+      genderStats[1]++; // Increment male count
+    else if (gender == 1)
+      genderStats[2]++; // Increment female count
+    // Increment total count regardless of gender
+    genderStats[0]++;
+  }
+
+  return genderStats;
 };
 
 Client Client::RechercheClient(int CIN) {
