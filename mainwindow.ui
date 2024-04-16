@@ -32,7 +32,7 @@
      <string notr="true">background-color: white;</string>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QFrame" name="frame_2">
@@ -620,7 +620,7 @@ QPushButton:hover {
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="gestion_employes">
        <attribute name="title">
@@ -2147,7 +2147,7 @@ QPushButton:hover {
        <string notr="true">background-color: white;</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="tab_9">
        <attribute name="title">
@@ -3389,7 +3389,7 @@ QDateEdit:focus {
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="add_equipments">
        <attribute name="title">
@@ -4722,6 +4722,472 @@ QDateEdit:focus {
         </property>
        </widget>
       </widget>
+      <widget class="QWidget" name="tab_14">
+       <attribute name="title">
+        <string>Calculator</string>
+       </attribute>
+       <widget class="QFrame" name="frame_18">
+        <property name="geometry">
+         <rect>
+          <x>360</x>
+          <y>40</y>
+          <width>431</width>
+          <height>391</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_6">
+         <item row="5" column="3">
+          <widget class="QPushButton" name="calculatorbutton_divide">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>/</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QPushButton" name="calculatorbutton_4">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>4</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QPushButton" name="calculatorbutton_7">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>7</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QPushButton" name="calculatorbutton_1">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QPushButton" name="calculatorbutton_5">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>5</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QPushButton" name="calculatorbutton_8">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>8</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QPushButton" name="calculatorbutton_clear">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>C</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="QPushButton" name="calculatorbutton_plus">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>+</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1" colspan="2">
+          <widget class="QPushButton" name="calculatorbutton_equals">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>=</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="2">
+          <widget class="QPushButton" name="calculatorbutton_9">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>9</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QPushButton" name="calculatorbutton_3">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>3</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QPushButton" name="calculatorbutton_2">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="3">
+          <widget class="QPushButton" name="calculatorbutton_minus">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>-</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QPushButton" name="calculatorbutton_6">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>6</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QPushButton" name="calculatorbutton_0">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="3">
+          <widget class="QPushButton" name="calculatorbutton_multiply">
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+           </property>
+           <property name="text">
+            <string>x</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="3">
+          <widget class="QLabel" name="calculatorDisplay">
+           <property name="styleSheet">
+            <string notr="true">QLabel {
+	font: 16pt &quot;MS Shell Dlg 2&quot;;
+    border: 2px solid blue;
+}</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QLineEdit" name="calculatorlineedit">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>30</y>
+          <width>171</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLineEdit {
+        border: 2px solid black;
+        border-radius: 15px;
+        padding: 5px;
+        background-color: rgba(255, 255, 255);
+        color: black;
+    }
+
+    QLineEdit:focus {
+        border-color: black;
+        background-color: rgba(248, 248, 248, 1);
+    }
+    </string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_75">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>30</y>
+          <width>131</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>MS Shell Dlg 2</family>
+          <pointsize>10</pointsize>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+        </property>
+        <property name="text">
+         <string>Enter Reference</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="calculatorref">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>70</y>
+          <width>81</width>
+          <height>26</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+        background-color: #ffffff; /* Fond blanc */
+        border: 2px solid blue; /* Bordure bleue */
+        border-radius: 10px; /* Coins arrondis */
+        padding: 1px 2px; /* Espacement intérieur */
+        color: black; /* Couleur du texte */
+        font-size: 16px; /* Taille de la police */
+    }
+
+    QPushButton:hover {
+        background-color: blue; /* Nouvelle couleur de fond au survol */
+        color: white; /* Nouvelle couleur de texte au survol */
+    }</string>
+        </property>
+        <property name="text">
+         <string>Get Price</string>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="M5">
@@ -4746,7 +5212,7 @@ QDateEdit:focus {
        </font>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="iconSize">
        <size>
@@ -6423,7 +6889,7 @@ background-image: url(:/new/icons/icones/iconlogout.png);</string>
      <x>0</x>
      <y>0</y>
      <width>1269</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

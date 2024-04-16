@@ -246,6 +246,20 @@ QSqlQueryModel *Equipements::triEtat() {
   return model;
 };
 
-#include "equipement.h"
-
-Equipement::Equipement() {}
+int Equipements::getPrixParRef(QString ref) {
+  QSqlQuery query;
+  query.prepare("SELECT PRIX FROM EQUIPEMENT WHERE REFERENCE = :REFERENCE");
+  query.bindValue(":REFERENCE", ref);
+  if (!query.exec()) {
+    qDebug() << "Failed to execute query:" << query.lastError().text();
+    qDebug() << "Oracle Error:" << query.lastError().databaseText();
+    return -1;
+  }
+  // Check if the query has returned any records
+  if (!query.next()) {
+    qDebug() << "No record found for reference:" << ref;
+    return -1;
+  }
+  // Retrieve the price (PRIX) value from the first record
+  return query.value(0).toInt();
+}

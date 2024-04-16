@@ -123,6 +123,40 @@ private slots:
 
   void on_GenderStatExport_clicked();
 
+  void on_calculatorbutton_1_clicked();
+
+  void on_calculatorbutton_2_clicked();
+
+  void on_calculatorbutton_3_clicked();
+
+  void on_calculatorbutton_4_clicked();
+
+  void on_calculatorbutton_5_clicked();
+
+  void on_calculatorbutton_6_clicked();
+
+  void on_calculatorbutton_7_clicked();
+
+  void on_calculatorbutton_8_clicked();
+
+  void on_calculatorbutton_9_clicked();
+
+  void on_calculatorbutton_0_clicked();
+
+  void on_calculatorbutton_plus_clicked();
+
+  void on_calculatorbutton_minus_clicked();
+
+  void on_calculatorbutton_multiply_clicked();
+
+  void on_calculatorbutton_divide_clicked();
+
+  void on_calculatorbutton_clear_clicked();
+
+  void on_calculatorbutton_equals_clicked();
+
+  void on_calculatorref_clicked();
+
 private:
   Ui::MainWindow *ui;
   Abonement supp;

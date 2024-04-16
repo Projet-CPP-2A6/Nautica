@@ -23,6 +23,7 @@
 #include <QString>
 #include <QTableView>
 #include <QUrl>
+#include <QtScript>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
@@ -2010,4 +2011,82 @@ void MainWindow::on_GenderStatExport_clicked() {
 
     pixmap.save(fileName);
   }
+}
+
+void MainWindow::on_calculatorbutton_1_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "1");
+}
+
+void MainWindow::on_calculatorbutton_2_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "2");
+}
+
+void MainWindow::on_calculatorbutton_3_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "3");
+}
+
+void MainWindow::on_calculatorbutton_4_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "4");
+}
+
+void MainWindow::on_calculatorbutton_5_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "5");
+}
+
+void MainWindow::on_calculatorbutton_6_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "6");
+}
+
+void MainWindow::on_calculatorbutton_7_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "7");
+}
+
+void MainWindow::on_calculatorbutton_8_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "8");
+}
+
+void MainWindow::on_calculatorbutton_9_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "9");
+}
+
+void MainWindow::on_calculatorbutton_0_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "0");
+}
+
+void MainWindow::on_calculatorbutton_plus_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "+");
+}
+
+void MainWindow::on_calculatorbutton_minus_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "-");
+}
+
+void MainWindow::on_calculatorbutton_multiply_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "*");
+}
+
+void MainWindow::on_calculatorbutton_divide_clicked() {
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() + "/");
+}
+
+void MainWindow::on_calculatorbutton_clear_clicked() {
+  ui->calculatorDisplay->clear();
+}
+
+void MainWindow::on_calculatorbutton_equals_clicked() {
+  QScriptEngine Engine;
+  QScriptValue Result = Engine.evaluate(ui->calculatorDisplay->text());
+  if (Result.isNumber()) {
+    ui->calculatorDisplay->setText(QString::number(Result.toNumber()));
+  } else {
+    qDebug() << "Error evaluating";
+  }
+}
+
+void MainWindow::on_calculatorref_clicked() {
+  QString ref = ui->calculatorlineedit->text();
+  Equipements E;
+  int prix = E.getPrixParRef(ref);
+  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() +
+                                 QString::number(prix));
 }

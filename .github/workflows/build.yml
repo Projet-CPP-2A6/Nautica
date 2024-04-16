@@ -23,7 +23,7 @@ jobs:
           target: "desktop"
           arch: "win32_mingw53"
           tools: "tools_mingw,qt.tools.win32_mingw530"
-          modules: "qtcharts qtnetworkauth"
+          modules: "qtcharts qtnetworkauth qtscript"
 
       - name: Qt 5 environment configuration
         shell: pwsh
