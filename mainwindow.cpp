@@ -40,22 +40,84 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::on_pushButton_3_clicked() {
-  int CIN = ui->CIN_LE->text().toInt();
-  qDebug() << "Type of variable 'a': " << typeid(CIN).name();
+  // Récupération des valeurs des champs
+  QString cinStr = ui->CIN_LE->text();
   QString nom = ui->nom_LE->text();
   QString prenom = ui->prenom_LE->text();
   QString adresse = ui->adresse_LE->text();
-  QString genre = ui->genre_LE->text();
+  QString genre = ui->genre_LE->text()
+                      .toLower(); // Convertir en minuscules pour la comparaison
   QString email = ui->email_LE->text();
   QString fonction = ui->fonction_LE->text();
   int salaire = ui->salaire_LE->text().toInt();
-  qDebug() << "Type of variable 'salaire': " << typeid(salaire).name();
-  int telephone = ui->telephone_LE->text().toInt();
-  qDebug() << "Type of variable 'teelephone': " << typeid(telephone).name();
+  QString telephoneStr = ui->telephone_LE->text();
 
+  // Expression régulière pour vérifier le format du CIN (chiffres seulement)
+  QRegExp regexCIN("^[0-9]+$");
+  // Expression régulière pour vérifier le format du nom et du prénom (lettres
+  // seulement)
+  QRegExp regexNomPrenom("^[a-zA-Z]+$");
+  // Expression régulière pour vérifier le format de l'email
+  QRegExp regexEmail("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
+  // Expression régulière pour vérifier le format du numéro de téléphone
+  // (chiffres seulement)
+  QRegExp regexTelephone("^[0-9]+$");
+
+  // Vérification des saisies
+  if (cinStr.isEmpty() || !regexCIN.exactMatch(cinStr)) {
+    QMessageBox::critical(
+        this, "Erreur", "Veuillez saisir un CIN valide (chiffres seulement).");
+    return;
+  }
+
+  if (nom.isEmpty() || !regexNomPrenom.exactMatch(nom)) {
+    QMessageBox::critical(this, "Erreur",
+                          "Veuillez saisir un nom valide (lettres seulement).");
+    return;
+  }
+
+  if (prenom.isEmpty() || !regexNomPrenom.exactMatch(prenom)) {
+    QMessageBox::critical(
+        this, "Erreur",
+        "Veuillez saisir un prénom valide (lettres seulement).");
+    return;
+  }
+
+  if (email.isEmpty() || !regexEmail.exactMatch(email)) {
+    QMessageBox::critical(this, "Erreur",
+                          "Veuillez saisir une adresse email valide.");
+    return;
+  }
+
+  if (telephoneStr.isEmpty() || !regexTelephone.exactMatch(telephoneStr)) {
+    QMessageBox::critical(
+        this, "Erreur",
+        "Veuillez saisir un numéro de téléphone valide (chiffres seulement).");
+    return;
+  }
+
+  // Vérification du nombre de chiffres dans le numéro de téléphone
+  if (telephoneStr.length() != 8) {
+    QMessageBox::critical(
+        this, "Erreur",
+        "Veuillez saisir un numéro de téléphone valide (8 chiffres).");
+    return;
+  }
+
+  // Vérification du genre
+  if (genre != "homme" && genre != "femme") {
+    QMessageBox::critical(this, "Erreur",
+                          "Veuillez saisir un genre valide (homme ou femme).");
+    return;
+  }
+
+  // Convertir les champs nécessaires en types appropriés
+  int CIN = cinStr.toInt();
+  int telephone = telephoneStr.toInt();
+
+  // Si toutes les saisies sont valides, ajoutez l'employé
   Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction,
              salaire);
-  // e.ajouter();
   bool test = e.ajouter();
   if (test) {
     QMessageBox::information(this, "Succès",
@@ -63,7 +125,7 @@ void MainWindow::on_pushButton_3_clicked() {
     ui->listEmployetableView->setModel(e.afficher());
   } else {
     QMessageBox::critical(this, "Erreur",
-                          "employé existant. Veuillez réessayer.");
+                          "Employé existant. Veuillez réessayer.");
   }
 }
 
@@ -83,6 +145,7 @@ void MainWindow::on_deletePushButton_clicked() {
 }
 
 void MainWindow::on_updatePushButton_clicked() {
+  // Récupération des valeurs des champs
   int CIN = ui->updateCin_LE->text().toInt();
   QString nom = ui->updateNom_LE->text();
   QString prenom = ui->updatePrenom_LE->text();
@@ -92,21 +155,57 @@ void MainWindow::on_updatePushButton_clicked() {
   QString fonction = ui->updateFonction_LE->text();
   int telephone = ui->updateTelephone_LE->text().toInt();
   int salaire = ui->updateSalaire_LE->text().toInt();
-  Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction,
-             salaire);
-  e.modifier();
-  bool test = e.modifier();
-  if (test) {
-    ui->listEmployetableView->setModel(e.afficher());
-    ui->updateCin_LE->clear();
-    ui->updateNom_LE->clear();
-    ui->updatePrenom_LE->clear();
-    ui->updateAdresse_LE->clear();
-    ui->updateGenre_LE->clear();
-    ui->updateEmail_LE->clear();
-    ui->updateFonction_LE->clear();
-    ui->updateTelephone_LE->clear();
-    ui->updateSalaire_LE->clear();
+  // Vérification des contraintes de saisie
+  bool saisieValide = true;
+  QString messageErreur;
+
+  // Vérification du nom et prénom
+  if (nom.isEmpty() || prenom.isEmpty()) {
+    messageErreur += "Veuillez saisir le nom et le prénom.\n";
+    saisieValide = false;
+  }
+
+  // Vérification du genre
+  if (genre.toLower() != "homme" && genre.toLower() != "femme") {
+    messageErreur += "Le genre doit être 'Homme' ou 'Femme'.\n";
+    saisieValide = false;
+  }
+
+  // Vérification du format de l'email
+  QRegExp regex("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
+  if (!email.contains(regex)) {
+    messageErreur += "Veuillez saisir une adresse email valide.\n";
+    saisieValide = false;
+  }
+
+  // Vérification de la fonction (lettre seulement)
+  QRegExp regexFonction("[A-Za-z]+");
+  if (!fonction.contains(regexFonction)) {
+    messageErreur += "La fonction doit contenir uniquement des lettres.\n";
+    saisieValide = false;
+  }
+
+  // Si la saisie est valide, effectuer la modification
+  if (saisieValide) {
+    Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction,
+               salaire);
+    bool test = e.modifier();
+    if (test) {
+      ui->listEmployetableView->setModel(e.afficher());
+      // Effacer les champs après la modification réussie
+      ui->updateCin_LE->clear();
+      ui->updateNom_LE->clear();
+      ui->updatePrenom_LE->clear();
+      ui->updateAdresse_LE->clear();
+      ui->updateGenre_LE->clear();
+      ui->updateEmail_LE->clear();
+      ui->updateFonction_LE->clear();
+      ui->updateTelephone_LE->clear();
+      ui->updateSalaire_LE->clear();
+    }
+  } else {
+    // Afficher un message d'erreur si la saisie est invalide
+    QMessageBox::critical(this, "Erreur de saisie", messageErreur);
   }
 }
 
@@ -269,9 +368,6 @@ void MainWindow::on_lineEdit_textChanged(const QString &arg1) {
   }
   if (ui->CinRadioButton_2->isChecked() == true) {
     e.chercherEmpNom(ui->listEmployetableView, arg1);
-  }
-  if (ui->PhoneradioButton->isChecked() == true) {
-    e.chercherEmpTel(ui->listEmployetableView, arg1);
   }
   if (ui->PhoneradioButton->isChecked() == true) {
     e.chercherEmpTel(ui->listEmployetableView, arg1);
@@ -532,26 +628,22 @@ void MainWindow::on_statFonctionPushButton_clicked() {
          << "#0000ff"; // Rouge, Vert, Jaune, Violet, Bleu
 
   QPieSeries *series = new QPieSeries();
-  QPieSlice *slice1 = series->append("employes", c1);
-  QPieSlice *slice2 = series->append("clients", c2);
-  QPieSlice *slice3 = series->append("abonnements", c3);
-  QPieSlice *slice4 = series->append("evenements", c4);
-  QPieSlice *slice5 = series->append("equipements", c5);
+  QPieSlice *slice1 = series->append(
+      "employes (" + QString::number(c1 * 100, 'f', 2) + "%)", c1);
+  QPieSlice *slice2 = series->append(
+      "clients (" + QString::number(c2 * 100, 'f', 2) + "%)", c2);
+  QPieSlice *slice3 = series->append(
+      "abonnements (" + QString::number(c3 * 100, 'f', 2) + "%)", c3);
+  QPieSlice *slice4 = series->append(
+      "evenements (" + QString::number(c4 * 100, 'f', 2) + "%)", c4);
+  QPieSlice *slice5 = series->append(
+      "equipements (" + QString::number(c5 * 100, 'f', 2) + "%)", c5);
 
-  // Définition des libellés avec les pourcentages
-  slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
-  slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
-  slice3->setLabel(QString("%1%").arg(QString::number(c3 * 100, 'f', 2)));
-  slice4->setLabel(QString("%1%").arg(QString::number(c4 * 100, 'f', 2)));
-  slice5->setLabel(QString("%1%").arg(QString::number(c5 * 100, 'f', 2)));
-
-  // Définition des pourcentages à 0% pour les parties vides
-  if (c3 == 0)
-    slice3->setLabel("0%");
-  if (c4 == 0)
-    slice4->setLabel("0%");
-  if (c5 == 0)
-    slice5->setLabel("0%");
+  slice1->setLabelVisible(true);
+  slice2->setLabelVisible(true);
+  slice3->setLabelVisible(true);
+  slice4->setLabelVisible(true);
+  slice5->setLabelVisible(true);
 
   QChart *chart = new QChart();
   chart->addSeries(series);
@@ -1564,71 +1656,73 @@ void MainWindow::on_SessionButton_clicked() {
 }
 
 void MainWindow::on_PerformanceStatsButton_clicked() {
-    if (ui->PerformanceStatsFrame->layout()) {
-      QLayoutItem *item;
-      // If it does, remove all existing items from the layout
-      while ((item = ui->PerformanceStatsFrame->layout()->takeAt(0)) != nullptr) {
-        delete item->widget();
-        delete item;
-      }
+  if (ui->PerformanceStatsFrame->layout()) {
+    QLayoutItem *item;
+    // If it does, remove all existing items from the layout
+    while ((item = ui->PerformanceStatsFrame->layout()->takeAt(0)) != nullptr) {
+      delete item->widget();
+      delete item;
     }
-    Client searchedClient;
-    int SearchedCIN = ui->CINLineEdit->text().toInt();
-    QMap<int, Client::PerformanceStats> performanceData = searchedClient.RetrievePerformanceStats(SearchedCIN);
+  }
+  Client searchedClient;
+  int SearchedCIN = ui->CINLineEdit->text().toInt();
+  QMap<int, Client::PerformanceStats> performanceData =
+      searchedClient.RetrievePerformanceStats(SearchedCIN);
 
-    if (performanceData.isEmpty()) {
-        qDebug() << "Performance data is empty. Cannot generate chart.";
-        return;
-    }
+  if (performanceData.isEmpty()) {
+    qDebug() << "Performance data is empty. Cannot generate chart.";
+    return;
+  }
 
-    QBarSeries *series = new QBarSeries();
-    int maximumPossibleNote = 5;
+  QBarSeries *series = new QBarSeries();
+  int maximumPossibleNote = 5;
 
-    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
-        QBarSet *set = new QBarSet(QString::number(it.key()));
-        double percentage = (it.value().averageNote / maximumPossibleNote) * 100;
-        *set << percentage;
-        series->append(set);
-    }
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+    QBarSet *set = new QBarSet(QString::number(it.key()));
+    double percentage = (it.value().averageNote / maximumPossibleNote) * 100;
+    *set << percentage;
+    series->append(set);
+  }
 
-    QChart *chart = new QChart();
+  QChart *chart = new QChart();
 
-    if (series->count() == 0) {
-        qDebug() << "No data available for chart. Aborting chart creation.";
-        delete series;
-        delete chart;
-        return;
-    }
+  if (series->count() == 0) {
+    qDebug() << "No data available for chart. Aborting chart creation.";
+    delete series;
+    delete chart;
+    return;
+  }
 
-    chart->addSeries(series);
-    chart->setTitle("Performance Stats");
-    chart->setAnimationOptions(QChart::SeriesAnimations);
+  chart->addSeries(series);
+  chart->setTitle("Performance Stats");
+  chart->setAnimationOptions(QChart::SeriesAnimations);
 
-    QStringList categories;
-    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
-        categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
-    }
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(categories);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisX);
+  QStringList categories;
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+    categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
+  }
+  QBarCategoryAxis *axisX = new QBarCategoryAxis();
+  axisX->append(categories);
+  chart->addAxis(axisX, Qt::AlignBottom);
+  series->attachAxis(axisX);
 
-    QValueAxis *axisY = new QValueAxis();
-    axisY->setLabelFormat("%.2f%%");
-    axisY->setRange(0, 100);
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
+  QValueAxis *axisY = new QValueAxis();
+  axisY->setLabelFormat("%.2f%%");
+  axisY->setRange(0, 100);
+  chart->addAxis(axisY, Qt::AlignLeft);
+  series->attachAxis(axisY);
 
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
+  QChartView *chartView = new QChartView(chart);
+  chartView->setRenderHint(QPainter::Antialiasing);
 
-    if (!ui->PerformanceStatsFrame->layout()) {
-        QVBoxLayout *layout = new QVBoxLayout(ui->PerformanceStatsFrame);
-        ui->PerformanceStatsFrame->setLayout(layout);
-    }
+  if (!ui->PerformanceStatsFrame->layout()) {
+    QVBoxLayout *layout = new QVBoxLayout(ui->PerformanceStatsFrame);
+    ui->PerformanceStatsFrame->setLayout(layout);
+  }
 
-    QVBoxLayout *layout = qobject_cast<QVBoxLayout*>(ui->PerformanceStatsFrame->layout());
-    layout->addWidget(chartView);
+  QVBoxLayout *layout =
+      qobject_cast<QVBoxLayout *>(ui->PerformanceStatsFrame->layout());
+  layout->addWidget(chartView);
 }
 
 void MainWindow::on_delete_abonnement_button_clicked() {

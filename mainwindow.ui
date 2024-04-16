@@ -103,7 +103,7 @@ color: rgb(140,140,140);</string>
        <property name="geometry">
         <rect>
          <x>90</x>
-         <y>250</y>
+         <y>240</y>
          <width>411</width>
          <height>41</height>
         </rect>
@@ -263,7 +263,7 @@ QPushButton:hover {
 }</string>
        </property>
        <property name="text">
-        <string>show</string>
+        <string>Show</string>
        </property>
       </widget>
      </widget>
@@ -355,7 +355,7 @@ background:rgb(255,255,255);
        <property name="geometry">
         <rect>
          <x>-10</x>
-         <y>100</y>
+         <y>90</y>
          <width>541</width>
          <height>301</height>
         </rect>
@@ -783,7 +783,7 @@ QLineEdit:focus {
            </font>
           </property>
           <property name="text">
-           <string>Prenom</string>
+           <string>First name</string>
           </property>
          </widget>
          <widget class="QLineEdit" name="prenom_LE">
@@ -828,7 +828,7 @@ QLineEdit:focus {
            </font>
           </property>
           <property name="text">
-           <string>Adresse</string>
+           <string>Adress</string>
           </property>
          </widget>
          <widget class="QLineEdit" name="adresse_LE">
@@ -898,7 +898,7 @@ QLineEdit:focus {
            </font>
           </property>
           <property name="text">
-           <string>Salaire</string>
+           <string>Salary</string>
           </property>
          </widget>
          <widget class="QLabel" name="label_29">
@@ -918,7 +918,7 @@ QLineEdit:focus {
            </font>
           </property>
           <property name="text">
-           <string>Telephone</string>
+           <string>Phone</string>
           </property>
          </widget>
          <widget class="QLineEdit" name="telephone_LE">
@@ -1077,7 +1077,7 @@ QLineEdit:focus {
            </font>
           </property>
           <property name="text">
-           <string>Genre</string>
+           <string>Gender</string>
           </property>
          </widget>
          <widget class="QLineEdit" name="genre_LE">
@@ -1121,7 +1121,7 @@ QLineEdit:focus {
         </widget>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_3">
+      <widget class="QWidget" name="update_2">
        <attribute name="title">
         <string>Update</string>
        </attribute>
@@ -1618,7 +1618,7 @@ QPushButton:hover {
         </widget>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="display">
        <attribute name="title">
         <string>Display</string>
        </attribute>
@@ -1963,9 +1963,9 @@ QPushButton:hover {
         </widget>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="stat">
        <attribute name="title">
-        <string>Page</string>
+        <string>Stat</string>
        </attribute>
        <widget class="QFrame" name="frame">
         <property name="geometry">
@@ -2021,9 +2021,9 @@ QPushButton:hover {
          <property name="geometry">
           <rect>
            <x>320</x>
-           <y>20</y>
-           <width>491</width>
-           <height>471</height>
+           <y>0</y>
+           <width>841</width>
+           <height>521</height>
           </rect>
          </property>
          <property name="text">
@@ -2101,7 +2101,12 @@ QPushButton:hover {
          </property>
         </widget>
        </widget>
-       <widget class="QWidget" name="tab_2" native="true">
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Page</string>
+       </attribute>
+       <widget class="QFrame" name="frame_19">
         <property name="geometry">
          <rect>
           <x>0</x>
@@ -2110,22 +2115,12 @@ QPushButton:hover {
           <height>591</height>
          </rect>
         </property>
-        <widget class="QFrame" name="frame_19">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>1171</width>
-           <height>591</height>
-          </rect>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-        </widget>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
        </widget>
       </widget>
      </widget>
