@@ -1067,80 +1067,86 @@ void MainWindow::on_triCinPushButton_4_clicked() {
 }
 
 void MainWindow::on_PDFpushButton_2_clicked() {
+  Equipements E;
+  // Obtenir le modèle de la table à partir de la QTableView
+  QAbstractItemModel *model = E.afficher();
+  if(!model){
+    qDebug() << "Failed to retrieve equipement data";
+    return;
+  }
+
+  // Obtenir les dimensions de la table
+  int rowCount = model->rowCount();
+  int colCount = model->columnCount();
+
+  QString defaultFileName = "EquipementList.pdf";
+  QString fileName = QFileDialog::getSaveFileName(
+      this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
+
+  if (fileName.isEmpty()){
+    qDebug() << "File name is empty";
+    delete model;
+    return;
+  }
   // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
   QPrinter printer;
   printer.setOutputFormat(QPrinter::PdfFormat);
-  printer.setOutputFileName("C:/youssef/listeEquipement.pdf");
+  printer.setOutputFileName(fileName);
 
   // Création d'un objet QPainter pour l'objet QPrinter
   QPainter painter;
   if (!painter.begin(&printer)) {
     qWarning("failed to open file, is it writable?");
+    delete model;
     return;
   }
-
-  // Obtenir le modèle de la table à partir de la QTableView
-  QAbstractItemModel *model = ui->tableView_3->model();
-
-  // Obtenir les dimensions de la table
-  int rows = model->rowCount();
-  int columns = model->columnCount();
-
-  // Définir la taille de la cellule pour le dessin
-  int cellWidth = 100;
-  int cellHeight = 30;
 
   // Calculer les dimensions de la page
   int pageWidth = printer.pageRect().width();
   int pageHeight = printer.pageRect().height();
-
-  // Dessiner les lignes de la table
-  painter.drawRect(0, 0, columns * cellWidth, (rows + 1) * cellHeight);
-  for (int row = 1; row < rows + 1; ++row) {
-    painter.drawLine(0, row * cellHeight, columns * cellWidth,
-                     row * cellHeight);
-  }
-  for (int col = 1; col < columns; ++col) {
-    painter.drawLine(col * cellWidth, 0, col * cellWidth,
-                     (rows + 1) * cellHeight);
-  }
-
-  // Dessiner les en-têtes de colonnes
-  QFont font = painter.font();
-  font.setBold(true);
-  painter.setFont(font);
-  for (int col = 0; col < columns; ++col) {
-    // QModelIndex index = model->index(0, col);
-    QString headerData = model->headerData(col, Qt::Horizontal).toString();
-    painter.drawText(col * cellWidth, 0, cellWidth, cellHeight, Qt::AlignCenter,
-                     headerData);
-  }
-
-  // Dessiner les données de la table sur le périphérique de sortie PDF
-  for (int row = 0; row < rows; ++row) {
-    for (int col = 0; col < columns; ++col) {
-      // Obtenir les données de la cellule
-      QModelIndex index = model->index(row, col);
-      QString data = model->data(index).toString();
-
-      // Dessiner les données de la cellule
-      painter.drawText(col * cellWidth, (row + 1) * cellHeight, cellWidth,
-                       cellHeight, Qt::AlignLeft | Qt::AlignVCenter, data);
-    }
-  }
-
-  // Dessiner l'image au centre de la page
-  QImage image("C:/youssef/NauticaLogo.png");
-  if (!image.isNull()) {
+  
+  QImage image("img/logo.png");
+  if(image.isNull()){
+    qDebug() << "Failed to load image";
+  }else {
     int imageWidth = image.width();
     int imageHeight = image.height();
-    int x = (pageWidth - imageWidth) / 2;
-    int y = (pageHeight - imageHeight) / 2;
-    painter.drawImage(x, y, image);
-  } else {
-    qWarning("Failed to load image");
+    int imageX = (pageWidth - imageWidth) / 2;
+    int imageY = (pageHeight - imageHeight) / 4;
+    painter.drawImage(imageX, imageY, image);
+    qDebug() << "Image drawn successfully";
   }
+  
+  QFont titleFont = painter.font();
+  titleFont.setPointSize(24);
+  titleFont.setBold(true);
+  painter.setFont(titleFont);
 
+  QString title = "Equipements List";
+  painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20, Qt::AlignCenter | Qt::AlignTop, title);
+  QFont font = painter.font();
+  font.setPointSize(7);
+  painter.setFont(font);
+  int cellWidth = 100;
+  int cellHeight = 30;
+  int headerHeight = 2*cellHeight;
+  int titleBottomSpacing = 20;
+  int tableStartX = 75;
+  painter.drawRect(tableStartX, pageHeight / titleBottomSpacing + headerHeight, colCount * cellWidth, cellHeight);
+  for(int col = 0; col < colCount; col++){
+    QString columnName = model->headerData(col, Qt::Horizontal).toString();
+    painter.drawText(tableStartX + col * cellWidth, pageHeight / titleBottomSpacing + headerHeight, cellWidth, cellHeight, Qt::AlignCenter, columnName);
+    painter.drawRect(tableStartX + col * cellWidth, pageHeight / titleBottomSpacing + headerHeight, cellWidth, cellHeight);
+  }
+  for(int row = 0; row < rowCount; row++){
+    for(int col = 0; col < colCount; col++){
+      QModelIndex index = model->index(row, col);
+      QString data = index.data(Qt::DisplayRole).toString();
+      painter.drawText(tableStartX + col * cellWidth, pageHeight / titleBottomSpacing + headerHeight + (row + 1) * cellHeight, cellWidth, cellHeight, Qt::AlignCenter | Qt::AlignVCenter, data);
+      painter.drawRect(tableStartX + col * cellWidth, pageHeight / titleBottomSpacing + headerHeight + (row +1) * cellHeight, cellWidth, cellHeight);
+    }
+  }
+  delete model;
   // Terminer avec QPainter
   painter.end();
 }
