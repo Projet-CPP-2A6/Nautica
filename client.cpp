@@ -125,11 +125,11 @@ QSqlQueryModel *Client::Afficher() {
   }*/
 
   model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
-  model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
-  model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
-  model->setHeaderData(3, Qt::Horizontal, QObject::tr("DATE_NAISSANCE"));
-  model->setHeaderData(4, Qt::Horizontal, QObject::tr("GENRE"));
-  model->setHeaderData(5, Qt::Horizontal, QObject::tr("TELEPHONE"));
+  model->setHeaderData(1, Qt::Horizontal, QObject::tr("LAST NAME"));
+  model->setHeaderData(2, Qt::Horizontal, QObject::tr("FIRST NAME"));
+  model->setHeaderData(3, Qt::Horizontal, QObject::tr("DATE OF BIRTH"));
+  model->setHeaderData(4, Qt::Horizontal, QObject::tr("GENDER"));
+  model->setHeaderData(5, Qt::Horizontal, QObject::tr("PHONE NUMBER"));
   model->setHeaderData(6, Qt::Horizontal, QObject::tr("EMAIL"));
 
   return model;
@@ -161,11 +161,11 @@ QSqlQueryModel *Client::TriPar(QString critere) {
 
   model->setQuery(query);
   model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
-  model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
-  model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
-  model->setHeaderData(3, Qt::Horizontal, QObject::tr("DATE_NAISSANCE"));
-  model->setHeaderData(4, Qt::Horizontal, QObject::tr("GENRE"));
-  model->setHeaderData(5, Qt::Horizontal, QObject::tr("TELEPHONE"));
+  model->setHeaderData(1, Qt::Horizontal, QObject::tr("LAST NAME"));
+  model->setHeaderData(2, Qt::Horizontal, QObject::tr("FIRST NAME"));
+  model->setHeaderData(3, Qt::Horizontal, QObject::tr("DATE OF BIRTH"));
+  model->setHeaderData(4, Qt::Horizontal, QObject::tr("GENDER"));
+  model->setHeaderData(5, Qt::Horizontal, QObject::tr("PHONE NUMBER"));
   model->setHeaderData(6, Qt::Horizontal, QObject::tr("EMAIL"));
 
   return model;

@@ -2147,7 +2147,7 @@ QPushButton:hover {
        <string notr="true">background-color: white;</string>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_9">
        <attribute name="title">
