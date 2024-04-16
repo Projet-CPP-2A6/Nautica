@@ -119,6 +119,10 @@ private slots:
 
   void on_GenderStatButton_clicked();
 
+  void on_AgeStatExport_clicked();
+
+  void on_GenderStatExport_clicked();
+
 private:
   Ui::MainWindow *ui;
   Abonement supp;

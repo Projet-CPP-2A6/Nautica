@@ -807,13 +807,14 @@ void MainWindow::on_CPDFExport_clicked() {
   QString title = "Clients List";
   painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20,
                    Qt::AlignHCenter | Qt::AlignTop, title);
- 
+
   dateFont.setPointSize(10);
   painter.setFont(dateFont);
-  QString currentDateTime = QDateTime::currentDateTime().toString("ddd MMM dd yyyy hh:mm:ss");
+  QString currentDateTime =
+      QDateTime::currentDateTime().toString("ddd MMM dd yyyy hh:mm:ss");
   int textWidth = painter.fontMetrics().width(currentDateTime);
   painter.drawText(pageWidth - textWidth, 0, textWidth, pageHeight,
-                 Qt::AlignRight | Qt::AlignTop, currentDateTime);
+                   Qt::AlignRight | Qt::AlignTop, currentDateTime);
 
   font.setPointSize(7);
   painter.setFont(font);
@@ -1063,7 +1064,7 @@ void MainWindow::on_PDFpushButton_2_clicked() {
   Equipements E;
   // Obtenir le modèle de la table à partir de la QTableView
   QAbstractItemModel *model = E.afficher();
-  if(!model){
+  if (!model) {
     qDebug() << "Failed to retrieve equipement data";
     return;
   }
@@ -1076,7 +1077,7 @@ void MainWindow::on_PDFpushButton_2_clicked() {
   QString fileName = QFileDialog::getSaveFileName(
       this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
 
-  if (fileName.isEmpty()){
+  if (fileName.isEmpty()) {
     qDebug() << "File name is empty";
     delete model;
     return;
@@ -1097,11 +1098,11 @@ void MainWindow::on_PDFpushButton_2_clicked() {
   // Calculer les dimensions de la page
   int pageWidth = printer.pageRect().width();
   int pageHeight = printer.pageRect().height();
-  
+
   QImage image("img/logo.png");
-  if(image.isNull()){
+  if (image.isNull()) {
     qDebug() << "Failed to load image";
-  }else {
+  } else {
     int imageWidth = image.width();
     int imageHeight = image.height();
     int imageX = (pageWidth - imageWidth) / 2;
@@ -1109,34 +1110,47 @@ void MainWindow::on_PDFpushButton_2_clicked() {
     painter.drawImage(imageX, imageY, image);
     qDebug() << "Image drawn successfully";
   }
-  
+
   QFont titleFont = painter.font();
   titleFont.setPointSize(24);
   titleFont.setBold(true);
   painter.setFont(titleFont);
   QString title = "Equipements List";
-  painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20, Qt::AlignCenter | Qt::AlignTop, title);
+  painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20,
+                   Qt::AlignCenter | Qt::AlignTop, title);
 
   QFont font = painter.font();
   font.setPointSize(7);
   painter.setFont(font);
   int cellWidth = 100;
   int cellHeight = 30;
-  int headerHeight = 2*cellHeight;
+  int headerHeight = 2 * cellHeight;
   int titleBottomSpacing = 20;
   int tableStartX = 75;
-  painter.drawRect(tableStartX, pageHeight / titleBottomSpacing + headerHeight, colCount * cellWidth, cellHeight);
-  for(int col = 0; col < colCount; col++){
+  painter.drawRect(tableStartX, pageHeight / titleBottomSpacing + headerHeight,
+                   colCount * cellWidth, cellHeight);
+  for (int col = 0; col < colCount; col++) {
     QString columnName = model->headerData(col, Qt::Horizontal).toString();
-    painter.drawText(tableStartX + col * cellWidth, pageHeight / titleBottomSpacing + headerHeight, cellWidth, cellHeight, Qt::AlignCenter, columnName);
-    painter.drawRect(tableStartX + col * cellWidth, pageHeight / titleBottomSpacing + headerHeight, cellWidth, cellHeight);
+    painter.drawText(tableStartX + col * cellWidth,
+                     pageHeight / titleBottomSpacing + headerHeight, cellWidth,
+                     cellHeight, Qt::AlignCenter, columnName);
+    painter.drawRect(tableStartX + col * cellWidth,
+                     pageHeight / titleBottomSpacing + headerHeight, cellWidth,
+                     cellHeight);
   }
-  for(int row = 0; row < rowCount; row++){
-    for(int col = 0; col < colCount; col++){
+  for (int row = 0; row < rowCount; row++) {
+    for (int col = 0; col < colCount; col++) {
       QModelIndex index = model->index(row, col);
       QString data = index.data(Qt::DisplayRole).toString();
-      painter.drawText(tableStartX + col * cellWidth, pageHeight / titleBottomSpacing + headerHeight + (row + 1) * cellHeight, cellWidth, cellHeight, Qt::AlignCenter | Qt::AlignVCenter, data);
-      painter.drawRect(tableStartX + col * cellWidth, pageHeight / titleBottomSpacing + headerHeight + (row +1) * cellHeight, cellWidth, cellHeight);
+      painter.drawText(tableStartX + col * cellWidth,
+                       pageHeight / titleBottomSpacing + headerHeight +
+                           (row + 1) * cellHeight,
+                       cellWidth, cellHeight,
+                       Qt::AlignCenter | Qt::AlignVCenter, data);
+      painter.drawRect(tableStartX + col * cellWidth,
+                       pageHeight / titleBottomSpacing + headerHeight +
+                           (row + 1) * cellHeight,
+                       cellWidth, cellHeight);
     }
   }
   delete model;
@@ -1824,6 +1838,13 @@ void MainWindow::on_SearchByButton_clicked() {
 }
 
 void MainWindow::on_AgeStatButton_clicked() {
+  if (ui->AgeStatFrame->layout()) {
+    QLayoutItem *item;
+    while ((item = ui->AgeStatFrame->layout()->takeAt(0)) != nullptr) {
+      delete item->widget();
+      delete item;
+    }
+  }
   Client AgeStatistics;
   vector<int> AgeStatisticsValue = AgeStatistics.AgeStatistics();
 
@@ -1880,13 +1901,27 @@ void MainWindow::on_AgeStatButton_clicked() {
 }
 
 void MainWindow::on_GenderStatButton_clicked() {
+  // Check if the GenderStatFrame already has a layout
+  if (ui->GenderStatFrame->layout()) {
+    QLayoutItem *item;
+    // If it does, remove all existing items from the layout
+    while ((item = ui->GenderStatFrame->layout()->takeAt(0)) != nullptr) {
+      delete item->widget();
+      delete item;
+    }
+  }
+
+  // Instantiate a Client object
   Client client;
+  // Retrieve gender statistics
   vector<int> genderStats = client.GenderStatistics();
 
+  // Extract statistics
   int total = genderStats[0];
   int males = genderStats[1];
   int females = genderStats[2];
 
+  // Calculate percentages
   double malePercentage = (static_cast<double>(males) / total) * 100.0;
   double femalePercentage = (static_cast<double>(females) / total) * 100.0;
 
@@ -1926,16 +1961,49 @@ void MainWindow::on_GenderStatButton_clicked() {
   QChartView *chartView = new QChartView(chart);
   chartView->setRenderHint(QPainter::Antialiasing);
 
-  // Clear previous content of GenderStatFrame and add the chart view
-  if (ui->GenderStatFrame->layout()) {
-    QLayoutItem *item;
-    while ((item = ui->GenderStatFrame->layout()->takeAt(0)) != nullptr) {
-      delete item->widget();
-      delete item;
-    }
+  // Check if GenderStatFrame already has a layout
+  if (!ui->GenderStatFrame->layout()) {
+    // If not, create a new QVBoxLayout and set it as the layout for
+    // GenderStatFrame
+    QVBoxLayout *layout = new QVBoxLayout(ui->GenderStatFrame);
+    ui->GenderStatFrame->setLayout(layout);
   }
 
-  QVBoxLayout *layout = new QVBoxLayout(ui->GenderStatFrame);
+  // Retrieve the layout of GenderStatFrame
+  QVBoxLayout *layout =
+      qobject_cast<QVBoxLayout *>(ui->GenderStatFrame->layout());
+  // Add the chartView to the layout
   layout->addWidget(chartView);
-  ui->GenderStatFrame->setLayout(layout);
+}
+
+void MainWindow::on_AgeStatExport_clicked() {
+  on_AgeStatButton_clicked();
+  QString defaultFileName = "ClientAgeStatistics.png";
+  QString fileName = QFileDialog::getSaveFileName(
+      this, "Save Image", defaultFileName, "Image Files (*.png)");
+
+  if (!fileName.isEmpty()) {
+    QWidget *statFrameWidget = ui->AgeStatFrame;
+    // Create a QPixmap to render the widget content
+    QPixmap pixmap(statFrameWidget->size());
+    statFrameWidget->render(&pixmap);
+
+    pixmap.save(fileName);
+  }
+}
+
+void MainWindow::on_GenderStatExport_clicked() {
+  on_GenderStatButton_clicked();
+  QString defaultFileName = "ClientGenderStatistics.png";
+  QString fileName = QFileDialog::getSaveFileName(
+      this, "Save Image", defaultFileName, "Image Files (*.png)");
+
+  if (!fileName.isEmpty()) {
+    QWidget *statFrameWidget = ui->GenderStatFrame;
+    // Create a QPixmap to render the widget content
+    QPixmap pixmap(statFrameWidget->size());
+    statFrameWidget->render(&pixmap);
+
+    pixmap.save(fileName);
+  }
 }
