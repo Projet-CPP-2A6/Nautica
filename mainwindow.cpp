@@ -29,12 +29,12 @@ MainWindow::MainWindow(QWidget *parent)
   Employes e(0, "", "", "", 0, "", "", "", 0);
   // int state = 0;
   ui->frame_3->setVisible(false);
+  ui->ClientNoteFrame->setHidden(true);
   ui->listEmployetableView->setModel(e.afficher());
   ui->table_abonnement_3->setModel(display.afficher_abonnement());
   ui->table_abonnement_2->setModel(display.afficher_abonnement());
   ui->stackedWidget->setCurrentIndex(0);
 }
-
 
 MainWindow::~MainWindow() { delete ui; }
 
@@ -677,15 +677,6 @@ void MainWindow::on_ShowAllClients_clicked() {
   ui->AllClientsModel->setModel(C.Afficher());
 }
 
-void MainWindow::on_SearchCIN_textChanged(const QString &searchedText) {
-  Client C;
-  QAbstractItemModel *ClientModel = C.RechercherEtAfficher(searchedText);
-  if (ClientModel == nullptr) {
-    qDebug() << "nullptr/working as intended" << endl;
-  }
-  ui->OneClientModel->setModel(ClientModel);
-}
-
 void MainWindow::on_UpdateClientBtn_clicked() {
   int CIN = ui->UCIN->text().toInt();
   QString nom = ui->UNom->text();
@@ -761,105 +752,108 @@ void MainWindow::on_TrierParButton_clicked() {
   ui->AllClientsModel->setModel(sortedModel);
 }
 
-void MainWindow::on_CRefStat_clicked() {
-  Client C;
-  vector<int> Stat = C.Statistics();
-  qDebug() << Stat;
-  int numClients = Stat[0];
-  int numMales = Stat[1];
-  int numFemales = Stat[2];
-  int avgAge = Stat[3];
-
-  const int barSpacing = 40;
-
-  QGraphicsScene *scene = new QGraphicsScene(this);
-
-  QGraphicsRectItem *clientsBar = scene->addRect(0, 0, numClients * 5, 20);
-  QGraphicsRectItem *malesBar = scene->addRect(0, barSpacing, numMales * 5, 20);
-  QGraphicsRectItem *femalesBar =
-      scene->addRect(0, 2 * barSpacing, numFemales * 5, 20);
-  QGraphicsRectItem *avgAgeBar =
-      scene->addRect(0, 3 * barSpacing, avgAge * 2, 20);
-
-  clientsBar->setBrush(Qt::blue);
-  malesBar->setBrush(Qt::green);
-  femalesBar->setBrush(Qt::red);
-  avgAgeBar->setBrush(Qt::yellow);
-
-  QGraphicsTextItem *clientsLabel =
-      scene->addText(QString("Number of Clients: %1").arg(numClients));
-  clientsLabel->setPos(numClients * 5 + 10, 0);
-
-  QGraphicsTextItem *malesLabel =
-      scene->addText(QString("Number of Males: %1").arg(numMales));
-  malesLabel->setPos(numMales * 5 + 10, barSpacing);
-
-  QGraphicsTextItem *femalesLabel =
-      scene->addText(QString("Number of Females: %1").arg(numFemales));
-  femalesLabel->setPos(numFemales * 5 + 10, 2 * barSpacing);
-
-  QGraphicsTextItem *avgAgeLabel =
-      scene->addText(QString("Average Age: %1").arg(avgAge));
-  avgAgeLabel->setPos(avgAge * 2 + 10, 3 * barSpacing);
-
-  QGraphicsView *view = new QGraphicsView(scene);
-
-  QVBoxLayout *layout = new QVBoxLayout(ui->CStatFrame);
-  layout->addWidget(view);
-}
-
 void MainWindow::on_CPDFExport_clicked() {
   Client C;
   QSqlQueryModel *ClientModel = C.Afficher();
+
+  if (!ClientModel) {
+    qDebug() << "Failed to retrieve client data";
+    return;
+  }
+
+  int rowCount = ClientModel->rowCount();
+  int colCount = ClientModel->columnCount();
 
   QString defaultFileName = "ClientsList.pdf";
   QString fileName = QFileDialog::getSaveFileName(
       this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
 
-  if (fileName.isEmpty() || !ClientModel)
+  if (fileName.isEmpty()) {
+    qDebug() << "File name is empty";
+    delete ClientModel;
     return;
+  }
 
   QPrinter printer;
   printer.setOutputFormat(QPrinter::PdfFormat);
   printer.setOutputFileName(fileName);
 
-  QTextDocument doc;
-  QTextCursor cursor(&doc);
+  QPainter painter;
+  if (!painter.begin(&printer)) {
+    qDebug() << "Failed to open the printer";
+    delete ClientModel;
+    return;
+  }
 
-  int rowCount = ClientModel->rowCount();
-  int colCount = ClientModel->columnCount();
+  int pageWidth = printer.pageRect().width();
+  int pageHeight = printer.pageRect().height();
 
-  QTextTable *table = cursor.insertTable(rowCount + 1, colCount);
+  QImage image("img/logo.png");
+  if (image.isNull()) {
+    qDebug() << "Failed to load image";
+  } else {
+    int imageWidth = image.width();
+    int imageHeight = image.height();
+    int x = (pageWidth - imageWidth) / 2;
+    int y = (pageHeight - imageHeight) / 4;
+    painter.drawImage(x, y, image);
+    qDebug() << "Logo drawn successfully!";
+  }
 
+  QFont font, titleFont, dateFont = painter.font();
+  titleFont.setPointSize(24);
+  titleFont.setBold(true);
+  painter.setFont(titleFont);
+  QString title = "Clients List";
+  painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20,
+                   Qt::AlignHCenter | Qt::AlignTop, title);
+
+  dateFont.setPointSize(10);
+  painter.setFont(dateFont);
+  QString currentDateTime =
+      QDateTime::currentDateTime().toString("ddd MMM dd yyyy hh:mm:ss");
+  int textWidth = painter.fontMetrics().width(currentDateTime);
+  painter.drawText(pageWidth - textWidth, 0, textWidth, pageHeight,
+                   Qt::AlignRight | Qt::AlignTop, currentDateTime);
+
+  font.setPointSize(7);
+  painter.setFont(font);
+  int cellWidth = 100;
+  int cellHeight = 30;
+  int headerHeight = 2 * cellHeight;
+  int titleBottomSpacing = 20;
+  int tableStartX = 30;
+  painter.drawRect(tableStartX, pageHeight / titleBottomSpacing + headerHeight,
+                   colCount * cellWidth, cellHeight);
   for (int col = 0; col < colCount; ++col) {
     QString columnName =
         ClientModel->headerData(col, Qt::Horizontal).toString();
-    QTextTableCell cell = table->cellAt(0, col);
-    QTextCursor cellCursor = cell.firstCursorPosition();
-    cellCursor.insertText(columnName);
+    painter.drawText(tableStartX + col * cellWidth,
+                     pageHeight / titleBottomSpacing + headerHeight, cellWidth,
+                     cellHeight, Qt::AlignCenter, columnName);
+    painter.drawRect(tableStartX + col * cellWidth,
+                     pageHeight / titleBottomSpacing + headerHeight, cellWidth,
+                     cellHeight);
   }
 
   for (int row = 0; row < rowCount; ++row) {
     for (int col = 0; col < colCount; ++col) {
       QModelIndex index = ClientModel->index(row, col);
-      QString data;
-      if (col == 4) {
-        int genderValue = ClientModel->data(index).toInt();
-        data = (genderValue == 0) ? "M" : "F";
-      } else {
-        data = ClientModel->data(index).toString();
-      }
-      QTextTableCell cell = table->cellAt(row + 1, col);
-      QTextCursor cellCursor = cell.firstCursorPosition();
-      cellCursor.insertText(data);
+      QString data = ClientModel->data(index).toString();
+      painter.drawText(tableStartX + col * cellWidth,
+                       pageHeight / titleBottomSpacing + headerHeight +
+                           (row + 1) * cellHeight,
+                       cellWidth, cellHeight,
+                       Qt::AlignCenter | Qt::AlignVCenter, data);
+      painter.drawRect(tableStartX + col * cellWidth,
+                       pageHeight / titleBottomSpacing + headerHeight +
+                           (row + 1) * cellHeight,
+                       cellWidth, cellHeight);
     }
   }
 
-  QTextTableFormat tableFormat = table->format();
-  tableFormat.setBorder(1);
-  table->setFormat(tableFormat);
-
-  doc.print(&printer);
+  delete ClientModel;
+  painter.end();
 }
 
 bool valid_id(QString id) {
@@ -1104,11 +1098,11 @@ void MainWindow::on_PDFpushButton_2_clicked() {
   // Calculer les dimensions de la page
   int pageWidth = printer.pageRect().width();
   int pageHeight = printer.pageRect().height();
-  
+
   QImage image("img/logo.png");
-  if(image.isNull()){
+  if (image.isNull()) {
     qDebug() << "Failed to load image";
-  }else {
+  } else {
     int imageWidth = image.width();
     int imageHeight = image.height();
     int imageX = (pageWidth - imageWidth) / 2;
@@ -1116,34 +1110,47 @@ void MainWindow::on_PDFpushButton_2_clicked() {
     painter.drawImage(imageX, imageY, image);
     qDebug() << "Image drawn successfully";
   }
-  
+
   QFont titleFont = painter.font();
   titleFont.setPointSize(24);
   titleFont.setBold(true);
   painter.setFont(titleFont);
-
   QString title = "Equipements List";
-  painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20, Qt::AlignCenter | Qt::AlignTop, title);
+  painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20,
+                   Qt::AlignCenter | Qt::AlignTop, title);
+
   QFont font = painter.font();
   font.setPointSize(7);
   painter.setFont(font);
   int cellWidth = 100;
   int cellHeight = 30;
-  int headerHeight = 2*cellHeight;
+  int headerHeight = 2 * cellHeight;
   int titleBottomSpacing = 20;
   int tableStartX = 75;
-  painter.drawRect(tableStartX, pageHeight / titleBottomSpacing + headerHeight, colCount * cellWidth, cellHeight);
-  for(int col = 0; col < colCount; col++){
+  painter.drawRect(tableStartX, pageHeight / titleBottomSpacing + headerHeight,
+                   colCount * cellWidth, cellHeight);
+  for (int col = 0; col < colCount; col++) {
     QString columnName = model->headerData(col, Qt::Horizontal).toString();
-    painter.drawText(tableStartX + col * cellWidth, pageHeight / titleBottomSpacing + headerHeight, cellWidth, cellHeight, Qt::AlignCenter, columnName);
-    painter.drawRect(tableStartX + col * cellWidth, pageHeight / titleBottomSpacing + headerHeight, cellWidth, cellHeight);
+    painter.drawText(tableStartX + col * cellWidth,
+                     pageHeight / titleBottomSpacing + headerHeight, cellWidth,
+                     cellHeight, Qt::AlignCenter, columnName);
+    painter.drawRect(tableStartX + col * cellWidth,
+                     pageHeight / titleBottomSpacing + headerHeight, cellWidth,
+                     cellHeight);
   }
-  for(int row = 0; row < rowCount; row++){
-    for(int col = 0; col < colCount; col++){
+  for (int row = 0; row < rowCount; row++) {
+    for (int col = 0; col < colCount; col++) {
       QModelIndex index = model->index(row, col);
       QString data = index.data(Qt::DisplayRole).toString();
-      painter.drawText(tableStartX + col * cellWidth, pageHeight / titleBottomSpacing + headerHeight + (row + 1) * cellHeight, cellWidth, cellHeight, Qt::AlignCenter | Qt::AlignVCenter, data);
-      painter.drawRect(tableStartX + col * cellWidth, pageHeight / titleBottomSpacing + headerHeight + (row +1) * cellHeight, cellWidth, cellHeight);
+      painter.drawText(tableStartX + col * cellWidth,
+                       pageHeight / titleBottomSpacing + headerHeight +
+                           (row + 1) * cellHeight,
+                       cellWidth, cellHeight,
+                       Qt::AlignCenter | Qt::AlignVCenter, data);
+      painter.drawRect(tableStartX + col * cellWidth,
+                       pageHeight / titleBottomSpacing + headerHeight +
+                           (row + 1) * cellHeight,
+                       cellWidth, cellHeight);
     }
   }
   delete model;
@@ -1341,7 +1348,7 @@ void MainWindow::on_ViewLogsButton_clicked() {
   }
 }
 
-void MainWindow::on_CRefStatExport_clicked() {
+/*void MainWindow::on_CRefStatExport_clicked() {
   Client C;
   vector<int> Stat = C.Statistics();
   qDebug() << Stat;
@@ -1401,43 +1408,46 @@ void MainWindow::on_CRefStatExport_clicked() {
 
     pixmap.save(fileName); // Save the image to the specified file
   }
-}
+}*/
 
 void MainWindow::on_TodayDateButton_clicked() {
   ui->endDate->setDate(QDate::currentDate());
 }
 
-QList<QStringList> MainWindow::retrieveAvailableEquipment(const QString &dateString) {
-    QList<QStringList> availableEquipment; // QList of QStringList to store equipment details
+QList<QStringList>
+MainWindow::retrieveAvailableEquipment(const QString &dateString) {
+  QList<QStringList>
+      availableEquipment; // QList of QStringList to store equipment details
 
-    QSqlQuery query;
-    QString sqlQuery = "SELECT * FROM equipement WHERE etat = 'bien' "
-                       "AND reference NOT IN (SELECT reference_equipement FROM "
-                       "maintenance WHERE :date BETWEEN date_debut AND date_fin)";
-    // Modify the SQL query to use TO_DATE function
-    sqlQuery.replace(":date", "TO_DATE('" + dateString + "', 'YYYY-MM-DD')");
+  QSqlQuery query;
+  QString sqlQuery = "SELECT * FROM equipement WHERE etat = 'bien' "
+                     "AND reference NOT IN (SELECT reference_equipement FROM "
+                     "maintenance WHERE :date BETWEEN date_debut AND date_fin)";
+  // Modify the SQL query to use TO_DATE function
+  sqlQuery.replace(":date", "TO_DATE('" + dateString + "', 'YYYY-MM-DD')");
 
-    query.prepare(sqlQuery);
+  query.prepare(sqlQuery);
 
-    // Execute the query
-    if (!query.exec()) {
-        qDebug() << "Error executing query:" << query.lastError().text();
-        return availableEquipment;
-    }
-
-    // Process the query results
-    while (query.next()) {
-        QStringList equipmentDetails;
-        for (int i = 0; i < query.record().count(); ++i) {
-            equipmentDetails << query.value(i).toString(); // Append each column value to the QStringList
-        }
-        availableEquipment << equipmentDetails; // Append the QStringList to the QList
-    }
-
-    // Return the list of available equipment details
+  // Execute the query
+  if (!query.exec()) {
+    qDebug() << "Error executing query:" << query.lastError().text();
     return availableEquipment;
-}
+  }
 
+  // Process the query results
+  while (query.next()) {
+    QStringList equipmentDetails;
+    for (int i = 0; i < query.record().count(); ++i) {
+      equipmentDetails << query.value(i).toString(); // Append each column value
+                                                     // to the QStringList
+    }
+    availableEquipment
+        << equipmentDetails; // Append the QStringList to the QList
+  }
+
+  // Return the list of available equipment details
+  return availableEquipment;
+}
 
 void MainWindow::displayEquipmentDetails(
     const QList<QStringList> &availableEquipment) {
@@ -1469,26 +1479,152 @@ void MainWindow::displayEquipmentDetails(
 }
 
 void MainWindow::on_calendarWidget_clicked(const QDate &date) {
-    // Retrieve available equipment for the selected date
-    QList<QStringList> availableEquipment = retrieveAvailableEquipment(date.toString("yyyy-MM-dd"));
+  // Retrieve available equipment for the selected date
+  QList<QStringList> availableEquipment =
+      retrieveAvailableEquipment(date.toString("yyyy-MM-dd"));
 
-    // Display available equipment details
-    displayEquipmentDetails(availableEquipment);
+  // Display available equipment details
+  displayEquipmentDetails(availableEquipment);
 
-    // Highlight the date in the calendar based on availability
-    QCalendarWidget *calendar = ui->calendarWidget;
-    QTextCharFormat format;
-    if (!availableEquipment.isEmpty()) {
-        // Set background color to green for available dates
-        format.setBackground(Qt::green);
-    } else {
-        // Set background color to red for unavailable dates
-        format.setBackground(Qt::red);
-    }
-    calendar->setDateTextFormat(date, format);
+  // Highlight the date in the calendar based on availability
+  QCalendarWidget *calendar = ui->calendarWidget;
+  QTextCharFormat format;
+  if (!availableEquipment.isEmpty()) {
+    // Set background color to green for available dates
+    format.setBackground(Qt::green);
+  } else {
+    // Set background color to red for unavailable dates
+    format.setBackground(Qt::red);
+  }
+  calendar->setDateTextFormat(date, format);
 }
 
+void MainWindow::on_SearchClient_clicked() {
+  Client searchedClient;
+  int searchedCIN = ui->CINLineEdit->text().toInt();
 
+  if (searchedClient.Recherche(searchedCIN)) {
+    ui->ClientNoteFrame->setHidden(false);
+  }
+
+  /* QMap<int, Client::PerformanceStats> performanceData =
+  searchedClient.RetrievePerformanceStats(searchedCIN);
+
+  QBarSeries *series = new QBarSeries();
+
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+      QBarSet *set = new QBarSet(QString::number(it.key()));
+      *set << it.value().averageNote;
+      series->append(set);
+  }
+
+  QChart *chart = new QChart();
+  chart->addSeries(series);
+  chart->setTitle("Performance Stats");
+  chart->setAnimationOptions(QChart::SeriesAnimations);
+
+  QStringList categories;
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+      categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
+  }
+  QBarCategoryAxis *axisX = new QBarCategoryAxis();
+  axisX->append(categories);
+  chart->addAxis(axisX, Qt::AlignBottom);
+  series->attachAxis(axisX);
+
+  QValueAxis *axisY = new QValueAxis();
+  axisY->setLabelFormat("%.2f");
+  chart->addAxis(axisY, Qt::AlignLeft);
+  series->attachAxis(axisY);
+
+  QChartView *chartView = new QChartView(chart);
+  chartView->setRenderHint(QPainter::Antialiasing);
+
+  ui->PerformanceStatsFrame->layout()->addWidget(chartView);*/
+}
+
+void MainWindow::on_TodayButton_clicked() {
+  ui->SessionDate->setDate(QDate::currentDate());
+}
+
+void MainWindow::on_SessionButton_clicked() {
+  Client SearchedClient;
+  int SearchedCIN = ui->CINLineEdit->text().toInt();
+  int selectedRadio = ui->note1->isChecked()   ? 1
+                      : ui->note2->isChecked() ? 2
+                      : ui->note3->isChecked() ? 3
+                      : ui->note4->isChecked() ? 4
+                      : ui->note5->isChecked() ? 5
+                                               : 0;
+  QDate SessionDate = ui->SessionDate->date();
+  if (SearchedClient.Recherche(SearchedCIN) && selectedRadio != 0) {
+    SearchedClient.SavePerformance(SearchedCIN, selectedRadio, SessionDate);
+  }
+}
+
+void MainWindow::on_PerformanceStatsButton_clicked() {
+  Client searchedClient;
+  int SearchedCIN = ui->CINLineEdit->text().toInt();
+  QMap<int, Client::PerformanceStats> performanceData =
+      searchedClient.RetrievePerformanceStats(SearchedCIN);
+
+  if (performanceData.isEmpty()) {
+    qDebug() << "Performance data is empty. Cannot generate chart.";
+    return;
+  }
+
+  QBarSeries *series = new QBarSeries();
+  int maximumPossibleNote = 5;
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+    QBarSet *set = new QBarSet(QString::number(it.key()));
+    // Calculate percentage instead of using raw data
+    double percentage =
+        (it.value().averageNote / maximumPossibleNote) *
+        100; // Assuming maximumPossibleNote is defined somewhere
+    *set << percentage;
+    series->append(set);
+  }
+
+  QChart *chart = new QChart();
+
+  // Check if series is empty
+  if (series->count() == 0) {
+    qDebug() << "No data available for chart. Aborting chart creation.";
+    delete series;
+    delete chart;
+    return;
+  }
+
+  chart->addSeries(series);
+  chart->setTitle("Performance Stats");
+  chart->setAnimationOptions(QChart::SeriesAnimations);
+
+  QStringList categories;
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+    categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
+  }
+  QBarCategoryAxis *axisX = new QBarCategoryAxis();
+  axisX->append(categories);
+  chart->addAxis(axisX, Qt::AlignBottom);
+  series->attachAxis(axisX);
+
+  // Update axis to represent percentages
+  QValueAxis *axisY = new QValueAxis();
+  axisY->setLabelFormat("%.2f%%"); // Representing as percentage
+  axisY->setRange(0, 100);         // Assuming percentage range
+  chart->addAxis(axisY, Qt::AlignLeft);
+  series->attachAxis(axisY);
+
+  QChartView *chartView = new QChartView(chart);
+  chartView->setRenderHint(QPainter::Antialiasing);
+
+  if (!ui->PerformanceStatsFrame->layout()) {
+    QVBoxLayout *layout = new QVBoxLayout(ui->PerformanceStatsFrame);
+    ui->PerformanceStatsFrame->setLayout(layout);
+  }
+
+  ui->PerformanceStatsFrame->layout()->addWidget(chartView);
+}
 
 void MainWindow::on_delete_abonnement_button_clicked() {
   QString id = ui->delete_abonnement->text();
@@ -1681,5 +1817,193 @@ void MainWindow::on_addMaintenance_clicked() {
 
   if (M.ajouter()) {
     qDebug() << "Ajout réussi";
+  }
+}
+
+void MainWindow::on_SearchByButton_clicked() {
+  QString searchedText = ui->SearchText->text();
+  QString criteria = ui->CINSearchValue->isChecked()        ? "CIN"
+                     : ui->NameSearchValue->isChecked()     ? "NAME"
+                     : ui->LastNameSearchValue->isChecked() ? "LASTNAME"
+                     : ui->EmailSearchValue->isChecked()    ? "EMAIL"
+                     : ui->PhoneSearchValue->isChecked()    ? "TELEPHONE"
+                                                            : "";
+  Client C;
+  QAbstractItemModel *ClientModel =
+      C.RechercherEtAfficher(criteria, searchedText);
+  if (ClientModel == nullptr) {
+    qDebug() << "nullptr/working as intended" << endl;
+  }
+  ui->OneClientModel->setModel(ClientModel);
+}
+
+void MainWindow::on_AgeStatButton_clicked() {
+  if (ui->AgeStatFrame->layout()) {
+    QLayoutItem *item;
+    while ((item = ui->AgeStatFrame->layout()->takeAt(0)) != nullptr) {
+      delete item->widget();
+      delete item;
+    }
+  }
+  Client AgeStatistics;
+  vector<int> AgeStatisticsValue = AgeStatistics.AgeStatistics();
+
+  int total = AgeStatisticsValue[0];
+  int under18 = AgeStatisticsValue[1];
+  int over18 = AgeStatisticsValue[2];
+
+  double percentUnder18 = (static_cast<double>(under18) / total) * 100.0;
+  double percentOver18 = (static_cast<double>(over18) / total) * 100.0;
+
+  // Create a bar series
+  QBarSeries *series = new QBarSeries();
+
+  // Create bars for under 18 and over 18
+  QBarSet *under18Bar = new QBarSet("Under 18");
+  *under18Bar << percentUnder18;
+  series->append(under18Bar);
+
+  QBarSet *over18Bar = new QBarSet("Over 18");
+  *over18Bar << percentOver18;
+  series->append(over18Bar);
+
+  // Create a chart
+  QChart *chart = new QChart();
+  chart->addSeries(series);
+  chart->setTitle(QString("Age Statistics (Total: %1)").arg(total));
+  chart->setAnimationOptions(QChart::SeriesAnimations);
+
+  // Set up axes
+  QStringList categories;
+  categories << "Percentage";
+  QBarCategoryAxis *axisX = new QBarCategoryAxis();
+  axisX->append(categories);
+  chart->addAxis(axisX, Qt::AlignBottom);
+  series->attachAxis(axisX);
+
+  QValueAxis *axisY = new QValueAxis();
+  axisY->setLabelFormat("%.2f%%"); // Representing as percentage
+  axisY->setRange(0, 100);         // Assuming percentage range
+  chart->addAxis(axisY, Qt::AlignLeft);
+  series->attachAxis(axisY);
+
+  // Create chart view
+  QChartView *chartView = new QChartView(chart);
+  chartView->setRenderHint(QPainter::Antialiasing);
+
+  // Add chart view to the frame
+  if (!ui->AgeStatFrame->layout()) {
+    QVBoxLayout *layout = new QVBoxLayout(ui->AgeStatFrame);
+    ui->AgeStatFrame->setLayout(layout);
+  }
+
+  ui->AgeStatFrame->layout()->addWidget(chartView);
+}
+
+void MainWindow::on_GenderStatButton_clicked() {
+  // Check if the GenderStatFrame already has a layout
+  if (ui->GenderStatFrame->layout()) {
+    QLayoutItem *item;
+    // If it does, remove all existing items from the layout
+    while ((item = ui->GenderStatFrame->layout()->takeAt(0)) != nullptr) {
+      delete item->widget();
+      delete item;
+    }
+  }
+
+  // Instantiate a Client object
+  Client client;
+  // Retrieve gender statistics
+  vector<int> genderStats = client.GenderStatistics();
+
+  // Extract statistics
+  int total = genderStats[0];
+  int males = genderStats[1];
+  int females = genderStats[2];
+
+  // Calculate percentages
+  double malePercentage = (static_cast<double>(males) / total) * 100.0;
+  double femalePercentage = (static_cast<double>(females) / total) * 100.0;
+
+  // Create a bar series
+  QBarSeries *series = new QBarSeries();
+
+  // Create bars for male and female
+  QBarSet *maleBar = new QBarSet("Male");
+  *maleBar << malePercentage;
+  series->append(maleBar);
+
+  QBarSet *femaleBar = new QBarSet("Female");
+  *femaleBar << femalePercentage;
+  series->append(femaleBar);
+
+  // Create a chart
+  QChart *chart = new QChart();
+  chart->addSeries(series);
+  chart->setTitle(QString("Gender Statistics (Total: %1)").arg(total));
+  chart->setAnimationOptions(QChart::SeriesAnimations);
+
+  // Set up axes
+  QStringList categories;
+  categories << "Percentage";
+  QBarCategoryAxis *axisX = new QBarCategoryAxis();
+  axisX->append(categories);
+  chart->addAxis(axisX, Qt::AlignBottom);
+  series->attachAxis(axisX);
+
+  QValueAxis *axisY = new QValueAxis();
+  axisY->setLabelFormat("%.2f%%"); // Representing as percentage
+  axisY->setRange(0, 100);         // Assuming percentage range
+  chart->addAxis(axisY, Qt::AlignLeft);
+  series->attachAxis(axisY);
+
+  // Create chart view
+  QChartView *chartView = new QChartView(chart);
+  chartView->setRenderHint(QPainter::Antialiasing);
+
+  // Check if GenderStatFrame already has a layout
+  if (!ui->GenderStatFrame->layout()) {
+    // If not, create a new QVBoxLayout and set it as the layout for
+    // GenderStatFrame
+    QVBoxLayout *layout = new QVBoxLayout(ui->GenderStatFrame);
+    ui->GenderStatFrame->setLayout(layout);
+  }
+
+  // Retrieve the layout of GenderStatFrame
+  QVBoxLayout *layout =
+      qobject_cast<QVBoxLayout *>(ui->GenderStatFrame->layout());
+  // Add the chartView to the layout
+  layout->addWidget(chartView);
+}
+
+void MainWindow::on_AgeStatExport_clicked() {
+  on_AgeStatButton_clicked();
+  QString defaultFileName = "ClientAgeStatistics.png";
+  QString fileName = QFileDialog::getSaveFileName(
+      this, "Save Image", defaultFileName, "Image Files (*.png)");
+
+  if (!fileName.isEmpty()) {
+    QWidget *statFrameWidget = ui->AgeStatFrame;
+    // Create a QPixmap to render the widget content
+    QPixmap pixmap(statFrameWidget->size());
+    statFrameWidget->render(&pixmap);
+
+    pixmap.save(fileName);
+  }
+}
+
+void MainWindow::on_GenderStatExport_clicked() {
+  on_GenderStatButton_clicked();
+  QString defaultFileName = "ClientGenderStatistics.png";
+  QString fileName = QFileDialog::getSaveFileName(
+      this, "Save Image", defaultFileName, "Image Files (*.png)");
+
+  if (!fileName.isEmpty()) {
+    QWidget *statFrameWidget = ui->GenderStatFrame;
+    // Create a QPixmap to render the widget content
+    QPixmap pixmap(statFrameWidget->size());
+    statFrameWidget->render(&pixmap);
+
+    pixmap.save(fileName);
   }
 }
