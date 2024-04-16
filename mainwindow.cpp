@@ -800,15 +800,21 @@ void MainWindow::on_CPDFExport_clicked() {
     qDebug() << "Logo drawn successfully!";
   }
 
-  QFont titleFont = painter.font();
+  QFont font, titleFont, dateFont = painter.font();
   titleFont.setPointSize(24);
   titleFont.setBold(true);
   painter.setFont(titleFont);
   QString title = "Clients List";
   painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20,
                    Qt::AlignHCenter | Qt::AlignTop, title);
+ 
+  dateFont.setPointSize(10);
+  painter.setFont(dateFont);
+  QString currentDateTime = QDateTime::currentDateTime().toString("ddd MMM dd yyyy hh:mm:ss");
+  int textWidth = painter.fontMetrics().width(currentDateTime);
+  painter.drawText(pageWidth - textWidth, 0, textWidth, pageHeight,
+                 Qt::AlignRight | Qt::AlignTop, currentDateTime);
 
-  QFont font = painter.font();
   font.setPointSize(7);
   painter.setFont(font);
   int cellWidth = 100;
@@ -1108,9 +1114,9 @@ void MainWindow::on_PDFpushButton_2_clicked() {
   titleFont.setPointSize(24);
   titleFont.setBold(true);
   painter.setFont(titleFont);
-
   QString title = "Equipements List";
   painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20, Qt::AlignCenter | Qt::AlignTop, title);
+
   QFont font = painter.font();
   font.setPointSize(7);
   painter.setFont(font);
