@@ -1,5 +1,3 @@
-#ifndef EQUIPEMENTS_H
-#define EQUIPEMENTS_H
 #ifndef EQUIPEMENT_H
 #define EQUIPEMENT_H
 
@@ -52,23 +50,7 @@ public:
   QSqlQueryModel *triRef();
   QSqlQueryModel *triType();
   QSqlQueryModel *triEtat();
+  int getPrixParRef(QString ref);
 };
 
 #endif // EQUIPEMENTS_H
-
-class Equipement {
-  QString reference;
-  QString fonctionalite;
-  float prix;
-  QString nom;
-  QString prenom;
-  QString genre;
-  QString email;
-  QString adresse;
-  QString fonction;
-
-public:
-  Equipement();
-};
-
-#endif // EQUIPEMENT_H
