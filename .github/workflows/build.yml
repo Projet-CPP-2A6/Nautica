@@ -40,7 +40,7 @@ jobs:
       - name: Qmake
         shell: pwsh
         run: |
-          qmake Nautica.pro
+          qmake -Wall Nautica.pro
       
       - name: Make
         shell: pwsh

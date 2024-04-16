@@ -36,6 +36,7 @@ Thumbs.db
 /.qmake.stash
 Nautica
 debug/
+release/
 
 # qtcreator generated files
 *.pro.user*

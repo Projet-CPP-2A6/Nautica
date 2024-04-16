@@ -32,7 +32,7 @@
      <string notr="true">background-color: white;</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QFrame" name="frame_2">
@@ -2137,7 +2137,7 @@ QPushButton:hover {
      <widget class="QTabWidget" name="tabWidget_2">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>0</x>
         <y>0</y>
         <width>1181</width>
         <height>611</height>
@@ -2147,7 +2147,7 @@ QPushButton:hover {
        <string notr="true">background-color: white;</string>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_9">
        <attribute name="title">
@@ -2826,8 +2826,25 @@ QDateEdit:focus {
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="1">
+          <widget class="QPushButton" name="SearchByButton">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+           </property>
+           <property name="text">
+            <string>Search By</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
-          <widget class="QLineEdit" name="SearchCIN">
+          <widget class="QLineEdit" name="SearchText">
            <property name="styleSheet">
             <string notr="true">QLineEdit {
     border: 2px solid black; 
@@ -2844,12 +2861,47 @@ QLineEdit:focus {
 </string>
            </property>
            <property name="maxLength">
-            <number>8</number>
+            <number>500</number>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" colspan="2">
+         <item row="4" column="2">
+          <widget class="QRadioButton" name="PhoneSearchValue">
+           <property name="text">
+            <string>Phone Number</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QRadioButton" name="NameSearchValue">
+           <property name="text">
+            <string>Name</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QRadioButton" name="CINSearchValue">
+           <property name="text">
+            <string>CIN</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QRadioButton" name="EmailSearchValue">
+           <property name="text">
+            <string>Email</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="2">
           <widget class="QTableView" name="OneClientModel"/>
+         </item>
+         <item row="2" column="2">
+          <widget class="QRadioButton" name="LastNameSearchValue">
+           <property name="text">
+            <string>LastName</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -2858,11 +2910,11 @@ QLineEdit:focus {
        <attribute name="title">
         <string>Statistics</string>
        </attribute>
-       <widget class="QPushButton" name="CRefStat">
+       <widget class="QPushButton" name="AgeStatButton">
         <property name="geometry">
          <rect>
-          <x>70</x>
-          <y>500</y>
+          <x>250</x>
+          <y>350</y>
           <width>161</width>
           <height>23</height>
          </rect>
@@ -2878,10 +2930,10 @@ QLineEdit:focus {
    </string>
         </property>
         <property name="text">
-         <string>Refresh Statistics</string>
+         <string>Age Statistics</string>
         </property>
        </widget>
-       <widget class="QFrame" name="CStatFrame">
+       <widget class="QFrame" name="AgeStatFrame">
         <property name="geometry">
          <rect>
           <x>60</x>
@@ -2897,11 +2949,11 @@ QLineEdit:focus {
          <enum>QFrame::Raised</enum>
         </property>
        </widget>
-       <widget class="QPushButton" name="CRefStatExport">
+       <widget class="QPushButton" name="AgeStatExport">
         <property name="geometry">
          <rect>
-          <x>270</x>
-          <y>500</y>
+          <x>250</x>
+          <y>380</y>
           <width>161</width>
           <height>23</height>
          </rect>
@@ -2917,7 +2969,69 @@ QLineEdit:focus {
    </string>
         </property>
         <property name="text">
-         <string>Export Statistics</string>
+         <string>Export</string>
+        </property>
+       </widget>
+       <widget class="QFrame" name="GenderStatFrame">
+        <property name="geometry">
+         <rect>
+          <x>620</x>
+          <y>50</y>
+          <width>551</width>
+          <height>271</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="GenderStatButton">
+        <property name="geometry">
+         <rect>
+          <x>790</x>
+          <y>350</y>
+          <width>161</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+        </property>
+        <property name="text">
+         <string>Gender Statistics</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="GenderStatExport">
+        <property name="geometry">
+         <rect>
+          <x>790</x>
+          <y>380</y>
+          <width>161</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+        </property>
+        <property name="text">
+         <string>Export</string>
         </property>
        </widget>
       </widget>
@@ -3027,6 +3141,236 @@ font-size: 16px; /* Taille de la police */</string>
           </widget>
          </item>
         </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_11">
+       <attribute name="title">
+        <string>Perfromance Tracking</string>
+       </attribute>
+       <widget class="QFrame" name="frame_16">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>521</width>
+          <height>421</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_6">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_53">
+           <property name="text">
+            <string>CIN:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="CINLineEdit">
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+    border: 2px solid black; 
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QLineEdit:focus {
+    border-color: black; 
+    background-color: rgba(248, 248, 248, 1); 
+}
+</string>
+           </property>
+           <property name="maxLength">
+            <number>8</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QPushButton" name="SearchClient">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+           </property>
+           <property name="text">
+            <string>Search</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QFrame" name="ClientNoteFrame">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_7">
+            <item row="7" column="2">
+             <widget class="QPushButton" name="TodayButton">
+              <property name="styleSheet">
+               <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid green; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+              </property>
+              <property name="text">
+               <string>Today</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_55">
+              <property name="styleSheet">
+               <string notr="true">font: 16pt &quot;MS Shell Dlg 2&quot;;
+font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+              </property>
+              <property name="text">
+               <string>Session Date:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QRadioButton" name="note4">
+              <property name="text">
+               <string>4/5</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_54">
+              <property name="styleSheet">
+               <string notr="true">font: 22pt &quot;MS Shell Dlg 2&quot;;
+font: 20pt &quot;MS Shell Dlg 2&quot;;</string>
+              </property>
+              <property name="text">
+               <string>Note :</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QRadioButton" name="note3">
+              <property name="text">
+               <string>3/5</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QDateEdit" name="SessionDate">
+              <property name="styleSheet">
+               <string notr="true">QDateEdit {
+    border: 2px solid black; 
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QDateEdit:focus {
+    border-color: black; 
+    background-color: rgba(248, 248, 248, 1); 
+}
+</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QRadioButton" name="note1">
+              <property name="text">
+               <string>1/5</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QRadioButton" name="note2">
+              <property name="text">
+               <string>2/5</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QRadioButton" name="note5">
+              <property name="text">
+               <string>5/5</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="0" colspan="3">
+             <widget class="QPushButton" name="SessionButton">
+              <property name="styleSheet">
+               <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+              </property>
+              <property name="text">
+               <string>Add Performance Note</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QFrame" name="PerformanceStatsFrame">
+        <property name="geometry">
+         <rect>
+          <x>560</x>
+          <y>40</y>
+          <width>471</width>
+          <height>341</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="PerformanceStatsButton">
+        <property name="geometry">
+         <rect>
+          <x>720</x>
+          <y>410</y>
+          <width>311</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+   
+   </string>
+        </property>
+        <property name="text">
+         <string>Performance Stats</string>
+        </property>
        </widget>
       </widget>
      </widget>
@@ -4402,7 +4746,7 @@ QDateEdit:focus {
        </font>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>3</number>
       </property>
       <property name="iconSize">
        <size>
@@ -6079,7 +6423,7 @@ background-image: url(:/new/icons/icones/iconlogout.png);</string>
      <x>0</x>
      <y>0</y>
      <width>1269</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
