@@ -4,6 +4,7 @@
 #include "employes.h"
 #include "equipement.h"
 #include "maintenance.h"
+#include "email.h"
 #include "pdf.h"
 #include "stat1.h"
 #include "ui_mainwindow.h"
