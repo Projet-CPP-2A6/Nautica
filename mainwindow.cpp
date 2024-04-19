@@ -146,7 +146,8 @@ void MainWindow::on_refreshTableV_clicked()
     Employes e(0,"","","",0,"","","",0);
 
     ui->listEmployetableView->setModel(e.afficher());
-
+    // Mettre à jour la largeur de la colonne email (supposons que la colonne email soit la 5eme colonne)
+        ui->listEmployetableView->setColumnWidth(5, ui->listEmployetableView->columnWidth(5) + 20);
 }
 
 void MainWindow::on_deletePushButton_clicked()
@@ -300,7 +301,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(true);
                 ui->Abonnement_pushButton->setEnabled(false);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(false);
+                ui->menu_pushButton->setEnabled(true);
 
               }
             else if (titre.compare("clients")==0)
@@ -316,7 +317,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(false);
                 ui->Abonnement_pushButton->setEnabled(false);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(false);
+                ui->menu_pushButton->setEnabled(true);
 
               }
             else if (titre.compare("equipements")==0)
@@ -332,7 +333,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(false);
                 ui->Abonnement_pushButton->setEnabled(false);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(false);
+                ui->menu_pushButton->setEnabled(true);
 
 
               }
@@ -349,7 +350,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(false);
                 ui->Abonnement_pushButton->setEnabled(true);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(false);
+                ui->menu_pushButton->setEnabled(true);
 
 
               }
@@ -366,7 +367,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(false);
                 ui->Abonnement_pushButton->setEnabled(true);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(false);
+                ui->menu_pushButton->setEnabled(true);
 
               }
             else{
@@ -496,7 +497,7 @@ void MainWindow::on_PDFpushButton_clicked()
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName(filePath);
 
-    // Créatoin d'un objet QPainter pour l'objet QPrinter
+    // Création d'un objet QPainter pour l'objet QPrinter
     QPainter painter;
     if (!painter.begin(&printer)) {
         qWarning("Failed to open file, is it writable?");
@@ -507,34 +508,51 @@ void MainWindow::on_PDFpushButton_clicked()
     QAbstractItemModel *model = ui->listEmployetableView->model();
 
     // Obtenir les dimensions de la table
-    int rows = model->rowCount();
+    int rows = model->rowCount()+1;
     int columns = model->columnCount();
 
-    // Définissez la taille de la cellule pour le dessin
-    int cellWidth = 100;
+    // Définir la taille de la cellule pour le dessin
+    int cellWidth = 105;
     int cellHeight = 30;
+
+
+    // Insérer le titre au-dessus du tableau
+    painter.drawText(0, 0, columns * cellWidth, cellHeight, Qt::AlignCenter, "Le tableau des employés");
+
+    // Dessiner des traits noirs entre les cellules
+    painter.setPen(Qt::black);
+    for (int col = 0; col <= columns; ++col) {
+        painter.drawLine((col + 1) * cellWidth, cellHeight, (col + 1) * cellWidth, (rows + 1) * cellHeight);
+    }
+    for (int row = 0; row <= rows; ++row) {
+        painter.drawLine(0, (row + 1) * cellHeight, columns * cellWidth, (row + 1) * cellHeight);
+    }
+
+
+
 
     // Insérer les noms des colonnes
     for (int col = 0; col < columns; ++col) {
         QString headerData = model->headerData(col, Qt::Horizontal).toString();
-        painter.drawText(col * cellWidth, 0, cellWidth, cellHeight, Qt::AlignCenter, headerData);
+        painter.drawText(col * cellWidth, cellHeight, cellWidth, cellHeight, Qt::AlignCenter, headerData);
     }
 
     // Insérer les données de la table sur le périphérique de sortie PDF
-    for (int row = 1; row < rows; ++row) {
+    for (int row = 0; row < rows; ++row) {
         for (int col = 0; col < columns; ++col) {
             // Obtenir les données de la cellule
             QModelIndex index = model->index(row, col);
             QString data = model->data(index).toString();
 
             // Insérer les données de la cellule
-            painter.drawText(col * cellWidth, row * cellHeight, cellWidth, cellHeight, Qt::AlignLeft, data);
+            painter.drawText(col * cellWidth, (row + 2) * cellHeight, cellWidth, cellHeight, Qt::AlignLeft, data);
         }
     }
 
-    // Terminez avec QPainter
+    // Terminer avec QPainter
     painter.end();
 }
+
 
 void MainWindow::on_importCSV_clicked()
 {
