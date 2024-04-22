@@ -374,11 +374,12 @@ QSqlQueryModel *Client::getLogs(QDate startDate, QDate endDate) {
 
   QSqlQuery query;
   if (startDate == endDate) {
-    query.prepare("SELECT DATETIME, TO_CHAR(CIN), ACTION, CHANGES FROM LOGS");
+    query.prepare("SELECT DATETIME, TO_CHAR(CIN), ACTION, CHANGES FROM LOGS WHERE DATETIME=:startDate ORDER BY DATETIME");
+    query.bindValue(":startDate", startDate);
   } else {
     query.prepare("SELECT DATETIME, TO_CHAR(CIN), ACTION, CHANGES FROM LOGS "
                   "WHERE TRUNC(DATETIME) BETWEEN TO_DATE(:START_DATE, "
-                  "'DD/MM/YYYY') AND TO_DATE(:END_DATE, 'DD/MM/YYYY')");
+                  "'DD/MM/YYYY') AND TO_DATE(:END_DATE, 'DD/MM/YYYY') ORDER BY DATETIME");
     query.bindValue(":START_DATE", startDate.toString("dd/MM/yyyy"));
     query.bindValue(":END_DATE", endDate.toString("dd/MM/yyyy"));
   }
