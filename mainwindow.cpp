@@ -1,10 +1,10 @@
 #include "mainwindow.h"
 #include "abonement.h"
 #include "client.h"
-#include "email.h"
 #include "employes.h"
 #include "equipement.h"
 #include "maintenance.h"
+#include "email.h"
 #include "pdf.h"
 #include "stat1.h"
 #include "ui_mainwindow.h"
@@ -1167,102 +1167,104 @@ void MainWindow::on_triCinPushButton_4_clicked() {
 }
 
 void MainWindow::on_PDFpushButton_2_clicked() {
-  Equipements E;
-  // Obtenir le modèle de la table à partir de la QTableView
-  QAbstractItemModel *model = E.afficher();
-  if (!model) {
-    qDebug() << "Failed to retrieve equipement data";
-    return;
-  }
-
-  // Obtenir les dimensions de la table
-  int rowCount = model->rowCount();
-  int colCount = model->columnCount();
-
-  QString defaultFileName = "EquipementList.pdf";
-  QString fileName = QFileDialog::getSaveFileName(
-      this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
-
-  if (fileName.isEmpty()) {
-    qDebug() << "File name is empty";
-    delete model;
-    return;
-  }
-  // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
-  QPrinter printer;
-  printer.setOutputFormat(QPrinter::PdfFormat);
-  printer.setOutputFileName(fileName);
-
-  // Création d'un objet QPainter pour l'objet QPrinter
-  QPainter painter;
-  if (!painter.begin(&printer)) {
-    qWarning("failed to open file, is it writable?");
-    delete model;
-    return;
-  }
-
-  // Calculer les dimensions de la page
-  int pageWidth = printer.pageRect().width();
-  int pageHeight = printer.pageRect().height();
-
-  QImage image("img/logo.png");
-  if (image.isNull()) {
-    qDebug() << "Failed to load image";
-  } else {
-    int imageWidth = image.width();
-    int imageHeight = image.height();
-    int imageX = (pageWidth - imageWidth) / 2;
-    int imageY = (pageHeight - imageHeight) / 4;
-    painter.drawImage(imageX, imageY, image);
-    qDebug() << "Image drawn successfully";
-  }
-
-  QFont titleFont = painter.font();
-  titleFont.setPointSize(24);
-  titleFont.setBold(true);
-  painter.setFont(titleFont);
-  QString title = "Equipements List";
-  painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20,
-                   Qt::AlignCenter | Qt::AlignTop, title);
-
-  QFont font = painter.font();
-  font.setPointSize(7);
-  painter.setFont(font);
-  int cellWidth = 100;
-  int cellHeight = 30;
-  int headerHeight = 2 * cellHeight;
-  int titleBottomSpacing = 20;
-  int tableStartX = 75;
-  painter.drawRect(tableStartX, pageHeight / titleBottomSpacing + headerHeight,
-                   colCount * cellWidth, cellHeight);
-  for (int col = 0; col < colCount; col++) {
-    QString columnName = model->headerData(col, Qt::Horizontal).toString();
-    painter.drawText(tableStartX + col * cellWidth,
-                     pageHeight / titleBottomSpacing + headerHeight, cellWidth,
-                     cellHeight, Qt::AlignCenter, columnName);
-    painter.drawRect(tableStartX + col * cellWidth,
-                     pageHeight / titleBottomSpacing + headerHeight, cellWidth,
-                     cellHeight);
-  }
-  for (int row = 0; row < rowCount; row++) {
-    for (int col = 0; col < colCount; col++) {
-      QModelIndex index = model->index(row, col);
-      QString data = index.data(Qt::DisplayRole).toString();
-      painter.drawText(tableStartX + col * cellWidth,
-                       pageHeight / titleBottomSpacing + headerHeight +
-                           (row + 1) * cellHeight,
-                       cellWidth, cellHeight,
-                       Qt::AlignCenter | Qt::AlignVCenter, data);
-      painter.drawRect(tableStartX + col * cellWidth,
-                       pageHeight / titleBottomSpacing + headerHeight +
-                           (row + 1) * cellHeight,
-                       cellWidth, cellHeight);
+    Equipements E;
+    // Obtenir le modèle de la table à partir de la QTableView
+    QAbstractItemModel *model = E.afficher();
+    if (!model) {
+        qDebug() << "Failed to retrieve equipement data";
+        return;
     }
-  }
-  delete model;
-  // Terminer avec QPainter
-  painter.end();
+
+    // Obtenir les dimensions de la table
+    int rowCount = model->rowCount();
+    int colCount = model->columnCount();
+
+    QString defaultFileName = "EquipementList.pdf";
+    QString fileName = QFileDialog::getSaveFileName(
+        this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
+
+    if (fileName.isEmpty()) {
+        qDebug() << "File name is empty";
+        delete model;
+        return;
+    }
+    // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
+    QPrinter printer;
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName(fileName);
+
+    // Création d'un objet QPainter pour l'objet QPrinter
+    QPainter painter;
+    if (!painter.begin(&printer)) {
+        qWarning("failed to open file, is it writable?");
+        delete model;
+        return;
+    }
+
+    // Calculer les dimensions de la page
+    int pageWidth = printer.pageRect().width();
+    int pageHeight = printer.pageRect().height();
+
+    // Load the image from the absolute path
+    QImage image("C:\\Nautica\\img\\logo.png");
+    if (image.isNull()) {
+        qDebug() << "Failed to load image";
+    } else {
+        int imageWidth = image.width();
+        int imageHeight = image.height();
+        int imageX = (pageWidth - imageWidth) / 2;
+        int imageY = (pageHeight - imageHeight) / 4;
+        painter.drawImage(imageX, imageY, image);
+        qDebug() << "Image drawn successfully";
+    }
+
+    QFont titleFont = painter.font();
+    titleFont.setPointSize(24);
+    titleFont.setBold(true);
+    painter.setFont(titleFont);
+    QString title = "Equipements List";
+    painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20,
+                    Qt::AlignCenter | Qt::AlignTop, title);
+
+    QFont font = painter.font();
+    font.setPointSize(7);
+    painter.setFont(font);
+    int cellWidth = 100;
+    int cellHeight = 30;
+    int headerHeight = 2 * cellHeight;
+    int titleBottomSpacing = 20;
+    int tableStartX = 75;
+    painter.drawRect(tableStartX, pageHeight / titleBottomSpacing + headerHeight,
+                    colCount * cellWidth, cellHeight);
+    for (int col = 0; col < colCount; col++) {
+        QString columnName = model->headerData(col, Qt::Horizontal).toString();
+        painter.drawText(tableStartX + col * cellWidth,
+                        pageHeight / titleBottomSpacing + headerHeight, cellWidth,
+                        cellHeight, Qt::AlignCenter, columnName);
+        painter.drawRect(tableStartX + col * cellWidth,
+                        pageHeight / titleBottomSpacing + headerHeight, cellWidth,
+                        cellHeight);
+    }
+    for (int row = 0; row < rowCount; row++) {
+        for (int col = 0; col < colCount; col++) {
+            QModelIndex index = model->index(row, col);
+            QString data = index.data(Qt::DisplayRole).toString();
+            painter.drawText(tableStartX + col * cellWidth,
+                            pageHeight / titleBottomSpacing + headerHeight +
+                                (row + 1) * cellHeight,
+                            cellWidth, cellHeight,
+                            Qt::AlignCenter | Qt::AlignVCenter, data);
+            painter.drawRect(tableStartX + col * cellWidth,
+                            pageHeight / titleBottomSpacing + headerHeight +
+                                (row + 1) * cellHeight,
+                            cellWidth, cellHeight);
+        }
+    }
+    delete model;
+    // Terminer avec QPainter
+    painter.end();
 }
+
 
 void MainWindow::on_statTypePushButton_2_clicked() {
   QChartView *chartView = new QChartView(
@@ -2194,6 +2196,8 @@ void MainWindow::on_calculatorref_clicked() {
   QString ref = ui->calculatorlineedit->text();
   Equipements E;
   int prix = E.getPrixParRef(ref);
-  ui->calculatorDisplay->setText(ui->calculatorDisplay->text() +
-                                 QString::number(prix));
+  if (prix != -1) {
+    ui->calculatorDisplay->setText(ui->calculatorDisplay->text() +
+                                   QString::number(prix));
+  }
 }
