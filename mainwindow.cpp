@@ -27,7 +27,9 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
+
   Employes e(0, "", "", "", 0, "", "", "", 0);
+
   // int state = 0;
   ui->frame_3->setVisible(false);
   ui->ClientNoteFrame->setHidden(true);
@@ -35,9 +37,82 @@ MainWindow::MainWindow(QWidget *parent)
   ui->table_abonnement_3->setModel(display.afficher_abonnement());
   ui->table_abonnement_2->setModel(display.afficher_abonnement());
   ui->stackedWidget->setCurrentIndex(0);
+
+  //Arduino A;
+      int ret=A.connect_arduino(); // lancer la connexion à arduino
+                  switch(ret){
+                  case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+                      break;
+                  case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+                     break;
+                  case(-1):qDebug() << "arduino is not available";
+                  }
+                  // QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(read_from_arduino())); // permet de lancer
+                   //le slot update_label suite à la reception du signal readyRead (reception des données)
+                      QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(connect_RFID()));
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+//arduino
+void MainWindow::connect_RFID()
+
+{
+    // pour tester si la connexion lors du passage de la carte rfid a ete effectué ou non avec un label 'RFID_Label'
+
+    //ui->RFID_Label->setText("arduino detected");
+
+     QByteArray dataArduino = A.read_from_arduino();
+    QString uid = QTextCodec::codecForMib(106)->toUnicode(dataArduino);
+
+    //qDebug()<<uid;//pour tester dans la console de QT
+    qDebug() << uid << endl;
+
+
+
+    //ui->RFID_Label->setText(uid);/*------- pour tester avec un label----------*/
+
+    Employes E; //remplacez avec le nom de votre classe
+
+     // cas ou elle existe
+    if(E.rfidExists(uid))
+
+        {
+
+            QByteArray data1;
+            data1.append('1');
+            A.write_to_arduino(data1);//envoie 1 a arduino et enclenche /demarre le processus 1
+
+            qDebug()<<"carte existante";
+
+            //prend la valeur du nom
+            QString nom = E.rfidName(uid);
+            //ui->RFID_NOM->setText(nom);
+            ui->stackedWidget->setCurrentIndex(1); //redirige ves la page 1 de l'application (menu)
+            ui->frame_3->setVisible(true);
+            ui->userStatusLabel->setText("utilisateur: "+nom+" ");
+
+            QByteArray nomData(nom.toUtf8(), 8);
+            A.write_to_arduino(nomData);
+
+        }
+
+    // cas ou elle n'existe pas
+    else if (!E.rfidExists(uid))
+        {
+            //inexistante
+                QByteArray data1;
+                data1.append('2');
+                A.write_to_arduino(data1); // envoie 2 a arduino et enclenche /demarre le processus 2
+
+                qDebug()<<"carte inexistante";
+
+        }
+
+    }
 
 void MainWindow::on_pushButton_3_clicked() {
   // Récupération des valeurs des champs

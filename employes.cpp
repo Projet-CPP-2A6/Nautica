@@ -1,12 +1,14 @@
-#include "employes.h"
-#include <QDebug>
-#include <QSqlDatabase>
-#include <QSqlError>
+#include <QTableView>
+#include <QString>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
-#include <QString>
-#include <QTableView>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QDebug>
+#include <QSqlQuery>
+#include <QSqlError>
 #include <QtDebug>
+#include "employes.h"
 
 Employes::Employes() {
   CIN = 0;
@@ -259,3 +261,36 @@ void Employes::chercherEmpNom(QTableView *table, QString l) {
   table->setModel(model);
   table->show();
 };
+
+bool Employes::rfidExists(QString uid)
+{
+    QSqlQuery query;
+        query.prepare("SELECT RFID FROM EMPLOYES WHERE RFID = ?");
+        query.addBindValue(uid);
+        if (query.exec() && query.next()) {
+                // s'il y a retour donc le rfid existe
+                qDebug() << "RFID found:" << uid;
+                return true;
+            } else {
+                // pas de retour il n'existe pas
+                qDebug() << "RFID not found:" << uid;
+            }
+
+    // pas de retour il n'existe pas mafamech chay wallou
+    return false;
+}
+
+QString Employes::rfidName(QString uid)
+{
+    QSqlQuery query;
+        query.prepare("SELECT NOM FROM EMPLOYES WHERE RFID = ?");
+        query.addBindValue(uid);
+        if (query.exec() && query.next()) {
+            // existance equivaut a recuperation du nom
+            return query.value(0).toString();
+        }
+        // pas de retour pas de nom akahaw
+
+
+        return "";
+}

@@ -1,13 +1,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "abonement.h"
+
 #include <QLineSeries>
 #include <QMainWindow>
 #include <QtCharts/QChartView>
 #include <QtCharts/QPieSeries>
 #include <QtCharts/QPieSlice>
 #include <QtCharts>
+#include <employes.h>
+#include <abonement.h>
+#include "arduino.h"
 QT_CHARTS_USE_NAMESPACE
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -157,9 +160,12 @@ private slots:
 
   void on_calculatorref_clicked();
 
+   void connect_RFID();
+
 private:
   Ui::MainWindow *ui;
   Abonement supp;
   Abonement display;
+  Arduino A;
 };
 #endif // MAINWINDOW_H
