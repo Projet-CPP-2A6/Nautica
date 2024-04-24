@@ -32,7 +32,7 @@
      <string notr="true">background-color: white;</string>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QFrame" name="frame_2">
@@ -2142,7 +2142,7 @@ QPushButton:hover {
        <string notr="true">background-color: white;</string>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_9">
        <attribute name="title">
@@ -3384,7 +3384,7 @@ QDateEdit:focus {
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="add_equipments">
        <attribute name="title">
@@ -6884,7 +6884,7 @@ background-image: url(:/new/icons/icones/iconlogout.png);</string>
      <x>0</x>
      <y>0</y>
      <width>1269</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
