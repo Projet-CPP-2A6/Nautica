@@ -1564,71 +1564,73 @@ void MainWindow::on_SessionButton_clicked() {
 }
 
 void MainWindow::on_PerformanceStatsButton_clicked() {
-    if (ui->PerformanceStatsFrame->layout()) {
-      QLayoutItem *item;
-      // If it does, remove all existing items from the layout
-      while ((item = ui->PerformanceStatsFrame->layout()->takeAt(0)) != nullptr) {
-        delete item->widget();
-        delete item;
-      }
+  if (ui->PerformanceStatsFrame->layout()) {
+    QLayoutItem *item;
+    // If it does, remove all existing items from the layout
+    while ((item = ui->PerformanceStatsFrame->layout()->takeAt(0)) != nullptr) {
+      delete item->widget();
+      delete item;
     }
-    Client searchedClient;
-    int SearchedCIN = ui->CINLineEdit->text().toInt();
-    QMap<int, Client::PerformanceStats> performanceData = searchedClient.RetrievePerformanceStats(SearchedCIN);
+  }
+  Client searchedClient;
+  int SearchedCIN = ui->CINLineEdit->text().toInt();
+  QMap<int, Client::PerformanceStats> performanceData =
+      searchedClient.RetrievePerformanceStats(SearchedCIN);
 
-    if (performanceData.isEmpty()) {
-        qDebug() << "Performance data is empty. Cannot generate chart.";
-        return;
-    }
+  if (performanceData.isEmpty()) {
+    qDebug() << "Performance data is empty. Cannot generate chart.";
+    return;
+  }
 
-    QBarSeries *series = new QBarSeries();
-    int maximumPossibleNote = 5;
+  QBarSeries *series = new QBarSeries();
+  int maximumPossibleNote = 5;
 
-    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
-        QBarSet *set = new QBarSet(QString::number(it.key()));
-        double percentage = (it.value().averageNote / maximumPossibleNote) * 100;
-        *set << percentage;
-        series->append(set);
-    }
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+    QBarSet *set = new QBarSet(QString::number(it.key()));
+    double percentage = (it.value().averageNote / maximumPossibleNote) * 100;
+    *set << percentage;
+    series->append(set);
+  }
 
-    QChart *chart = new QChart();
+  QChart *chart = new QChart();
 
-    if (series->count() == 0) {
-        qDebug() << "No data available for chart. Aborting chart creation.";
-        delete series;
-        delete chart;
-        return;
-    }
+  if (series->count() == 0) {
+    qDebug() << "No data available for chart. Aborting chart creation.";
+    delete series;
+    delete chart;
+    return;
+  }
 
-    chart->addSeries(series);
-    chart->setTitle("Performance Stats");
-    chart->setAnimationOptions(QChart::SeriesAnimations);
+  chart->addSeries(series);
+  chart->setTitle("Performance Stats");
+  chart->setAnimationOptions(QChart::SeriesAnimations);
 
-    QStringList categories;
-    for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
-        categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
-    }
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(categories);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisX);
+  QStringList categories;
+  for (auto it = performanceData.begin(); it != performanceData.end(); ++it) {
+    categories << QString("%1-%2").arg(it.value().year).arg(it.value().month);
+  }
+  QBarCategoryAxis *axisX = new QBarCategoryAxis();
+  axisX->append(categories);
+  chart->addAxis(axisX, Qt::AlignBottom);
+  series->attachAxis(axisX);
 
-    QValueAxis *axisY = new QValueAxis();
-    axisY->setLabelFormat("%.2f%%");
-    axisY->setRange(0, 100);
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
+  QValueAxis *axisY = new QValueAxis();
+  axisY->setLabelFormat("%.2f%%");
+  axisY->setRange(0, 100);
+  chart->addAxis(axisY, Qt::AlignLeft);
+  series->attachAxis(axisY);
 
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
+  QChartView *chartView = new QChartView(chart);
+  chartView->setRenderHint(QPainter::Antialiasing);
 
-    if (!ui->PerformanceStatsFrame->layout()) {
-        QVBoxLayout *layout = new QVBoxLayout(ui->PerformanceStatsFrame);
-        ui->PerformanceStatsFrame->setLayout(layout);
-    }
+  if (!ui->PerformanceStatsFrame->layout()) {
+    QVBoxLayout *layout = new QVBoxLayout(ui->PerformanceStatsFrame);
+    ui->PerformanceStatsFrame->setLayout(layout);
+  }
 
-    QVBoxLayout *layout = qobject_cast<QVBoxLayout*>(ui->PerformanceStatsFrame->layout());
-    layout->addWidget(chartView);
+  QVBoxLayout *layout =
+      qobject_cast<QVBoxLayout *>(ui->PerformanceStatsFrame->layout());
+  layout->addWidget(chartView);
 }
 
 void MainWindow::on_delete_abonnement_button_clicked() {
