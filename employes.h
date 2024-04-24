@@ -63,7 +63,8 @@ QSqlQueryModel* triCin();
 QSqlQueryModel* triNom();
 QSqlQueryModel* triSalary();
 
-
-
+//arduino
+bool rfidExists(QString uid);
+QString rfidName(QString uid);
 };
 #endif // EMPLOYES_H

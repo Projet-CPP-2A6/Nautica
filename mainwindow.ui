@@ -29,7 +29,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QFrame" name="frame_2">
@@ -261,6 +261,24 @@ QPushButton:hover {
        </property>
        <property name="text">
         <string>Show</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="RFID_Label">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>500</y>
+         <width>351</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+    border: 1px solid rgb(72, 108, 167);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </widget>
@@ -617,7 +635,7 @@ color: rgb(140,140,140);</string>
        <string notr="true">background:rgb(255, 255, 255);</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="gestion_employes">
        <attribute name="title">

@@ -13,9 +13,13 @@
 #include <QUrl>
 #include <QFileDialog>
 #include <QDesktopServices>
+#include <QTextCodec> //je vien d'ajout de la bibliotheque de Qtextcodec !!
+//#include <QWidget>
 #include "employes.h"
 #include "client.h"
 #include "abonement.h"
+#include "arduino.h"
+//#include "connection.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -31,12 +35,82 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->stackedWidget->setCurrentIndex(0);
 
+//Arduino A;
+    int ret=A.connect_arduino(); // lancer la connexion à arduino
+                switch(ret){
+                case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+                    break;
+                case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+                   break;
+                case(-1):qDebug() << "arduino is not available";
+                }
+                // QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(read_from_arduino())); // permet de lancer
+                 //le slot update_label suite à la reception du signal readyRead (reception des données)
+                    QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(connect_RFID()));
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+//arduino
+void MainWindow::connect_RFID()
+
+{
+    // pour tester si la connexion lors du passage de la carte rfid a ete effectué ou non avec un label 'RFID_Label'
+
+    //ui->RFID_Label->setText("arduino detected");
+
+     QByteArray dataArduino = A.read_from_arduino();
+    QString uid = QTextCodec::codecForMib(106)->toUnicode(dataArduino);
+
+    //qDebug()<<uid;//pour tester dans la console de QT
+    qDebug() << uid << endl;
+
+
+
+    ui->RFID_Label->setText(uid);/*------- pour tester avec un label----------*/
+
+    Employes E; //remplacez avec le nom de votre classe
+
+     // cas ou elle existe
+    if(E.rfidExists(uid))
+
+        {
+
+            QByteArray data1;
+            data1.append('1');
+            A.write_to_arduino(data1);//envoie 1 a arduino et enclenche /demarre le processus 1
+
+            qDebug()<<"carte existante";
+
+            //prend la valeur du nom
+            QString nom = E.rfidName(uid);
+            //ui->RFID_NOM->setText(nom);
+            ui->stackedWidget->setCurrentIndex(1); //redirige ves la page 1 de l'application (menu)
+            ui->frame_3->setVisible(true);
+            ui->userStatusLabel->setText("utilisateur: "+nom+" ");
+
+            QByteArray nomData(nom.toUtf8(), 8);
+            A.write_to_arduino(nomData);
+
+        }
+
+    // cas ou elle n'existe pas
+    else if (!E.rfidExists(uid))
+        {
+            //inexistante
+                QByteArray data1;
+                data1.append('2');
+                A.write_to_arduino(data1); // envoie 2 a arduino et enclenche /demarre le processus 2
+
+                qDebug()<<"carte inexistante";
+
+        }
+
+    }
 
 bool valid_id(QString id)
 {
@@ -146,8 +220,7 @@ void MainWindow::on_refreshTableV_clicked()
     Employes e(0,"","","",0,"","","",0);
 
     ui->listEmployetableView->setModel(e.afficher());
-    // Mettre à jour la largeur de la colonne email (supposons que la colonne email soit la 5eme colonne)
-        ui->listEmployetableView->setColumnWidth(5, ui->listEmployetableView->columnWidth(5) + 20);
+
 }
 
 void MainWindow::on_deletePushButton_clicked()
@@ -301,7 +374,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(true);
                 ui->Abonnement_pushButton->setEnabled(false);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(true);
+                ui->menu_pushButton->setEnabled(false);
 
               }
             else if (titre.compare("clients")==0)
@@ -317,7 +390,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(false);
                 ui->Abonnement_pushButton->setEnabled(false);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(true);
+                ui->menu_pushButton->setEnabled(false);
 
               }
             else if (titre.compare("equipements")==0)
@@ -333,7 +406,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(false);
                 ui->Abonnement_pushButton->setEnabled(false);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(true);
+                ui->menu_pushButton->setEnabled(false);
 
 
               }
@@ -350,7 +423,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(false);
                 ui->Abonnement_pushButton->setEnabled(true);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(true);
+                ui->menu_pushButton->setEnabled(false);
 
 
               }
@@ -367,7 +440,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(false);
                 ui->Abonnement_pushButton->setEnabled(true);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(true);
+                ui->menu_pushButton->setEnabled(false);
 
               }
             else{
@@ -497,7 +570,7 @@ void MainWindow::on_PDFpushButton_clicked()
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName(filePath);
 
-    // Création d'un objet QPainter pour l'objet QPrinter
+    // Créatoin d'un objet QPainter pour l'objet QPrinter
     QPainter painter;
     if (!painter.begin(&printer)) {
         qWarning("Failed to open file, is it writable?");
@@ -508,51 +581,34 @@ void MainWindow::on_PDFpushButton_clicked()
     QAbstractItemModel *model = ui->listEmployetableView->model();
 
     // Obtenir les dimensions de la table
-    int rows = model->rowCount()+1;
+    int rows = model->rowCount();
     int columns = model->columnCount();
 
-    // Définir la taille de la cellule pour le dessin
-    int cellWidth = 105;
+    // Définissez la taille de la cellule pour le dessin
+    int cellWidth = 100;
     int cellHeight = 30;
-
-
-    // Insérer le titre au-dessus du tableau
-    painter.drawText(0, 0, columns * cellWidth, cellHeight, Qt::AlignCenter, "Le tableau des employés");
-
-    // Dessiner des traits noirs entre les cellules
-    painter.setPen(Qt::black);
-    for (int col = 0; col <= columns; ++col) {
-        painter.drawLine((col + 1) * cellWidth, cellHeight, (col + 1) * cellWidth, (rows + 1) * cellHeight);
-    }
-    for (int row = 0; row <= rows; ++row) {
-        painter.drawLine(0, (row + 1) * cellHeight, columns * cellWidth, (row + 1) * cellHeight);
-    }
-
-
-
 
     // Insérer les noms des colonnes
     for (int col = 0; col < columns; ++col) {
         QString headerData = model->headerData(col, Qt::Horizontal).toString();
-        painter.drawText(col * cellWidth, cellHeight, cellWidth, cellHeight, Qt::AlignCenter, headerData);
+        painter.drawText(col * cellWidth, 0, cellWidth, cellHeight, Qt::AlignCenter, headerData);
     }
 
     // Insérer les données de la table sur le périphérique de sortie PDF
-    for (int row = 0; row < rows; ++row) {
+    for (int row = 1; row < rows; ++row) {
         for (int col = 0; col < columns; ++col) {
             // Obtenir les données de la cellule
             QModelIndex index = model->index(row, col);
             QString data = model->data(index).toString();
 
             // Insérer les données de la cellule
-            painter.drawText(col * cellWidth, (row + 2) * cellHeight, cellWidth, cellHeight, Qt::AlignLeft, data);
+            painter.drawText(col * cellWidth, row * cellHeight, cellWidth, cellHeight, Qt::AlignLeft, data);
         }
     }
 
-    // Terminer avec QPainter
+    // Terminez avec QPainter
     painter.end();
 }
-
 
 void MainWindow::on_importCSV_clicked()
 {
@@ -924,3 +980,5 @@ void MainWindow::on_pb_logOut_clicked()
     ui->frame_3->setVisible(false);
     ui->stackedWidget->setCurrentIndex(0);
 }
+
+

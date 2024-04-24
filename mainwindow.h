@@ -7,6 +7,8 @@
 #include <QtCharts/QPieSlice>
 #include <employes.h>
 #include <abonement.h>
+#include "arduino.h"
+//#include "connection.h"
 QT_CHARTS_USE_NAMESPACE
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -103,10 +105,14 @@ private slots:
     void on_pushButton_10_clicked();
 
     void on_pb_logOut_clicked();
+    void connect_RFID();
+
+
 
 private:
     Ui::MainWindow *ui;
     Abonement supp ;
     Abonement display ;
+    Arduino A;
 };
 #endif // MAINWINDOW_H
