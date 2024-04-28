@@ -14,36 +14,43 @@
 #include <QFileDialog>
 #include <QDesktopServices>
 #include <QTextCodec> //je vien d'ajout de la bibliotheque de Qtextcodec !!
+#include <QThread>
+
 //#include <QWidget>
 #include "employes.h"
 #include "client.h"
 #include "abonement.h"
 #include "arduino.h"
 //#include "connection.h"
+
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    arduinoConnected = false; // Au début, l'Arduino n'est pas connecté
 
     Employes e(0,"","","",0,"","","",0);
     ui->listEmployetableView->setModel(e.afficher());
-    int state = 0;
+   // int state = 0;
 
+    connect(ui->bouttonArduino, &QPushButton::clicked, this, &MainWindow::toggleArduinoConnection);
 
           ui->frame_3->setVisible(false);
 
     ui->stackedWidget->setCurrentIndex(0);
 
 //Arduino A;
-    int ret=A.connect_arduino(); // lancer la connexion à arduino
+   /* int ret=A.connect_arduino(); // lancer la connexion à arduino
                 switch(ret){
                 case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
                     break;
                 case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
                    break;
                 case(-1):qDebug() << "arduino is not available";
-                }
+                }*/
                 // QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(read_from_arduino())); // permet de lancer
                  //le slot update_label suite à la reception du signal readyRead (reception des données)
                     QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(connect_RFID()));
@@ -56,6 +63,35 @@ MainWindow::~MainWindow()
 }
 
 //arduino
+void MainWindow::toggleArduinoConnection()
+{
+    if (arduinoConnected) {
+        int ret = A.close_arduino(); // Fermer la connexion à Arduino
+        if (ret == 0) {
+            qDebug() << "Arduino disconnected";
+            arduinoConnected = false;
+        } else {
+            qDebug() << "Failed to disconnect Arduino";
+        }
+    } else {
+        int ret = A.connect_arduino(); // Établir la connexion à Arduino
+        switch(ret){
+            case(0): {
+                qDebug()<< "Arduino connected to port : "<< A.getarduino_port_name();
+                arduinoConnected = true;
+                break;
+            }
+            case(1): {
+                qDebug() << "Arduino available but not connected to :" << A.getarduino_port_name();
+                break;
+            }
+            case(-1): {
+                qDebug() << "Arduino not available";
+                break;
+            }
+        }
+    }
+}
 void MainWindow::connect_RFID()
 
 {
@@ -86,15 +122,22 @@ void MainWindow::connect_RFID()
 
             qDebug()<<"carte existante";
 
+            QString fonction = E.getFunction(uid);
+             setPermissions(fonction);
+
             //prend la valeur du nom
             QString nom = E.rfidName(uid);
             //ui->RFID_NOM->setText(nom);
             ui->stackedWidget->setCurrentIndex(1); //redirige ves la page 1 de l'application (menu)
             ui->frame_3->setVisible(true);
-            ui->userStatusLabel->setText("utilisateur: "+nom+" ");
+            ui->userStatusLabel->setText("utilisateur: "+nom);
 
             QByteArray nomData(nom.toUtf8(), 8);
             A.write_to_arduino(nomData);
+
+           // QString CRfid = E.rfidName(uid);
+
+
 
         }
 
@@ -110,7 +153,121 @@ void MainWindow::connect_RFID()
 
         }
 
+ }
+
+
+void MainWindow::setPermissions(const QString& fonction)
+{
+
+    if (fonction == "admin")
+    {
+        ui->employesPushButton->setEnabled(true);
+        ui->equipementsPushButton->setEnabled(true);
+        ui->clientPushButton->setEnabled(true);
+        ui->abonnementPushButton->setEnabled(true);
+        ui->evenementsPushButton->setEnabled(true);
+
+        ui->pushButton_7->setEnabled(true);
+        ui->login_pushButton_6->setEnabled(true);
+        ui->BTmenu_EmpoyepushButton->setEnabled(true);
+        ui->Abonnement_pushButton->setEnabled(true);
+        ui->pushButton_10->setEnabled(true);
+        ui->menu_pushButton->setEnabled(true);
     }
+    else if(fonction == "employes")
+    {
+        ui->employesPushButton->setEnabled(true);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+
+        ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(true);
+        ui->Abonnement_pushButton->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(true);
+    }
+    else if(fonction == "clients")
+    {
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->clientPushButton->setEnabled(true);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+
+        ui->pushButton_7->setEnabled(true);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->Abonnement_pushButton->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(true);
+
+    }
+    else if(fonction == "abonnements")
+    {
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(true);
+        ui->evenementsPushButton->setEnabled(false);
+
+        ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->Abonnement_pushButton->setEnabled(true);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(true);
+    }
+    else if(fonction == "equipements")
+    {
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(true);
+        ui->clientPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+
+        ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(true);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->Abonnement_pushButton->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(true);
+    }
+    else if(fonction == "evenements")
+    {
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(true);
+
+        ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->Abonnement_pushButton->setEnabled(true);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(true);
+    }
+    else
+    {
+        ui->employesPushButton->setEnabled(false);
+        ui->equipementsPushButton->setEnabled(false);
+        ui->clientPushButton->setEnabled(false);
+        ui->abonnementPushButton->setEnabled(false);
+        ui->evenementsPushButton->setEnabled(false);
+
+        ui->pushButton_7->setEnabled(false);
+        ui->login_pushButton_6->setEnabled(false);
+        ui->BTmenu_EmpoyepushButton->setEnabled(false);
+        ui->Abonnement_pushButton->setEnabled(false);
+        ui->pushButton_10->setEnabled(false);
+        ui->menu_pushButton->setEnabled(false);
+    }
+}
+
+
 
 bool valid_id(QString id)
 {
@@ -374,7 +531,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(true);
                 ui->Abonnement_pushButton->setEnabled(false);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(false);
+                ui->menu_pushButton->setEnabled(true);
 
               }
             else if (titre.compare("clients")==0)
@@ -390,7 +547,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(false);
                 ui->Abonnement_pushButton->setEnabled(false);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(false);
+                ui->menu_pushButton->setEnabled(true);
 
               }
             else if (titre.compare("equipements")==0)
@@ -406,7 +563,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(false);
                 ui->Abonnement_pushButton->setEnabled(false);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(false);
+                ui->menu_pushButton->setEnabled(true);
 
 
               }
@@ -423,7 +580,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(false);
                 ui->Abonnement_pushButton->setEnabled(true);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(false);
+                ui->menu_pushButton->setEnabled(true);
 
 
               }
@@ -440,7 +597,7 @@ void MainWindow::on_loginPushButton_clicked()
                 ui->BTmenu_EmpoyepushButton->setEnabled(false);
                 ui->Abonnement_pushButton->setEnabled(true);
                 ui->pushButton_10->setEnabled(false);
-                ui->menu_pushButton->setEnabled(false);
+                ui->menu_pushButton->setEnabled(true);
 
               }
             else{
@@ -613,51 +770,61 @@ void MainWindow::on_PDFpushButton_clicked()
 void MainWindow::on_importCSV_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Ouvrir fichier CSV"), QString(), tr("Fichiers CSV (*.csv)"));
-        if (fileName.isEmpty()) return;
+    if (fileName.isEmpty()) return;
 
-        QFile file(fileName);
-        if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::warning(this, tr("Erreur"), tr("Impossible d'ouvrir le fichier."));
-            return;
-        }
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::warning(this, tr("Erreur"), tr("Impossible d'ouvrir le fichier."));
+        return;
+    }
 
-        QTextStream in(&file);
-        try {
-            while (!in.atEnd()) {
-                QString line = in.readLine();
-                QStringList fields = line.split(';');
+    QTextStream in(&file);
+    bool firstLine = true; // Indicateur pour la première ligne
 
-                if (fields.size() < 9) {
-                        // Afficher un avertissement ou gérer le cas où la ligne ne contient pas suffisamment de champs
-                        qDebug() << "La ligne CSV ne contient pas suffisamment de champs";
-                        continue; // Passer à la prochaine ligne
-                    }
+    try {
+        while (!in.atEnd()) {
+            QString line = in.readLine();
 
-                // Créer un objet Employes avec les données lues depuis le fichier CSV
-                Employes employee;
-                employee.setCin(fields[0].toInt());
-                employee.setNom(fields[1]);
-                employee.setPrenom(fields[2]);
-                employee.setGenre(fields[3]);
-                employee.setTel(fields[4].toInt());
-                employee.setEmail(fields[5]);
-                employee.setAdresse(fields[6]);
-                employee.setFonction(fields[7]);
-                employee.setSalaire(fields[8].toFloat()); // Convertir en float
-
-                // Ajouter l'employé à la base de données
-                if (!employee.ajouter()) {
-                    QMessageBox::warning(this, tr("Erreur"), tr("Impossible d'ajouter l'employé à la base de données."));
-                    return;
-                }
+            // Si c'est la première ligne, passer à la suivante
+            if(firstLine) {
+                firstLine = false;
+                continue;
             }
-        } catch (const std::exception& e) {
-            QMessageBox::critical(this, tr("Erreur"), tr("Une erreur s'est produite lors de l'importation du fichier CSV : %1").arg(e.what()));
-        }
 
-        file.close();
-        QMessageBox::information(this, tr("Succès"), tr("Données ajoutées avec succès à la base de données."));
+            QStringList fields = line.split(';');
+
+            if (fields.size() < 9) {
+                // Afficher un avertissement ou gérer le cas où la ligne ne contient pas suffisamment de champs
+                qDebug() << "La ligne CSV ne contient pas suffisamment de champs";
+                continue; // Passer à la prochaine ligne
+            }
+
+            // Créer un objet Employes avec les données lues depuis le fichier CSV
+            Employes employee;
+            employee.setCin(fields[0].toInt());
+            employee.setNom(fields[1]);
+            employee.setPrenom(fields[2]);
+            employee.setGenre(fields[3]);
+            employee.setTel(fields[4].toInt());
+            employee.setEmail(fields[5]);
+            employee.setAdresse(fields[6]);
+            employee.setFonction(fields[7]);
+            employee.setSalaire(fields[8].toFloat()); // Convertir en float
+
+            // Ajouter l'employé à la base de données
+            if (!employee.ajouter()) {
+                QMessageBox::warning(this, tr("Erreur"), tr("Impossible d'ajouter l'employé à la base de données."));
+                return;
+            }
+        }
+    } catch (const std::exception& e) {
+        QMessageBox::critical(this, tr("Erreur"), tr("Une erreur s'est produite lors de l'importation du fichier CSV : %1").arg(e.what()));
+    }
+
+    file.close();
+    QMessageBox::information(this, tr("Succès"), tr("Données ajoutées avec succès à la base de données."));
 }
+
 
 void MainWindow::on_statGenderPushButton_clicked() {
     QChartView *chartView ;
@@ -977,8 +1144,17 @@ void MainWindow::on_pushButton_10_clicked()
 void MainWindow::on_pb_logOut_clicked()
 {
 
+    // Envoyer un signal à l'Arduino pour afficher le message "Au revoir"
+        /*QByteArray goodbyeSignal;
+        goodbyeSignal.append('3'); // Signal de déconnexion
+        A.write_to_arduino(goodbyeSignal);*/
+
+
+
     ui->frame_3->setVisible(false);
     ui->stackedWidget->setCurrentIndex(0);
+
+
 }
 
 

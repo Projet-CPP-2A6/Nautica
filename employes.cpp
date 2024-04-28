@@ -361,3 +361,27 @@ QString Employes::rfidName(QString uid)
 
         return "";
 }
+
+QString Employes::getFunction(const QString& uid)
+{
+    QString fonction;
+
+    // Requête SQL pour récupérer la fonction de l'employé en fonction de l'UID de la carte RFID
+    QSqlQuery query;
+    query.prepare("SELECT fonction FROM EMPLOYES WHERE RFID = :RFID");
+    query.bindValue(":RFID", uid);
+
+    if(query.exec() && query.next())
+    {
+        // Récupération de la fonction de l'employé depuis la base de données
+        fonction = query.value(0).toString();
+    }
+    else
+    {
+        qDebug() << "Erreur lors de la récupération de la fonction de l'employé :" << query.lastError().text();
+        // Gestion de l'erreur, par exemple, retourner une chaîne vide ou une valeur par défaut
+    }
+
+    return fonction;
+}
+
