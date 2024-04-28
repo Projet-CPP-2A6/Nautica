@@ -2,7 +2,6 @@
 #define CLIENT_H
 #include <QDate>
 #include <QDebug>
-#include <QMap>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -23,11 +22,6 @@ private:
   QString email;
 
 public:
-  struct PerformanceStats {
-    int month;
-    int year;
-    double averageNote;
-  };
   Client();
   Client(int CIN, QString nom, QString prenom, QDate date_naissance, int genre,
          int tel, QString email);
@@ -55,18 +49,10 @@ public:
   bool Modifier();
   bool Supprimer();
   QSqlQueryModel *Afficher();
-  QSqlQueryModel *RechercherEtAfficher(QString column, QString searchedText);
   QSqlQueryModel *TriPar(QString critere);
   int Recherche(int CIN);
   Client RechercheClient(int CIN);
-  vector<int> AgeStatistics();
-  vector<int> GenderStatistics();
-  bool saveLog(QDateTime datetime, int Client_CIN, QString action,
-               QString changes);
-  QSqlQueryModel *getLogs(QDate startDate, QDate endDate);
-  QString compareClients(Client oldClient, Client newClient);
-  bool SavePerformance(int CIN, int SessionNote, QDate SessionDate);
-  QMap<int, PerformanceStats> RetrievePerformanceStats(int CIN);
+  vector<int> Statistics();
 };
 
 #endif // CLIENT_H

@@ -7,15 +7,16 @@ namespace Ui {
 class accueil;
 }
 
-class accueil : public QDialog {
-  Q_OBJECT
+class accueil : public QDialog
+{
+    Q_OBJECT
 
 public:
-  explicit accueil(QWidget *parent = nullptr);
-  ~accueil();
+    explicit accueil(QWidget *parent = nullptr);
+    ~accueil();
 
 private:
-  Ui::accueil *ui;
+    Ui::accueil *ui;
 };
 
 #endif // ACCUEIL_H
