@@ -66,6 +66,7 @@ public:
   //arduino
   bool rfidExists(QString uid);
   QString rfidName(QString uid);
+  QString getFunction(const QString& uid);
   };
 
 #endif // EMPLOYES_H

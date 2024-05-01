@@ -23,11 +23,16 @@
 #include <QString>
 #include <QTableView>
 #include <QUrl>
+#include <QFileDialog>
+#include <QTextCodec>
 #include <QtScript>
+#include <QThread>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
-  ui->setupUi(this);
+   ui->setupUi(this);
+   ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
 
+   arduinoConnected=false;
   Employes e(0, "", "", "", 0, "", "", "", 0);
 
   // int state = 0;
@@ -38,15 +43,16 @@ MainWindow::MainWindow(QWidget *parent)
   ui->table_abonnement_2->setModel(display.afficher_abonnement());
   ui->stackedWidget->setCurrentIndex(0);
 
+  connect(ui->bouttonArduino, &QPushButton::clicked, this, &MainWindow::toggleArduinoConnection);
   //Arduino A;
-      int ret=A.connect_arduino(); // lancer la connexion à arduino
+     /* int ret=A.connect_arduino(); // lancer la connexion à arduino
                   switch(ret){
                   case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
                       break;
                   case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
                      break;
                   case(-1):qDebug() << "arduino is not available";
-                  }
+                  }*/
                   // QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(read_from_arduino())); // permet de lancer
                    //le slot update_label suite à la reception du signal readyRead (reception des données)
                       QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(connect_RFID()));
@@ -58,6 +64,36 @@ MainWindow::~MainWindow()
 }
 
 //arduino
+
+void MainWindow::toggleArduinoConnection()
+{
+    if (arduinoConnected) {
+        int ret = A.close_arduino(); // Fermer la connexion à Arduino
+        if (ret == 0) {
+            qDebug() << "Arduino disconnected";
+            arduinoConnected = false;
+        } else {
+            qDebug() << "Failed to disconnect Arduino";
+        }
+    } else {
+        int ret = A.connect_arduino(); // Établir la connexion à Arduino
+        switch(ret){
+            case(0): {
+                qDebug()<< "Arduino connected to port : "<< A.getarduino_port_name();
+                arduinoConnected = true;
+                break;
+            }
+            case(1): {
+                qDebug() << "Arduino available but not connected to :" << A.getarduino_port_name();
+                break;
+            }
+            case(-1): {
+                qDebug() << "Arduino not available";
+                break;
+            }
+        }
+    }
+}
 void MainWindow::connect_RFID()
 
 {
@@ -73,7 +109,7 @@ void MainWindow::connect_RFID()
 
 
 
-    //ui->RFID_Label->setText(uid);/*------- pour tester avec un label----------*/
+    ui->RFID_label->setText(uid);/*------- pour tester avec un label----------*/
 
     Employes E; //remplacez avec le nom de votre classe
 
@@ -88,15 +124,22 @@ void MainWindow::connect_RFID()
 
             qDebug()<<"carte existante";
 
+            QString fonction = E.getFunction(uid);
+             setPermissions(fonction);
+
             //prend la valeur du nom
             QString nom = E.rfidName(uid);
             //ui->RFID_NOM->setText(nom);
             ui->stackedWidget->setCurrentIndex(1); //redirige ves la page 1 de l'application (menu)
             ui->frame_3->setVisible(true);
-            ui->userStatusLabel->setText("utilisateur: "+nom+" ");
+            ui->userStatusLabel->setText("utilisateur: "+nom);
 
             QByteArray nomData(nom.toUtf8(), 8);
             A.write_to_arduino(nomData);
+
+           // QString CRfid = E.rfidName(uid);
+
+
 
         }
 
@@ -112,7 +155,110 @@ void MainWindow::connect_RFID()
 
         }
 
-    }
+ }
+
+ void MainWindow::setPermissions(const QString& fonction)
+{
+
+     if (fonction.compare("admin") == 0) {
+       ui->clientPushButton->setEnabled(true);
+       ui->employesPushButton->setEnabled(true);
+       ui->equipementsPushButton->setEnabled(true);
+       ui->evenementsPushButton->setEnabled(true);
+       ui->abonnementPushButton->setEnabled(true);
+       ui->MenuPage->setEnabled(true);
+
+       ui->ClientsPage->setEnabled(true);
+       ui->EmployeesPage->setEnabled(true);
+       ui->EquipmentsPage->setEnabled(true);
+       ui->EventsPage->setEnabled(true);
+       ui->SubscriptionsPage->setEnabled(true);
+     }
+     else if (fonction.compare("employes") == 0) {
+       ui->clientPushButton->setEnabled(false);
+       ui->employesPushButton->setEnabled(true);
+       ui->equipementsPushButton->setEnabled(false);
+       ui->evenementsPushButton->setEnabled(false);
+       ui->abonnementPushButton->setEnabled(false);
+       ui->MenuPage->setEnabled(true);
+
+       ui->ClientsPage->setEnabled(false);
+       ui->EmployeesPage->setEnabled(true);
+       ui->EquipmentsPage->setEnabled(false);
+       ui->EventsPage->setEnabled(false);
+       ui->SubscriptionsPage->setEnabled(false);
+     }
+     else if (fonction.compare("clients") == 0) {
+       ui->clientPushButton->setEnabled(true);
+       ui->employesPushButton->setEnabled(false);
+       ui->equipementsPushButton->setEnabled(false);
+       ui->evenementsPushButton->setEnabled(false);
+       ui->abonnementPushButton->setEnabled(false);
+       ui->MenuPage->setEnabled(true);
+
+       ui->ClientsPage->setEnabled(true);
+       ui->EmployeesPage->setEnabled(false);
+       ui->EquipmentsPage->setEnabled(false);
+       ui->EventsPage->setEnabled(false);
+       ui->SubscriptionsPage->setEnabled(false);
+     }
+     else if (fonction.compare("equipements") == 0) {
+       ui->clientPushButton->setEnabled(false);
+       ui->employesPushButton->setEnabled(false);
+       ui->equipementsPushButton->setEnabled(true);
+       ui->evenementsPushButton->setEnabled(false);
+       ui->abonnementPushButton->setEnabled(false);
+       ui->MenuPage->setEnabled(true);
+
+       ui->ClientsPage->setEnabled(false);
+       ui->EmployeesPage->setEnabled(false);
+       ui->EquipmentsPage->setEnabled(true);
+       ui->EventsPage->setEnabled(false);
+       ui->SubscriptionsPage->setEnabled(false);
+     }
+     else if (fonction.compare("abonnements") == 0) {
+       ui->clientPushButton->setEnabled(false);
+       ui->employesPushButton->setEnabled(false);
+       ui->equipementsPushButton->setEnabled(false);
+       ui->evenementsPushButton->setEnabled(false);
+       ui->abonnementPushButton->setEnabled(true);
+       ui->MenuPage->setEnabled(true);
+
+       ui->ClientsPage->setEnabled(false);
+       ui->EmployeesPage->setEnabled(false);
+       ui->EquipmentsPage->setEnabled(false);
+       ui->EventsPage->setEnabled(false);
+       ui->SubscriptionsPage->setEnabled(true);
+     }
+     else if (fonction.compare("evenements") == 0) {
+       ui->clientPushButton->setEnabled(false);
+       ui->employesPushButton->setEnabled(false);
+       ui->equipementsPushButton->setEnabled(false);
+       ui->evenementsPushButton->setEnabled(true);
+       ui->abonnementPushButton->setEnabled(false);
+       ui->MenuPage->setEnabled(true);
+
+       ui->ClientsPage->setEnabled(false);
+       ui->EmployeesPage->setEnabled(false);
+       ui->EquipmentsPage->setEnabled(false);
+       ui->EventsPage->setEnabled(true);
+       ui->SubscriptionsPage->setEnabled(false);
+     }
+     else {
+       ui->clientPushButton->setEnabled(false);
+       ui->employesPushButton->setEnabled(false);
+       ui->equipementsPushButton->setEnabled(false);
+       ui->evenementsPushButton->setEnabled(false);
+       ui->abonnementPushButton->setEnabled(false);
+       ui->MenuPage->setEnabled(false);
+
+       ui->ClientsPage->setEnabled(false);
+       ui->EmployeesPage->setEnabled(false);
+       ui->EquipmentsPage->setEnabled(false);
+       ui->EventsPage->setEnabled(false);
+       ui->SubscriptionsPage->setEnabled(false);
+     }
+}
 
 void MainWindow::on_pushButton_3_clicked() {
   // Récupération des valeurs des champs
@@ -321,72 +467,92 @@ void MainWindow::on_loginPushButton_clicked() {
         ui->equipementsPushButton->setEnabled(true);
         ui->evenementsPushButton->setEnabled(true);
         ui->abonnementPushButton->setEnabled(true);
+        ui->MenuPage->setEnabled(true);
+
         ui->ClientsPage->setEnabled(true);
         ui->EmployeesPage->setEnabled(true);
         ui->EquipmentsPage->setEnabled(true);
         ui->EventsPage->setEnabled(true);
         ui->SubscriptionsPage->setEnabled(true);
-      } else if (titre.compare("employes") == 0) {
+      }
+      else if (titre.compare("employes") == 0) {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(true);
         ui->equipementsPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(false);
+        ui->MenuPage->setEnabled(true);
+
         ui->ClientsPage->setEnabled(false);
         ui->EmployeesPage->setEnabled(true);
         ui->EquipmentsPage->setEnabled(false);
         ui->EventsPage->setEnabled(false);
         ui->SubscriptionsPage->setEnabled(false);
-      } else if (titre.compare("clients") == 0) {
+      }
+      else if (titre.compare("clients") == 0) {
         ui->clientPushButton->setEnabled(true);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(false);
+        ui->MenuPage->setEnabled(true);
+
         ui->ClientsPage->setEnabled(true);
         ui->EmployeesPage->setEnabled(false);
         ui->EquipmentsPage->setEnabled(false);
         ui->EventsPage->setEnabled(false);
         ui->SubscriptionsPage->setEnabled(false);
-      } else if (titre.compare("equipements") == 0) {
+      }
+      else if (titre.compare("equipements") == 0) {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(true);
         ui->evenementsPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(false);
+        ui->MenuPage->setEnabled(true);
+
         ui->ClientsPage->setEnabled(false);
         ui->EmployeesPage->setEnabled(false);
         ui->EquipmentsPage->setEnabled(true);
         ui->EventsPage->setEnabled(false);
         ui->SubscriptionsPage->setEnabled(false);
-      } else if (titre.compare("abonnements") == 0) {
+      }
+      else if (titre.compare("abonnements") == 0) {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(true);
+        ui->MenuPage->setEnabled(true);
+
         ui->ClientsPage->setEnabled(false);
         ui->EmployeesPage->setEnabled(false);
         ui->EquipmentsPage->setEnabled(false);
         ui->EventsPage->setEnabled(false);
         ui->SubscriptionsPage->setEnabled(true);
-      } else if (titre.compare("evenements") == 0) {
+      }
+      else if (titre.compare("evenements") == 0) {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(true);
         ui->abonnementPushButton->setEnabled(false);
+        ui->MenuPage->setEnabled(true);
+
         ui->ClientsPage->setEnabled(false);
         ui->EmployeesPage->setEnabled(false);
         ui->EquipmentsPage->setEnabled(false);
         ui->EventsPage->setEnabled(true);
         ui->SubscriptionsPage->setEnabled(false);
-      } else {
+      }
+      else {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(false);
+        ui->MenuPage->setEnabled(false);
+
         ui->ClientsPage->setEnabled(false);
         ui->EmployeesPage->setEnabled(false);
         ui->EquipmentsPage->setEnabled(false);

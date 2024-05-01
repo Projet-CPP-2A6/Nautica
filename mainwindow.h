@@ -162,10 +162,14 @@ private slots:
 
    void connect_RFID();
 
+void setPermissions(const QString& fonction);
+   void toggleArduinoConnection();
+
 private:
   Ui::MainWindow *ui;
   Abonement supp;
   Abonement display;
   Arduino A;
+  bool arduinoConnected;
 };
 #endif // MAINWINDOW_H
