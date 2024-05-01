@@ -7,6 +7,8 @@
 #include "email.h"
 #include "pdf.h"
 #include "stat1.h"
+#include "arduino.h"
+#include "smoke-detector.h"
 #include "ui_mainwindow.h"
 #include <QAbstractItemModel>
 #include <QDebug>
@@ -2095,4 +2097,24 @@ void MainWindow::on_calculatorref_clicked() {
     ui->calculatorDisplay->setText(ui->calculatorDisplay->text() +
                                    QString::number(prix));
   }
+}
+
+void MainWindow::on_SmokeDetectorTestButton_clicked()
+{
+  SmokeDetector smokeDetector;
+  Arduino arduino;
+  int connectionResult = arduino.connect_arduino();
+  if (connectionResult == 0) {
+        qDebug() << "Connected to Arduino successfully!";
+    } else {
+        qDebug() << "Failed to connect to Arduino.";
+    }
+  QByteArray data = arduino.read_from_arduino();
+  smokeDetector.setSmokeDetected(data.toInt());
+  if (smokeDetector.isSmokeDetected()) {
+    ui->SmokeDetectorTestButton->setText("Smoke Detected");
+  } else {
+    ui->SmokeDetectorTestButton->setText("Smoke Not Detected");
+  }
+  arduino.close_arduino();
 }

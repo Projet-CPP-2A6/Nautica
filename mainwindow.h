@@ -157,6 +157,8 @@ private slots:
 
   void on_calculatorref_clicked();
 
+  void on_SmokeDetectorTestButton_clicked();
+
 private:
   Ui::MainWindow *ui;
   Abonement supp;

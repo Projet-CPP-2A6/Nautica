@@ -1,4 +1,4 @@
-QT       += core gui sql printsupport charts network script
+QT       += core gui sql printsupport charts network script serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,6 +27,8 @@ SOURCES += \
     pdf.cpp \
     stat1.cpp \
     maintenance.cpp \
+    arduino.cpp \
+    smoke-detector.cpp
 
 HEADERS += \
     client.h \
@@ -38,7 +40,9 @@ HEADERS += \
     mainwindow.h \
     pdf.h \
     stat1.h \
-    maintenance.h
+    maintenance.h \
+    arduino.h \
+    smoke-detector.h
 
 FORMS += \
     accueil.ui \
