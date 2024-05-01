@@ -1627,7 +1627,7 @@ void MainWindow::on_statPrixPushButton_clicked() {
   QChartView *chartView = new QChartView(
       ui->Equipement_label_Stats); // Chart view created with parent
   chartView->setRenderHint(QPainter::Antialiasing);
-  chartView->setMinimumSize(570, 570);
+  chartView->setMinimumSize(770, 570);//changement
 
   QSqlQuery q1, q2, q3;
   qreal tot = 0, c1 = 0, c2 = 0, c3 = 0;
