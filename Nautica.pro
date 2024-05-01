@@ -28,7 +28,6 @@ SOURCES += \
     pdf.cpp \
     stat1.cpp \
     maintenance.cpp \
-    arduino.cpp \
     smoke-detector.cpp
 
 HEADERS += \
@@ -43,7 +42,6 @@ HEADERS += \
     pdf.h \
     stat1.h \
     maintenance.h \
-    arduino.h \
     smoke-detector.h
 
 FORMS += \
