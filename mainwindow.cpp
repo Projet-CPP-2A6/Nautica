@@ -2447,20 +2447,29 @@ void MainWindow::on_calculatorref_clicked() {
 
 void MainWindow::on_SmokeDetectorTestButton_clicked()
 {
-  SmokeDetector smokeDetector;
-  Arduino arduino;
-  int connectionResult = arduino.connect_arduino();
-  if (connectionResult == 0) {
+    SmokeDetector smokeDetector;
+    Arduino arduino(0x1A86, 0x7523);
+    int connectionResult = arduino.connect_arduino();
+    if (connectionResult == 0) {
         qDebug() << "Connected to Arduino successfully!";
     } else {
         qDebug() << "Failed to connect to Arduino.";
     }
-  QByteArray data = arduino.read_from_arduino();
-  smokeDetector.setSmokeDetected(data.toInt());
-  if (smokeDetector.isSmokeDetected()) {
-    ui->SmokeDetectorTestButton->setText("Smoke Detected");
-  } else {
-    ui->SmokeDetectorTestButton->setText("Smoke Not Detected");
-  }
-  arduino.close_arduino();
+
+    QByteArray data = arduino.read_from_arduino();
+    smokeDetector.setSmokeDetected(data.toInt());
+
+    if (smokeDetector.isSmokeDetected()) {
+        ui->SmokeDetectorTestButton->setText("Smoke Detected");
+    } else {
+        ui->SmokeDetectorTestButton->setText("Smoke Not Detected");
+    }
+
+    arduino.close_arduino();
+
+    // Schedule resetting the button text after a delay
+    QTimer::singleShot(3000, this, [this]() {
+        ui->SmokeDetectorTestButton->setText("Smoke Detector Test");
+    });
 }
+
