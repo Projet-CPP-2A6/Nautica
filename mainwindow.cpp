@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
    ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
 
    arduinoConnected=false;
-  Employes e(0, "", "", "", 0, "", "", "", 0);
+  Employes e(0, "", "", "", 0, "", "", "", 0," ");
 
   // int state = 0;
   ui->frame_3->setVisible(false);
@@ -272,6 +272,7 @@ void MainWindow::on_pushButton_3_clicked() {
   QString fonction = ui->fonction_LE->text();
   int salaire = ui->salaire_LE->text().toInt();
   QString telephoneStr = ui->telephone_LE->text();
+ QString RFID = ui->RFID_LE->text();
 
   // Expression régulière pour vérifier le format du CIN (chiffres seulement)
   QRegExp regexCIN("^[0-9]+$");
@@ -283,6 +284,8 @@ void MainWindow::on_pushButton_3_clicked() {
   // Expression régulière pour vérifier le format du numéro de téléphone
   // (chiffres seulement)
   QRegExp regexTelephone("^[0-9]+$");
+   // Expression régulière pour vérifier le format du numéro de téléphone (chiffres et lettre seulement)
+    QRegExp regexRFID("^[a-zA-Z0-9]+$");
 
   // Vérification des saisies
   if (cinStr.isEmpty() || !regexCIN.exactMatch(cinStr)) {
@@ -331,6 +334,12 @@ void MainWindow::on_pushButton_3_clicked() {
                           "Veuillez saisir un genre valide (homme ou femme).");
     return;
   }
+//Vérification de l'RFID
+    if (RFID.isEmpty() || !regexRFID.exactMatch(RFID))
+    {
+        QMessageBox::critical(this, "Erreur", "Veuillez saisir un numéro de téléphone valide (chiffres seulement).");
+        return;
+    }
 
   // Convertir les champs nécessaires en types appropriés
   int CIN = cinStr.toInt();
@@ -351,7 +360,7 @@ void MainWindow::on_pushButton_3_clicked() {
 }
 
 void MainWindow::on_refreshTableV_clicked() {
-  Employes e(0, "", "", "", 0, "", "", "", 0);
+  Employes e(0, "", "", "", 0, "", "", "", 0," ");
 
   ui->listEmployetableView->setModel(e.afficher());
   // Mettre à jour la largeur de la colonne email (supposons que la colonne email soit la 5eme colonne)
@@ -378,6 +387,7 @@ void MainWindow::on_updatePushButton_clicked() {
   QString fonction = ui->updateFonction_LE->text();
   int telephone = ui->updateTelephone_LE->text().toInt();
   int salaire = ui->updateSalaire_LE->text().toInt();
+  QString RFID = ui->updateRFID_LE_2->text();
   // Vérification des contraintes de saisie
   bool saisieValide = true;
   QString messageErreur;
@@ -407,7 +417,12 @@ void MainWindow::on_updatePushButton_clicked() {
     messageErreur += "La fonction doit contenir uniquement des lettres.\n";
     saisieValide = false;
   }
-
+  // Vérification de la fonction (lettre seulement)
+    QRegExp regexRFID("^[a-zA-Z0-9]+$");
+    if (!fonction.contains(regexFonction)) {
+        messageErreur += "Le RFID doit contenir uniquement des lettres ET DES CHIFFRES.\n";
+        saisieValide = false;
+    }
   // Si la saisie est valide, effectuer la modification
   if (saisieValide) {
     Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction,
@@ -617,71 +632,75 @@ void MainWindow::on_lineEdit_textChanged(const QString &arg1) {
   }
 }
 
-void MainWindow::on_PDFpushButton_clicked() {
-  // Demander à l'utilisateur de choisir l'emplacement et le nom du fichier PDF
-  QString filePath = QFileDialog::getSaveFileName(
-      this, tr("Enregistrer le PDF"), "", tr("Fichiers PDF (*.pdf)"));
+void MainWindow::on_PDFpushButton_clicked()
+{
+    // Demander à l'utilisateur de choisir l'emplacement et le nom du fichier PDF
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Enregistrer le PDF"), "", tr("Fichiers PDF (*.pdf)"));
 
-  // Si l'utilisateur annule la sélection, quitter la fonction
-  if (filePath.isEmpty()) {
-    return;
-  }
-  // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
-  QPrinter printer;
-  printer.setOutputFormat(QPrinter::PdfFormat);
-  printer.setOutputFileName(filePath);
-
-  // Création d'un objet QPainter pour l'objet QPrinter
-  QPainter painter;
-  if (!painter.begin(&printer)) {
-    qWarning("Failed to open file, is it writable?");
-    return;
-  }
-
-  // Obtenir le modèle de la table à partir de la QTableView
-  QAbstractItemModel *model = ui->listEmployetableView->model();
-
-  // Obtenir les dimensions de la table
-  int rows = model->rowCount()+1;
-  int columns = model->columnCount();
-
-  // Définir la taille de la cellule pour le dessin
-  int cellWidth = 105;
-  int cellHeight = 30;
-  // Insérer le titre au-dessus du tableau
-    painter.drawText(0, 0, columns * cellWidth, cellHeight, Qt::AlignCenter, "Le tableau des employés");
-
-    // Dessiner des traits noirs entre les cellules
-    painter.setPen(Qt::black);
-    for (int col = 0; col <= columns; ++col) {
-        painter.drawLine((col + 1) * cellWidth, cellHeight, (col + 1) * cellWidth, (rows + 1) * cellHeight);
+    // Si l'utilisateur annule la sélection, quitter la fonction
+    if (filePath.isEmpty()) {
+        return;
     }
-    for (int row = 0; row <= rows; ++row) {
-        painter.drawLine(0, (row + 1) * cellHeight, columns * cellWidth, (row + 1) * cellHeight);
+
+    // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
+    QPrinter printer;
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName(filePath);
+
+    // Configuration pour le mode paysage
+        printer.setOrientation(QPrinter::Landscape);
+
+    // Créatoin d'un objet QPainter pour l'objet QPrinter
+    QPainter painter;
+    if (!painter.begin(&printer)) {
+        qWarning("Failed to open file, is it writable?");
+        return;
     }
-  // Insérer les noms des colonnes
-  for (int col = 0; col < columns; ++col) {
-    QString headerData = model->headerData(col, Qt::Horizontal).toString();
-    painter.drawText(col * cellWidth, cellHeight, cellWidth, cellHeight, Qt::AlignCenter,
-                     headerData);
-  }
 
-  // Insérer les données de la table sur le périphérique de sortie PDF
-  for (int row = 0; row < rows; ++row) {
-    for (int col = 0; col < columns; ++col) {
-      // Obtenir les données de la cellule
-      QModelIndex index = model->index(row, col);
-      QString data = model->data(index).toString();
+    // Obtenir le modèle de la table à partir de la QTableView
+    QAbstractItemModel *model = ui->listEmployetableView->model();
 
-      // Insérer les données de la cellule
-      painter.drawText(col * cellWidth, (row + 2) * cellHeight, cellWidth, cellHeight,
-                       Qt::AlignLeft, data);
-    }
-  }
+    // Obtenir les dimensions de la table
+    int rows = model->rowCount();
+    int columns = model->columnCount();
 
-  // Terminer avec QPainter
-  painter.end();
+    // Définissez la taille de la cellule pour le dessin
+    int cellWidth = 120;
+    int cellHeight = 30;
+
+    // Insérer le titre au-dessus du tableau
+        painter.drawText(0, 0, columns * cellWidth, cellHeight, Qt::AlignCenter, "Le tableau des employés");
+
+        // Dessiner des traits noirs entre les cellules
+            painter.setPen(Qt::black);
+            for (int col = 0; col <= columns; ++col) {
+                painter.drawLine((col + 1) * cellWidth, cellHeight, (col + 1) * cellWidth, (rows + 1) * cellHeight);
+            }
+            for (int row = 0; row <= rows; ++row) {
+                painter.drawLine(0, (row + 1) * cellHeight, columns * cellWidth, (row + 1) * cellHeight);
+            }
+            // Insérer les noms des colonnes
+                for (int col = 0; col < columns; ++col) {
+                    QString headerData = model->headerData(col, Qt::Horizontal).toString();
+                    painter.drawText(col * cellWidth, cellHeight, cellWidth, cellHeight, Qt::AlignCenter, headerData);
+                }
+
+                // Insérer les données de la table sur le périphérique de sortie PDF
+                for (int row = 0; row < rows; ++row) {
+                    for (int col = 0; col < columns; ++col) {
+                        // Obtenir les données de la cellule
+                        QModelIndex index = model->index(row, col);
+                        QString data = model->data(index).toString();
+
+                        // Insérer les données de la cellule
+                        painter.drawText(col * cellWidth, (row + 2) * cellHeight, cellWidth, cellHeight, Qt::AlignLeft, data);
+                    }
+                }
+
+                // Terminer avec QPainter
+                painter.end();
 }
+
 void MainWindow::on_importCSV_clicked() {
   QString fileName = QFileDialog::getOpenFileName(
       this, tr("Ouvrir fichier CSV"), QString(), tr("Fichiers CSV (*.csv)"));
