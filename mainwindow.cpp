@@ -913,7 +913,7 @@ void MainWindow::on_statFonctionPushButton_clicked() {
 
   chartView = new QChartView(chart, ui->Employe_label_Stats);
   chartView->setRenderHint(QPainter::Antialiasing);
-  chartView->setMinimumSize(570, 570);
+  chartView->setMinimumSize(770, 570);
   chartView->show();
 }
 
@@ -1569,7 +1569,7 @@ void MainWindow::on_StatEtatPushButton_clicked() {
   QChartView *chartView = new QChartView(
       ui->Equipement_label_Stats); // Chart view created with parent
   chartView->setRenderHint(QPainter::Antialiasing);
-  chartView->setMinimumSize(570, 570);
+  chartView->setMinimumSize(970, 570);
 
   QSqlQuery q1, q2, q3;
   qreal tot = 0, c1 = 0, c2 = 0;
@@ -1627,7 +1627,7 @@ void MainWindow::on_statPrixPushButton_clicked() {
   QChartView *chartView = new QChartView(
       ui->Equipement_label_Stats); // Chart view created with parent
   chartView->setRenderHint(QPainter::Antialiasing);
-  chartView->setMinimumSize(770, 570);//changement
+  chartView->setMinimumSize(570, 570);
 
   QSqlQuery q1, q2, q3;
   qreal tot = 0, c1 = 0, c2 = 0, c3 = 0;
