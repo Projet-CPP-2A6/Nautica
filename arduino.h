@@ -9,7 +9,8 @@
 
 class Arduino
 {
-public:     //méthodes de la classe Arduino
+public:
+    //méthodes de la classe Arduino
     Arduino();
     Arduino(quint16 vendorId, quint16 productId);
     int connect_arduino(); // permet de connecter le PC à Arduino

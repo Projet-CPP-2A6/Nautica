@@ -8,7 +8,10 @@
 #include "pdf.h"
 #include "stat1.h"
 #include "arduino.h"
+#include "dialog.h"
 #include "smoke-detector.h"
+#include <QFileDialog>
+#include <QInputDialog>
 #include "ui_mainwindow.h"
 #include <QAbstractItemModel>
 #include <QDebug>
@@ -2183,6 +2186,13 @@ void MainWindow::on_envoyer_email_clicked() {
   mailer::sendEmail(ui->destinataireEmail->text(), ui->objetEmail->text(),
                     ui->bodyEmail->text());
 }
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    dialog = new Dialog(this); // Create an instance of the new window
+       dialog->show(); // Show the new window
+}
+
 void MainWindow::on_addMaintenance_clicked() {
   int CIN_employe = ui->CIN_employe->text().toFloat();
   QString reference_equipement = ui->reference_equipement->text();
