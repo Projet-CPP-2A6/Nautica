@@ -260,104 +260,100 @@ void MainWindow::connect_RFID()
      }
 }
 
-void MainWindow::on_pushButton_3_clicked() {
-  // Récupération des valeurs des champs
-  QString cinStr = ui->CIN_LE->text();
-  QString nom = ui->nom_LE->text();
-  QString prenom = ui->prenom_LE->text();
-  QString adresse = ui->adresse_LE->text();
-  QString genre = ui->genre_LE->text()
-                      .toLower(); // Convertir en minuscules pour la comparaison
-  QString email = ui->email_LE->text();
-  QString fonction = ui->fonction_LE->text();
-  int salaire = ui->salaire_LE->text().toInt();
-  QString telephoneStr = ui->telephone_LE->text();
- QString RFID = ui->RFID_LE->text();
+ void MainWindow::on_pushButton_3_clicked()
+ {
+     // Récupération des valeurs des champs
+     QString cinStr = ui->CIN_LE->text();
+     QString nom = ui->nom_LE->text();
+     QString prenom = ui->prenom_LE->text();
+     QString adresse = ui->adresse_LE->text();
+     QString genre = ui->genre_LE->text().toLower(); // Convertir en minuscules pour la comparaison
+     QString email = ui->email_LE->text();
+     QString fonction = ui->fonction_LE->text();
+     int salaire = ui->salaire_LE->text().toInt();
+     QString telephoneStr = ui->telephone_LE->text();
+     QString RFID = ui->RFID_LE->text();
 
-  // Expression régulière pour vérifier le format du CIN (chiffres seulement)
-  QRegExp regexCIN("^[0-9]+$");
-  // Expression régulière pour vérifier le format du nom et du prénom (lettres
-  // seulement)
-  QRegExp regexNomPrenom("^[a-zA-Z]+$");
-  // Expression régulière pour vérifier le format de l'email
-  QRegExp regexEmail("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
-  // Expression régulière pour vérifier le format du numéro de téléphone
-  // (chiffres seulement)
-  QRegExp regexTelephone("^[0-9]+$");
-   // Expression régulière pour vérifier le format du numéro de téléphone (chiffres et lettre seulement)
-    QRegExp regexRFID("^[a-zA-Z0-9]+$");
+     // Expression régulière pour vérifier le format du CIN (chiffres seulement)
+     QRegExp regexCIN("^[0-9]+$");
+     // Expression régulière pour vérifier le format du nom et du prénom (lettres seulement)
+     QRegExp regexNomPrenom("^[a-zA-Z]+$");
+     // Expression régulière pour vérifier le format de l'email
+     QRegExp regexEmail("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
+     // Expression régulière pour vérifier le format du numéro de téléphone (chiffres seulement)
+     QRegExp regexTelephone("^[0-9]+$");
+     // Expression régulière pour vérifier le format du numéro de téléphone (chiffres et lettre seulement)
+     QRegExp regexRFID("^[a-zA-Z0-9]+$");
 
-  // Vérification des saisies
-  if (cinStr.isEmpty() || !regexCIN.exactMatch(cinStr)) {
-    QMessageBox::critical(
-        this, "Erreur", "Veuillez saisir un CIN valide (chiffres seulement).");
-    return;
-  }
+     // Vérification des saisies
+     if (cinStr.isEmpty() || !regexCIN.exactMatch(cinStr))
+     {
+         QMessageBox::critical(this, "Erreur", "Veuillez saisir un CIN valide (chiffres seulement).");
+         return;
+     }
 
-  if (nom.isEmpty() || !regexNomPrenom.exactMatch(nom)) {
-    QMessageBox::critical(this, "Erreur",
-                          "Veuillez saisir un nom valide (lettres seulement).");
-    return;
-  }
+     if (nom.isEmpty() || !regexNomPrenom.exactMatch(nom))
+     {
+         QMessageBox::critical(this, "Erreur", "Veuillez saisir un nom valide (lettres seulement).");
+         return;
+     }
 
-  if (prenom.isEmpty() || !regexNomPrenom.exactMatch(prenom)) {
-    QMessageBox::critical(
-        this, "Erreur",
-        "Veuillez saisir un prénom valide (lettres seulement).");
-    return;
-  }
+     if (prenom.isEmpty() || !regexNomPrenom.exactMatch(prenom))
+     {
+         QMessageBox::critical(this, "Erreur", "Veuillez saisir un prénom valide (lettres seulement).");
+         return;
+     }
 
-  if (email.isEmpty() || !regexEmail.exactMatch(email)) {
-    QMessageBox::critical(this, "Erreur",
-                          "Veuillez saisir une adresse email valide.");
-    return;
-  }
+     if (email.isEmpty() || !regexEmail.exactMatch(email))
+     {
+         QMessageBox::critical(this, "Erreur", "Veuillez saisir une adresse email valide.");
+         return;
+     }
 
-  if (telephoneStr.isEmpty() || !regexTelephone.exactMatch(telephoneStr)) {
-    QMessageBox::critical(
-        this, "Erreur",
-        "Veuillez saisir un numéro de téléphone valide (chiffres seulement).");
-    return;
-  }
+     if (telephoneStr.isEmpty() || !regexTelephone.exactMatch(telephoneStr))
+     {
+         QMessageBox::critical(this, "Erreur", "Veuillez saisir un numéro de téléphone valide (chiffres seulement).");
+         return;
+     }
 
-  // Vérification du nombre de chiffres dans le numéro de téléphone
-  if (telephoneStr.length() != 8) {
-    QMessageBox::critical(
-        this, "Erreur",
-        "Veuillez saisir un numéro de téléphone valide (8 chiffres).");
-    return;
-  }
+     // Vérification du nombre de chiffres dans le numéro de téléphone
+     if (telephoneStr.length() != 8)
+     {
+         QMessageBox::critical(this, "Erreur", "Veuillez saisir un numéro de téléphone valide (8 chiffres).");
+         return;
+     }
 
-  // Vérification du genre
-  if (genre != "homme" && genre != "femme") {
-    QMessageBox::critical(this, "Erreur",
-                          "Veuillez saisir un genre valide (homme ou femme).");
-    return;
-  }
-//Vérification de l'RFID
-    if (RFID.isEmpty() || !regexRFID.exactMatch(RFID))
-    {
-        QMessageBox::critical(this, "Erreur", "Veuillez saisir un numéro de téléphone valide (chiffres seulement).");
-        return;
-    }
+     // Vérification du genre
+     if (genre != "homme" && genre != "femme")
+     {
+         QMessageBox::critical(this, "Erreur", "Veuillez saisir un genre valide (homme ou femme).");
+         return;
+     }
 
-  // Convertir les champs nécessaires en types appropriés
-  int CIN = cinStr.toInt();
-  int telephone = telephoneStr.toInt();
+     //Vérification de l'RFID
+     if (RFID.isEmpty() || !regexRFID.exactMatch(RFID))
+     {
+         QMessageBox::critical(this, "Erreur", "Veuillez saisir un numéro de téléphone valide (chiffres seulement).");
+         return;
+     }
 
-  // Si toutes les saisies sont valides, ajoutez l'employé
-  Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction,
-             salaire);
-  bool test = e.ajouter();
-  if (test) {
-    QMessageBox::information(this, "Succès",
-                             "L'employé a été ajouté avec succès.");
-    ui->listEmployetableView->setModel(e.afficher());
-  } else {
-    QMessageBox::critical(this, "Erreur",
-                          "Employé existant. Veuillez réessayer.");
-  }
-}
+     // Convertir les champs nécessaires en types appropriés
+     int CIN = cinStr.toInt();
+     int telephone = telephoneStr.toInt();
+
+     // Si toutes les saisies sont valides, ajoutez l'employé
+     Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction, salaire, RFID);
+     bool test = e.ajouter();
+     if (test)
+     {
+         QMessageBox::information(this, "Succès", "L'employé a été ajouté avec succès.");
+         ui->listEmployetableView->setModel(e.afficher());
+     }
+     else
+     {
+         QMessageBox::critical(this, "Erreur", "Employé existant. Veuillez réessayer.");
+     }
+ }
 
 void MainWindow::on_refreshTableV_clicked() {
   Employes e(0, "", "", "", 0, "", "", "", 0," ");
@@ -376,75 +372,79 @@ void MainWindow::on_deletePushButton_clicked() {
   }
 }
 
-void MainWindow::on_updatePushButton_clicked() {
-  // Récupération des valeurs des champs
-  int CIN = ui->updateCin_LE->text().toInt();
-  QString nom = ui->updateNom_LE->text();
-  QString prenom = ui->updatePrenom_LE->text();
-  QString adresse = ui->updateAdresse_LE->text();
-  QString genre = ui->updateGenre_LE->text();
-  QString email = ui->updateEmail_LE->text();
-  QString fonction = ui->updateFonction_LE->text();
-  int telephone = ui->updateTelephone_LE->text().toInt();
-  int salaire = ui->updateSalaire_LE->text().toInt();
-  QString RFID = ui->updateRFID_LE_2->text();
-  // Vérification des contraintes de saisie
-  bool saisieValide = true;
-  QString messageErreur;
+void MainWindow::on_updatePushButton_clicked()
+{
+    // Récupération des valeurs des champs
+    int CIN = ui->updateCin_LE->text().toInt();
+    QString nom = ui->updateNom_LE->text();
+    QString prenom = ui->updatePrenom_LE->text();
+    QString adresse = ui->updateAdresse_LE->text();
+    QString genre = ui->updateGenre_LE->text();
+    QString email = ui->updateEmail_LE->text();
+    QString fonction = ui->updateFonction_LE->text();
+    int telephone = ui->updateTelephone_LE->text().toInt();
+    int salaire = ui->updateSalaire_LE->text().toInt();
+    QString RFID = ui->updateRFID_LE_2->text();
 
-  // Vérification du nom et prénom
-  if (nom.isEmpty() || prenom.isEmpty()) {
-    messageErreur += "Veuillez saisir le nom et le prénom.\n";
-    saisieValide = false;
-  }
 
-  // Vérification du genre
-  if (genre.toLower() != "homme" && genre.toLower() != "femme") {
-    messageErreur += "Le genre doit être 'Homme' ou 'Femme'.\n";
-    saisieValide = false;
-  }
+    // Vérification des contraintes de saisie
+    bool saisieValide = true;
+    QString messageErreur;
 
-  // Vérification du format de l'email
-  QRegExp regex("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
-  if (!email.contains(regex)) {
-    messageErreur += "Veuillez saisir une adresse email valide.\n";
-    saisieValide = false;
-  }
+    // Vérification du nom et prénom
+    if(nom.isEmpty() || prenom.isEmpty()) {
+        messageErreur += "Veuillez saisir le nom et le prénom.\n";
+        saisieValide = false;
+    }
 
-  // Vérification de la fonction (lettre seulement)
-  QRegExp regexFonction("[A-Za-z]+");
-  if (!fonction.contains(regexFonction)) {
-    messageErreur += "La fonction doit contenir uniquement des lettres.\n";
-    saisieValide = false;
-  }
-  // Vérification de la fonction (lettre seulement)
+    // Vérification du genre
+    if(genre.toLower() != "homme" && genre.toLower() != "femme") {
+        messageErreur += "Le genre doit être 'Homme' ou 'Femme'.\n";
+        saisieValide = false;
+    }
+
+    // Vérification du format de l'email
+    QRegExp regex("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
+    if(!email.contains(regex)) {
+        messageErreur += "Veuillez saisir une adresse email valide.\n";
+        saisieValide = false;
+    }
+
+    // Vérification de la fonction (lettre seulement)
+    QRegExp regexFonction("[A-Za-z]+");
+    if (!fonction.contains(regexFonction)) {
+        messageErreur += "La fonction doit contenir uniquement des lettres.\n";
+        saisieValide = false;
+    }
+
+    // Vérification de la fonction (lettre seulement)
     QRegExp regexRFID("^[a-zA-Z0-9]+$");
     if (!fonction.contains(regexFonction)) {
         messageErreur += "Le RFID doit contenir uniquement des lettres ET DES CHIFFRES.\n";
         saisieValide = false;
     }
-  // Si la saisie est valide, effectuer la modification
-  if (saisieValide) {
-    Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction,
-               salaire);
-    bool test = e.modifier();
-    if (test) {
-      ui->listEmployetableView->setModel(e.afficher());
-      // Effacer les champs après la modification réussie
-      ui->updateCin_LE->clear();
-      ui->updateNom_LE->clear();
-      ui->updatePrenom_LE->clear();
-      ui->updateAdresse_LE->clear();
-      ui->updateGenre_LE->clear();
-      ui->updateEmail_LE->clear();
-      ui->updateFonction_LE->clear();
-      ui->updateTelephone_LE->clear();
-      ui->updateSalaire_LE->clear();
+
+    // Si la saisie est valide, effectuer la modification
+    if(saisieValide) {
+        Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction, salaire, RFID);
+        bool test = e.modifier();
+        if(test) {
+            ui->listEmployetableView->setModel(e.afficher());
+            // Effacer les champs après la modification réussie
+            ui->updateCin_LE->clear();
+            ui->updateNom_LE->clear();
+            ui->updatePrenom_LE->clear();
+            ui->updateAdresse_LE->clear();
+            ui->updateGenre_LE->clear();
+            ui->updateEmail_LE->clear();
+            ui->updateFonction_LE->clear();
+            ui->updateTelephone_LE->clear();
+            ui->updateSalaire_LE->clear();
+        }
+    } else {
+        // Afficher un message d'erreur si la saisie est invalide
+        QMessageBox::critical(this, "Erreur de saisie", messageErreur);
     }
-  } else {
-    // Afficher un message d'erreur si la saisie est invalide
-    QMessageBox::critical(this, "Erreur de saisie", messageErreur);
-  }
 }
 
 void MainWindow::on_triCinPushButton_clicked() {
