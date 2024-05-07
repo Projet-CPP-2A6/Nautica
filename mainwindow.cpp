@@ -701,64 +701,65 @@ void MainWindow::on_PDFpushButton_clicked()
                 painter.end();
 }
 
-void MainWindow::on_importCSV_clicked() {
-  QString fileName = QFileDialog::getOpenFileName(
-      this, tr("Ouvrir fichier CSV"), QString(), tr("Fichiers CSV (*.csv)"));
-  if (fileName.isEmpty())
-    return;
+void MainWindow::on_importCSV_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Ouvrir fichier CSV"), QString(), tr("Fichiers CSV (*.csv)"));
+    if (fileName.isEmpty()) return;
 
-  QFile file(fileName);
-  if (!file.open(QIODevice::ReadOnly)) {
-    QMessageBox::warning(this, tr("Erreur"),
-                         tr("Impossible d'ouvrir le fichier."));
-    return;
-  }
-
-  QTextStream in(&file);
-  try {
-    while (!in.atEnd()) {
-      QString line = in.readLine();
-      QStringList fields = line.split(';');
-
-      if (fields.size() < 9) {
-        // Afficher un avertissement ou gérer le cas où la ligne ne contient pas
-        // suffisamment de champs
-        qDebug() << "La ligne CSV ne contient pas suffisamment de champs";
-        continue; // Passer à la prochaine ligne
-      }
-
-      // Créer un objet Employes avec les données lues depuis le fichier CSV
-      Employes employee;
-      employee.setCin(fields[0].toInt());
-      employee.setNom(fields[1]);
-      employee.setPrenom(fields[2]);
-      employee.setGenre(fields[3]);
-      employee.setTel(fields[4].toInt());
-      employee.setEmail(fields[5]);
-      employee.setAdresse(fields[6]);
-      employee.setFonction(fields[7]);
-      employee.setSalaire(fields[8].toFloat()); // Convertir en float
-
-      // Ajouter l'employé à la base de données
-      if (!employee.ajouter()) {
-        QMessageBox::warning(
-            this, tr("Erreur"),
-            tr("Impossible d'ajouter l'employé à la base de données."));
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::warning(this, tr("Erreur"), tr("Impossible d'ouvrir le fichier."));
         return;
-      }
     }
-  } catch (const std::exception &e) {
-    QMessageBox::critical(this, tr("Erreur"),
-                          tr("Une erreur s'est produite lors de l'importation "
-                             "du fichier CSV : %1")
-                              .arg(e.what()));
-  }
 
-  file.close();
-  QMessageBox::information(
-      this, tr("Succès"),
-      tr("Données ajoutées avec succès à la base de données."));
+    QTextStream in(&file);
+    bool firstLine = true; // Indicateur pour la première ligne
+
+    try {
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+
+            // Si c'est la première ligne, passer à la suivante
+            if(firstLine) {
+                firstLine = false;
+                continue;
+            }
+
+            QStringList fields = line.split(';');
+
+            if (fields.size() < 9) {
+                // Afficher un avertissement ou gérer le cas où la ligne ne contient pas suffisamment de champs
+                qDebug() << "La ligne CSV ne contient pas suffisamment de champs";
+                continue; // Passer à la prochaine ligne
+            }
+
+            // Créer un objet Employes avec les données lues depuis le fichier CSV
+            Employes employee;
+            employee.setCin(fields[0].toInt());
+            employee.setNom(fields[1]);
+            employee.setPrenom(fields[2]);
+            employee.setGenre(fields[3]);
+            employee.setTel(fields[4].toInt());
+            employee.setEmail(fields[5]);
+            employee.setAdresse(fields[6]);
+            employee.setFonction(fields[7]);
+            employee.setSalaire(fields[8].toFloat()); // Convertir en float
+            employee.setRFID(fields[9]);
+
+            // Ajouter l'employé à la base de données
+            if (!employee.ajouter()) {
+                QMessageBox::warning(this, tr("Erreur"), tr("Impossible d'ajouter l'employé à la base de données."));
+                return;
+            }
+        }
+    } catch (const std::exception& e) {
+        QMessageBox::critical(this, tr("Erreur"), tr("Une erreur s'est produite lors de l'importation du fichier CSV : %1").arg(e.what()));
+    }
+
+    file.close();
+    QMessageBox::information(this, tr("Succès"), tr("Données ajoutées avec succès à la base de données."));
 }
+
 
 void MainWindow::on_statGenderPushButton_clicked() {
   QChartView *chartView;
