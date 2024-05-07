@@ -13,7 +13,6 @@ Dialog::Dialog(QWidget *parent) :
     ui->setupUi(this);
     ui->temp_lcdNumber->display("-------");
     arduino = new QSerialPort(this);
-    arduino->setPortName("COM5");
     serialBuffer = "";
     parsed_data = "";
     temperature_value = 0.0;
@@ -39,7 +38,7 @@ Dialog::Dialog(QWidget *parent) :
      */
     bool arduino_is_available = false;
     QString arduino_port_name;
-    QString desired_port_name = "COM5"; // Change this to the desired port name
+    QString desired_port_name = "COM7"; // Change this to the desired port name
     //
     //  For each available serial port
     foreach(const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts()){

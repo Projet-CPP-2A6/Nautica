@@ -21,11 +21,11 @@ pdf::~pdf()
 void pdf::on_pushButton_clicked() // pdf //
 {
     // Create PDF writer
-    QPdfWriter pdf("C:/Users/zidio/Desktop/DETAILS.pdf");
+    QPdfWriter pdf("C:/Users/chihe/Desktop/DETAILS.pdf");
     QPainter painter(&pdf);
 
     // Set up background image
-    QImage backgroundImage("C:/Users/zidio/Downloads/417431027_1074338087025053_9110711985865016911_n.png");
+    QImage backgroundImage("C:/Users/chihe/Desktop/Nautica/img/logo.png");
     if (backgroundImage.isNull()) {
         // Handle error loading background image
         qDebug() << "Failed to load background image.";
