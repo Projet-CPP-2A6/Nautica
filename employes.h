@@ -24,7 +24,7 @@ private:
 public:
   Employes();
   Employes(int CIN, QString nom, QString prenom, QString genre, int tel,
-           QString email, QString adresse, QString fonction, float salaire);
+           QString email, QString adresse, QString fonction, float salaire, QString RFID);
 
   // getters
   int getcin();
