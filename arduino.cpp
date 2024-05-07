@@ -6,6 +6,15 @@ Arduino::Arduino()
     arduino_port_name="";
     arduino_is_available=false;
     serial=new QSerialPort;
+    arduino_uno_vendor_id = 9025;
+    arduino_uno_producy_id = 67;
+}
+
+Arduino::Arduino(quint16 vendorId, quint16 productId)
+    : Arduino()
+{
+    arduino_uno_vendor_id = vendorId;
+    arduino_uno_producy_id = productId;
 }
 
 QString Arduino::getarduino_port_name()

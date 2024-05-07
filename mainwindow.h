@@ -160,8 +160,9 @@ private slots:
 
   void on_calculatorref_clicked();
 
-   void connect_RFID();
-
+  void on_SmokeDetectorTestButton_clicked();
+  
+  void connect_RFID();
 void setPermissions(const QString& fonction);
    void toggleArduinoConnection();
 
