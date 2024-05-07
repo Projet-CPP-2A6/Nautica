@@ -7,6 +7,8 @@
 #include "email.h"
 #include "pdf.h"
 #include "stat1.h"
+#include "arduino.h"
+#include "smoke-detector.h"
 #include "ui_mainwindow.h"
 #include <QAbstractItemModel>
 #include <QDebug>
@@ -23,11 +25,18 @@
 #include <QString>
 #include <QTableView>
 #include <QUrl>
+#include <QFileDialog>
+#include <QTextCodec>
 #include <QtScript>
+#include <QThread>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
-  ui->setupUi(this);
+   ui->setupUi(this);
+   ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
+
+   arduinoConnected=false;
   Employes e(0, "", "", "", 0, "", "", "", 0);
+
   // int state = 0;
   ui->frame_3->setVisible(false);
   ui->ClientNoteFrame->setHidden(true);
@@ -35,27 +44,303 @@ MainWindow::MainWindow(QWidget *parent)
   ui->table_abonnement_3->setModel(display.afficher_abonnement());
   ui->table_abonnement_2->setModel(display.afficher_abonnement());
   ui->stackedWidget->setCurrentIndex(0);
+
+  connect(ui->bouttonArduino, &QPushButton::clicked, this, &MainWindow::toggleArduinoConnection);
+  //Arduino A;
+     /* int ret=A.connect_arduino(); // lancer la connexion à arduino
+                  switch(ret){
+                  case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+                      break;
+                  case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+                     break;
+                  case(-1):qDebug() << "arduino is not available";
+                  }*/
+                  // QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(read_from_arduino())); // permet de lancer
+                   //le slot update_label suite à la reception du signal readyRead (reception des données)
+                      QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(connect_RFID()));
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+//arduino
+
+void MainWindow::toggleArduinoConnection()
+{
+    if (arduinoConnected) {
+        int ret = A.close_arduino(); // Fermer la connexion à Arduino
+        if (ret == 0) {
+            qDebug() << "Arduino disconnected";
+            arduinoConnected = false;
+        } else {
+            qDebug() << "Failed to disconnect Arduino";
+        }
+    } else {
+        int ret = A.connect_arduino(); // Établir la connexion à Arduino
+        switch(ret){
+            case(0): {
+                qDebug()<< "Arduino connected to port : "<< A.getarduino_port_name();
+                arduinoConnected = true;
+                break;
+            }
+            case(1): {
+                qDebug() << "Arduino available but not connected to :" << A.getarduino_port_name();
+                break;
+            }
+            case(-1): {
+                qDebug() << "Arduino not available";
+                break;
+            }
+        }
+    }
+}
+void MainWindow::connect_RFID()
+
+{
+    // pour tester si la connexion lors du passage de la carte rfid a ete effectué ou non avec un label 'RFID_Label'
+
+    //ui->RFID_Label->setText("arduino detected");
+
+     QByteArray dataArduino = A.read_from_arduino();
+    QString uid = QTextCodec::codecForMib(106)->toUnicode(dataArduino);
+
+    //qDebug()<<uid;//pour tester dans la console de QT
+    qDebug() << uid << endl;
+
+
+
+    ui->RFID_label->setText(uid);/*------- pour tester avec un label----------*/
+
+    Employes E; //remplacez avec le nom de votre classe
+
+     // cas ou elle existe
+    if(E.rfidExists(uid))
+
+        {
+
+            QByteArray data1;
+            data1.append('1');
+            A.write_to_arduino(data1);//envoie 1 a arduino et enclenche /demarre le processus 1
+
+            qDebug()<<"carte existante";
+
+            QString fonction = E.getFunction(uid);
+             setPermissions(fonction);
+
+            //prend la valeur du nom
+            QString nom = E.rfidName(uid);
+            //ui->RFID_NOM->setText(nom);
+            ui->stackedWidget->setCurrentIndex(1); //redirige ves la page 1 de l'application (menu)
+            ui->frame_3->setVisible(true);
+            ui->userStatusLabel->setText("utilisateur: "+nom);
+
+            QByteArray nomData(nom.toUtf8(), 8);
+            A.write_to_arduino(nomData);
+
+           // QString CRfid = E.rfidName(uid);
+
+
+
+        }
+
+    // cas ou elle n'existe pas
+    else if (!E.rfidExists(uid))
+        {
+            //inexistante
+                QByteArray data1;
+                data1.append('2');
+                A.write_to_arduino(data1); // envoie 2 a arduino et enclenche /demarre le processus 2
+
+                qDebug()<<"carte inexistante";
+
+        }
+
+ }
+
+ void MainWindow::setPermissions(const QString& fonction)
+{
+
+     if (fonction.compare("admin") == 0) {
+       ui->clientPushButton->setEnabled(true);
+       ui->employesPushButton->setEnabled(true);
+       ui->equipementsPushButton->setEnabled(true);
+       ui->evenementsPushButton->setEnabled(true);
+       ui->abonnementPushButton->setEnabled(true);
+       ui->MenuPage->setEnabled(true);
+
+       ui->ClientsPage->setEnabled(true);
+       ui->EmployeesPage->setEnabled(true);
+       ui->EquipmentsPage->setEnabled(true);
+       ui->EventsPage->setEnabled(true);
+       ui->SubscriptionsPage->setEnabled(true);
+     }
+     else if (fonction.compare("employes") == 0) {
+       ui->clientPushButton->setEnabled(false);
+       ui->employesPushButton->setEnabled(true);
+       ui->equipementsPushButton->setEnabled(false);
+       ui->evenementsPushButton->setEnabled(false);
+       ui->abonnementPushButton->setEnabled(false);
+       ui->MenuPage->setEnabled(true);
+
+       ui->ClientsPage->setEnabled(false);
+       ui->EmployeesPage->setEnabled(true);
+       ui->EquipmentsPage->setEnabled(false);
+       ui->EventsPage->setEnabled(false);
+       ui->SubscriptionsPage->setEnabled(false);
+     }
+     else if (fonction.compare("clients") == 0) {
+       ui->clientPushButton->setEnabled(true);
+       ui->employesPushButton->setEnabled(false);
+       ui->equipementsPushButton->setEnabled(false);
+       ui->evenementsPushButton->setEnabled(false);
+       ui->abonnementPushButton->setEnabled(false);
+       ui->MenuPage->setEnabled(true);
+
+       ui->ClientsPage->setEnabled(true);
+       ui->EmployeesPage->setEnabled(false);
+       ui->EquipmentsPage->setEnabled(false);
+       ui->EventsPage->setEnabled(false);
+       ui->SubscriptionsPage->setEnabled(false);
+     }
+     else if (fonction.compare("equipements") == 0) {
+       ui->clientPushButton->setEnabled(false);
+       ui->employesPushButton->setEnabled(false);
+       ui->equipementsPushButton->setEnabled(true);
+       ui->evenementsPushButton->setEnabled(false);
+       ui->abonnementPushButton->setEnabled(false);
+       ui->MenuPage->setEnabled(true);
+
+       ui->ClientsPage->setEnabled(false);
+       ui->EmployeesPage->setEnabled(false);
+       ui->EquipmentsPage->setEnabled(true);
+       ui->EventsPage->setEnabled(false);
+       ui->SubscriptionsPage->setEnabled(false);
+     }
+     else if (fonction.compare("abonnements") == 0) {
+       ui->clientPushButton->setEnabled(false);
+       ui->employesPushButton->setEnabled(false);
+       ui->equipementsPushButton->setEnabled(false);
+       ui->evenementsPushButton->setEnabled(false);
+       ui->abonnementPushButton->setEnabled(true);
+       ui->MenuPage->setEnabled(true);
+
+       ui->ClientsPage->setEnabled(false);
+       ui->EmployeesPage->setEnabled(false);
+       ui->EquipmentsPage->setEnabled(false);
+       ui->EventsPage->setEnabled(false);
+       ui->SubscriptionsPage->setEnabled(true);
+     }
+     else if (fonction.compare("evenements") == 0) {
+       ui->clientPushButton->setEnabled(false);
+       ui->employesPushButton->setEnabled(false);
+       ui->equipementsPushButton->setEnabled(false);
+       ui->evenementsPushButton->setEnabled(true);
+       ui->abonnementPushButton->setEnabled(false);
+       ui->MenuPage->setEnabled(true);
+
+       ui->ClientsPage->setEnabled(false);
+       ui->EmployeesPage->setEnabled(false);
+       ui->EquipmentsPage->setEnabled(false);
+       ui->EventsPage->setEnabled(true);
+       ui->SubscriptionsPage->setEnabled(false);
+     }
+     else {
+       ui->clientPushButton->setEnabled(false);
+       ui->employesPushButton->setEnabled(false);
+       ui->equipementsPushButton->setEnabled(false);
+       ui->evenementsPushButton->setEnabled(false);
+       ui->abonnementPushButton->setEnabled(false);
+       ui->MenuPage->setEnabled(false);
+
+       ui->ClientsPage->setEnabled(false);
+       ui->EmployeesPage->setEnabled(false);
+       ui->EquipmentsPage->setEnabled(false);
+       ui->EventsPage->setEnabled(false);
+       ui->SubscriptionsPage->setEnabled(false);
+     }
+}
 
 void MainWindow::on_pushButton_3_clicked() {
-  int CIN = ui->CIN_LE->text().toInt();
-  qDebug() << "Type of variable 'a': " << typeid(CIN).name();
+  // Récupération des valeurs des champs
+  QString cinStr = ui->CIN_LE->text();
   QString nom = ui->nom_LE->text();
   QString prenom = ui->prenom_LE->text();
   QString adresse = ui->adresse_LE->text();
-  QString genre = ui->genre_LE->text();
+  QString genre = ui->genre_LE->text()
+                      .toLower(); // Convertir en minuscules pour la comparaison
   QString email = ui->email_LE->text();
   QString fonction = ui->fonction_LE->text();
   int salaire = ui->salaire_LE->text().toInt();
-  qDebug() << "Type of variable 'salaire': " << typeid(salaire).name();
-  int telephone = ui->telephone_LE->text().toInt();
-  qDebug() << "Type of variable 'teelephone': " << typeid(telephone).name();
+  QString telephoneStr = ui->telephone_LE->text();
 
+  // Expression régulière pour vérifier le format du CIN (chiffres seulement)
+  QRegExp regexCIN("^[0-9]+$");
+  // Expression régulière pour vérifier le format du nom et du prénom (lettres
+  // seulement)
+  QRegExp regexNomPrenom("^[a-zA-Z]+$");
+  // Expression régulière pour vérifier le format de l'email
+  QRegExp regexEmail("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
+  // Expression régulière pour vérifier le format du numéro de téléphone
+  // (chiffres seulement)
+  QRegExp regexTelephone("^[0-9]+$");
+
+  // Vérification des saisies
+  if (cinStr.isEmpty() || !regexCIN.exactMatch(cinStr)) {
+    QMessageBox::critical(
+        this, "Erreur", "Veuillez saisir un CIN valide (chiffres seulement).");
+    return;
+  }
+
+  if (nom.isEmpty() || !regexNomPrenom.exactMatch(nom)) {
+    QMessageBox::critical(this, "Erreur",
+                          "Veuillez saisir un nom valide (lettres seulement).");
+    return;
+  }
+
+  if (prenom.isEmpty() || !regexNomPrenom.exactMatch(prenom)) {
+    QMessageBox::critical(
+        this, "Erreur",
+        "Veuillez saisir un prénom valide (lettres seulement).");
+    return;
+  }
+
+  if (email.isEmpty() || !regexEmail.exactMatch(email)) {
+    QMessageBox::critical(this, "Erreur",
+                          "Veuillez saisir une adresse email valide.");
+    return;
+  }
+
+  if (telephoneStr.isEmpty() || !regexTelephone.exactMatch(telephoneStr)) {
+    QMessageBox::critical(
+        this, "Erreur",
+        "Veuillez saisir un numéro de téléphone valide (chiffres seulement).");
+    return;
+  }
+
+  // Vérification du nombre de chiffres dans le numéro de téléphone
+  if (telephoneStr.length() != 8) {
+    QMessageBox::critical(
+        this, "Erreur",
+        "Veuillez saisir un numéro de téléphone valide (8 chiffres).");
+    return;
+  }
+
+  // Vérification du genre
+  if (genre != "homme" && genre != "femme") {
+    QMessageBox::critical(this, "Erreur",
+                          "Veuillez saisir un genre valide (homme ou femme).");
+    return;
+  }
+
+  // Convertir les champs nécessaires en types appropriés
+  int CIN = cinStr.toInt();
+  int telephone = telephoneStr.toInt();
+
+  // Si toutes les saisies sont valides, ajoutez l'employé
   Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction,
              salaire);
-  // e.ajouter();
   bool test = e.ajouter();
   if (test) {
     QMessageBox::information(this, "Succès",
@@ -63,7 +348,7 @@ void MainWindow::on_pushButton_3_clicked() {
     ui->listEmployetableView->setModel(e.afficher());
   } else {
     QMessageBox::critical(this, "Erreur",
-                          "employé existant. Veuillez réessayer.");
+                          "Employé existant. Veuillez réessayer.");
   }
 }
 
@@ -71,6 +356,8 @@ void MainWindow::on_refreshTableV_clicked() {
   Employes e(0, "", "", "", 0, "", "", "", 0);
 
   ui->listEmployetableView->setModel(e.afficher());
+  // Mettre à jour la largeur de la colonne email (supposons que la colonne email soit la 5eme colonne)
+  ui->listEmployetableView->setColumnWidth(5, ui->listEmployetableView->columnWidth(5) + 20);
 }
 
 void MainWindow::on_deletePushButton_clicked() {
@@ -83,6 +370,7 @@ void MainWindow::on_deletePushButton_clicked() {
 }
 
 void MainWindow::on_updatePushButton_clicked() {
+  // Récupération des valeurs des champs
   int CIN = ui->updateCin_LE->text().toInt();
   QString nom = ui->updateNom_LE->text();
   QString prenom = ui->updatePrenom_LE->text();
@@ -92,21 +380,57 @@ void MainWindow::on_updatePushButton_clicked() {
   QString fonction = ui->updateFonction_LE->text();
   int telephone = ui->updateTelephone_LE->text().toInt();
   int salaire = ui->updateSalaire_LE->text().toInt();
-  Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction,
-             salaire);
-  e.modifier();
-  bool test = e.modifier();
-  if (test) {
-    ui->listEmployetableView->setModel(e.afficher());
-    ui->updateCin_LE->clear();
-    ui->updateNom_LE->clear();
-    ui->updatePrenom_LE->clear();
-    ui->updateAdresse_LE->clear();
-    ui->updateGenre_LE->clear();
-    ui->updateEmail_LE->clear();
-    ui->updateFonction_LE->clear();
-    ui->updateTelephone_LE->clear();
-    ui->updateSalaire_LE->clear();
+  // Vérification des contraintes de saisie
+  bool saisieValide = true;
+  QString messageErreur;
+
+  // Vérification du nom et prénom
+  if (nom.isEmpty() || prenom.isEmpty()) {
+    messageErreur += "Veuillez saisir le nom et le prénom.\n";
+    saisieValide = false;
+  }
+
+  // Vérification du genre
+  if (genre.toLower() != "homme" && genre.toLower() != "femme") {
+    messageErreur += "Le genre doit être 'Homme' ou 'Femme'.\n";
+    saisieValide = false;
+  }
+
+  // Vérification du format de l'email
+  QRegExp regex("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
+  if (!email.contains(regex)) {
+    messageErreur += "Veuillez saisir une adresse email valide.\n";
+    saisieValide = false;
+  }
+
+  // Vérification de la fonction (lettre seulement)
+  QRegExp regexFonction("[A-Za-z]+");
+  if (!fonction.contains(regexFonction)) {
+    messageErreur += "La fonction doit contenir uniquement des lettres.\n";
+    saisieValide = false;
+  }
+
+  // Si la saisie est valide, effectuer la modification
+  if (saisieValide) {
+    Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction,
+               salaire);
+    bool test = e.modifier();
+    if (test) {
+      ui->listEmployetableView->setModel(e.afficher());
+      // Effacer les champs après la modification réussie
+      ui->updateCin_LE->clear();
+      ui->updateNom_LE->clear();
+      ui->updatePrenom_LE->clear();
+      ui->updateAdresse_LE->clear();
+      ui->updateGenre_LE->clear();
+      ui->updateEmail_LE->clear();
+      ui->updateFonction_LE->clear();
+      ui->updateTelephone_LE->clear();
+      ui->updateSalaire_LE->clear();
+    }
+  } else {
+    // Afficher un message d'erreur si la saisie est invalide
+    QMessageBox::critical(this, "Erreur de saisie", messageErreur);
   }
 }
 
@@ -145,72 +469,92 @@ void MainWindow::on_loginPushButton_clicked() {
         ui->equipementsPushButton->setEnabled(true);
         ui->evenementsPushButton->setEnabled(true);
         ui->abonnementPushButton->setEnabled(true);
+        ui->MenuPage->setEnabled(true);
+
         ui->ClientsPage->setEnabled(true);
         ui->EmployeesPage->setEnabled(true);
         ui->EquipmentsPage->setEnabled(true);
         ui->EventsPage->setEnabled(true);
         ui->SubscriptionsPage->setEnabled(true);
-      } else if (titre.compare("employes") == 0) {
+      }
+      else if (titre.compare("employes") == 0) {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(true);
         ui->equipementsPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(false);
+        ui->MenuPage->setEnabled(true);
+
         ui->ClientsPage->setEnabled(false);
         ui->EmployeesPage->setEnabled(true);
         ui->EquipmentsPage->setEnabled(false);
         ui->EventsPage->setEnabled(false);
         ui->SubscriptionsPage->setEnabled(false);
-      } else if (titre.compare("clients") == 0) {
+      }
+      else if (titre.compare("clients") == 0) {
         ui->clientPushButton->setEnabled(true);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(false);
+        ui->MenuPage->setEnabled(true);
+
         ui->ClientsPage->setEnabled(true);
         ui->EmployeesPage->setEnabled(false);
         ui->EquipmentsPage->setEnabled(false);
         ui->EventsPage->setEnabled(false);
         ui->SubscriptionsPage->setEnabled(false);
-      } else if (titre.compare("equipements") == 0) {
+      }
+      else if (titre.compare("equipements") == 0) {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(true);
         ui->evenementsPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(false);
+        ui->MenuPage->setEnabled(true);
+
         ui->ClientsPage->setEnabled(false);
         ui->EmployeesPage->setEnabled(false);
         ui->EquipmentsPage->setEnabled(true);
         ui->EventsPage->setEnabled(false);
         ui->SubscriptionsPage->setEnabled(false);
-      } else if (titre.compare("abonnements") == 0) {
+      }
+      else if (titre.compare("abonnements") == 0) {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(true);
+        ui->MenuPage->setEnabled(true);
+
         ui->ClientsPage->setEnabled(false);
         ui->EmployeesPage->setEnabled(false);
         ui->EquipmentsPage->setEnabled(false);
         ui->EventsPage->setEnabled(false);
         ui->SubscriptionsPage->setEnabled(true);
-      } else if (titre.compare("evenements") == 0) {
+      }
+      else if (titre.compare("evenements") == 0) {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(true);
         ui->abonnementPushButton->setEnabled(false);
+        ui->MenuPage->setEnabled(true);
+
         ui->ClientsPage->setEnabled(false);
         ui->EmployeesPage->setEnabled(false);
         ui->EquipmentsPage->setEnabled(false);
         ui->EventsPage->setEnabled(true);
         ui->SubscriptionsPage->setEnabled(false);
-      } else {
+      }
+      else {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
         ui->evenementsPushButton->setEnabled(false);
         ui->abonnementPushButton->setEnabled(false);
+        ui->MenuPage->setEnabled(false);
+
         ui->ClientsPage->setEnabled(false);
         ui->EmployeesPage->setEnabled(false);
         ui->EquipmentsPage->setEnabled(false);
@@ -273,9 +617,6 @@ void MainWindow::on_lineEdit_textChanged(const QString &arg1) {
   if (ui->PhoneradioButton->isChecked() == true) {
     e.chercherEmpTel(ui->listEmployetableView, arg1);
   }
-  if (ui->PhoneradioButton->isChecked() == true) {
-    e.chercherEmpTel(ui->listEmployetableView, arg1);
-  }
 }
 
 void MainWindow::on_PDFpushButton_clicked() {
@@ -292,7 +633,7 @@ void MainWindow::on_PDFpushButton_clicked() {
   printer.setOutputFormat(QPrinter::PdfFormat);
   printer.setOutputFileName(filePath);
 
-  // Créatoin d'un objet QPainter pour l'objet QPrinter
+  // Création d'un objet QPainter pour l'objet QPrinter
   QPainter painter;
   if (!painter.begin(&printer)) {
     qWarning("Failed to open file, is it writable?");
@@ -303,33 +644,44 @@ void MainWindow::on_PDFpushButton_clicked() {
   QAbstractItemModel *model = ui->listEmployetableView->model();
 
   // Obtenir les dimensions de la table
-  int rows = model->rowCount();
+  int rows = model->rowCount()+1;
   int columns = model->columnCount();
 
-  // Définissez la taille de la cellule pour le dessin
-  int cellWidth = 100;
+  // Définir la taille de la cellule pour le dessin
+  int cellWidth = 105;
   int cellHeight = 30;
+  // Insérer le titre au-dessus du tableau
+    painter.drawText(0, 0, columns * cellWidth, cellHeight, Qt::AlignCenter, "Le tableau des employés");
+
+    // Dessiner des traits noirs entre les cellules
+    painter.setPen(Qt::black);
+    for (int col = 0; col <= columns; ++col) {
+        painter.drawLine((col + 1) * cellWidth, cellHeight, (col + 1) * cellWidth, (rows + 1) * cellHeight);
+    }
+    for (int row = 0; row <= rows; ++row) {
+        painter.drawLine(0, (row + 1) * cellHeight, columns * cellWidth, (row + 1) * cellHeight);
+    }
   // Insérer les noms des colonnes
   for (int col = 0; col < columns; ++col) {
     QString headerData = model->headerData(col, Qt::Horizontal).toString();
-    painter.drawText(col * cellWidth, 0, cellWidth, cellHeight, Qt::AlignCenter,
+    painter.drawText(col * cellWidth, cellHeight, cellWidth, cellHeight, Qt::AlignCenter,
                      headerData);
   }
 
   // Insérer les données de la table sur le périphérique de sortie PDF
-  for (int row = 1; row < rows; ++row) {
+  for (int row = 0; row < rows; ++row) {
     for (int col = 0; col < columns; ++col) {
       // Obtenir les données de la cellule
       QModelIndex index = model->index(row, col);
       QString data = model->data(index).toString();
 
       // Insérer les données de la cellule
-      painter.drawText(col * cellWidth, row * cellHeight, cellWidth, cellHeight,
+      painter.drawText(col * cellWidth, (row + 2) * cellHeight, cellWidth, cellHeight,
                        Qt::AlignLeft, data);
     }
   }
 
-  // Terminez avec QPainter
+  // Terminer avec QPainter
   painter.end();
 }
 void MainWindow::on_importCSV_clicked() {
@@ -532,26 +884,22 @@ void MainWindow::on_statFonctionPushButton_clicked() {
          << "#0000ff"; // Rouge, Vert, Jaune, Violet, Bleu
 
   QPieSeries *series = new QPieSeries();
-  QPieSlice *slice1 = series->append("employes", c1);
-  QPieSlice *slice2 = series->append("clients", c2);
-  QPieSlice *slice3 = series->append("abonnements", c3);
-  QPieSlice *slice4 = series->append("evenements", c4);
-  QPieSlice *slice5 = series->append("equipements", c5);
+  QPieSlice *slice1 = series->append(
+      "employes (" + QString::number(c1 * 100, 'f', 2) + "%)", c1);
+  QPieSlice *slice2 = series->append(
+      "clients (" + QString::number(c2 * 100, 'f', 2) + "%)", c2);
+  QPieSlice *slice3 = series->append(
+      "abonnements (" + QString::number(c3 * 100, 'f', 2) + "%)", c3);
+  QPieSlice *slice4 = series->append(
+      "evenements (" + QString::number(c4 * 100, 'f', 2) + "%)", c4);
+  QPieSlice *slice5 = series->append(
+      "equipements (" + QString::number(c5 * 100, 'f', 2) + "%)", c5);
 
-  // Définition des libellés avec les pourcentages
-  slice1->setLabel(QString("%1%").arg(QString::number(c1 * 100, 'f', 2)));
-  slice2->setLabel(QString("%1%").arg(QString::number(c2 * 100, 'f', 2)));
-  slice3->setLabel(QString("%1%").arg(QString::number(c3 * 100, 'f', 2)));
-  slice4->setLabel(QString("%1%").arg(QString::number(c4 * 100, 'f', 2)));
-  slice5->setLabel(QString("%1%").arg(QString::number(c5 * 100, 'f', 2)));
-
-  // Définition des pourcentages à 0% pour les parties vides
-  if (c3 == 0)
-    slice3->setLabel("0%");
-  if (c4 == 0)
-    slice4->setLabel("0%");
-  if (c5 == 0)
-    slice5->setLabel("0%");
+  slice1->setLabelVisible(true);
+  slice2->setLabelVisible(true);
+  slice3->setLabelVisible(true);
+  slice4->setLabelVisible(true);
+  slice5->setLabelVisible(true);
 
   QChart *chart = new QChart();
   chart->addSeries(series);
@@ -1281,7 +1629,7 @@ void MainWindow::on_statPrixPushButton_clicked() {
   QChartView *chartView = new QChartView(
       ui->Equipement_label_Stats); // Chart view created with parent
   chartView->setRenderHint(QPainter::Antialiasing);
-  chartView->setMinimumSize(570, 570);
+  chartView->setMinimumSize(770, 570);//changement
 
   QSqlQuery q1, q2, q3;
   qreal tot = 0, c1 = 0, c2 = 0, c3 = 0;
@@ -2096,3 +2444,32 @@ void MainWindow::on_calculatorref_clicked() {
                                    QString::number(prix));
   }
 }
+
+void MainWindow::on_SmokeDetectorTestButton_clicked()
+{
+    SmokeDetector smokeDetector;
+    Arduino arduino(0x1A86, 0x7523);
+    int connectionResult = arduino.connect_arduino();
+    if (connectionResult == 0) {
+        qDebug() << "Connected to Arduino successfully!";
+    } else {
+        qDebug() << "Failed to connect to Arduino.";
+    }
+
+    QByteArray data = arduino.read_from_arduino();
+    smokeDetector.setSmokeDetected(data.toInt());
+
+    if (smokeDetector.isSmokeDetected()) {
+        ui->SmokeDetectorTestButton->setText("Smoke Detected");
+    } else {
+        ui->SmokeDetectorTestButton->setText("Smoke Not Detected");
+    }
+
+    arduino.close_arduino();
+
+    // Schedule resetting the button text after a delay
+    QTimer::singleShot(3000, this, [this]() {
+        ui->SmokeDetectorTestButton->setText("Smoke Detector Test");
+    });
+}
+
