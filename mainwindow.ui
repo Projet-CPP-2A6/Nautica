@@ -1217,6 +1217,51 @@ QLineEdit:focus {
            <string/>
           </property>
          </widget>
+         <widget class="QLineEdit" name="RFID_LE">
+          <property name="geometry">
+           <rect>
+            <x>570</x>
+            <y>470</y>
+            <width>411</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QLineEdit:focus {
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
+}
+</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_77">
+          <property name="geometry">
+           <rect>
+            <x>570</x>
+            <y>440</y>
+            <width>291</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Myanmar Text</family>
+            <pointsize>11</pointsize>
+            <underline>true</underline>
+           </font>
+          </property>
+          <property name="text">
+           <string>RFID</string>
+          </property>
+         </widget>
         </widget>
        </widget>
       </widget>
@@ -1713,6 +1758,51 @@ QPushButton:hover {
          </property>
          <property name="text">
           <string>ok</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="updateRFID_LE_2">
+         <property name="geometry">
+          <rect>
+           <x>350</x>
+           <y>540</y>
+           <width>411</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QLineEdit:focus {
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
+}
+</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_76">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>540</y>
+           <width>31</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Myanmar Text</family>
+           <pointsize>11</pointsize>
+           <underline>true</underline>
+          </font>
+         </property>
+         <property name="text">
+          <string>RFID</string>
          </property>
         </widget>
        </widget>
@@ -6983,7 +7073,7 @@ background-image: url(:/new/icons/icones/iconlogout.png);</string>
      <x>0</x>
      <y>0</y>
      <width>1269</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
