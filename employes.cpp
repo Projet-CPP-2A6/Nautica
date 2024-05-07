@@ -404,3 +404,4 @@ QString Employes::getFunction(const QString& uid)
 
     return fonction;
 }
+

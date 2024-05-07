@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
    ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
 
    arduinoConnected=false;
-  Employes e(0, "", "", "", 0, "", "", "", 0, " ");
+  Employes e(0, "", "", "", 0, "", "", "", 0," ");
 
   // int state = 0;
   ui->frame_3->setVisible(false);
@@ -389,7 +389,7 @@ void MainWindow::on_updatePushButton_clicked()
     QString fonction = ui->updateFonction_LE->text();
     int telephone = ui->updateTelephone_LE->text().toInt();
     int salaire = ui->updateSalaire_LE->text().toInt();
-    QString RFID = ui->updatetRFID_LE_2->text();
+    QString RFID = ui->updateRFID_LE_2->text();
 
 
     // Vérification des contraintes de saisie
@@ -651,8 +651,6 @@ void MainWindow::on_PDFpushButton_clicked()
     QPrinter printer;
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName(filePath);
-
-
 
     // Configuration pour le mode paysage
         printer.setOrientation(QPrinter::Landscape);
@@ -940,7 +938,7 @@ void MainWindow::on_statFonctionPushButton_clicked() {
 
   chartView = new QChartView(chart, ui->Employe_label_Stats);
   chartView->setRenderHint(QPainter::Antialiasing);
-  chartView->setMinimumSize(570, 570);
+  chartView->setMinimumSize(770, 570);
   chartView->show();
 }
 
@@ -1596,7 +1594,7 @@ void MainWindow::on_StatEtatPushButton_clicked() {
   QChartView *chartView = new QChartView(
       ui->Equipement_label_Stats); // Chart view created with parent
   chartView->setRenderHint(QPainter::Antialiasing);
-  chartView->setMinimumSize(570, 570);
+  chartView->setMinimumSize(970, 570);
 
   QSqlQuery q1, q2, q3;
   qreal tot = 0, c1 = 0, c2 = 0;
@@ -1654,7 +1652,7 @@ void MainWindow::on_statPrixPushButton_clicked() {
   QChartView *chartView = new QChartView(
       ui->Equipement_label_Stats); // Chart view created with parent
   chartView->setRenderHint(QPainter::Antialiasing);
-  chartView->setMinimumSize(770, 570);//changement
+  chartView->setMinimumSize(570, 570);
 
   QSqlQuery q1, q2, q3;
   qreal tot = 0, c1 = 0, c2 = 0, c3 = 0;
