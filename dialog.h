@@ -23,7 +23,7 @@ private slots:
     void readSerial();
     void updateTemperature(QString);
 
-    void on_temp_lcdNumber_overflow();
+    // void on_temp_lcdNumber_overflow();
 
 private:
     Ui::Dialog *ui;
