@@ -66,6 +66,19 @@ int Arduino::close_arduino()
 }
 
 
+QByteArray Arduino::stream_from_arduino()
+{
+    QByteArray receivedData;
+
+    // Keep reading until there's no more data available
+    while (serial->isReadable()) { // Wait for data to be available for up to 100 milliseconds
+        serial->waitForReadyRead(100);
+        receivedData.append(serial->readAll());
+    }
+
+    return receivedData;
+}
+
  QByteArray Arduino::read_from_arduino()
 {
     if(serial->isReadable()){
