@@ -51,7 +51,9 @@ private slots:
   void on_AjouterButton_3_clicked();
   void on_AjouterButton_4_clicked();
   void on_UpdateClientBtn_clicked();
-  void on_TrierParButton_clicked();
+  void on_TrierParCIN_clicked();
+  void on_TrierParNAME_clicked();
+  void on_TrierParDATE_clicked();
   void on_CPDFExport_clicked();
   void on_add_abonnement_push_clicked();
   void on_delete_abonnement_button_clicked();

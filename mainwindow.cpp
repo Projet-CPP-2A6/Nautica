@@ -1082,9 +1082,9 @@ void MainWindow::on_UpdateClientBtn_clicked() {
   }
 }
 
-void MainWindow::on_TrierParButton_clicked() {
+void MainWindow::on_TrierParCIN_clicked() {
   Client C;
-  QString critere = ui->CINradioButton->isChecked()      ? "CIN"
+  /*QString critere = ui->CINradioButton->isChecked()      ? "CIN"
                     : ui->NOMradioButton->isChecked()    ? "NOM"
                     : ui->PRENOMradioButton->isChecked() ? "PRENOM"
                     : ui->DATE_NAISSANCEradioButton->isChecked()
@@ -1092,8 +1092,8 @@ void MainWindow::on_TrierParButton_clicked() {
                     : ui->GENDERradioButton->isChecked() ? "GENRE"
                     : ui->PHONEradioButton->isChecked()  ? "TELEPHONE"
                     : ui->EMAILradioButton->isChecked()  ? "EMAIL"
-                                                         : "";
-
+                                                         : "";*/
+    QString critere = "CIN";
   QAbstractItemModel *sortedModel = C.TriPar(critere);
   if (sortedModel == nullptr) {
     qDebug() << "nullptr" << endl;
@@ -1101,6 +1101,43 @@ void MainWindow::on_TrierParButton_clicked() {
   ui->AllClientsModel->setModel(sortedModel);
 }
 
+void MainWindow::on_TrierParNAME_clicked() {
+  Client C;
+  /*QString critere = ui->CINradioButton->isChecked()      ? "CIN"
+                    : ui->NOMradioButton->isChecked()    ? "NOM"
+                    : ui->PRENOMradioButton->isChecked() ? "PRENOM"
+                    : ui->DATE_NAISSANCEradioButton->isChecked()
+                        ? "DATE_NAISSANCE"
+                    : ui->GENDERradioButton->isChecked() ? "GENRE"
+                    : ui->PHONEradioButton->isChecked()  ? "TELEPHONE"
+                    : ui->EMAILradioButton->isChecked()  ? "EMAIL"
+                                                         : "";*/
+    QString critere = "PRENOM";
+  QAbstractItemModel *sortedModel = C.TriPar(critere);
+  if (sortedModel == nullptr) {
+    qDebug() << "nullptr" << endl;
+  }
+  ui->AllClientsModel->setModel(sortedModel);
+}
+
+void MainWindow::on_TrierParDATE_clicked() {
+  Client C;
+  /*QString critere = ui->CINradioButton->isChecked()      ? "CIN"
+                    : ui->NOMradioButton->isChecked()    ? "NOM"
+                    : ui->PRENOMradioButton->isChecked() ? "PRENOM"
+                    : ui->DATE_NAISSANCEradioButton->isChecked()
+                        ? "DATE_NAISSANCE"
+                    : ui->GENDERradioButton->isChecked() ? "GENRE"
+                    : ui->PHONEradioButton->isChecked()  ? "TELEPHONE"
+                    : ui->EMAILradioButton->isChecked()  ? "EMAIL"
+                                                         : "";*/
+    QString critere = "DATE_NAISSANCE";
+  QAbstractItemModel *sortedModel = C.TriPar(critere);
+  if (sortedModel == nullptr) {
+    qDebug() << "nullptr" << endl;
+  }
+  ui->AllClientsModel->setModel(sortedModel);
+}
 void MainWindow::on_CPDFExport_clicked() {
   Client C;
   QSqlQueryModel *ClientModel = C.Afficher();
@@ -2191,7 +2228,7 @@ void MainWindow::on_SearchByButton_clicked() {
   if (ClientModel == nullptr) {
     qDebug() << "nullptr/working as intended" << endl;
   }
-  ui->OneClientModel->setModel(ClientModel);
+  ui->AllClientsModel->setModel(ClientModel);
 }
 
 void MainWindow::on_AgeStatButton_clicked() {
@@ -2467,7 +2504,9 @@ void MainWindow::on_SmokeDetectorTestButton_clicked() {
     while (elapsedTimer.elapsed() < 2000) {
         // Read data from Arduino when available
         if (arduino.getserial()->waitForReadyRead(1000)) {
+
             QByteArray data = arduino.read_from_arduino();
+
             int dataInt = static_cast<int>(data.at(0));
             qDebug() << "Data from Arduino: " << data;
             // Process received data

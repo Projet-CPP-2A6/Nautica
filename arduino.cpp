@@ -88,6 +88,7 @@ QByteArray Arduino::stream_from_arduino()
 
          return data;
     }
+   return data;
  }
 
 
