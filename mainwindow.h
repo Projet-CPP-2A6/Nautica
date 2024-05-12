@@ -4,6 +4,7 @@
 #include "abonement.h"
 #include "arduino.h"
 #include "employes.h"
+#include "dialog.h"
 #include <QLineSeries>
 #include <QMainWindow>
 #include <QtCharts/QChartView>
