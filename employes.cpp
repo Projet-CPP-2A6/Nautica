@@ -299,6 +299,7 @@ QString Employes::rfidName(QString uid) {
 
   return "";
 }
+
 QString Employes::getFunction(const QString &uid) {
   QString fonction;
 
