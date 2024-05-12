@@ -8,8 +8,10 @@
 #include <QtCharts/QPieSeries>
 #include <QtCharts/QPieSlice>
 #include <QtCharts>
-#include <abonement.h>
-#include <employes.h>
+#include "employes.h"
+#include "abonement.h"
+#include "arduino.h"
+#include "dialog.h"
 QT_CHARTS_USE_NAMESPACE
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -167,11 +169,15 @@ private slots:
   void setPermissions(const QString &fonction);
   void toggleArduinoConnection();
 
+   void on_pushButton_4_clicked();
+
 private:
   Ui::MainWindow *ui;
   Abonement supp;
   Abonement display;
-  Arduino A;
+  Arduino A;;
   bool arduinoConnected;
+  QTimer *timerLabels;
+  Dialog *dialog;
 };
 #endif // MAINWINDOW_H

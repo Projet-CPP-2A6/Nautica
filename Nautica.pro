@@ -28,7 +28,8 @@ SOURCES += \
     pdf.cpp \
     stat1.cpp \
     maintenance.cpp \
-    smoke-detector.cpp
+    smoke-detector.cpp\
+    dialog.cpp
 
 HEADERS += \
     arduino.h \
@@ -42,13 +43,15 @@ HEADERS += \
     pdf.h \
     stat1.h \
     maintenance.h \
-    smoke-detector.h
+    smoke-detector.h\
+    dialog.h
 
 FORMS += \
     accueil.ui \
     mainwindow.ui \
     pdf.ui \
-    stat1.ui
+    stat1.ui\
+    dialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
