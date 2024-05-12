@@ -9,7 +9,7 @@ const int BUZZER_PIN = 3;
 const float SMOKE_THRESHOLD = 10.0;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   lcd.init();
   lcd.backlight();
   pinMode(BUZZER_PIN, OUTPUT);
