@@ -34,8 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
   ui->setupUi(this);
   ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
 
-   arduinoConnected=false;
-  Employes e(0, "", "", "", 0, "", "", "", 0," ");
+  arduinoConnected = false;
+  Employes e(0, "", "", "", 0, "", "", "", 0, " ");
 
   // int state = 0;
   ui->frame_3->setVisible(false);
@@ -252,103 +252,110 @@ void MainWindow::setPermissions(const QString &fonction) {
   }
 }
 
- void MainWindow::on_pushButton_3_clicked()
- {
-     // Récupération des valeurs des champs
-     QString cinStr = ui->CIN_LE->text();
-     QString nom = ui->nom_LE->text();
-     QString prenom = ui->prenom_LE->text();
-     QString adresse = ui->adresse_LE->text();
-     QString genre = ui->genre_LE->text().toLower(); // Convertir en minuscules pour la comparaison
-     QString email = ui->email_LE->text();
-     QString fonction = ui->fonction_LE->text();
-     int salaire = ui->salaire_LE->text().toInt();
-     QString telephoneStr = ui->telephone_LE->text();
-     QString RFID = ui->RFID_LE->text();
+void MainWindow::on_pushButton_3_clicked() {
+  // Récupération des valeurs des champs
+  QString cinStr = ui->CIN_LE->text();
+  QString nom = ui->nom_LE->text();
+  QString prenom = ui->prenom_LE->text();
+  QString adresse = ui->adresse_LE->text();
+  QString genre = ui->genre_LE->text()
+                      .toLower(); // Convertir en minuscules pour la comparaison
+  QString email = ui->email_LE->text();
+  QString fonction = ui->fonction_LE->text();
+  int salaire = ui->salaire_LE->text().toInt();
+  QString telephoneStr = ui->telephone_LE->text();
+  QString RFID = ui->RFID_LE->text();
 
-     // Expression régulière pour vérifier le format du CIN (chiffres seulement)
-     QRegExp regexCIN("^[0-9]+$");
-     // Expression régulière pour vérifier le format du nom et du prénom (lettres seulement)
-     QRegExp regexNomPrenom("^[a-zA-Z]+$");
-     // Expression régulière pour vérifier le format de l'email
-     QRegExp regexEmail("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
-     // Expression régulière pour vérifier le format du numéro de téléphone (chiffres seulement)
-     QRegExp regexTelephone("^[0-9]+$");
-     // Expression régulière pour vérifier le format du numéro de téléphone (chiffres et lettre seulement)
-     QRegExp regexRFID("^[a-zA-Z0-9]+$");
+  // Expression régulière pour vérifier le format du CIN (chiffres seulement)
+  QRegExp regexCIN("^[0-9]+$");
+  // Expression régulière pour vérifier le format du nom et du prénom (lettres
+  // seulement)
+  QRegExp regexNomPrenom("^[a-zA-Z]+$");
+  // Expression régulière pour vérifier le format de l'email
+  QRegExp regexEmail("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
+  // Expression régulière pour vérifier le format du numéro de téléphone
+  // (chiffres seulement)
+  QRegExp regexTelephone("^[0-9]+$");
+  // Expression régulière pour vérifier le format du numéro de téléphone
+  // (chiffres et lettre seulement)
+  QRegExp regexRFID("^[a-zA-Z0-9]+$");
 
-     // Vérification des saisies
-     if (cinStr.isEmpty() || !regexCIN.exactMatch(cinStr))
-     {
-         QMessageBox::critical(this, "Erreur", "Veuillez saisir un CIN valide (chiffres seulement).");
-         return;
-     }
+  // Vérification des saisies
+  if (cinStr.isEmpty() || !regexCIN.exactMatch(cinStr)) {
+    QMessageBox::critical(
+        this, "Erreur", "Veuillez saisir un CIN valide (chiffres seulement).");
+    return;
+  }
 
-     if (nom.isEmpty() || !regexNomPrenom.exactMatch(nom))
-     {
-         QMessageBox::critical(this, "Erreur", "Veuillez saisir un nom valide (lettres seulement).");
-         return;
-     }
+  if (nom.isEmpty() || !regexNomPrenom.exactMatch(nom)) {
+    QMessageBox::critical(this, "Erreur",
+                          "Veuillez saisir un nom valide (lettres seulement).");
+    return;
+  }
 
-     if (prenom.isEmpty() || !regexNomPrenom.exactMatch(prenom))
-     {
-         QMessageBox::critical(this, "Erreur", "Veuillez saisir un prénom valide (lettres seulement).");
-         return;
-     }
+  if (prenom.isEmpty() || !regexNomPrenom.exactMatch(prenom)) {
+    QMessageBox::critical(
+        this, "Erreur",
+        "Veuillez saisir un prénom valide (lettres seulement).");
+    return;
+  }
 
-     if (email.isEmpty() || !regexEmail.exactMatch(email))
-     {
-         QMessageBox::critical(this, "Erreur", "Veuillez saisir une adresse email valide.");
-         return;
-     }
+  if (email.isEmpty() || !regexEmail.exactMatch(email)) {
+    QMessageBox::critical(this, "Erreur",
+                          "Veuillez saisir une adresse email valide.");
+    return;
+  }
 
-     if (telephoneStr.isEmpty() || !regexTelephone.exactMatch(telephoneStr))
-     {
-         QMessageBox::critical(this, "Erreur", "Veuillez saisir un numéro de téléphone valide (chiffres seulement).");
-         return;
-     }
+  if (telephoneStr.isEmpty() || !regexTelephone.exactMatch(telephoneStr)) {
+    QMessageBox::critical(
+        this, "Erreur",
+        "Veuillez saisir un numéro de téléphone valide (chiffres seulement).");
+    return;
+  }
 
-     // Vérification du nombre de chiffres dans le numéro de téléphone
-     if (telephoneStr.length() != 8)
-     {
-         QMessageBox::critical(this, "Erreur", "Veuillez saisir un numéro de téléphone valide (8 chiffres).");
-         return;
-     }
+  // Vérification du nombre de chiffres dans le numéro de téléphone
+  if (telephoneStr.length() != 8) {
+    QMessageBox::critical(
+        this, "Erreur",
+        "Veuillez saisir un numéro de téléphone valide (8 chiffres).");
+    return;
+  }
 
-     // Vérification du genre
-     if (genre != "homme" && genre != "femme")
-     {
-         QMessageBox::critical(this, "Erreur", "Veuillez saisir un genre valide (homme ou femme).");
-         return;
-     }
+  // Vérification du genre
+  if (genre != "homme" && genre != "femme") {
+    QMessageBox::critical(this, "Erreur",
+                          "Veuillez saisir un genre valide (homme ou femme).");
+    return;
+  }
 
-     //Vérification de l'RFID
-     if (RFID.isEmpty() || !regexRFID.exactMatch(RFID))
-     {
-         QMessageBox::critical(this, "Erreur", "Veuillez saisir un numéro de téléphone valide (chiffres seulement).");
-         return;
-     }
+  // Vérification de l'RFID
+  if (RFID.isEmpty() || !regexRFID.exactMatch(RFID)) {
+    QMessageBox::critical(
+        this, "Erreur",
+        "Veuillez saisir un numéro de téléphone valide (chiffres seulement).");
+    return;
+  }
 
-     // Convertir les champs nécessaires en types appropriés
-     int CIN = cinStr.toInt();
-     int telephone = telephoneStr.toInt();
+  // Convertir les champs nécessaires en types appropriés
+  int CIN = cinStr.toInt();
+  int telephone = telephoneStr.toInt();
 
-     // Si toutes les saisies sont valides, ajoutez l'employé
-     Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction, salaire, RFID);
-     bool test = e.ajouter();
-     if (test)
-     {
-         QMessageBox::information(this, "Succès", "L'employé a été ajouté avec succès.");
-         ui->listEmployetableView->setModel(e.afficher());
-     }
-     else
-     {
-         QMessageBox::critical(this, "Erreur", "Employé existant. Veuillez réessayer.");
-     }
- }
+  // Si toutes les saisies sont valides, ajoutez l'employé
+  Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction,
+             salaire, RFID);
+  bool test = e.ajouter();
+  if (test) {
+    QMessageBox::information(this, "Succès",
+                             "L'employé a été ajouté avec succès.");
+    ui->listEmployetableView->setModel(e.afficher());
+  } else {
+    QMessageBox::critical(this, "Erreur",
+                          "Employé existant. Veuillez réessayer.");
+  }
+}
 
 void MainWindow::on_refreshTableV_clicked() {
-  Employes e(0, "", "", "", 0, "", "", "", 0," ");
+  Employes e(0, "", "", "", 0, "", "", "", 0, " ");
 
   ui->listEmployetableView->setModel(e.afficher());
   // Mettre à jour la largeur de la colonne email (supposons que la colonne
@@ -366,79 +373,79 @@ void MainWindow::on_deletePushButton_clicked() {
   }
 }
 
-void MainWindow::on_updatePushButton_clicked()
-{
-    // Récupération des valeurs des champs
-    int CIN = ui->updateCin_LE->text().toInt();
-    QString nom = ui->updateNom_LE->text();
-    QString prenom = ui->updatePrenom_LE->text();
-    QString adresse = ui->updateAdresse_LE->text();
-    QString genre = ui->updateGenre_LE->text();
-    QString email = ui->updateEmail_LE->text();
-    QString fonction = ui->updateFonction_LE->text();
-    int telephone = ui->updateTelephone_LE->text().toInt();
-    int salaire = ui->updateSalaire_LE->text().toInt();
-    QString RFID = ui->updateRFID_LE_2->text();
+void MainWindow::on_updatePushButton_clicked() {
+  // Récupération des valeurs des champs
+  int CIN = ui->updateCin_LE->text().toInt();
+  QString nom = ui->updateNom_LE->text();
+  QString prenom = ui->updatePrenom_LE->text();
+  QString adresse = ui->updateAdresse_LE->text();
+  QString genre = ui->updateGenre_LE->text();
+  QString email = ui->updateEmail_LE->text();
+  QString fonction = ui->updateFonction_LE->text();
+  int telephone = ui->updateTelephone_LE->text().toInt();
+  int salaire = ui->updateSalaire_LE->text().toInt();
+  QString RFID = ui->updateRFID_LE_2->text();
 
+  // Vérification des contraintes de saisie
+  bool saisieValide = true;
+  QString messageErreur;
 
-    // Vérification des contraintes de saisie
-    bool saisieValide = true;
-    QString messageErreur;
+  // Vérification du nom et prénom
+  if (nom.isEmpty() || prenom.isEmpty()) {
+    messageErreur += "Veuillez saisir le nom et le prénom.\n";
+    saisieValide = false;
+  }
 
-    // Vérification du nom et prénom
-    if(nom.isEmpty() || prenom.isEmpty()) {
-        messageErreur += "Veuillez saisir le nom et le prénom.\n";
-        saisieValide = false;
+  // Vérification du genre
+  if (genre.toLower() != "homme" && genre.toLower() != "femme") {
+    messageErreur += "Le genre doit être 'Homme' ou 'Femme'.\n";
+    saisieValide = false;
+  }
+
+  // Vérification du format de l'email
+  QRegExp regex("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
+  if (!email.contains(regex)) {
+    messageErreur += "Veuillez saisir une adresse email valide.\n";
+    saisieValide = false;
+  }
+
+  // Vérification de la fonction (lettre seulement)
+  QRegExp regexFonction("[A-Za-z]+");
+  if (!fonction.contains(regexFonction)) {
+    messageErreur += "La fonction doit contenir uniquement des lettres.\n";
+    saisieValide = false;
+  }
+
+  // Vérification de la fonction (lettre seulement)
+  QRegExp regexRFID("^[a-zA-Z0-9]+$");
+  if (!fonction.contains(regexFonction)) {
+    messageErreur +=
+        "Le RFID doit contenir uniquement des lettres ET DES CHIFFRES.\n";
+    saisieValide = false;
+  }
+
+  // Si la saisie est valide, effectuer la modification
+  if (saisieValide) {
+    Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction,
+               salaire, RFID);
+    bool test = e.modifier();
+    if (test) {
+      ui->listEmployetableView->setModel(e.afficher());
+      // Effacer les champs après la modification réussie
+      ui->updateCin_LE->clear();
+      ui->updateNom_LE->clear();
+      ui->updatePrenom_LE->clear();
+      ui->updateAdresse_LE->clear();
+      ui->updateGenre_LE->clear();
+      ui->updateEmail_LE->clear();
+      ui->updateFonction_LE->clear();
+      ui->updateTelephone_LE->clear();
+      ui->updateSalaire_LE->clear();
     }
-
-    // Vérification du genre
-    if(genre.toLower() != "homme" && genre.toLower() != "femme") {
-        messageErreur += "Le genre doit être 'Homme' ou 'Femme'.\n";
-        saisieValide = false;
-    }
-
-    // Vérification du format de l'email
-    QRegExp regex("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
-    if(!email.contains(regex)) {
-        messageErreur += "Veuillez saisir une adresse email valide.\n";
-        saisieValide = false;
-    }
-
-    // Vérification de la fonction (lettre seulement)
-    QRegExp regexFonction("[A-Za-z]+");
-    if (!fonction.contains(regexFonction)) {
-        messageErreur += "La fonction doit contenir uniquement des lettres.\n";
-        saisieValide = false;
-    }
-
-    // Vérification de la fonction (lettre seulement)
-    QRegExp regexRFID("^[a-zA-Z0-9]+$");
-    if (!fonction.contains(regexFonction)) {
-        messageErreur += "Le RFID doit contenir uniquement des lettres ET DES CHIFFRES.\n";
-        saisieValide = false;
-    }
-
-    // Si la saisie est valide, effectuer la modification
-    if(saisieValide) {
-        Employes e(CIN, nom, prenom, genre, telephone, email, adresse, fonction, salaire, RFID);
-        bool test = e.modifier();
-        if(test) {
-            ui->listEmployetableView->setModel(e.afficher());
-            // Effacer les champs après la modification réussie
-            ui->updateCin_LE->clear();
-            ui->updateNom_LE->clear();
-            ui->updatePrenom_LE->clear();
-            ui->updateAdresse_LE->clear();
-            ui->updateGenre_LE->clear();
-            ui->updateEmail_LE->clear();
-            ui->updateFonction_LE->clear();
-            ui->updateTelephone_LE->clear();
-            ui->updateSalaire_LE->clear();
-        }
-    } else {
-        // Afficher un message d'erreur si la saisie est invalide
-        QMessageBox::critical(this, "Erreur de saisie", messageErreur);
-    }
+  } else {
+    // Afficher un message d'erreur si la saisie est invalide
+    QMessageBox::critical(this, "Erreur de saisie", messageErreur);
+  }
 }
 
 void MainWindow::on_triCinPushButton_clicked() {
@@ -620,23 +627,23 @@ void MainWindow::on_lineEdit_textChanged(const QString &arg1) {
   }
 }
 
-void MainWindow::on_PDFpushButton_clicked()
-{
-    // Demander à l'utilisateur de choisir l'emplacement et le nom du fichier PDF
-    QString filePath = QFileDialog::getSaveFileName(this, tr("Enregistrer le PDF"), "", tr("Fichiers PDF (*.pdf)"));
+void MainWindow::on_PDFpushButton_clicked() {
+  // Demander à l'utilisateur de choisir l'emplacement et le nom du fichier PDF
+  QString filePath = QFileDialog::getSaveFileName(
+      this, tr("Enregistrer le PDF"), "", tr("Fichiers PDF (*.pdf)"));
 
-    // Si l'utilisateur annule la sélection, quitter la fonction
-    if (filePath.isEmpty()) {
-        return;
-    }
+  // Si l'utilisateur annule la sélection, quitter la fonction
+  if (filePath.isEmpty()) {
+    return;
+  }
 
-    // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
-    QPrinter printer;
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName(filePath);
+  // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
+  QPrinter printer;
+  printer.setOutputFormat(QPrinter::PdfFormat);
+  printer.setOutputFileName(filePath);
 
-    // Configuration pour le mode paysage
-        printer.setOrientation(QPrinter::Landscape);
+  // Configuration pour le mode paysage
+  printer.setOrientation(QPrinter::Landscape);
 
   // Obtenir les dimensions de la table
   int rows = model->rowCount() + 1;
@@ -679,102 +686,116 @@ void MainWindow::on_PDFpushButton_clicked()
     }
   }
 
-    // Définissez la taille de la cellule pour le dessin
-    int cellWidth = 120;
-    int cellHeight = 30;
+  // Définissez la taille de la cellule pour le dessin
+  int cellWidth = 120;
+  int cellHeight = 30;
 
-    // Insérer le titre au-dessus du tableau
-        painter.drawText(0, 0, columns * cellWidth, cellHeight, Qt::AlignCenter, "Le tableau des employés");
+  // Insérer le titre au-dessus du tableau
+  painter.drawText(0, 0, columns * cellWidth, cellHeight, Qt::AlignCenter,
+                   "Le tableau des employés");
 
-        // Dessiner des traits noirs entre les cellules
-            painter.setPen(Qt::black);
-            for (int col = 0; col <= columns; ++col) {
-                painter.drawLine((col + 1) * cellWidth, cellHeight, (col + 1) * cellWidth, (rows + 1) * cellHeight);
-            }
-            for (int row = 0; row <= rows; ++row) {
-                painter.drawLine(0, (row + 1) * cellHeight, columns * cellWidth, (row + 1) * cellHeight);
-            }
-            // Insérer les noms des colonnes
-                for (int col = 0; col < columns; ++col) {
-                    QString headerData = model->headerData(col, Qt::Horizontal).toString();
-                    painter.drawText(col * cellWidth, cellHeight, cellWidth, cellHeight, Qt::AlignCenter, headerData);
-                }
+  // Dessiner des traits noirs entre les cellules
+  painter.setPen(Qt::black);
+  for (int col = 0; col <= columns; ++col) {
+    painter.drawLine((col + 1) * cellWidth, cellHeight, (col + 1) * cellWidth,
+                     (rows + 1) * cellHeight);
+  }
+  for (int row = 0; row <= rows; ++row) {
+    painter.drawLine(0, (row + 1) * cellHeight, columns * cellWidth,
+                     (row + 1) * cellHeight);
+  }
+  // Insérer les noms des colonnes
+  for (int col = 0; col < columns; ++col) {
+    QString headerData = model->headerData(col, Qt::Horizontal).toString();
+    painter.drawText(col * cellWidth, cellHeight, cellWidth, cellHeight,
+                     Qt::AlignCenter, headerData);
+  }
 
-                // Insérer les données de la table sur le périphérique de sortie PDF
-                for (int row = 0; row < rows; ++row) {
-                    for (int col = 0; col < columns; ++col) {
-                        // Obtenir les données de la cellule
-                        QModelIndex index = model->index(row, col);
-                        QString data = model->data(index).toString();
+  // Insérer les données de la table sur le périphérique de sortie PDF
+  for (int row = 0; row < rows; ++row) {
+    for (int col = 0; col < columns; ++col) {
+      // Obtenir les données de la cellule
+      QModelIndex index = model->index(row, col);
+      QString data = model->data(index).toString();
 
-                        // Insérer les données de la cellule
-                        painter.drawText(col * cellWidth, (row + 2) * cellHeight, cellWidth, cellHeight, Qt::AlignLeft, data);
-                    }
-                }
+      // Insérer les données de la cellule
+      painter.drawText(col * cellWidth, (row + 2) * cellHeight, cellWidth,
+                       cellHeight, Qt::AlignLeft, data);
+    }
+  }
 
-                // Terminer avec QPainter
-                painter.end();
+  // Terminer avec QPainter
+  painter.end();
 }
 
-void MainWindow::on_importCSV_clicked()
-{
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Ouvrir fichier CSV"), QString(), tr("Fichiers CSV (*.csv)"));
-    if (fileName.isEmpty()) return;
+void MainWindow::on_importCSV_clicked() {
+  QString fileName = QFileDialog::getOpenFileName(
+      this, tr("Ouvrir fichier CSV"), QString(), tr("Fichiers CSV (*.csv)"));
+  if (fileName.isEmpty())
+    return;
 
-    QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::warning(this, tr("Erreur"), tr("Impossible d'ouvrir le fichier."));
+  QFile file(fileName);
+  if (!file.open(QIODevice::ReadOnly)) {
+    QMessageBox::warning(this, tr("Erreur"),
+                         tr("Impossible d'ouvrir le fichier."));
+    return;
+  }
+
+  QTextStream in(&file);
+  bool firstLine = true; // Indicateur pour la première ligne
+
+  try {
+    while (!in.atEnd()) {
+      QString line = in.readLine();
+
+      // Si c'est la première ligne, passer à la suivante
+      if (firstLine) {
+        firstLine = false;
+        continue;
+      }
+
+      QStringList fields = line.split(';');
+
+      if (fields.size() < 9) {
+        // Afficher un avertissement ou gérer le cas où la ligne ne contient pas
+        // suffisamment de champs
+        qDebug() << "La ligne CSV ne contient pas suffisamment de champs";
+        continue; // Passer à la prochaine ligne
+      }
+
+      // Créer un objet Employes avec les données lues depuis le fichier CSV
+      Employes employee;
+      employee.setCin(fields[0].toInt());
+      employee.setNom(fields[1]);
+      employee.setPrenom(fields[2]);
+      employee.setGenre(fields[3]);
+      employee.setTel(fields[4].toInt());
+      employee.setEmail(fields[5]);
+      employee.setAdresse(fields[6]);
+      employee.setFonction(fields[7]);
+      employee.setSalaire(fields[8].toFloat()); // Convertir en float
+      employee.setRFID(fields[9]);
+
+      // Ajouter l'employé à la base de données
+      if (!employee.ajouter()) {
+        QMessageBox::warning(
+            this, tr("Erreur"),
+            tr("Impossible d'ajouter l'employé à la base de données."));
         return;
+      }
     }
+  } catch (const std::exception &e) {
+    QMessageBox::critical(this, tr("Erreur"),
+                          tr("Une erreur s'est produite lors de l'importation "
+                             "du fichier CSV : %1")
+                              .arg(e.what()));
+  }
 
-    QTextStream in(&file);
-    bool firstLine = true; // Indicateur pour la première ligne
-
-    try {
-        while (!in.atEnd()) {
-            QString line = in.readLine();
-
-            // Si c'est la première ligne, passer à la suivante
-            if(firstLine) {
-                firstLine = false;
-                continue;
-            }
-
-            QStringList fields = line.split(';');
-
-            if (fields.size() < 9) {
-                // Afficher un avertissement ou gérer le cas où la ligne ne contient pas suffisamment de champs
-                qDebug() << "La ligne CSV ne contient pas suffisamment de champs";
-                continue; // Passer à la prochaine ligne
-            }
-
-            // Créer un objet Employes avec les données lues depuis le fichier CSV
-            Employes employee;
-            employee.setCin(fields[0].toInt());
-            employee.setNom(fields[1]);
-            employee.setPrenom(fields[2]);
-            employee.setGenre(fields[3]);
-            employee.setTel(fields[4].toInt());
-            employee.setEmail(fields[5]);
-            employee.setAdresse(fields[6]);
-            employee.setFonction(fields[7]);
-            employee.setSalaire(fields[8].toFloat()); // Convertir en float
-            employee.setRFID(fields[9]);
-
-            // Ajouter l'employé à la base de données
-            if (!employee.ajouter()) {
-                QMessageBox::warning(this, tr("Erreur"), tr("Impossible d'ajouter l'employé à la base de données."));
-                return;
-            }
-        }
-    } catch (const std::exception& e) {
-        QMessageBox::critical(this, tr("Erreur"), tr("Une erreur s'est produite lors de l'importation du fichier CSV : %1").arg(e.what()));
-    }
-
-    file.close();
-    QMessageBox::information(this, tr("Succès"), tr("Données ajoutées avec succès à la base de données."));
+  file.close();
+  QMessageBox::information(
+      this, tr("Succès"),
+      tr("Données ajoutées avec succès à la base de données."));
 }
-
 
 void MainWindow::on_statGenderPushButton_clicked() {
   QChartView *chartView;
@@ -2233,10 +2254,9 @@ void MainWindow::on_envoyer_email_clicked() {
                     ui->bodyEmail->text());
 }
 
-void MainWindow::on_pushButton_4_clicked()
-{
-    dialog = new Dialog(this); // Create an instance of the new window
-       dialog->show(); // Show the new window
+void MainWindow::on_pushButton_4_clicked() {
+  dialog = new Dialog(this); // Create an instance of the new window
+  dialog->show();            // Show the new window
 }
 
 void MainWindow::on_addMaintenance_clicked() {

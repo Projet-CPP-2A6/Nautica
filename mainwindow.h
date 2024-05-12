@@ -1,15 +1,15 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "abonement.h"
 #include "arduino.h"
+#include "employes.h"
 #include <QLineSeries>
 #include <QMainWindow>
 #include <QtCharts/QChartView>
 #include <QtCharts/QPieSeries>
 #include <QtCharts/QPieSlice>
 #include <QtCharts>
-#include <abonement.h>
-#include <employes.h>
 QT_CHARTS_USE_NAMESPACE
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -167,13 +167,14 @@ private slots:
   void setPermissions(const QString &fonction);
   void toggleArduinoConnection();
 
-   void on_pushButton_4_clicked();
+  void on_pushButton_4_clicked();
 
 private:
   Ui::MainWindow *ui;
   Abonement supp;
   Abonement display;
-  Arduino A;;
+  Arduino A;
+  ;
   bool arduinoConnected;
   QTimer *timerLabels;
   Dialog *dialog;
