@@ -32,7 +32,7 @@
      <string notr="true">background-color: white;</string>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QFrame" name="frame_2">
@@ -1217,6 +1217,51 @@ QLineEdit:focus {
            <string/>
           </property>
          </widget>
+         <widget class="QLineEdit" name="RFID_LE">
+          <property name="geometry">
+           <rect>
+            <x>570</x>
+            <y>470</y>
+            <width>411</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLineEdit {
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QLineEdit:focus {
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
+}
+</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_77">
+          <property name="geometry">
+           <rect>
+            <x>570</x>
+            <y>440</y>
+            <width>291</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Myanmar Text</family>
+            <pointsize>11</pointsize>
+            <underline>true</underline>
+           </font>
+          </property>
+          <property name="text">
+           <string>RFID</string>
+          </property>
+         </widget>
         </widget>
        </widget>
       </widget>
@@ -1713,6 +1758,51 @@ QPushButton:hover {
          </property>
          <property name="text">
           <string>ok</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="updateRFID_LE_2">
+         <property name="geometry">
+          <rect>
+           <x>350</x>
+           <y>540</y>
+           <width>411</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLineEdit {
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+
+QLineEdit:focus {
+    border-color: black;
+    background-color: rgba(248, 248, 248, 1);
+}
+</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_76">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>540</y>
+           <width>31</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Myanmar Text</family>
+           <pointsize>11</pointsize>
+           <underline>true</underline>
+          </font>
+         </property>
+         <property name="text">
+          <string>RFID</string>
          </property>
         </widget>
        </widget>
@@ -5353,8 +5443,8 @@ QDateEdit:focus {
      <widget class="QTabWidget" name="tabWidget_4">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>10</y>
+        <x>0</x>
+        <y>0</y>
         <width>991</width>
         <height>651</height>
        </rect>
@@ -5371,7 +5461,7 @@ QDateEdit:focus {
        </font>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <property name="iconSize">
        <size>
@@ -5379,7 +5469,7 @@ QDateEdit:focus {
         <height>20</height>
        </size>
       </property>
-      <widget class="QWidget" name="tab_7">
+      <widget class="QWidget" name="tab_12">
        <attribute name="title">
         <string> delete subscription</string>
        </attribute>
@@ -5401,7 +5491,7 @@ QDateEdit:focus {
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <widget class="QPushButton" name="delete_abonnement_button">
+        <widget class="QPushButton" name="delete_abonnement_button_2">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -5439,7 +5529,7 @@ QPushButton:pressed {
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: #ffffff;
+          <string notr="true">background-color: #ffffff; 
 border: 2px solid blue; /* Bordure bleue */
 border-radius: 10px; /* Coins arrondis */
     padding: 1px 2px; /* Espacement intérieur */
@@ -5448,7 +5538,7 @@ border-radius: 10px; /* Coins arrondis */
     </string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_51">
+        <widget class="QLabel" name="label_57">
          <property name="geometry">
           <rect>
            <x>60</x>
@@ -5480,11 +5570,11 @@ border-radius: 10px; /* Coins arrondis */
         </widget>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_9">
+      <widget class="QWidget" name="tab_13">
        <attribute name="title">
         <string>update subscription</string>
        </attribute>
-       <widget class="QFrame" name="frame_15">
+       <widget class="QFrame" name="frame_17">
         <property name="geometry">
          <rect>
           <x>-10</x>
@@ -5502,7 +5592,7 @@ border-radius: 10px; /* Coins arrondis */
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <widget class="QLabel" name="label_52">
+        <widget class="QLabel" name="label_58">
          <property name="geometry">
           <rect>
            <x>40</x>
@@ -5522,7 +5612,7 @@ border-radius: 10px; /* Coins arrondis */
           <string>update subscription</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_53">
+        <widget class="QLabel" name="label_59">
          <property name="geometry">
           <rect>
            <x>370</x>
@@ -5553,7 +5643,7 @@ border-radius: 10px; /* Coins arrondis */
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color: blue;
@@ -5562,7 +5652,7 @@ border-radius: 10px; /* Coins arrondis */
 </string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_54">
+        <widget class="QLabel" name="label_60">
          <property name="geometry">
           <rect>
            <x>40</x>
@@ -5593,7 +5683,7 @@ border-radius: 10px; /* Coins arrondis */
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color:brown
@@ -5623,7 +5713,7 @@ border-radius: 10px; /* Coins arrondis */
           </property>
          </item>
         </widget>
-        <widget class="QLabel" name="label_55">
+        <widget class="QLabel" name="label_61">
          <property name="geometry">
           <rect>
            <x>50</x>
@@ -5654,7 +5744,7 @@ border-radius: 10px; /* Coins arrondis */
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color:brown;
@@ -5663,7 +5753,7 @@ border-radius: 10px; /* Coins arrondis */
 </string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_56">
+        <widget class="QLabel" name="label_62">
          <property name="geometry">
           <rect>
            <x>420</x>
@@ -5694,7 +5784,7 @@ border-radius: 10px; /* Coins arrondis */
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color:brown;
@@ -5718,7 +5808,7 @@ border-radius: 10px; /* Coins arrondis */
           </property>
          </item>
         </widget>
-        <widget class="QLabel" name="label_57">
+        <widget class="QLabel" name="label_63">
          <property name="geometry">
           <rect>
            <x>440</x>
@@ -5749,7 +5839,7 @@ border-radius: 10px; /* Coins arrondis */
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color:brown;
@@ -5758,7 +5848,7 @@ border-radius: 10px; /* Coins arrondis */
 </string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_58">
+        <widget class="QLabel" name="label_64">
          <property name="geometry">
           <rect>
            <x>430</x>
@@ -5789,7 +5879,7 @@ border-radius: 10px; /* Coins arrondis */
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color:brown;
@@ -5826,7 +5916,7 @@ QPushButton:pressed {
           <string>update</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_59">
+        <widget class="QLabel" name="label_65">
          <property name="geometry">
           <rect>
            <x>50</x>
@@ -5857,7 +5947,7 @@ QPushButton:pressed {
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color:brown;
@@ -5868,11 +5958,11 @@ QPushButton:pressed {
         </widget>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_11">
+      <widget class="QWidget" name="tab_15">
        <attribute name="title">
         <string>create subscription</string>
        </attribute>
-       <widget class="QFrame" name="frame_17">
+       <widget class="QFrame" name="frame_20">
         <property name="geometry">
          <rect>
           <x>0</x>
@@ -5890,7 +5980,7 @@ QPushButton:pressed {
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <widget class="QLabel" name="label_61">
+        <widget class="QLabel" name="label_66">
          <property name="geometry">
           <rect>
            <x>40</x>
@@ -5910,7 +6000,7 @@ QPushButton:pressed {
           <string>add subscription</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_62">
+        <widget class="QLabel" name="label_67">
          <property name="geometry">
           <rect>
            <x>90</x>
@@ -5941,7 +6031,7 @@ QPushButton:pressed {
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color: blue;
@@ -5950,7 +6040,7 @@ QPushButton:pressed {
 </string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_63">
+        <widget class="QLabel" name="label_68">
          <property name="geometry">
           <rect>
            <x>50</x>
@@ -5981,7 +6071,7 @@ QPushButton:pressed {
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color: blue;
@@ -6010,7 +6100,7 @@ QPushButton:pressed {
           </property>
          </item>
         </widget>
-        <widget class="QLabel" name="label_64">
+        <widget class="QLabel" name="label_69">
          <property name="geometry">
           <rect>
            <x>50</x>
@@ -6041,7 +6131,7 @@ QPushButton:pressed {
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color: blue;
@@ -6050,7 +6140,7 @@ QPushButton:pressed {
 </string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_65">
+        <widget class="QLabel" name="label_70">
          <property name="geometry">
           <rect>
            <x>50</x>
@@ -6081,7 +6171,7 @@ QPushButton:pressed {
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color: blue;
@@ -6105,7 +6195,7 @@ QPushButton:pressed {
           </property>
          </item>
         </widget>
-        <widget class="QLabel" name="label_66">
+        <widget class="QLabel" name="label_71">
          <property name="geometry">
           <rect>
            <x>510</x>
@@ -6136,7 +6226,7 @@ QPushButton:pressed {
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color: blue;
@@ -6145,7 +6235,7 @@ QPushButton:pressed {
 </string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_67">
+        <widget class="QLabel" name="label_72">
          <property name="geometry">
           <rect>
            <x>510</x>
@@ -6176,7 +6266,7 @@ QPushButton:pressed {
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color: blue;
@@ -6213,7 +6303,7 @@ QPushButton:pressed {
           <string>confirme</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_68">
+        <widget class="QLabel" name="label_73">
          <property name="geometry">
           <rect>
            <x>510</x>
@@ -6244,7 +6334,7 @@ QPushButton:pressed {
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color: blue;
@@ -6255,11 +6345,11 @@ QPushButton:pressed {
         </widget>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_10">
+      <widget class="QWidget" name="tab_16">
        <attribute name="title">
         <string>liste of subscription</string>
        </attribute>
-       <widget class="QFrame" name="frame_16">
+       <widget class="QFrame" name="frame_21">
         <property name="geometry">
          <rect>
           <x>-10</x>
@@ -6305,7 +6395,7 @@ QPushButton:pressed {
           <string>refresh</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_60">
+        <widget class="QLabel" name="label_74">
          <property name="geometry">
           <rect>
            <x>60</x>
@@ -6364,7 +6454,7 @@ QPushButton:pressed {
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../Downloads/pdf.png</normaloff>../Downloads/pdf.png</iconset>
+           <normaloff>E:/Downloads/pdf.png</normaloff>E:/Downloads/pdf.png</iconset>
          </property>
         </widget>
         <widget class="QLineEdit" name="cin_abonnement_2">
@@ -6378,7 +6468,7 @@ QPushButton:pressed {
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color: blue;
@@ -6494,12 +6584,12 @@ QPushButton:pressed {
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../Downloads/icons8-training-stat-64.png</normaloff>../Downloads/icons8-training-stat-64.png</iconset>
+           <normaloff>E:/Downloads/icons8-training-stat-64.png</normaloff>E:/Downloads/icons8-training-stat-64.png</iconset>
          </property>
         </widget>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_12">
+      <widget class="QWidget" name="tab_17">
        <attribute name="title">
         <string>score</string>
        </attribute>
@@ -6518,7 +6608,7 @@ QPushButton:pressed {
         <property name="title">
          <string/>
         </property>
-        <widget class="QLabel" name="label_47">
+        <widget class="QLabel" name="label_76">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -6591,7 +6681,7 @@ QPushButton:pressed {
           <string>RETOUR</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_69">
+        <widget class="QLabel" name="label_77">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -6619,7 +6709,7 @@ font: 12pt &quot;Andalus&quot;;</string>
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color: blue;
@@ -6629,7 +6719,7 @@ font: 12pt &quot;Andalus&quot;;</string>
 </string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_70">
+        <widget class="QLabel" name="label_78">
          <property name="geometry">
           <rect>
            <x>740</x>
@@ -6645,13 +6735,13 @@ font: 12pt &quot;Andalus&quot;;</string>
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>../Downloads/wetransfer_tres-tres-tres-important_2024-03-10_1037/tres tres tres important/jo/image_2023-09-18_224051649-removebg-preview.png</pixmap>
+          <pixmap>E:/Downloads/wetransfer_tres-tres-tres-important_2024-03-10_1037/tres tres tres important/jo/image_2023-09-18_224051649-removebg-preview.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_72">
+        <widget class="QLabel" name="label_79">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -6664,7 +6754,7 @@ font: 12pt &quot;Andalus&quot;;</string>
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>../Downloads/wetransfer_tres-tres-tres-important_2024-03-10_1037/Downloads/396831473_318198754298426_636542752129555531_n.png</pixmap>
+          <pixmap>E:/Downloads/wetransfer_tres-tres-tres-important_2024-03-10_1037/Downloads/396831473_318198754298426_636542752129555531_n.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -6694,7 +6784,7 @@ font: 12pt &quot;Andalus&quot;;</string>
          </property>
          <property name="styleSheet">
           <string notr="true">
-    border: 2px solid black;
+    border: 2px solid black; 
     border-radius:5px ;
     padding: 3px;
     border-color: blue;
@@ -6757,7 +6847,7 @@ font: 12pt &quot;Andalus&quot;;</string>
         </widget>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_13">
+      <widget class="QWidget" name="tab_18">
        <attribute name="title">
         <string>mailing</string>
        </attribute>
@@ -6765,10 +6855,25 @@ font: 12pt &quot;Andalus&quot;;</string>
         <property name="geometry">
          <rect>
           <x>260</x>
-          <y>380</y>
+          <y>430</y>
           <width>93</width>
           <height>28</height>
          </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+}
+
+QPushButton:pressed {
+    background-color: blue; /* Nouvelle couleur lorsque le bouton est enfoncé */
+}
+</string>
         </property>
         <property name="text">
          <string>envoyer</string>
@@ -6779,69 +6884,171 @@ font: 12pt &quot;Andalus&quot;;</string>
          <rect>
           <x>262</x>
           <y>140</y>
-          <width>171</width>
-          <height>22</height>
+          <width>321</width>
+          <height>31</height>
          </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+    border: 2px solid black; 
+    border-radius:5px ;
+    padding: 3px;
+    border-color: blue;
+
+
+</string>
         </property>
        </widget>
        <widget class="QLineEdit" name="objetEmail">
         <property name="geometry">
          <rect>
-          <x>262</x>
-          <y>190</y>
-          <width>171</width>
-          <height>22</height>
+          <x>260</x>
+          <y>200</y>
+          <width>211</width>
+          <height>31</height>
          </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+    border: 2px solid black; 
+    border-radius:5px ;
+    padding: 3px;
+    border-color: blue;
+
+
+</string>
         </property>
        </widget>
        <widget class="QLineEdit" name="bodyEmail">
         <property name="geometry">
          <rect>
-          <x>252</x>
-          <y>250</y>
-          <width>181</width>
-          <height>81</height>
+          <x>260</x>
+          <y>270</y>
+          <width>711</width>
+          <height>141</height>
          </rect>
         </property>
+        <property name="styleSheet">
+         <string notr="true">
+    border: 2px solid black; 
+    border-radius:5px ;
+    padding: 3px;
+    border-color: blue;
+
+
+</string>
+        </property>
        </widget>
-       <widget class="QLabel" name="label_71">
+       <widget class="QLabel" name="label_80">
         <property name="geometry">
          <rect>
-          <x>155</x>
+          <x>130</x>
           <y>140</y>
-          <width>91</width>
+          <width>121</width>
           <height>20</height>
          </rect>
         </property>
         <property name="text">
-         <string>to</string>
+         <string>adress mail :</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_73">
+       <widget class="QLabel" name="label_81">
         <property name="geometry">
          <rect>
           <x>155</x>
-          <y>190</y>
+          <y>210</y>
           <width>91</width>
           <height>20</height>
          </rect>
         </property>
         <property name="text">
-         <string>object</string>
+         <string>object :</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_74">
+       <widget class="QLabel" name="label_82">
         <property name="geometry">
          <rect>
-          <x>155</x>
-          <y>240</y>
-          <width>91</width>
+          <x>130</x>
+          <y>280</y>
+          <width>121</width>
           <height>20</height>
          </rect>
         </property>
         <property name="text">
-         <string>body</string>
+         <string>body message :</string>
         </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_19">
+       <attribute name="title">
+        <string>arduino</string>
+       </attribute>
+       <widget class="QFrame" name="frame_22">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>-10</y>
+          <width>981</width>
+          <height>571</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background:rgb(255, 255, 255);</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QLabel" name="label_83">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>40</y>
+           <width>511</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>18</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>check temperature</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_4">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>210</y>
+           <width>561</width>
+           <height>61</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    background-color: #ffffff; /* Fond blanc */
+    border: 2px solid blue; /* Bordure bleue */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 1px 2px; /* Espacement intérieur */
+    color: black; /* Couleur du texte */
+    font-size: 16px; /* Taille de la police */
+}
+
+QPushButton:pressed {
+    background-color: blue; /* Nouvelle couleur lorsque le bouton est enfoncé */
+}
+</string>
+         </property>
+         <property name="text">
+          <string>show temperature</string>
+         </property>
+        </widget>
        </widget>
       </widget>
      </widget>

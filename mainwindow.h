@@ -167,11 +167,15 @@ private slots:
   void setPermissions(const QString &fonction);
   void toggleArduinoConnection();
 
+   void on_pushButton_4_clicked();
+
 private:
   Ui::MainWindow *ui;
   Abonement supp;
   Abonement display;
-  Arduino A;
+  Arduino A;;
   bool arduinoConnected;
+  QTimer *timerLabels;
+  Dialog *dialog;
 };
 #endif // MAINWINDOW_H
