@@ -2517,16 +2517,15 @@ void MainWindow::on_SmokeDetectorTestButton_clicked() {
   QElapsedTimer elapsedTimer;
   elapsedTimer.start();
 
-  while (elapsedTimer.elapsed() < 2000) {
+  while (elapsedTimer.elapsed() < 10000) {
     // Read data from Arduino when available
     if (arduino.getserial()->waitForReadyRead(1000)) {
 
       QByteArray data = arduino.read_from_arduino();
-
-      int dataInt = static_cast<int>(data.at(0));
+      data.replace(1,4,"");
       qDebug() << "Data from Arduino: " << data;
       // Process received data
-      if (dataInt == 1) {
+      if (data == "1") {
         qDebug() << "Smoke detected!";
         smokeDetected = true;
         break;
