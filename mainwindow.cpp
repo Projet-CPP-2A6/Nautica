@@ -1,10 +1,11 @@
 #include "mainwindow.h"
 #include "abonement.h"
+#include "arduino.h"
 #include "client.h"
+#include "email.h"
 #include "employes.h"
 #include "equipement.h"
 #include "maintenance.h"
-#include "email.h"
 #include "pdf.h"
 #include "stat1.h"
 #include "arduino.h"
@@ -16,6 +17,7 @@
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QDesktopServices>
+#include <QFileDialog>
 #include <QImage>
 #include <QMessageBox>
 #include <QPageSize>
@@ -27,15 +29,14 @@
 #include <QSqlRecord>
 #include <QString>
 #include <QTableView>
-#include <QUrl>
-#include <QFileDialog>
 #include <QTextCodec>
-#include <QtScript>
 #include <QThread>
+#include <QUrl>
+#include <QtScript>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
-   ui->setupUi(this);
-   ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
+  ui->setupUi(this);
+  ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
 
    arduinoConnected=false;
   Employes e(0, "", "", "", 0, "", "", "", 0," ");
@@ -48,221 +49,211 @@ MainWindow::MainWindow(QWidget *parent)
   ui->table_abonnement_2->setModel(display.afficher_abonnement());
   ui->stackedWidget->setCurrentIndex(0);
 
-  connect(ui->bouttonArduino, &QPushButton::clicked, this, &MainWindow::toggleArduinoConnection);
-  //Arduino A;
-     /* int ret=A.connect_arduino(); // lancer la connexion à arduino
-                  switch(ret){
-                  case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
-                      break;
-                  case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
-                     break;
-                  case(-1):qDebug() << "arduino is not available";
-                  }*/
-                  // QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(read_from_arduino())); // permet de lancer
-                   //le slot update_label suite à la reception du signal readyRead (reception des données)
-                      QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(connect_RFID()));
+  connect(ui->bouttonArduino, &QPushButton::clicked, this,
+          &MainWindow::toggleArduinoConnection);
+  // Arduino A;
+  /* int ret=A.connect_arduino(); // lancer la connexion à arduino
+               switch(ret){
+               case(0):qDebug()<< "arduino is available and connected to : "<<
+     A.getarduino_port_name(); break; case(1):qDebug() << "arduino is available
+     but not connected to :" <<A.getarduino_port_name(); break;
+               case(-1):qDebug() << "arduino is not available";
+               }*/
+  // QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(read_from_arduino()));
+  // // permet de lancer
+  // le slot update_label suite à la reception du signal readyRead (reception
+  // des données)
+  QObject::connect(A.getserial(), SIGNAL(readyRead()), this,
+                   SLOT(connect_RFID()));
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
+MainWindow::~MainWindow() { delete ui; }
 
-//arduino
+// arduino
 
-void MainWindow::toggleArduinoConnection()
-{
-    if (arduinoConnected) {
-        int ret = A.close_arduino(); // Fermer la connexion à Arduino
-        if (ret == 0) {
-            qDebug() << "Arduino disconnected";
-            arduinoConnected = false;
-        } else {
-            qDebug() << "Failed to disconnect Arduino";
-        }
+void MainWindow::toggleArduinoConnection() {
+  if (arduinoConnected) {
+    int ret = A.close_arduino(); // Fermer la connexion à Arduino
+    if (ret == 0) {
+      qDebug() << "Arduino disconnected";
+      arduinoConnected = false;
     } else {
-        int ret = A.connect_arduino(); // Établir la connexion à Arduino
-        switch(ret){
-            case(0): {
-                qDebug()<< "Arduino connected to port : "<< A.getarduino_port_name();
-                arduinoConnected = true;
-                break;
-            }
-            case(1): {
-                qDebug() << "Arduino available but not connected to :" << A.getarduino_port_name();
-                break;
-            }
-            case(-1): {
-                qDebug() << "Arduino not available";
-                break;
-            }
-        }
+      qDebug() << "Failed to disconnect Arduino";
     }
+  } else {
+    int ret = A.connect_arduino(); // Établir la connexion à Arduino
+    switch (ret) {
+    case (0): {
+      qDebug() << "Arduino connected to port : " << A.getarduino_port_name();
+      arduinoConnected = true;
+      break;
+    }
+    case (1): {
+      qDebug() << "Arduino available but not connected to :"
+               << A.getarduino_port_name();
+      break;
+    }
+    case (-1): {
+      qDebug() << "Arduino not available";
+      break;
+    }
+    }
+  }
 }
 void MainWindow::connect_RFID()
 
 {
-    // pour tester si la connexion lors du passage de la carte rfid a ete effectué ou non avec un label 'RFID_Label'
+  // pour tester si la connexion lors du passage de la carte rfid a ete effectué
+  // ou non avec un label 'RFID_Label'
 
-    //ui->RFID_Label->setText("arduino detected");
+  // ui->RFID_Label->setText("arduino detected");
 
-     QByteArray dataArduino = A.read_from_arduino();
-    QString uid = QTextCodec::codecForMib(106)->toUnicode(dataArduino);
+  QByteArray dataArduino = A.read_from_arduino();
+  QString uid = QTextCodec::codecForMib(106)->toUnicode(dataArduino);
 
-    //qDebug()<<uid;//pour tester dans la console de QT
-    qDebug() << uid << endl;
+  // qDebug()<<uid;//pour tester dans la console de QT
+  qDebug() << uid << endl;
 
+  ui->RFID_label->setText(uid); /*------- pour tester avec un label----------*/
 
+  Employes E; // remplacez avec le nom de votre classe
 
-    ui->RFID_label->setText(uid);/*------- pour tester avec un label----------*/
+  // cas ou elle existe
+  if (E.rfidExists(uid))
 
-    Employes E; //remplacez avec le nom de votre classe
+  {
 
-     // cas ou elle existe
-    if(E.rfidExists(uid))
+    QByteArray data1;
+    data1.append('1');
+    A.write_to_arduino(
+        data1); // envoie 1 a arduino et enclenche /demarre le processus 1
 
-        {
+    qDebug() << "carte existante";
 
-            QByteArray data1;
-            data1.append('1');
-            A.write_to_arduino(data1);//envoie 1 a arduino et enclenche /demarre le processus 1
+    QString fonction = E.getFunction(uid);
+    setPermissions(fonction);
 
-            qDebug()<<"carte existante";
+    // prend la valeur du nom
+    QString nom = E.rfidName(uid);
+    // ui->RFID_NOM->setText(nom);
+    ui->stackedWidget->setCurrentIndex(
+        1); // redirige ves la page 1 de l'application (menu)
+    ui->frame_3->setVisible(true);
+    ui->userStatusLabel->setText("utilisateur: " + nom);
 
-            QString fonction = E.getFunction(uid);
-             setPermissions(fonction);
+    QByteArray nomData(nom.toUtf8(), 8);
+    A.write_to_arduino(nomData);
 
-            //prend la valeur du nom
-            QString nom = E.rfidName(uid);
-            //ui->RFID_NOM->setText(nom);
-            ui->stackedWidget->setCurrentIndex(1); //redirige ves la page 1 de l'application (menu)
-            ui->frame_3->setVisible(true);
-            ui->userStatusLabel->setText("utilisateur: "+nom);
+    // QString CRfid = E.rfidName(uid);
 
-            QByteArray nomData(nom.toUtf8(), 8);
-            A.write_to_arduino(nomData);
+  }
 
-           // QString CRfid = E.rfidName(uid);
+  // cas ou elle n'existe pas
+  else if (!E.rfidExists(uid)) {
+    // inexistante
+    QByteArray data1;
+    data1.append('2');
+    A.write_to_arduino(
+        data1); // envoie 2 a arduino et enclenche /demarre le processus 2
 
+    qDebug() << "carte inexistante";
+  }
+}
 
+void MainWindow::setPermissions(const QString &fonction) {
 
-        }
+  if (fonction.compare("admin") == 0) {
+    ui->clientPushButton->setEnabled(true);
+    ui->employesPushButton->setEnabled(true);
+    ui->equipementsPushButton->setEnabled(true);
+    ui->evenementsPushButton->setEnabled(true);
+    ui->abonnementPushButton->setEnabled(true);
+    ui->MenuPage->setEnabled(true);
 
-    // cas ou elle n'existe pas
-    else if (!E.rfidExists(uid))
-        {
-            //inexistante
-                QByteArray data1;
-                data1.append('2');
-                A.write_to_arduino(data1); // envoie 2 a arduino et enclenche /demarre le processus 2
+    ui->ClientsPage->setEnabled(true);
+    ui->EmployeesPage->setEnabled(true);
+    ui->EquipmentsPage->setEnabled(true);
+    ui->EventsPage->setEnabled(true);
+    ui->SubscriptionsPage->setEnabled(true);
+  } else if (fonction.compare("employes") == 0) {
+    ui->clientPushButton->setEnabled(false);
+    ui->employesPushButton->setEnabled(true);
+    ui->equipementsPushButton->setEnabled(false);
+    ui->evenementsPushButton->setEnabled(false);
+    ui->abonnementPushButton->setEnabled(false);
+    ui->MenuPage->setEnabled(true);
 
-                qDebug()<<"carte inexistante";
+    ui->ClientsPage->setEnabled(false);
+    ui->EmployeesPage->setEnabled(true);
+    ui->EquipmentsPage->setEnabled(false);
+    ui->EventsPage->setEnabled(false);
+    ui->SubscriptionsPage->setEnabled(false);
+  } else if (fonction.compare("clients") == 0) {
+    ui->clientPushButton->setEnabled(true);
+    ui->employesPushButton->setEnabled(false);
+    ui->equipementsPushButton->setEnabled(false);
+    ui->evenementsPushButton->setEnabled(false);
+    ui->abonnementPushButton->setEnabled(false);
+    ui->MenuPage->setEnabled(true);
 
-        }
+    ui->ClientsPage->setEnabled(true);
+    ui->EmployeesPage->setEnabled(false);
+    ui->EquipmentsPage->setEnabled(false);
+    ui->EventsPage->setEnabled(false);
+    ui->SubscriptionsPage->setEnabled(false);
+  } else if (fonction.compare("equipements") == 0) {
+    ui->clientPushButton->setEnabled(false);
+    ui->employesPushButton->setEnabled(false);
+    ui->equipementsPushButton->setEnabled(true);
+    ui->evenementsPushButton->setEnabled(false);
+    ui->abonnementPushButton->setEnabled(false);
+    ui->MenuPage->setEnabled(true);
 
- }
+    ui->ClientsPage->setEnabled(false);
+    ui->EmployeesPage->setEnabled(false);
+    ui->EquipmentsPage->setEnabled(true);
+    ui->EventsPage->setEnabled(false);
+    ui->SubscriptionsPage->setEnabled(false);
+  } else if (fonction.compare("abonnements") == 0) {
+    ui->clientPushButton->setEnabled(false);
+    ui->employesPushButton->setEnabled(false);
+    ui->equipementsPushButton->setEnabled(false);
+    ui->evenementsPushButton->setEnabled(false);
+    ui->abonnementPushButton->setEnabled(true);
+    ui->MenuPage->setEnabled(true);
 
- void MainWindow::setPermissions(const QString& fonction)
-{
+    ui->ClientsPage->setEnabled(false);
+    ui->EmployeesPage->setEnabled(false);
+    ui->EquipmentsPage->setEnabled(false);
+    ui->EventsPage->setEnabled(false);
+    ui->SubscriptionsPage->setEnabled(true);
+  } else if (fonction.compare("evenements") == 0) {
+    ui->clientPushButton->setEnabled(false);
+    ui->employesPushButton->setEnabled(false);
+    ui->equipementsPushButton->setEnabled(false);
+    ui->evenementsPushButton->setEnabled(true);
+    ui->abonnementPushButton->setEnabled(false);
+    ui->MenuPage->setEnabled(true);
 
-     if (fonction.compare("admin") == 0) {
-       ui->clientPushButton->setEnabled(true);
-       ui->employesPushButton->setEnabled(true);
-       ui->equipementsPushButton->setEnabled(true);
-       ui->evenementsPushButton->setEnabled(true);
-       ui->abonnementPushButton->setEnabled(true);
-       ui->MenuPage->setEnabled(true);
+    ui->ClientsPage->setEnabled(false);
+    ui->EmployeesPage->setEnabled(false);
+    ui->EquipmentsPage->setEnabled(false);
+    ui->EventsPage->setEnabled(true);
+    ui->SubscriptionsPage->setEnabled(false);
+  } else {
+    ui->clientPushButton->setEnabled(false);
+    ui->employesPushButton->setEnabled(false);
+    ui->equipementsPushButton->setEnabled(false);
+    ui->evenementsPushButton->setEnabled(false);
+    ui->abonnementPushButton->setEnabled(false);
+    ui->MenuPage->setEnabled(false);
 
-       ui->ClientsPage->setEnabled(true);
-       ui->EmployeesPage->setEnabled(true);
-       ui->EquipmentsPage->setEnabled(true);
-       ui->EventsPage->setEnabled(true);
-       ui->SubscriptionsPage->setEnabled(true);
-     }
-     else if (fonction.compare("employes") == 0) {
-       ui->clientPushButton->setEnabled(false);
-       ui->employesPushButton->setEnabled(true);
-       ui->equipementsPushButton->setEnabled(false);
-       ui->evenementsPushButton->setEnabled(false);
-       ui->abonnementPushButton->setEnabled(false);
-       ui->MenuPage->setEnabled(true);
-
-       ui->ClientsPage->setEnabled(false);
-       ui->EmployeesPage->setEnabled(true);
-       ui->EquipmentsPage->setEnabled(false);
-       ui->EventsPage->setEnabled(false);
-       ui->SubscriptionsPage->setEnabled(false);
-     }
-     else if (fonction.compare("clients") == 0) {
-       ui->clientPushButton->setEnabled(true);
-       ui->employesPushButton->setEnabled(false);
-       ui->equipementsPushButton->setEnabled(false);
-       ui->evenementsPushButton->setEnabled(false);
-       ui->abonnementPushButton->setEnabled(false);
-       ui->MenuPage->setEnabled(true);
-
-       ui->ClientsPage->setEnabled(true);
-       ui->EmployeesPage->setEnabled(false);
-       ui->EquipmentsPage->setEnabled(false);
-       ui->EventsPage->setEnabled(false);
-       ui->SubscriptionsPage->setEnabled(false);
-     }
-     else if (fonction.compare("equipements") == 0) {
-       ui->clientPushButton->setEnabled(false);
-       ui->employesPushButton->setEnabled(false);
-       ui->equipementsPushButton->setEnabled(true);
-       ui->evenementsPushButton->setEnabled(false);
-       ui->abonnementPushButton->setEnabled(false);
-       ui->MenuPage->setEnabled(true);
-
-       ui->ClientsPage->setEnabled(false);
-       ui->EmployeesPage->setEnabled(false);
-       ui->EquipmentsPage->setEnabled(true);
-       ui->EventsPage->setEnabled(false);
-       ui->SubscriptionsPage->setEnabled(false);
-     }
-     else if (fonction.compare("abonnements") == 0) {
-       ui->clientPushButton->setEnabled(false);
-       ui->employesPushButton->setEnabled(false);
-       ui->equipementsPushButton->setEnabled(false);
-       ui->evenementsPushButton->setEnabled(false);
-       ui->abonnementPushButton->setEnabled(true);
-       ui->MenuPage->setEnabled(true);
-
-       ui->ClientsPage->setEnabled(false);
-       ui->EmployeesPage->setEnabled(false);
-       ui->EquipmentsPage->setEnabled(false);
-       ui->EventsPage->setEnabled(false);
-       ui->SubscriptionsPage->setEnabled(true);
-     }
-     else if (fonction.compare("evenements") == 0) {
-       ui->clientPushButton->setEnabled(false);
-       ui->employesPushButton->setEnabled(false);
-       ui->equipementsPushButton->setEnabled(false);
-       ui->evenementsPushButton->setEnabled(true);
-       ui->abonnementPushButton->setEnabled(false);
-       ui->MenuPage->setEnabled(true);
-
-       ui->ClientsPage->setEnabled(false);
-       ui->EmployeesPage->setEnabled(false);
-       ui->EquipmentsPage->setEnabled(false);
-       ui->EventsPage->setEnabled(true);
-       ui->SubscriptionsPage->setEnabled(false);
-     }
-     else {
-       ui->clientPushButton->setEnabled(false);
-       ui->employesPushButton->setEnabled(false);
-       ui->equipementsPushButton->setEnabled(false);
-       ui->evenementsPushButton->setEnabled(false);
-       ui->abonnementPushButton->setEnabled(false);
-       ui->MenuPage->setEnabled(false);
-
-       ui->ClientsPage->setEnabled(false);
-       ui->EmployeesPage->setEnabled(false);
-       ui->EquipmentsPage->setEnabled(false);
-       ui->EventsPage->setEnabled(false);
-       ui->SubscriptionsPage->setEnabled(false);
-     }
+    ui->ClientsPage->setEnabled(false);
+    ui->EmployeesPage->setEnabled(false);
+    ui->EquipmentsPage->setEnabled(false);
+    ui->EventsPage->setEnabled(false);
+    ui->SubscriptionsPage->setEnabled(false);
+  }
 }
 
  void MainWindow::on_pushButton_3_clicked()
@@ -364,8 +355,10 @@ void MainWindow::on_refreshTableV_clicked() {
   Employes e(0, "", "", "", 0, "", "", "", 0," ");
 
   ui->listEmployetableView->setModel(e.afficher());
-  // Mettre à jour la largeur de la colonne email (supposons que la colonne email soit la 5eme colonne)
-  ui->listEmployetableView->setColumnWidth(5, ui->listEmployetableView->columnWidth(5) + 20);
+  // Mettre à jour la largeur de la colonne email (supposons que la colonne
+  // email soit la 5eme colonne)
+  ui->listEmployetableView->setColumnWidth(
+      5, ui->listEmployetableView->columnWidth(5) + 20);
 }
 
 void MainWindow::on_deletePushButton_clicked() {
@@ -494,8 +487,7 @@ void MainWindow::on_loginPushButton_clicked() {
         ui->EquipmentsPage->setEnabled(true);
         ui->EventsPage->setEnabled(true);
         ui->SubscriptionsPage->setEnabled(true);
-      }
-      else if (titre.compare("employes") == 0) {
+      } else if (titre.compare("employes") == 0) {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(true);
         ui->equipementsPushButton->setEnabled(false);
@@ -508,8 +500,7 @@ void MainWindow::on_loginPushButton_clicked() {
         ui->EquipmentsPage->setEnabled(false);
         ui->EventsPage->setEnabled(false);
         ui->SubscriptionsPage->setEnabled(false);
-      }
-      else if (titre.compare("clients") == 0) {
+      } else if (titre.compare("clients") == 0) {
         ui->clientPushButton->setEnabled(true);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
@@ -522,8 +513,7 @@ void MainWindow::on_loginPushButton_clicked() {
         ui->EquipmentsPage->setEnabled(false);
         ui->EventsPage->setEnabled(false);
         ui->SubscriptionsPage->setEnabled(false);
-      }
-      else if (titre.compare("equipements") == 0) {
+      } else if (titre.compare("equipements") == 0) {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(true);
@@ -536,8 +526,7 @@ void MainWindow::on_loginPushButton_clicked() {
         ui->EquipmentsPage->setEnabled(true);
         ui->EventsPage->setEnabled(false);
         ui->SubscriptionsPage->setEnabled(false);
-      }
-      else if (titre.compare("abonnements") == 0) {
+      } else if (titre.compare("abonnements") == 0) {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
@@ -550,8 +539,7 @@ void MainWindow::on_loginPushButton_clicked() {
         ui->EquipmentsPage->setEnabled(false);
         ui->EventsPage->setEnabled(false);
         ui->SubscriptionsPage->setEnabled(true);
-      }
-      else if (titre.compare("evenements") == 0) {
+      } else if (titre.compare("evenements") == 0) {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
@@ -564,8 +552,7 @@ void MainWindow::on_loginPushButton_clicked() {
         ui->EquipmentsPage->setEnabled(false);
         ui->EventsPage->setEnabled(true);
         ui->SubscriptionsPage->setEnabled(false);
-      }
-      else {
+      } else {
         ui->clientPushButton->setEnabled(false);
         ui->employesPushButton->setEnabled(false);
         ui->equipementsPushButton->setEnabled(false);
@@ -1105,9 +1092,9 @@ void MainWindow::on_UpdateClientBtn_clicked() {
   }
 }
 
-void MainWindow::on_TrierParButton_clicked() {
+void MainWindow::on_TrierParCIN_clicked() {
   Client C;
-  QString critere = ui->CINradioButton->isChecked()      ? "CIN"
+  /*QString critere = ui->CINradioButton->isChecked()      ? "CIN"
                     : ui->NOMradioButton->isChecked()    ? "NOM"
                     : ui->PRENOMradioButton->isChecked() ? "PRENOM"
                     : ui->DATE_NAISSANCEradioButton->isChecked()
@@ -1115,8 +1102,8 @@ void MainWindow::on_TrierParButton_clicked() {
                     : ui->GENDERradioButton->isChecked() ? "GENRE"
                     : ui->PHONEradioButton->isChecked()  ? "TELEPHONE"
                     : ui->EMAILradioButton->isChecked()  ? "EMAIL"
-                                                         : "";
-
+                                                         : "";*/
+  QString critere = "CIN";
   QAbstractItemModel *sortedModel = C.TriPar(critere);
   if (sortedModel == nullptr) {
     qDebug() << "nullptr" << endl;
@@ -1124,6 +1111,43 @@ void MainWindow::on_TrierParButton_clicked() {
   ui->AllClientsModel->setModel(sortedModel);
 }
 
+void MainWindow::on_TrierParNAME_clicked() {
+  Client C;
+  /*QString critere = ui->CINradioButton->isChecked()      ? "CIN"
+                    : ui->NOMradioButton->isChecked()    ? "NOM"
+                    : ui->PRENOMradioButton->isChecked() ? "PRENOM"
+                    : ui->DATE_NAISSANCEradioButton->isChecked()
+                        ? "DATE_NAISSANCE"
+                    : ui->GENDERradioButton->isChecked() ? "GENRE"
+                    : ui->PHONEradioButton->isChecked()  ? "TELEPHONE"
+                    : ui->EMAILradioButton->isChecked()  ? "EMAIL"
+                                                         : "";*/
+  QString critere = "PRENOM";
+  QAbstractItemModel *sortedModel = C.TriPar(critere);
+  if (sortedModel == nullptr) {
+    qDebug() << "nullptr" << endl;
+  }
+  ui->AllClientsModel->setModel(sortedModel);
+}
+
+void MainWindow::on_TrierParDATE_clicked() {
+  Client C;
+  /*QString critere = ui->CINradioButton->isChecked()      ? "CIN"
+                    : ui->NOMradioButton->isChecked()    ? "NOM"
+                    : ui->PRENOMradioButton->isChecked() ? "PRENOM"
+                    : ui->DATE_NAISSANCEradioButton->isChecked()
+                        ? "DATE_NAISSANCE"
+                    : ui->GENDERradioButton->isChecked() ? "GENRE"
+                    : ui->PHONEradioButton->isChecked()  ? "TELEPHONE"
+                    : ui->EMAILradioButton->isChecked()  ? "EMAIL"
+                                                         : "";*/
+  QString critere = "DATE_NAISSANCE";
+  QAbstractItemModel *sortedModel = C.TriPar(critere);
+  if (sortedModel == nullptr) {
+    qDebug() << "nullptr" << endl;
+  }
+  ui->AllClientsModel->setModel(sortedModel);
+}
 void MainWindow::on_CPDFExport_clicked() {
   Client C;
   QSqlQueryModel *ClientModel = C.Afficher();
@@ -1433,104 +1457,103 @@ void MainWindow::on_triCinPushButton_4_clicked() {
 }
 
 void MainWindow::on_PDFpushButton_2_clicked() {
-    Equipements E;
-    // Obtenir le modèle de la table à partir de la QTableView
-    QAbstractItemModel *model = E.afficher();
-    if (!model) {
-        qDebug() << "Failed to retrieve equipement data";
-        return;
-    }
+  Equipements E;
+  // Obtenir le modèle de la table à partir de la QTableView
+  QAbstractItemModel *model = E.afficher();
+  if (!model) {
+    qDebug() << "Failed to retrieve equipement data";
+    return;
+  }
 
-    // Obtenir les dimensions de la table
-    int rowCount = model->rowCount();
-    int colCount = model->columnCount();
+  // Obtenir les dimensions de la table
+  int rowCount = model->rowCount();
+  int colCount = model->columnCount();
 
-    QString defaultFileName = "EquipementList.pdf";
-    QString fileName = QFileDialog::getSaveFileName(
-        this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
+  QString defaultFileName = "EquipementList.pdf";
+  QString fileName = QFileDialog::getSaveFileName(
+      this, "Save PDF", defaultFileName, "PDF Files (*.pdf)");
 
-    if (fileName.isEmpty()) {
-        qDebug() << "File name is empty";
-        delete model;
-        return;
-    }
-    // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
-    QPrinter printer;
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName(fileName);
-
-    // Création d'un objet QPainter pour l'objet QPrinter
-    QPainter painter;
-    if (!painter.begin(&printer)) {
-        qWarning("failed to open file, is it writable?");
-        delete model;
-        return;
-    }
-
-    // Calculer les dimensions de la page
-    int pageWidth = printer.pageRect().width();
-    int pageHeight = printer.pageRect().height();
-
-    // Load the image from the absolute path
-    QImage image("C:\\Nautica\\img\\logo.png");
-    if (image.isNull()) {
-        qDebug() << "Failed to load image";
-    } else {
-        int imageWidth = image.width();
-        int imageHeight = image.height();
-        int imageX = (pageWidth - imageWidth) / 2;
-        int imageY = (pageHeight - imageHeight) / 4;
-        painter.drawImage(imageX, imageY, image);
-        qDebug() << "Image drawn successfully";
-    }
-
-    QFont titleFont = painter.font();
-    titleFont.setPointSize(24);
-    titleFont.setBold(true);
-    painter.setFont(titleFont);
-    QString title = "Equipements List";
-    painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20,
-                    Qt::AlignCenter | Qt::AlignTop, title);
-
-    QFont font = painter.font();
-    font.setPointSize(7);
-    painter.setFont(font);
-    int cellWidth = 100;
-    int cellHeight = 30;
-    int headerHeight = 2 * cellHeight;
-    int titleBottomSpacing = 20;
-    int tableStartX = 75;
-    painter.drawRect(tableStartX, pageHeight / titleBottomSpacing + headerHeight,
-                    colCount * cellWidth, cellHeight);
-    for (int col = 0; col < colCount; col++) {
-        QString columnName = model->headerData(col, Qt::Horizontal).toString();
-        painter.drawText(tableStartX + col * cellWidth,
-                        pageHeight / titleBottomSpacing + headerHeight, cellWidth,
-                        cellHeight, Qt::AlignCenter, columnName);
-        painter.drawRect(tableStartX + col * cellWidth,
-                        pageHeight / titleBottomSpacing + headerHeight, cellWidth,
-                        cellHeight);
-    }
-    for (int row = 0; row < rowCount; row++) {
-        for (int col = 0; col < colCount; col++) {
-            QModelIndex index = model->index(row, col);
-            QString data = index.data(Qt::DisplayRole).toString();
-            painter.drawText(tableStartX + col * cellWidth,
-                            pageHeight / titleBottomSpacing + headerHeight +
-                                (row + 1) * cellHeight,
-                            cellWidth, cellHeight,
-                            Qt::AlignCenter | Qt::AlignVCenter, data);
-            painter.drawRect(tableStartX + col * cellWidth,
-                            pageHeight / titleBottomSpacing + headerHeight +
-                                (row + 1) * cellHeight,
-                            cellWidth, cellHeight);
-        }
-    }
+  if (fileName.isEmpty()) {
+    qDebug() << "File name is empty";
     delete model;
-    // Terminer avec QPainter
-    painter.end();
-}
+    return;
+  }
+  // Création d'un objet QPrinter + configuration pour avoir un fichier PDF
+  QPrinter printer;
+  printer.setOutputFormat(QPrinter::PdfFormat);
+  printer.setOutputFileName(fileName);
 
+  // Création d'un objet QPainter pour l'objet QPrinter
+  QPainter painter;
+  if (!painter.begin(&printer)) {
+    qWarning("failed to open file, is it writable?");
+    delete model;
+    return;
+  }
+
+  // Calculer les dimensions de la page
+  int pageWidth = printer.pageRect().width();
+  int pageHeight = printer.pageRect().height();
+
+  // Load the image from the absolute path
+  QImage image("C:\\Nautica\\img\\logo.png");
+  if (image.isNull()) {
+    qDebug() << "Failed to load image";
+  } else {
+    int imageWidth = image.width();
+    int imageHeight = image.height();
+    int imageX = (pageWidth - imageWidth) / 2;
+    int imageY = (pageHeight - imageHeight) / 4;
+    painter.drawImage(imageX, imageY, image);
+    qDebug() << "Image drawn successfully";
+  }
+
+  QFont titleFont = painter.font();
+  titleFont.setPointSize(24);
+  titleFont.setBold(true);
+  painter.setFont(titleFont);
+  QString title = "Equipements List";
+  painter.drawText(0, pageHeight / 20, pageWidth, pageHeight / 20,
+                   Qt::AlignCenter | Qt::AlignTop, title);
+
+  QFont font = painter.font();
+  font.setPointSize(7);
+  painter.setFont(font);
+  int cellWidth = 100;
+  int cellHeight = 30;
+  int headerHeight = 2 * cellHeight;
+  int titleBottomSpacing = 20;
+  int tableStartX = 75;
+  painter.drawRect(tableStartX, pageHeight / titleBottomSpacing + headerHeight,
+                   colCount * cellWidth, cellHeight);
+  for (int col = 0; col < colCount; col++) {
+    QString columnName = model->headerData(col, Qt::Horizontal).toString();
+    painter.drawText(tableStartX + col * cellWidth,
+                     pageHeight / titleBottomSpacing + headerHeight, cellWidth,
+                     cellHeight, Qt::AlignCenter, columnName);
+    painter.drawRect(tableStartX + col * cellWidth,
+                     pageHeight / titleBottomSpacing + headerHeight, cellWidth,
+                     cellHeight);
+  }
+  for (int row = 0; row < rowCount; row++) {
+    for (int col = 0; col < colCount; col++) {
+      QModelIndex index = model->index(row, col);
+      QString data = index.data(Qt::DisplayRole).toString();
+      painter.drawText(tableStartX + col * cellWidth,
+                       pageHeight / titleBottomSpacing + headerHeight +
+                           (row + 1) * cellHeight,
+                       cellWidth, cellHeight,
+                       Qt::AlignCenter | Qt::AlignVCenter, data);
+      painter.drawRect(tableStartX + col * cellWidth,
+                       pageHeight / titleBottomSpacing + headerHeight +
+                           (row + 1) * cellHeight,
+                       cellWidth, cellHeight);
+    }
+  }
+  delete model;
+  // Terminer avec QPainter
+  painter.end();
+}
 
 void MainWindow::on_statTypePushButton_2_clicked() {
   QChartView *chartView = new QChartView(
@@ -2221,7 +2244,7 @@ void MainWindow::on_SearchByButton_clicked() {
   if (ClientModel == nullptr) {
     qDebug() << "nullptr/working as intended" << endl;
   }
-  ui->OneClientModel->setModel(ClientModel);
+  ui->AllClientsModel->setModel(ClientModel);
 }
 
 void MainWindow::on_AgeStatButton_clicked() {
@@ -2475,31 +2498,62 @@ void MainWindow::on_calculatorref_clicked() {
   }
 }
 
-void MainWindow::on_SmokeDetectorTestButton_clicked()
-{
-    SmokeDetector smokeDetector;
-    Arduino arduino(0x1A86, 0x7523);
-    int connectionResult = arduino.connect_arduino();
-    if (connectionResult == 0) {
-        qDebug() << "Connected to Arduino successfully!";
-    } else {
-        qDebug() << "Failed to connect to Arduino.";
+void MainWindow::on_SmokeDetectorTestButton_clicked() {
+  qDebug() << "Button clicked";
+
+  Arduino arduino(0x1A86, 0x7523);
+
+  // Attempt to connect to the Arduino
+  int connectionResult = arduino.connect_arduino();
+  if (connectionResult != 0) {
+    qDebug() << "Failed to connect to Arduino. Error code:" << connectionResult;
+    return;
+  }
+
+  // Variables to track if smoke is detected
+  bool smokeDetected = false;
+
+  // Read data from Arduino for 10 seconds
+  QElapsedTimer elapsedTimer;
+  elapsedTimer.start();
+
+  while (elapsedTimer.elapsed() < 10000) {
+    // Read data from Arduino when available
+    if (arduino.getserial()->waitForReadyRead(1000)) {
+
+      QByteArray data = arduino.read_from_arduino();
+      data.replace(1,4,"");
+      qDebug() << "Data from Arduino: " << data;
+      // Process received data
+      if (data == "1") {
+        qDebug() << "Smoke detected!";
+        smokeDetected = true;
+        break;
+      } else {
+        qDebug() << "No smoke detected.";
+      }
     }
+  }
 
-    QByteArray data = arduino.read_from_arduino();
-    smokeDetector.setSmokeDetected(data.toInt());
+  // Close connection to Arduino
+  if (arduino.close_arduino() == 0) {
+    qDebug() << "Arduino connection closed.";
+  }
 
-    if (smokeDetector.isSmokeDetected()) {
-        ui->SmokeDetectorTestButton->setText("Smoke Detected");
-    } else {
-        ui->SmokeDetectorTestButton->setText("Smoke Not Detected");
-    }
-
-    arduino.close_arduino();
-
-    // Schedule resetting the button text after a delay
-    QTimer::singleShot(3000, this, [this]() {
-        ui->SmokeDetectorTestButton->setText("Smoke Detector Test");
+  // Update button text based on smoke detection
+  if (smokeDetected) {
+    qDebug() << "Updating button text to 'Smoke Detected'";
+    ui->SmokeDetectorTestButton->setText("Smoke Detected");
+    QTimer::singleShot(5000, [=]() {
+      qDebug() << "Resetting button text to 'Smoke Detector Test'";
+      ui->SmokeDetectorTestButton->setText("Smoke Detector Test");
     });
+  } else {
+    qDebug() << "Updating button text to 'Smoke Not Detected'";
+    ui->SmokeDetectorTestButton->setText("Smoke Not Detected");
+    QTimer::singleShot(5000, [=]() {
+      qDebug() << "Resetting button text to 'Smoke Detector Test'";
+      ui->SmokeDetectorTestButton->setText("Smoke Detector Test");
+    });
+  }
 }
-

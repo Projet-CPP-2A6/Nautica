@@ -1,14 +1,12 @@
-#include <QTableView>
-#include <QString>
-#include <QSqlQuery>
-#include <QSqlQueryModel>
+#include "employes.h"
+#include <QDebug>
 #include <QSqlDatabase>
 #include <QSqlError>
-#include <QDebug>
 #include <QSqlQuery>
-#include <QSqlError>
+#include <QSqlQueryModel>
+#include <QString>
+#include <QTableView>
 #include <QtDebug>
-#include "employes.h"
 
 Employes::Employes()
 {   CIN=0;
@@ -363,45 +361,41 @@ bool Employes::rfidExists(QString uid)
                 qDebug() << "RFID not found:" << uid;
             }
 
-    // pas de retour il n'existe pas mafamech chay wallou
-    return false;
+  // pas de retour il n'existe pas mafamech chay wallou
+  return false;
 }
 
-QString Employes::rfidName(QString uid)
-{
-    QSqlQuery query;
-        query.prepare("SELECT NOM FROM EMPLOYES WHERE RFID = ?");
-        query.addBindValue(uid);
-        if (query.exec() && query.next()) {
-            // existance equivaut a recuperation du nom
-            return query.value(0).toString();
-        }
-        // pas de retour pas de nom akahaw
+QString Employes::rfidName(QString uid) {
+  QSqlQuery query;
+  query.prepare("SELECT NOM FROM EMPLOYES WHERE RFID = ?");
+  query.addBindValue(uid);
+  if (query.exec() && query.next()) {
+    // existance equivaut a recuperation du nom
+    return query.value(0).toString();
+  }
+  // pas de retour pas de nom akahaw
 
-
-        return "";
+  return "";
 }
+QString Employes::getFunction(const QString &uid) {
+  QString fonction;
 
-QString Employes::getFunction(const QString& uid)
-{
-    QString fonction;
+  // Requête SQL pour récupérer la fonction de l'employé en fonction de l'UID de
+  // la carte RFID
+  QSqlQuery query;
+  query.prepare("SELECT fonction FROM EMPLOYES WHERE RFID = :RFID");
+  query.bindValue(":RFID", uid);
 
-    // Requête SQL pour récupérer la fonction de l'employé en fonction de l'UID de la carte RFID
-    QSqlQuery query;
-    query.prepare("SELECT fonction FROM EMPLOYES WHERE RFID = :RFID");
-    query.bindValue(":RFID", uid);
+  if (query.exec() && query.next()) {
+    // Récupération de la fonction de l'employé depuis la base de données
+    fonction = query.value(0).toString();
+  } else {
+    qDebug() << "Erreur lors de la récupération de la fonction de l'employé :"
+             << query.lastError().text();
+    // Gestion de l'erreur, par exemple, retourner une chaîne vide ou une valeur
+    // par défaut
+  }
 
-    if(query.exec() && query.next())
-    {
-        // Récupération de la fonction de l'employé depuis la base de données
-        fonction = query.value(0).toString();
-    }
-    else
-    {
-        qDebug() << "Erreur lors de la récupération de la fonction de l'employé :" << query.lastError().text();
-        // Gestion de l'erreur, par exemple, retourner une chaîne vide ou une valeur par défaut
-    }
-
-    return fonction;
+  return fonction;
 }
 

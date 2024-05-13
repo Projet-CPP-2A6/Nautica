@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-
+#include "arduino.h"
 #include <QLineSeries>
 #include <QMainWindow>
 #include <QtCharts/QChartView>
@@ -52,7 +52,9 @@ private slots:
   void on_AjouterButton_3_clicked();
   void on_AjouterButton_4_clicked();
   void on_UpdateClientBtn_clicked();
-  void on_TrierParButton_clicked();
+  void on_TrierParCIN_clicked();
+  void on_TrierParNAME_clicked();
+  void on_TrierParDATE_clicked();
   void on_CPDFExport_clicked();
   void on_add_abonnement_push_clicked();
   void on_delete_abonnement_button_clicked();
@@ -162,10 +164,10 @@ private slots:
   void on_calculatorref_clicked();
 
   void on_SmokeDetectorTestButton_clicked();
-  
+
   void connect_RFID();
-void setPermissions(const QString& fonction);
-   void toggleArduinoConnection();
+  void setPermissions(const QString &fonction);
+  void toggleArduinoConnection();
 
    void on_pushButton_4_clicked();
 
