@@ -26,7 +26,7 @@ void loop() {
   bool smokeDetected = smokeLevel > SMOKE_THRESHOLD;
 
   if (smokeDetected) {
-    Serial.println(1,DEC);
+    Serial.println(1);
     digitalWrite(BUZZER_PIN, HIGH);
     lcd.clear();
     lcd.setCursor(0, 1);
@@ -34,7 +34,7 @@ void loop() {
     delay(200);
     digitalWrite(BUZZER_PIN, LOW);
   } else {
-    Serial.println(0,DEC);
+    Serial.println(0);
     /*digitalWrite(BUZZER_PIN, HIGH);
     delay(200);
     digitalWrite(BUZZER_PIN, LOW);
